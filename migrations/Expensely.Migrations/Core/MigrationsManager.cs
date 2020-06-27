@@ -5,7 +5,7 @@ using DbUp.Engine;
 
 namespace Expensely.Migrations.Core
 {
-    public static class MigrationManager
+    public static class MigrationsManager
     {
         public static (bool Success, Exception? Error) ExecuteMigrations(string connectionString)
         {

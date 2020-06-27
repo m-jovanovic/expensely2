@@ -1,16 +1,21 @@
 ﻿using System;
 using Expensely.Migrations.Core;
+using Microsoft.Extensions.Configuration;
 
 namespace Expensely.Migrations.Runner
 {
     internal static class Program
     {
+        private const string AppSettingsJsonFileName = "appsettings.json";
+        private const string ConnectionStringName = "ExpenselyDbConnection";
+
         internal static int Main()
         {
-            // TODO: Pull connection string from configuration.
-            string connectionString = string.Empty;
+            IConfigurationRoot configurationRoot = BuildConfigurationRoot();
 
-            (bool success, Exception? error) = MigrationManager.ExecuteMigrations(connectionString);
+            string connectionString = configurationRoot.GetConnectionString(ConnectionStringName);
+
+            (bool success, Exception? error) = MigrationsManager.ExecuteMigrations(connectionString);
 
             if (success)
             {
@@ -36,6 +41,14 @@ namespace Expensely.Migrations.Runner
             #endif
 
             return -1;
+        }
+
+        private static IConfigurationRoot BuildConfigurationRoot()
+        {
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+                .AddJsonFile(AppSettingsJsonFileName);
+
+            return configurationBuilder.Build();
         }
     }
 }
