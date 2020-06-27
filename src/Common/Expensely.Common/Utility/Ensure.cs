@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Shared.Utility
+namespace Expensely.Common.Utility
 {
     /// <summary>
     /// Contains assertions for the most common application checks.

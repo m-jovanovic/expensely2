@@ -1,10 +1,9 @@
-﻿
-using System;
+﻿using System;
 
-namespace Expensely.Shared.Primitives
+namespace Expensely.Common.Primitives
 {
     /// <summary>
-    /// Represents a result of some operation, with status information and an error message.
+    /// Represents a result of some operation, with status information and possibly an error message.
     /// </summary>
     public class Result
     {
@@ -97,7 +96,7 @@ namespace Expensely.Shared.Primitives
     }
 
     /// <summary>
-    /// Represents a result of some operation, with status information and an error message.
+    /// Represents the result of some operation, with status information and possibly a value and an error message.
     /// </summary>
     /// <typeparam name="TValue">The result value type.</typeparam>
     public class Result<TValue> : Result
