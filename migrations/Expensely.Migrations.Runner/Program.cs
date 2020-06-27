@@ -7,7 +7,7 @@ namespace Expensely.Migrations.Runner
     internal static class Program
     {
         private const string AppSettingsJsonFileName = "appsettings.json";
-        private const string ConnectionStringName = "ExpenselyDbConnection";
+        private const string ConnectionStringName = "ExpenselyDb";
 
         internal static int Main()
         {
@@ -35,10 +35,6 @@ namespace Expensely.Migrations.Runner
             Console.WriteLine(error);
 
             Console.ResetColor();
-
-            #if DEBUG
-            Console.ReadLine();
-            #endif
 
             return -1;
         }
