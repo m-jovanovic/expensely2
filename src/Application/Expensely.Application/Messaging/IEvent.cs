@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Expensely.Application.Interfaces
+namespace Expensely.Application.Messaging
 {
     /// <summary>
     /// Represents the marker interface for an event.

@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.Tests", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Tests", "tests\Expensely.Application.Tests\Expensely.Application.Tests.csproj", "{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Contracts", "src\Common\Expensely.Contracts\Expensely.Contracts.csproj", "{3269FFE7-C800-4285-A2C3-D3BC404BF98F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3269FFE7-C800-4285-A2C3-D3BC404BF98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3269FFE7-C800-4285-A2C3-D3BC404BF98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3269FFE7-C800-4285-A2C3-D3BC404BF98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3269FFE7-C800-4285-A2C3-D3BC404BF98F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +123,7 @@ Global
 		{FF7E5FEF-DBE4-4813-9D85-703FED3F5B68} = {F0478D35-3427-4F15-8EA5-352C63B5B629}
 		{898E4098-32E3-49BD-96F1-0105918B4862} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
 		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
+		{3269FFE7-C800-4285-A2C3-D3BC404BF98F} = {F0478D35-3427-4F15-8EA5-352C63B5B629}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1880B85-7E37-4934-9AFB-71FA67B3D181}

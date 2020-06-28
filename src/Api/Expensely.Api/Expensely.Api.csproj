@@ -6,11 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\migrations\Expensely.Migrations\Expensely.Migrations.csproj" />
+    <ProjectReference Include="..\..\Common\Expensely.Contracts\Expensely.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />
