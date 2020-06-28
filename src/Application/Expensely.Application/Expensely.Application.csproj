@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="2.1.0" />
+  </ItemGroup>
+
   <Import Project="..\..\..\CodeAnalysis.targets" />
 
 </Project>
