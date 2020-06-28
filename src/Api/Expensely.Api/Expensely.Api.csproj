@@ -9,6 +9,10 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\migrations\Expensely.Migrations\Expensely.Migrations.csproj" />
+  </ItemGroup>
+
   <Import Project="..\..\..\CodeAnalysis.targets" />
 
 </Project>

@@ -1,3 +1,4 @@
+using Expensely.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,14 @@ namespace Expensely.Api
             services.AddControllers();
         }
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
 
             app.UseHttpsRedirection();
 
