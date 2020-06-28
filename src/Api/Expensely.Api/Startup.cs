@@ -1,4 +1,4 @@
-using Expensely.Migrations;
+using Expensely.Migrations.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
