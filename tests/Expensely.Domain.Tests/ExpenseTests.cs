@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Expensely.Domain.Tests
 {
-    public class ExpenseTests
+    public sealed class ExpenseTests
     {
         [Fact]
         public void Should_CreateProperly()
@@ -21,7 +21,7 @@ namespace Expensely.Domain.Tests
         }
 
         [Fact]
-        public void Should_BeEqual_IfSameId()
+        public void Should_BeEqual_GivenSameId()
         {
             var id1 = Guid.NewGuid();
 
@@ -34,7 +34,7 @@ namespace Expensely.Domain.Tests
         }
 
         [Fact]
-        public void Should_NotBeEqual_IfDifferentId()
+        public void Should_NotBeEqual_GivenDifferentIds()
         {
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();
