@@ -30,7 +30,7 @@ namespace Expensely.Application.Tests
         }
 
         [Fact]
-        public async void Should_CallCreateOnExpenseRepository()
+        public async void Should_CallInsertOnExpenseRepository()
         {
             var expenseRepository = new Mock<IExpenseRepository>();
             var command = new CreateExpenseCommand(100.0m);
