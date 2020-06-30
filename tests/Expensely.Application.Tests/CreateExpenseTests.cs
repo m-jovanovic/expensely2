@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Commands.Expenses.Create;
+﻿using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Application.Interfaces;
 using Expensely.Common.Primitives;
 using Expensely.Domain.Entities;

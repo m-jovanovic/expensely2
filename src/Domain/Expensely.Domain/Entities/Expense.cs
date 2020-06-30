@@ -13,10 +13,10 @@ namespace Expensely.Domain.Entities
 
         public decimal Amount { get; private set; }
 
-        public DateTime CreatedOnUtc { get; private set; }
+        public DateTime CreatedOnUtc { get; }
 
-        public DateTime ModifiedOnUtc { get; private set; }
+        public DateTime? ModifiedOnUtc { get; }
 
-        public bool Deleted { get; private set; }
+        public bool Deleted { get; }
     }
 }

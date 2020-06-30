@@ -1,7 +1,7 @@
 ﻿using Expensely.Application.Messaging;
 using Expensely.Common.Primitives;
 
-namespace Expensely.Application.Commands.Expenses.Create
+namespace Expensely.Application.Commands.Expenses.CreateExpense
 {
     /// <summary>
     /// Represents the command for creating an expense.

@@ -1,6 +1,7 @@
 using Expensely.Application;
 using Expensely.Infrastructure;
 using Expensely.Migrations.Extensions;
+using Expensely.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace Expensely.Api
 
         public IConfiguration Configuration { get; }
 
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
@@ -30,6 +31,8 @@ namespace Expensely.Api
             services.AddApplication();
 
             services.AddInfrastructure();
+
+            services.AddPersistence(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

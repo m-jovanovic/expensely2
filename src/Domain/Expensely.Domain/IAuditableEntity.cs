@@ -15,6 +15,6 @@ namespace Expensely.Domain
         /// <summary>
         /// Gets the modified on date and time in UTC format.
         /// </summary>
-        DateTime ModifiedOnUtc { get; }
+        DateTime? ModifiedOnUtc { get; }
     }
 }

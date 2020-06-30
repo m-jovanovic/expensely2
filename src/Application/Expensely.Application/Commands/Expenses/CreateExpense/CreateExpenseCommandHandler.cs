@@ -6,7 +6,7 @@ using Expensely.Application.Messaging;
 using Expensely.Common.Primitives;
 using Expensely.Domain.Entities;
 
-namespace Expensely.Application.Commands.Expenses.Create
+namespace Expensely.Application.Commands.Expenses.CreateExpense
 {
     /// <summary>
     /// Represents the <see cref="CreateExpenseCommand"/> command-handler.

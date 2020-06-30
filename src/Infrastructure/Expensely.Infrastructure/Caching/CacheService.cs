@@ -4,20 +4,31 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Expensely.Infrastructure.Caching
 {
-    public sealed class Cache : ICache
+    public sealed class CacheService : ICacheService
     {
         private readonly IMemoryCache _memoryCache;
 
-        public Cache(IMemoryCache memoryCache)
+        public CacheService(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }
 
         /// <inheritdoc />
-        public T? GetValue<T>(string key)
+        public T? GetValue<T>(string key, Func<T> factory)
             where T : class
         {
-            return _memoryCache.TryGetValue(key, out T value) ? value : null;
+            bool cacheHit = _memoryCache.TryGetValue(key, out T value);
+
+            if (cacheHit)
+            {
+                return value;
+            }
+
+            value = factory();
+
+            SetValue(key, value);
+
+            return value;
         }
 
         /// <inheritdoc />
