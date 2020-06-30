@@ -2,6 +2,7 @@
 using Expensely.Application.Interfaces;
 using Expensely.Common.Primitives;
 using Expensely.Domain.Entities;
+using MediatR;
 using Moq;
 using Xunit;
 
@@ -20,9 +21,10 @@ namespace Expensely.Application.Tests
         [Fact]
         public async void Should_HandleCommandSuccessfully()
         {
-            var expenseRepository = new Mock<IExpenseRepository>();
+            var expenseRepositoryStub = new Mock<IExpenseRepository>();
+            var mediatorStub = new Mock<IMediator>();
             var command = new CreateExpenseCommand(100.0m);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepository.Object);
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
 
             Result result = await commandHandler.Handle(command, default).ConfigureAwait(false);
 
@@ -32,13 +34,14 @@ namespace Expensely.Application.Tests
         [Fact]
         public async void Should_CallInsertOnExpenseRepository()
         {
-            var expenseRepository = new Mock<IExpenseRepository>();
+            var expenseRepositoryMock = new Mock<IExpenseRepository>();
+            var mediatorStub = new Mock<IMediator>();
             var command = new CreateExpenseCommand(100.0m);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepository.Object);
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
 
             await commandHandler.Handle(command, default).ConfigureAwait(false);
 
-            expenseRepository.Verify(x => x.Insert(It.IsAny<Expense>()), Times.Once());
+            expenseRepositoryMock.Verify(x => x.Insert(It.IsAny<Expense>()), Times.Once());
         }
     }
 }
