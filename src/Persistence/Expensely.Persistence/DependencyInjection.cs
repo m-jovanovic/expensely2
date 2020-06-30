@@ -4,7 +4,6 @@ using Expensely.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RepoDb;
 
 namespace Expensely.Persistence
 {
@@ -19,8 +18,6 @@ namespace Expensely.Persistence
             services.AddScoped<IDbContext>(impl => impl.GetRequiredService<ExpenselyDbContext>());
             services.AddScoped<IUnitOfWork>(impl => impl.GetRequiredService<ExpenselyDbContext>());
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
-
-            SqlServerBootstrap.Initialize();
         }
     }
 }
