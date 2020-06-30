@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Expensely.Persistence
 {
-    internal sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
+    public sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
