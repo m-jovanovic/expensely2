@@ -14,29 +14,18 @@ namespace Expensely.Infrastructure.Caching
         }
 
         /// <inheritdoc />
-        public T? GetValue<T>(string key, Func<T> factory)
+        public T? GetValue<T>(string key)
             where T : class
         {
-            bool cacheHit = _memoryCache.TryGetValue(key, out T value);
-
-            if (cacheHit)
-            {
-                return value;
-            }
-
-            value = factory();
-
-            SetValue(key, value);
-
-            return value;
+            return _memoryCache.TryGetValue(key, out T value) ? value : null;
         }
 
         /// <inheritdoc />
-        public void SetValue(string key, object value)
+        public void SetValue(string key, object value, int cacheTimeInMinutes)
         {
             _memoryCache.Set(key, value, new MemoryCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(cacheTimeInMinutes)
             });
         }
 
