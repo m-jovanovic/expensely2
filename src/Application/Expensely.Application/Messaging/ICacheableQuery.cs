@@ -2,7 +2,7 @@
 {
     public interface ICacheableQuery<out TResponse> : IQuery<TResponse>
     {
-        string CreateCacheKey();
+        string GetCacheKey();
 
         int GetCacheTime() => 10;
     }
