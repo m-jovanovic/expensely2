@@ -7,6 +7,6 @@ namespace Expensely.Application.Queries.Expenses.GetExpenses
 {
     public sealed class GetExpensesQuery : ICacheableQuery<IReadOnlyCollection<ExpenseDto>>
     {
-        public string GetCacheKey() => CacheKeys.GetExpenses;
+        public string GetCacheKey() => CacheKeys.Expenses;
     }
 }

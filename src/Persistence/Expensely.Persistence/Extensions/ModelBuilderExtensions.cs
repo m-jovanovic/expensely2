@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Expensely.Persistence.Extensions
 {
-    internal static class ModelBuilderExtensions
+    public static class ModelBuilderExtensions
     {
         private static readonly ValueConverter<DateTime, DateTime> UtcValueConverter =
             new ValueConverter<DateTime, DateTime>(outside => outside, inside => DateTime.SpecifyKind(inside, DateTimeKind.Utc));
@@ -18,7 +18,7 @@ namespace Expensely.Persistence.Extensions
             .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
             .Single(m => m.IsGenericMethod && m.Name == nameof(SetSoftDeleteFilter));
 
-        internal static void ApplyUtcDateTimeConverter(this ModelBuilder modelBuilder)
+        public static void ApplyUtcDateTimeConverter(this ModelBuilder modelBuilder)
         {
             foreach (IMutableEntityType mutableEntityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -32,7 +32,7 @@ namespace Expensely.Persistence.Extensions
             }
         }
 
-        internal static void ApplySoftDeleteQueryFilter(this ModelBuilder modelBuilder)
+        public static void ApplySoftDeleteQueryFilter(this ModelBuilder modelBuilder)
         {
             IEnumerable<IMutableEntityType> softDeletableEntities = modelBuilder.Model.GetEntityTypes()
                 .Where(e => typeof(ISoftDeletableEntity).IsAssignableFrom(e.ClrType));

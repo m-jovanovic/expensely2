@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expensely.Persistence.Configurations
 {
-    internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
+    public sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
     {
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<Expense> builder)

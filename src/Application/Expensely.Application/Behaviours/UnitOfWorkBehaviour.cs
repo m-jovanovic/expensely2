@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Expensely.Application.Behaviours
 {
-    internal sealed class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public sealed class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
         private readonly IUnitOfWork _unitOfWork;

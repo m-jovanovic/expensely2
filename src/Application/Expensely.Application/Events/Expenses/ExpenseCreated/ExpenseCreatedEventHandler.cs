@@ -17,7 +17,7 @@ namespace Expensely.Application.Events.Expenses.ExpenseCreated
 
         public Task Handle(ExpenseCreatedEvent notification, CancellationToken cancellationToken)
         {
-            _cacheService.RemoveValue(CacheKeys.GetExpenses);
+            _cacheService.RemoveValue(CacheKeys.Expenses);
 
             return Task.CompletedTask;
         }

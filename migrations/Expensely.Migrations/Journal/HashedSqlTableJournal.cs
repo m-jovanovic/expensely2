@@ -13,7 +13,7 @@ namespace Expensely.Migrations.Journal
     /// <summary>
     /// Represents the hashed SQL table journal.
     /// </summary>
-    internal class HashedSqlTableJournal : IJournal
+    public class HashedSqlTableJournal : IJournal
     {
         public const string VersionTableName = "SchemaVersions";
         private const string QuotedVersionTableName = "[SchemaVersions]";
@@ -28,7 +28,7 @@ namespace Expensely.Migrations.Journal
         /// </summary>
         /// <param name="connectionManager">The connection manager func.</param>
         /// <param name="log">The upgrade log func.</param>
-        internal HashedSqlTableJournal(Func<IConnectionManager> connectionManager, Func<IUpgradeLog> log)
+        public HashedSqlTableJournal(Func<IConnectionManager> connectionManager, Func<IUpgradeLog> log)
         {
             _connectionManager = connectionManager;
             _log = log;
@@ -69,7 +69,7 @@ namespace Expensely.Migrations.Journal
         /// Gets the dictionary containing all of the executed scripts with names as keys and hashes as values.
         /// </summary>
         /// <returns>The dictionary containing all of the executed scripts with names as keys and hashes as values.</returns>
-        internal Dictionary<string, string> GetExecutedScriptsDictionary()
+        public Dictionary<string, string> GetExecutedScriptsDictionary()
         {
             _log().WriteInformation("Fetching list of already executed scripts with their known hash.");
 

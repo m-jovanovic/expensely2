@@ -27,6 +27,8 @@ namespace Expensely.Application.Queries.Expenses.GetExpenses
                 {
                     Id = e.Id,
                     Amount = e.Money.Amount,
+                    CurrencyId = e.Money.Currency.Id,
+                    CurrencyCode = e.Money.Currency.Code,
                     CreatedOnUtc = e.CreatedOnUtc,
                     ModifiedOnUtc = e.ModifiedOnUtc,
                     Deleted = e.Deleted

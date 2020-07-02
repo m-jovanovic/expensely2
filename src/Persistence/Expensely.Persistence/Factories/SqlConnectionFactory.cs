@@ -6,7 +6,7 @@ using Expensely.Application.Interfaces;
 
 namespace Expensely.Persistence.Factories
 {
-    internal sealed class SqlConnectionFactory : ISqlConnectionFactory
+    public sealed class SqlConnectionFactory : ISqlConnectionFactory
     {
         private readonly ConnectionString _connectionString;
 

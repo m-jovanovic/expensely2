@@ -8,6 +8,12 @@ namespace Expensely.Contracts.Expenses
 
         public decimal Amount { get; set; }
         
+        public int CurrencyId { get; set; }
+
+        public string CurrencyCode { get; set; }
+
+        public string FormattedExpense => $"{Amount} {CurrencyCode}";
+
         public DateTime CreatedOnUtc { get; set; }
         
         public DateTime? ModifiedOnUtc { get; set; }

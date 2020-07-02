@@ -28,7 +28,7 @@ namespace Expensely.Migrations.Hashing
 
             foreach (byte b in hash)
             {
-                stringBuilder.Append(b.ToString("x2", CultureInfo.InvariantCulture));
+                stringBuilder.Append(b.ToString("x2"));
             }
 
             string output = stringBuilder.ToString();

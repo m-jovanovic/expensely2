@@ -12,7 +12,7 @@ namespace Expensely.Migrations.ScriptProviders
     /// <summary>
     /// Represents the hashed embedded scripts provider.
     /// </summary>
-    internal class HashedEmbeddedScriptsProvider : IScriptProvider
+    public class HashedEmbeddedScriptsProvider : IScriptProvider
     {
         private readonly Assembly _assembly;
         private readonly HashedSqlTableJournal _journal;
@@ -22,7 +22,7 @@ namespace Expensely.Migrations.ScriptProviders
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="journal">The journal instance.</param>
-        internal HashedEmbeddedScriptsProvider(Assembly assembly, HashedSqlTableJournal journal)
+        public HashedEmbeddedScriptsProvider(Assembly assembly, HashedSqlTableJournal journal)
         {
             _assembly = assembly;
             _journal = journal;

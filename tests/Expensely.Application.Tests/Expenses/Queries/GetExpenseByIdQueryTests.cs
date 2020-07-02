@@ -52,6 +52,11 @@ namespace Expensely.Application.Tests.Expenses.Queries
             Assert.NotNull(result);
             Assert.Equal(expense.Id, result!.Id);
             Assert.Equal(expense.Money.Amount, result!.Amount);
+            Assert.Equal(expense.Money.Currency.Id, result.CurrencyId);
+            Assert.Equal(expense.Money.Currency.Code, result!.CurrencyCode);
+            Assert.Equal(expense.CreatedOnUtc, result.CreatedOnUtc);
+            Assert.Equal(expense.ModifiedOnUtc, result.ModifiedOnUtc);
+            Assert.Equal(expense.Deleted, result.Deleted);
         }
 
         private void SeedExpenses()

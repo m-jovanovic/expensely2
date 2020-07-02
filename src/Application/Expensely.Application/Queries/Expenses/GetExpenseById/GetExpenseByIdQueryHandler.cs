@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Interfaces;
@@ -25,24 +26,21 @@ namespace Expensely.Application.Queries.Expenses.GetExpenseById
                 return null;
             }
 
-            Expense expense = await _dbContext.Set<Expense>().AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            ExpenseDto expense = await _dbContext.Set<Expense>()
+                .AsNoTracking()
+                .Where(e => e.Id == request.Id)
+                .Select(e => new ExpenseDto
+                {
+                    Id = e.Id,
+                    Amount = e.Money.Amount,
+                    CurrencyId = e.Money.Currency.Id,
+                    CurrencyCode = e.Money.Currency.Code,
+                    CreatedOnUtc = e.CreatedOnUtc,
+                    ModifiedOnUtc = e.ModifiedOnUtc,
+                    Deleted = e.Deleted
+                }).FirstOrDefaultAsync(cancellationToken);
 
-            if (expense is null)
-            {
-                return null;
-            }
-
-            var expenseDto = new ExpenseDto
-            {
-                Id = expense.Id,
-                Amount = expense.Money.Amount,
-                CreatedOnUtc = expense.CreatedOnUtc,
-                ModifiedOnUtc = expense.ModifiedOnUtc,
-                Deleted = expense.Deleted
-            };
-
-            return expenseDto;
+            return expense;
         }
     }
 }

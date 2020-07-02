@@ -38,6 +38,7 @@
     <Rule Id="SA1602" Action="None" />
     <Rule Id="SA1633" Action="None" />
     <Rule Id="CA1716" Action="None" />
+    <Rule Id="CA1305" Action="None" />
     <Rule Id="CA1822" Action="Warning" />
     <Rule Id="SX1101" Action="Error" />
     <Rule Id="SX1309" Action="Error" />

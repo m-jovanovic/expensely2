@@ -6,7 +6,7 @@ using Expensely.Migrations.ScriptProviders;
 
 namespace Expensely.Migrations.Extensions
 {
-    internal static class HashedSqlServerExtensions
+    public static class HashedSqlServerExtensions
     {
         /// <summary>
         /// Configures the upgrade upgrade engine builder with the hashed SQL database.
@@ -14,7 +14,7 @@ namespace Expensely.Migrations.Extensions
         /// <param name="supportedDatabases">The supported databases.</param>
         /// <param name="connectionManager">The connection manager instance.</param>
         /// <returns>The configured upgrade engine builder instance.</returns>
-        internal static UpgradeEngineBuilder HashedSqlDatabase(
+        public static UpgradeEngineBuilder HashedSqlDatabase(
             this SupportedDatabases supportedDatabases, SqlConnectionManager connectionManager)
         {
             var builder = new UpgradeEngineBuilder();
@@ -45,7 +45,7 @@ namespace Expensely.Migrations.Extensions
         /// <param name="assembly">The assembly.</param>
         /// <param name="journal">The journal.</param>
         /// <returns>The same builder. </returns>
-        internal static UpgradeEngineBuilder WithHashedScriptsEmbeddedInAssembly(
+        public static UpgradeEngineBuilder WithHashedScriptsEmbeddedInAssembly(
             this UpgradeEngineBuilder builder, Assembly assembly, HashedSqlTableJournal journal)
         {
             builder.Configure(c => c.ScriptProviders.Add(new HashedEmbeddedScriptsProvider(assembly, journal)));

@@ -1,13 +1,13 @@
 ﻿namespace Expensely.Persistence
 {
-    internal sealed class ConnectionString
+    public sealed class ConnectionString
     {
-        internal ConnectionString(string value)
+        public ConnectionString(string value)
         {
             Value = value;
         }
 
-        internal string Value { get; }
+        public string Value { get; }
 
         public static implicit operator string(ConnectionString connectionString) => connectionString.Value;
     }

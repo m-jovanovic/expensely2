@@ -1,6 +1,9 @@
 ﻿CREATE TABLE [dbo].[Expense] (
 	[Id] [uniqueidentifier] NOT NULL,
 	[Amount] [decimal](19, 4) NOT NULL,
+	[CurrencyId] [int] NOT NULL,
+	[CurrencyCode] [varchar](3) NOT NULL,
+	[CurrencySign] [varchar](5) NOT NULL,
 	[CreatedOnUtc] [datetime2](7) NOT NULL,
 	[ModifiedOnUtc] [datetime2](7) NULL,
 	[Deleted] [bit] NOT NULL,
