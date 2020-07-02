@@ -5,6 +5,7 @@ namespace Expensely.Domain.ValueObjects
 {
     public class Currency : ValueObject
     {
+        public static readonly Currency Null = new Currency(0, string.Empty, string.Empty);
         public static readonly Currency Usd = new Currency(1, "USD", "$");
         public static readonly Currency Eur = new Currency(2, "EUR", "€");
         public static readonly Currency Rsd = new Currency(3, "RSD", "din.");

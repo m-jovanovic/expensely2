@@ -5,6 +5,7 @@ using Expensely.Application.Queries.Expenses.GetExpenseById;
 using Expensely.Application.Tests.Common;
 using Expensely.Contracts.Expenses;
 using Expensely.Domain.Entities;
+using Expensely.Domain.ValueObjects;
 using Xunit;
 
 namespace Expensely.Application.Tests.Expenses.Queries
@@ -50,12 +51,12 @@ namespace Expensely.Application.Tests.Expenses.Queries
 
             Assert.NotNull(result);
             Assert.Equal(expense.Id, result!.Id);
-            Assert.Equal(expense.Amount, result!.Amount);
+            Assert.Equal(expense.Money.Amount, result!.Amount);
         }
 
         private void SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), default);
+            var expense1 = new Expense(Guid.NewGuid(), Money.Null);
 
             _dbContext.Add(expense1);
 

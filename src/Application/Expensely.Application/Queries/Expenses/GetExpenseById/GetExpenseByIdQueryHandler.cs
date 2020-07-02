@@ -36,7 +36,7 @@ namespace Expensely.Application.Queries.Expenses.GetExpenseById
             var expenseDto = new ExpenseDto
             {
                 Id = expense.Id,
-                Amount = expense.Amount,
+                Amount = expense.Money.Amount,
                 CreatedOnUtc = expense.CreatedOnUtc,
                 ModifiedOnUtc = expense.ModifiedOnUtc,
                 Deleted = expense.Deleted

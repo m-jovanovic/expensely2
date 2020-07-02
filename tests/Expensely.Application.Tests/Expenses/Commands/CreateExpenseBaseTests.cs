@@ -7,6 +7,7 @@ using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
 using Expensely.Common.Primitives;
 using Expensely.Domain.Entities;
+using Expensely.Domain.ValueObjects;
 using Expensely.Persistence.Repositories;
 using MediatR;
 using Moq;
@@ -16,12 +17,16 @@ namespace Expensely.Application.Tests.Expenses.Commands
 {
     public class CreateExpenseBaseTests : BaseTest
     {
+        private static readonly decimal Amount = 0.0m;
+        private static readonly int CurrencyId = Currency.Usd.Id;
+
         [Fact]
         public void Command_ShouldCreateProperly()
         {
-            var command = new CreateExpenseCommand(100.0m);
+            var command = new CreateExpenseCommand(Amount, CurrencyId);
 
-            Assert.Equal(100.0m, command.Amount);
+            Assert.Equal(Amount, command.Amount);
+            Assert.Equal(CurrencyId, command.CurrencyId);
         }
 
         [Fact]
@@ -29,7 +34,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(100.0m);
+            var command = new CreateExpenseCommand(Amount, CurrencyId);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
 
             Result result = await commandHandler.Handle(command, default);
@@ -42,7 +47,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(100.0m);
+            var command = new CreateExpenseCommand(Amount, CurrencyId);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);
@@ -55,7 +60,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositorystub = new Mock<IExpenseRepository>();
             var mediatorMock = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(100.0m);
+            var command = new CreateExpenseCommand(Amount, CurrencyId);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositorystub.Object, mediatorMock.Object);
 
             await commandHandler.Handle(command, default);
@@ -68,7 +73,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryStub = new ExpenseRepository(_dbContext);
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(100.0m);
+            var command = new CreateExpenseCommand(Amount, CurrencyId);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);

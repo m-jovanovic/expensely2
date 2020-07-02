@@ -8,18 +8,9 @@ namespace Expensely.Domain.Primitives
     public abstract class Entity : IEquatable<Entity>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity"/> class.
+        /// Gets or sets the entity identifier.
         /// </summary>
-        /// <param name="id">The entity identifier.</param>
-        protected Entity(Guid id)
-        {
-            Id = id;
-        }
-
-        /// <summary>
-        /// Gets the entity identifier.
-        /// </summary>
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
 
         public static bool operator ==(Entity a, Entity b)
         {

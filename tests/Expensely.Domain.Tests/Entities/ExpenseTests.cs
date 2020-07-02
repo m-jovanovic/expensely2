@@ -1,23 +1,24 @@
 ﻿using System;
 using Expensely.Domain.Entities;
+using Expensely.Domain.ValueObjects;
 using Xunit;
 
 namespace Expensely.Domain.Tests
 {
     public sealed class ExpenseTests
     {
+        private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
+
         [Fact]
         public void Should_CreateProperly()
         {
             var id = Guid.NewGuid();
 
-            decimal amount = 1.00m;
-
-            var expense = new Expense(id, amount);
+            var expense = new Expense(id, Money);
 
             Assert.NotNull(expense);
             Assert.Equal(id, expense.Id);
-            Assert.Equal(amount, expense.Amount);
+            Assert.Equal(Money.Amount, expense.Money.Amount);
         }
 
         [Fact]
@@ -25,8 +26,8 @@ namespace Expensely.Domain.Tests
         {
             var id1 = Guid.NewGuid();
 
-            var expense1 = new Expense(id1, default);
-            var expense2 = new Expense(id1, default);
+            var expense1 = new Expense(id1, Money);
+            var expense2 = new Expense(id1, Money);
 
             Assert.True(expense1.Equals(expense2));
             Assert.True(expense1 == expense2);
@@ -39,8 +40,8 @@ namespace Expensely.Domain.Tests
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();
 
-            var expense1 = new Expense(id1, default);
-            var expense2 = new Expense(id2, default);
+            var expense1 = new Expense(id1, Money);
+            var expense2 = new Expense(id2, Money);
 
             Assert.False(expense1.Equals(expense2));
             Assert.False(expense1 == expense2);

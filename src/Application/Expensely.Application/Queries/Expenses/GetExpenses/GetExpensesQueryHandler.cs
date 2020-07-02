@@ -23,13 +23,13 @@ namespace Expensely.Application.Queries.Expenses.GetExpenses
         {
             IReadOnlyCollection<ExpenseDto> expenses = await _dbContext.Set<Expense>()
                 .AsNoTracking()
-                .Select(x => new ExpenseDto
+                .Select(e => new ExpenseDto
                 {
-                    Id = x.Id,
-                    Amount = x.Amount,
-                    CreatedOnUtc = x.CreatedOnUtc,
-                    ModifiedOnUtc = x.ModifiedOnUtc,
-                    Deleted = x.Deleted
+                    Id = e.Id,
+                    Amount = e.Money.Amount,
+                    CreatedOnUtc = e.CreatedOnUtc,
+                    ModifiedOnUtc = e.ModifiedOnUtc,
+                    Deleted = e.Deleted
                 }).ToListAsync(cancellationToken);
 
             return expenses;

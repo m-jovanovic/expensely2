@@ -6,10 +6,18 @@ namespace Expensely.Domain.ValueObjects
 {
     public class Money : ValueObject
     {
+        public static readonly Money Null = new Money(decimal.Zero, Currency.Null);
+
         public Money(decimal amount, Currency currency)
+            : this()
         {
             Amount = amount;
             Currency = currency;
+        }
+
+        private Money()
+        {
+            Currency = Currency.Null;
         }
 
         public decimal Amount { get; }

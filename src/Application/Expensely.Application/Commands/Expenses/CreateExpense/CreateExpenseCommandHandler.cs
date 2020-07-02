@@ -6,6 +6,7 @@ using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
 using Expensely.Common.Primitives;
 using Expensely.Domain.Entities;
+using Expensely.Domain.ValueObjects;
 using MediatR;
 
 namespace Expensely.Application.Commands.Expenses.CreateExpense
@@ -32,7 +33,16 @@ namespace Expensely.Application.Commands.Expenses.CreateExpense
         /// <inheritdoc />
         public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            var expense = new Expense(Guid.NewGuid(), request.Amount);
+            var currency = Currency.FromId(request.CurrencyId);
+
+            if (currency is null)
+            {
+                return Result.Fail("The specified currency was not found.");
+            }
+
+            var money = new Money(request.Amount, currency);
+
+            var expense = new Expense(Guid.NewGuid(), money);
 
             _expenseRepository.Insert(expense);
 
