@@ -39,7 +39,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Handle_ShouldReturnExpenseDto_GivenCorrectId()
         {
-            SeedExpenses();
+            await SeedExpenses();
 
             Expense expense = _dbContext.Set<Expense>().First();
 
@@ -59,13 +59,13 @@ namespace Expensely.Application.Tests.Expenses.Queries
             Assert.Equal(expense.Deleted, result.Deleted);
         }
 
-        private void SeedExpenses()
+        private async Task SeedExpenses()
         {
             var expense1 = new Expense(Guid.NewGuid(), Money.Null);
 
             _dbContext.Add(expense1);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Expensely.Application.Queries.Expenses.GetExpenseById
 {
     public sealed class GetExpenseByIdQuery : ICacheableQuery<ExpenseDto?>
     {
-        public GetExpenseByIdQuery(Guid id)
+        public GetExpenseByIdQuery(Guid expenseId)
         {
-            Id = id;
+            ExpenseId = expenseId;
         }
 
-        public Guid Id { get; }
+        public Guid ExpenseId { get; }
 
-        public string GetCacheKey() => string.Format(CacheKeys.ExpenseById, Id);
+        public string GetCacheKey() => string.Format(CacheKeys.ExpenseById, ExpenseId);
     }
 }

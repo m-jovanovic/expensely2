@@ -15,22 +15,23 @@ using Xunit;
 
 namespace Expensely.Application.Tests.Expenses.Commands
 {
-    public class CreateExpenseBaseTests : BaseTest
+    public class CreateExpenseCommandTests : BaseTest
     {
         private static readonly decimal Amount = 0.0m;
         private static readonly int CurrencyId = Currency.Usd.Id;
 
         [Fact]
-        public void Command_ShouldCreateProperly()
+        public void Command_Should_CreateProperly()
         {
             var command = new CreateExpenseCommand(Amount, CurrencyId);
 
+            Assert.NotNull(command);
             Assert.Equal(Amount, command.Amount);
             Assert.Equal(CurrencyId, command.CurrencyId);
         }
 
         [Fact]
-        public async Task Handle_ShouldCompleteSuccessfully()
+        public async Task Handle_Should_CompleteSuccessfully()
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
@@ -43,7 +44,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCallInsertOnExpenseRepository()
+        public async Task Handle_Should_CallInsert_OnExpenseRepository()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
@@ -56,7 +57,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCallPublishOnMediator()
+        public async Task Handle_Should_Publish_ExpenseCreatedEvent()
         {
             var expenseRepositorystub = new Mock<IExpenseRepository>();
             var mediatorMock = new Mock<IMediator>();
@@ -69,7 +70,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCreateAnExpense()
+        public async Task Handle_Should_CreateAnExpense()
         {
             var expenseRepositoryStub = new ExpenseRepository(_dbContext);
             var mediatorStub = new Mock<IMediator>();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,14 +31,52 @@ namespace Expensely.Persistence
         }
 
         /// <inheritdoc />
+        public async Task<TEntity?> GetBydIdAsync<TEntity>(Guid id)
+            where TEntity : Entity
+        {
+            if (id == Guid.Empty)
+            {
+                return null;
+            }
+
+            return await Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        /// <inheritdoc />
         public void Insert<TEntity>(TEntity entity)
             where TEntity : Entity =>
             Set<TEntity>().Add(entity);
+
+        /// <inheritdoc />
+        public new void Remove<TEntity>(TEntity entity)
+            where TEntity : Entity =>
+            Set<TEntity>().Remove(entity);
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             DateTime utcNow = DateTime.UtcNow;
 
+            UpdateAuditableEntities(utcNow);
+
+            UpdateSoftDeletableEntities();
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc />
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.ApplyUtcDateTimeConverter();
+
+            modelBuilder.ApplySoftDeleteQueryFilter();
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private void UpdateAuditableEntities(DateTime utcNow)
+        {
             foreach (EntityEntry<IAuditableEntity> entityEntry in ChangeTracker.Entries<IAuditableEntity>())
             {
                 if (entityEntry.State == EntityState.Added)
@@ -50,22 +89,41 @@ namespace Expensely.Persistence
                     entityEntry.Property(nameof(IAuditableEntity.ModifiedOnUtc)).CurrentValue = utcNow;
                 }
             }
-
-            return base.SaveChangesAsync(cancellationToken);
         }
 
-        /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        private void UpdateSoftDeletableEntities()
         {
-            modelBuilder.ApplyUtcDateTimeConverter();
+            foreach (EntityEntry<ISoftDeletableEntity> entityEntry in ChangeTracker.Entries<ISoftDeletableEntity>())
+            {
+                if (entityEntry.State == EntityState.Deleted)
+                {
+                    entityEntry.Property(nameof(ISoftDeletableEntity.Deleted)).CurrentValue = true;
 
-            modelBuilder.ApplySoftDeleteQueryFilter();
+                    entityEntry.State = EntityState.Modified;
 
-            // Apply configurations after registering soft delete query filter, because only the last query filter is considered.
-            // Some configurations could have a separate query filter with additional conditions.
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+                    UpdateDeletedEntityEntryReferencesToUnchanged(entityEntry);
+                }
+            }
+        }
 
-            base.OnModelCreating(modelBuilder);
+        /// <summary>
+        /// Updates the specified entity entry's referenced entries in the deleted state to the modified state.
+        /// This method is recursive.
+        /// </summary>
+        /// <param name="entityEntry">The entity entry.</param>
+        private static void UpdateDeletedEntityEntryReferencesToUnchanged(EntityEntry entityEntry)
+        {
+            if (!entityEntry.References.Any())
+            {
+                return;
+            }
+
+            foreach (ReferenceEntry referenceEntry in entityEntry.References.Where(r => r.TargetEntry.State == EntityState.Deleted))
+            {
+                referenceEntry.TargetEntry.State = EntityState.Unchanged;
+
+                UpdateDeletedEntityEntryReferencesToUnchanged(referenceEntry.TargetEntry);
+            }
         }
     }
 }

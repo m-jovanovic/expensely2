@@ -27,7 +27,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Should_ReturnCorrectNumberOfExpenses_IfExpensesExist()
         {
-            SeedExpenses();
+            await SeedExpenses();
 
             var query = new GetExpensesQuery();
 
@@ -39,7 +39,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             Assert.True(result.Count == 3);
         }
 
-        private void SeedExpenses()
+        private async Task SeedExpenses()
         {
             var expense1 = new Expense(Guid.NewGuid(), default);
             var expense2 = new Expense(Guid.NewGuid(), default);
@@ -49,7 +49,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             _dbContext.Add(expense2);
             _dbContext.Add(expense3);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

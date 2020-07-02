@@ -21,14 +21,14 @@ namespace Expensely.Application.Queries.Expenses.GetExpenseById
 
         public async Task<ExpenseDto?> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
         {
-            if (request.Id == Guid.Empty)
+            if (request.ExpenseId == Guid.Empty)
             {
                 return null;
             }
 
-            ExpenseDto expense = await _dbContext.Set<Expense>()
+            ExpenseDto? expense = await _dbContext.Set<Expense>()
                 .AsNoTracking()
-                .Where(e => e.Id == request.Id)
+                .Where(e => e.Id == request.ExpenseId)
                 .Select(e => new ExpenseDto
                 {
                     Id = e.Id,

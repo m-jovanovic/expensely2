@@ -1,4 +1,6 @@
-﻿using Expensely.Domain.Primitives;
+﻿using System;
+using System.Threading.Tasks;
+using Expensely.Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Interfaces
@@ -8,7 +10,13 @@ namespace Expensely.Application.Interfaces
         DbSet<TEntity> Set<TEntity>()
             where TEntity : Entity;
 
+        Task<TEntity?> GetBydIdAsync<TEntity>(Guid id)
+            where TEntity : Entity;
+
         void Insert<TEntity>(TEntity entity)
+            where TEntity : Entity;
+
+        void Remove<TEntity>(TEntity entity)
             where TEntity : Entity;
     }
 }
