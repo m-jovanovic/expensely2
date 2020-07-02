@@ -42,7 +42,20 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
+            if (env.IsProduction())
+            {
+                app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
+            }
+
+            app.UseCors(configurePolicy =>
+            {
+                string origins = Configuration.GetValue<string>("Cors:AllowedOrigins");
+
+                configurePolicy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins(origins);
+            });
 
             app.UseHttpsRedirection();
 
