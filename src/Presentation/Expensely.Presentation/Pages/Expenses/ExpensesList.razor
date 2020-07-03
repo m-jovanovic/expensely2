@@ -1,0 +1,45 @@
+﻿@using Expensely.Contracts.Expenses
+@inherits Expensely.Presentation.Components.Expenses.ExpensesListBase
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-3">Expenses</h3>
+
+                @if (State.Value.IsLoading || State.Value.Expenses == null)
+                {
+                    <div>Loading...</div>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>@Resource("Expenses.Table.Header.Id")</th>
+                            <th>@Resource("Expenses.Table.Header.Amount")</th>
+                            <th>@Resource("Expenses.Table.Header.CreatedOn")</th>
+                            <th>@Resource("Expenses.Table.Header.Actions")</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (ExpenseDto expense in State.Value.Expenses)
+                        {
+                            <tr>
+                                <td>@expense.Id</td>
+                                <td>@expense.FormattedExpense</td>
+                                <td>@expense.CreatedOnUtc</td>
+                                <td>
+                                    <button class="btn btn-danger" @onclick="() => RemoveExpense(expense.Id)">
+                                        @Resource("Expenses.Table.Actions.Remove") <i class="ml-1 fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

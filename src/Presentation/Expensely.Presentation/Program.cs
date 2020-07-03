@@ -1,6 +1,8 @@
 using System;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
+using AKSoftware.Localization.MultiLanguages;
 using Blazored.LocalStorage;
 using Expensely.Presentation.Services;
 using Expensely.Presentation.StateManagement;
@@ -27,6 +29,8 @@ namespace Expensely.Presentation
             builder.Services.AddServices();
 
             builder.Services.AddStateManagement();
+
+            builder.Services.AddLanguageContainer(Assembly.GetExecutingAssembly());
 
             await builder.Build().RunAsync();
         }

@@ -12,7 +12,7 @@ namespace Expensely.Contracts.Expenses
 
         public string CurrencyCode { get; set; }
 
-        public string FormattedExpense => $"{Amount} {CurrencyCode}";
+        public string FormattedExpense => $"{Amount:n2} {CurrencyCode}";
 
         public DateTime CreatedOnUtc { get; set; }
         

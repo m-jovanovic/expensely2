@@ -1,4 +1,5 @@
-﻿using Expensely.Presentation.StateManagement.Facades;
+﻿using System.Reflection;
+using Expensely.Presentation.StateManagement.Facades;
 using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,12 +11,12 @@ namespace Expensely.Presentation.StateManagement
         {
             services.AddFluxor(c =>
             {
-                c.ScanAssemblies(typeof(DependencyInjection).Assembly);
+                c.ScanAssemblies(Assembly.GetExecutingAssembly());
                 c.UseRouting();
                 c.UseReduxDevTools();
             });
 
-            services.AddScoped<ExpensesFacade>();
+            services.AddScoped<IExpensesFacade, ExpensesFacade>();
         }
     }
 }

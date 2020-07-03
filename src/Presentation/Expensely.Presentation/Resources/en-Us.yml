@@ -1,0 +1,5 @@
+﻿Expenses.Table.Header.Id: Id
+Expenses.Table.Header.Amount: Amount
+Expenses.Table.Header.CreatedOn: Created On
+Expenses.Table.Header.Actions: Actions
+Expenses.Table.Actions.Remove: Remove

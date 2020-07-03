@@ -4,7 +4,7 @@ using Fluxor;
 
 namespace Expensely.Presentation.StateManagement.Facades
 {
-    public class ExpensesFacade
+    internal class ExpensesFacade : IExpensesFacade
     {
         private readonly IDispatcher _dispatcher;
 
@@ -13,14 +13,8 @@ namespace Expensely.Presentation.StateManagement.Facades
             _dispatcher = dispatcher;
         }
 
-        public void GetExpenses()
-        {
-            _dispatcher.Dispatch(new GetExpensesDataAction());
-        }
+        public void GetExpenses() => _dispatcher.Dispatch(new GetExpensesDataAction());
 
-        public void RemoveExpense(Guid expenseId)
-        {
-            _dispatcher.Dispatch(new RemoveExpenseAction(expenseId));
-        }
+        public void RemoveExpense(Guid expenseId) => _dispatcher.Dispatch(new RemoveExpenseAction(expenseId));
     }
 }
