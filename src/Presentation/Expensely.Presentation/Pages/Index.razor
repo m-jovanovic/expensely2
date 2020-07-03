@@ -1,7 +1,10 @@
 ﻿@page "/"
-@using Expensely.Presentation.Services
 @using Expensely.Contracts.Expenses
-@inject ExpenseService ExpenseService
+@using Expensely.Presentation.State.Expenses
+@using Fluxor
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<ExpensesState> State
+@inject IDispatcher Dispatcher
 
 <div class="row">
     <div class="col-md-12">
@@ -9,7 +12,7 @@
             <div class="card-body">
                 <h3 class="mb-3">Expenses</h3>
 
-                @if (_expenses is null)
+                @if (State.Value.IsLoading || State.Value.Expenses == null)
                 {
                     <div>Loading...</div>
                 }
@@ -17,21 +20,21 @@
                 {
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Amount</th>
-                            <th>Created On</th>
-                        </tr>
+                            <tr>
+                                <th>Id</th>
+                                <th>Amount</th>
+                                <th>Created On</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach (ExpenseDto expense in _expenses)
-                        {
-                            <tr>
-                                <td>@expense.Id</td>
-                                <td>@expense.FormattedExpense</td>
-                                <td>@expense.CreatedOnUtc</td>
-                            </tr>
-                        }
+                            @foreach (ExpenseDto expense in State.Value.Expenses)
+                            {
+                                <tr>
+                                    <td>@expense.Id</td>
+                                    <td>@expense.FormattedExpense</td>
+                                    <td>@expense.CreatedOnUtc</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 }
@@ -40,13 +43,12 @@
     </div>
 </div>
 
-
 @code
 {
-    private IReadOnlyCollection<ExpenseDto> _expenses;
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _expenses = await ExpenseService.GetExpenses();
+        base.OnInitialized();
+
+        Dispatcher.Dispatch(new GetExpensesDataAction());
     }
 }
