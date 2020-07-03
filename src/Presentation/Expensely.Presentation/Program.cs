@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Expensely.Presentation.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +15,12 @@ namespace Expensely.Presentation
 
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddTransient(sp => new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:5001")
+            });
+
+            builder.Services.AddScoped<ExpenseService>();
 
             await builder.Build().RunAsync();
         }

@@ -1,3 +1,52 @@
 ﻿@page "/"
+@using Expensely.Presentation.Services
+@using Expensely.Contracts.Expenses
+@inject ExpenseService ExpenseService
 
-<h1>Hello, world!</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-3">Expenses</h3>
+
+                @if (_expenses is null)
+                {
+                    <div>Loading...</div>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Amount</th>
+                            <th>Created On</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (ExpenseDto expense in _expenses)
+                        {
+                            <tr>
+                                <td>@expense.Id</td>
+                                <td>@expense.FormattedExpense</td>
+                                <td>@expense.CreatedOnUtc</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    private IReadOnlyCollection<ExpenseDto> _expenses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _expenses = await ExpenseService.GetExpenses();
+    }
+}
