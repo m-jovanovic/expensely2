@@ -1,10 +1,12 @@
 ﻿@page "/"
+
 @using Expensely.Contracts.Expenses
-@using Expensely.Presentation.State.Expenses
-@using Fluxor
+@using Expensely.Presentation.StateManagement.Facades
+
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 @inject IState<ExpensesState> State
-@inject IDispatcher Dispatcher
+@inject ExpensesFacade Facade
 
 <div class="row">
     <div class="col-md-12">
@@ -24,6 +26,7 @@
                                 <th>Id</th>
                                 <th>Amount</th>
                                 <th>Created On</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,6 +36,11 @@
                                     <td>@expense.Id</td>
                                     <td>@expense.FormattedExpense</td>
                                     <td>@expense.CreatedOnUtc</td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => Facade.RemoveExpense(expense.Id)">
+                                            Remove
+                                        </button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -49,6 +57,6 @@
     {
         base.OnInitialized();
 
-        Dispatcher.Dispatch(new GetExpensesDataAction());
+        Facade.GetExpenses();
     }
 }

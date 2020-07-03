@@ -1,8 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Expensely.Presentation.Services;
-using Fluxor;
+using Expensely.Presentation.StateManagement;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,14 +22,11 @@ namespace Expensely.Presentation
                 BaseAddress = new Uri("https://localhost:5001")
             });
 
-            builder.Services.AddFluxor(c =>
-            {
-                c.ScanAssemblies(typeof(Program).Assembly);
-                c.UseRouting();
-                c.UseReduxDevTools();
-            });
+            builder.Services.AddBlazoredLocalStorage();
             
-            builder.Services.AddScoped<ExpenseService>();
+            builder.Services.AddServices();
+
+            builder.Services.AddStateManagement();
 
             await builder.Build().RunAsync();
         }
