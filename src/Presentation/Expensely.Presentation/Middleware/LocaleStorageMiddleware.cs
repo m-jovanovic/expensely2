@@ -8,7 +8,7 @@ namespace Expensely.Presentation.Middleware
     public class LocaleStorageMiddleware : Fluxor.Middleware
     {
         private readonly ILocalStorageService _localStorageService;
-        private IStore? _store;
+        private IStore _store;
 
         public LocaleStorageMiddleware(ILocalStorageService localStorageService)
         {
@@ -32,7 +32,6 @@ namespace Expensely.Presentation.Middleware
 
                 if (keyExists)
                 {
-
                     byte[] stateBytes = await _localStorageService.GetItemAsync<byte[]>(stateKey).ConfigureAwait(false);
 
                     if (stateBytes != null)

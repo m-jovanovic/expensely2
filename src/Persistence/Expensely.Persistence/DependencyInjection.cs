@@ -11,7 +11,7 @@ namespace Expensely.Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("ExpenselyDb");
+            string connectionString = configuration.GetConnectionString(ConnectionString.ExpenselyDb);
             services.AddSingleton(new ConnectionString(connectionString));
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
             services.AddDbContextPool<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));

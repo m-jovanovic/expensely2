@@ -8,6 +8,8 @@ namespace Expensely.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
+            services.AddMemoryCache();
+
             services.AddSingleton<ICacheService, CacheService>();
         }
     }

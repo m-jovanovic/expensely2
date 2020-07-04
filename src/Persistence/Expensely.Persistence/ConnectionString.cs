@@ -2,6 +2,8 @@
 {
     public sealed class ConnectionString
     {
+        public const string ExpenselyDb = "ExpenselyDb";
+
         public ConnectionString(string value)
         {
             Value = value;

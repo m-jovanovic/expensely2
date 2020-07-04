@@ -9,7 +9,6 @@ namespace Expensely.Presentation.StateManagement.Features.Expenses.Actions
             ExpenseId = expenseId;
         }
 
-
         public Guid ExpenseId { get; }
     }
 }

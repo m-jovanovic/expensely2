@@ -16,4 +16,6 @@
     <ProjectReference Include="..\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj" />
   </ItemGroup>
 
+  <Import Project="..\..\..\CodeAnalysis.targets" />
+
 </Project>

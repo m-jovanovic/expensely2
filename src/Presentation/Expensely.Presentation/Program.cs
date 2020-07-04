@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.Presentation
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -25,7 +25,7 @@ namespace Expensely.Presentation
             });
 
             builder.Services.AddBlazoredLocalStorage();
-            
+
             builder.Services.AddServices();
 
             builder.Services.AddStateManagement();

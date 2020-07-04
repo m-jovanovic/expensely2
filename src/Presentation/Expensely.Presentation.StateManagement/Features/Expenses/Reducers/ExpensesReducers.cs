@@ -20,7 +20,7 @@ namespace Expensely.Presentation.StateManagement.Features.Expenses.Reducers
         [ReducerMethod]
         public static ExpensesState ReduceRemoveExpenseAction(ExpensesState state, RemoveExpenseAction action)
         {
-            List<ExpenseDto> remainingExpenses = state.Expenses.Where(e => e.Id != action.ExpenseId).ToList();
+            IReadOnlyCollection<ExpenseDto> remainingExpenses = state.Expenses.Where(e => e.Id != action.ExpenseId).ToList();
 
             return new ExpensesState(false, remainingExpenses);
         }

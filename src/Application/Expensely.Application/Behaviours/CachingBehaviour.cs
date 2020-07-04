@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Expensely.Application.Caching;
 using Expensely.Application.Extensions;
 using Expensely.Application.Messaging;
+using Expensely.Application.Options;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace Expensely.Application.Behaviours
 {
@@ -12,15 +14,17 @@ namespace Expensely.Application.Behaviours
         where TResponse : class
     {
         private readonly ICacheService _cacheService;
+        private readonly CachingOptions _cachingOptions;
 
-        public CachingBehaviour(ICacheService cacheService)
+        public CachingBehaviour(ICacheService cacheService, IOptions<CachingOptions> cachingOptions)
         {
             _cacheService = cacheService;
+            _cachingOptions = cachingOptions.Value;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (!request.IsCacheableQuery())
+            if (!request.IsCacheableQuery() || !_cachingOptions.Enabled)
             {
                 return await next();
             }

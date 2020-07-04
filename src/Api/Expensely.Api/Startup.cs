@@ -24,15 +24,15 @@ namespace Expensely.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddMemoryCache();
-
-            services.AddApplication();
+            services.AddApplication(Configuration);
 
             services.AddInfrastructure();
 
             services.AddPersistence(Configuration);
+
+            services.AddControllers();
+
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,10 +63,7 @@ namespace Expensely.Api
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

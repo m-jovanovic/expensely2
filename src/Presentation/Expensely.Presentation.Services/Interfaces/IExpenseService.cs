@@ -8,7 +8,7 @@ namespace Expensely.Presentation.Services.Interfaces
     public interface IExpenseService
     {
         Task<IReadOnlyCollection<ExpenseDto>> GetExpensesAsync();
-        
+
         Task RemoveExpenseAsync(Guid expenseId);
     }
 }
