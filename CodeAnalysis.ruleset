@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Custom Ruleset" Description="Custom Ruleset" ToolsVersion="16.0">
   <IncludeAll Action="Error" />
+  <Rules AnalyzerId="Roslyn" RuleNamespace="Roslyn">
+    <Rule Id="IDE0060" Action="None" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
     <Rule Id="CA1819" Action="None" />
   </Rules>

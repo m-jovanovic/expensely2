@@ -22,7 +22,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EF67224-0CD0-4C27-B349-816D8935510C}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		CodeAnalysis.targets = CodeAnalysis.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain", "src\Domain\Expensely.Domain\Expensely.Domain.csproj", "{D664F13C-B7D5-4142-B6F5-9AD6BB627BC6}"
@@ -53,9 +52,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Contracts", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Presentation", "src\Presentation\Expensely.Presentation\Expensely.Presentation.csproj", "{F38DCE55-5A11-4F10-88FB-914732A2F8D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Presentation.Services", "src\Presentation\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj", "{941FCFD1-E38C-433A-B2C1-D1618C836763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Presentation.Services", "src\Presentation\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj", "{941FCFD1-E38C-433A-B2C1-D1618C836763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expensely.Presentation.StateManagement", "src\Presentation\Expensely.Presentation.StateManagement\Expensely.Presentation.StateManagement.csproj", "{8E3D6552-D554-4CAF-AE66-0EE02203C2DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Presentation.StateManagement", "src\Presentation\Expensely.Presentation.StateManagement\Expensely.Presentation.StateManagement.csproj", "{8E3D6552-D554-4CAF-AE66-0EE02203C2DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
