@@ -7,11 +7,11 @@
             <div class="card-body">
                 <h3 class="mb-3">Expenses</h3>
 
-                @if (State.Value.IsLoading || State.Value.Expenses == null)
+                @if (State.Value.IsLoading)
                 {
-                    <div>Loading...</div>
+                    <Spinner></Spinner>
                 }
-                else
+                else if (State.Value.Expenses != null)
                 {
                     <table class="table">
                         <thead>
@@ -38,6 +38,10 @@
                         }
                         </tbody>
                     </table>
+                }
+                else
+                {
+                    <div>@Resource("Expenses.NotFound")</div>
                 }
             </div>
         </div>
