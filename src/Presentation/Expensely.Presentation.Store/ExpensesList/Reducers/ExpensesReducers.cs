@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Expensely.Contracts.Expenses;
-using Expensely.Presentation.StateManagement.Features.Expenses.Actions;
-using Expensely.Presentation.StateManagement.State;
+using Expensely.Presentation.Store.ExpensesList.Actions;
 using Fluxor;
 
-namespace Expensely.Presentation.StateManagement.Features.Expenses.Reducers
+namespace Expensely.Presentation.Store.ExpensesList.Reducers
 {
     public static class ExpensesReducers
     {

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Presentation.Services.Interfaces;
-using Expensely.Presentation.StateManagement.Features.Expenses.Actions;
+using Expensely.Presentation.Store.ExpensesList.Actions;
 using Fluxor;
 
-namespace Expensely.Presentation.StateManagement.Features.Expenses.Effects
+namespace Expensely.Presentation.Store.ExpensesList.Effects
 {
     public class RemoveExpenseActionEffect : Effect<RemoveExpenseAction>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Presentation.StateManagement.Features.Expenses.Actions
+namespace Expensely.Presentation.Store.ExpensesList.Actions
 {
     public class RemoveExpenseAction
     {

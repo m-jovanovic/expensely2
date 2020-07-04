@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
-using Expensely.Presentation.StateManagement.Facades;
+using Expensely.Presentation.Store.ExpensesList.Facades;
 using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expensely.Presentation.StateManagement
+namespace Expensely.Presentation.Store
 {
     public static class DependencyInjection
     {
-        public static void AddStateManagement(this IServiceCollection services)
+        public static void AddStore(this IServiceCollection services)
         {
             services.AddFluxor(c =>
             {

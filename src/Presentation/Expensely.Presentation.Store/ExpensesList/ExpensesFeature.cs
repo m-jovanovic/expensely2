@@ -1,7 +1,6 @@
-﻿using Expensely.Presentation.StateManagement.State;
-using Fluxor;
+﻿using Fluxor;
 
-namespace Expensely.Presentation.StateManagement.Features.Expenses
+namespace Expensely.Presentation.Store.ExpensesList
 {
     public class ExpensesFeature : Feature<ExpensesState>
     {

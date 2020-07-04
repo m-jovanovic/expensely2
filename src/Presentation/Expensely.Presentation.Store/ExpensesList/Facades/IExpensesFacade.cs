@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Presentation.StateManagement.Facades
+namespace Expensely.Presentation.Store.ExpensesList.Facades
 {
     public interface IExpensesFacade
     {

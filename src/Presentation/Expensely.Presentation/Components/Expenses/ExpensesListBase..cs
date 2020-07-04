@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Presentation.Infrastructure;
-using Expensely.Presentation.StateManagement.Facades;
-using Expensely.Presentation.StateManagement.State;
+using Expensely.Presentation.Store.ExpensesList;
+using Expensely.Presentation.Store.ExpensesList.Facades;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 

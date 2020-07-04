@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AKSoftware.Localization.MultiLanguages;
 using Blazored.LocalStorage;
 using Expensely.Presentation.Services;
-using Expensely.Presentation.StateManagement;
+using Expensely.Presentation.Store;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +28,7 @@ namespace Expensely.Presentation
 
             builder.Services.AddServices();
 
-            builder.Services.AddStateManagement();
+            builder.Services.AddStore();
 
             builder.Services.AddLanguageContainer(Assembly.GetExecutingAssembly());
 

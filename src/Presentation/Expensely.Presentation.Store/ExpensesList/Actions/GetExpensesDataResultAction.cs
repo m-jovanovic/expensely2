@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Expensely.Contracts.Expenses;
 
-namespace Expensely.Presentation.StateManagement.Features.Expenses.Actions
+namespace Expensely.Presentation.Store.ExpensesList.Actions
 {
     public class GetExpensesDataResultAction
     {

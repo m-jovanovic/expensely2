@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj" />
-    <ProjectReference Include="..\Expensely.Presentation.StateManagement\Expensely.Presentation.StateManagement.csproj" />
+    <ProjectReference Include="..\Expensely.Presentation.Store\Expensely.Presentation.Store.csproj" />
   </ItemGroup>
 
   <ItemGroup>
