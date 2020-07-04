@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Expensely.Presentation.Services.Interfaces
+@inherits LayoutComponentBase
+@inject IAuthenticationService AuthenticationService
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
@@ -8,18 +10,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" aria-current="page" href="#">Home</a>
-                    </li>
+                <div class="mr-auto"></div>
+                <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <div class="dropleft">
+                            <i id="authDropdown" class="fas fa-ellipsis-v"
+                               data-toggle="dropdown"
+                               aria-expanded="false"
+                               style="color: white; margin-top: 0.6rem"></i>
+
+                            <ul class="dropdown-menu" aria-labelledby="authDropdown"
+                                style="margin-top: 35px; margin-right: -10px;">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                       @onclick="() => AuthenticationService.SignOutAsync()">
+                                        <i class="fas fa-sign-out-alt fa-lg mr-3"></i> Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Expensely.Presentation.Infrastructure
 {
-    public class ExpenselyComponent : FluxorComponent
+    public class StatefulComponent : FluxorComponent
     {
         [Inject]
         private ILanguageContainerService LanguageContainerService { get; set; }

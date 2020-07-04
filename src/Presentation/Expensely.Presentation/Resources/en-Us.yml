@@ -4,3 +4,4 @@ Expenses.Table.Header.CreatedOn: Created On
 Expenses.Table.Header.Actions: Actions
 Expenses.Table.Actions.Remove: Remove
 Expenses.NotFound: "It seems we couldn't find any expenses."
+Login: Login

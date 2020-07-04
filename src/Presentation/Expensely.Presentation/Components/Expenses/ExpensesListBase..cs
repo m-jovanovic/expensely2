@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Expensely.Presentation.Components.Expenses
 {
-    public class ExpensesListBase : ExpenselyComponent
+    public class ExpensesListBase : StatefulComponent
     {
         [Inject]
         protected IState<ExpensesState> State { get; set; }

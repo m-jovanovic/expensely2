@@ -9,6 +9,7 @@ namespace Expensely.Presentation.Services
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IExpenseService, ExpenseService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
     }
 }
