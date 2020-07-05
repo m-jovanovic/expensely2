@@ -5,7 +5,7 @@ using Expensely.Presentation.Store.ExpensesList.Facades;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 
-namespace Expensely.Presentation.Components.Expenses
+namespace Expensely.Presentation.Components.Expenses.ExpensesList
 {
     public class ExpensesListBase : StatefulComponent
     {
