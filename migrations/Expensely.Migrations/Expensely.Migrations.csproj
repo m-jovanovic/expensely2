@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scripts\001_CreateExpenseTable.sql" />
+    <None Remove="Scripts\001_Scaffold_AspNet_Identity.sql" />
+    <None Remove="Scripts\002_CreateExpenseTable.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\001_CreateExpenseTable.sql" />
+    <EmbeddedResource Include="Scripts\001_Scaffold_AspNet_Identity.sql" />
+    <EmbeddedResource Include="Scripts\002_CreateExpenseTable.sql" />
   </ItemGroup>
 
   <ItemGroup>

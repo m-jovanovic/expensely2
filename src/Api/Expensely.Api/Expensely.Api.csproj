@@ -8,8 +8,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\migrations\Expensely.Migrations\Expensely.Migrations.csproj" />
     <ProjectReference Include="..\..\Common\Expensely.Contracts\Expensely.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Authentication\Expensely.Authentication.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Persistence\Expensely.Persistence\Expensely.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Persistence\Expensely.Persistence.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

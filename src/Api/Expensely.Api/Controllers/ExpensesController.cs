@@ -52,7 +52,7 @@ namespace Expensely.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequestDto request)
+        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
         {
             var command = new CreateExpenseCommand(request.Amount, request.CurrencyId);
 

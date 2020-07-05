@@ -1,4 +1,5 @@
 using Expensely.Application;
+using Expensely.Authentication;
 using Expensely.Infrastructure;
 using Expensely.Migrations.Extensions;
 using Expensely.Persistence;
@@ -25,6 +26,8 @@ namespace Expensely.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication(Configuration);
+
+            services.AddCustomAuthentication(Configuration);
 
             services.AddInfrastructure();
 
@@ -56,6 +59,10 @@ namespace Expensely.Api
                     .AllowAnyMethod()
                     .WithOrigins(origins);
             });
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
 

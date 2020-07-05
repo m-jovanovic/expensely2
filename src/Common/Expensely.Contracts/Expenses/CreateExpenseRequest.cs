@@ -1,6 +1,6 @@
 ﻿namespace Expensely.Contracts.Expenses
 {
-    public class CreateExpenseRequestDto
+    public class CreateExpenseRequest
     {
         public decimal Amount { get; set; }
 
