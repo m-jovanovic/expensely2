@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 using Expensely.Presentation.Store.ExpensesList.Actions;
 using Fluxor;
 

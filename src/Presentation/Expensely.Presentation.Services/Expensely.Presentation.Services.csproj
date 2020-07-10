@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Expensely.Contracts\Expensely.Contracts.csproj" />
+    <ProjectReference Include="..\..\Common\Expensely.Common.Contracts\Expensely.Common.Contracts.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

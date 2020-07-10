@@ -1,7 +1,12 @@
-﻿using System.Text;
-using Expensely.Authentication.Implementations;
+﻿using System;
+using System.Text;
+using Expensely.Authentication.Factories;
 using Expensely.Authentication.Interfaces;
+using Expensely.Authentication.Options;
+using Expensely.Authentication.Permissions;
+using Expensely.Authentication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,8 +50,15 @@ namespace Expensely.Authentication
                         ValidAudience = configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]))
                     };
+
+                    // TODO: See if this is really necessary.
+                    // options.SaveToken = true;
                 });
 
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SettingsKey));
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, ExpenselyClaimsPrincipalFactory>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
     }

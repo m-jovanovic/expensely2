@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Contracts.Expenses
+namespace Expensely.Common.Contracts.Expenses
 {
     public sealed class ExpenseDto
     {

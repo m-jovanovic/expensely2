@@ -2,7 +2,7 @@
 {
     public class CachingOptions
     {
-        public const string Caching = "Caching";
+        public const string SettingsKey = "Caching";
 
         public bool Enabled { get; set; }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 
 namespace Expensely.Presentation.Services.Interfaces
 {

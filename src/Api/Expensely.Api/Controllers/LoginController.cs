@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Expensely.Api.Controllers
 {
-    [Route("api/accounts")]
+    [Route("api/login")]
     [AllowAnonymous]
-    public class AccountsController : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
 
-        public AccountsController(IAuthenticationService authenticationService)
+        public LoginController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody]RegisterRequest request)
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
-            RegisterResponse response = await _authenticationService.RegisterAsync(request);
+            LoginResponse response = await _authenticationService.LoginAsync(request);
 
             if (!response.Success)
             {

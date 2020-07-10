@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

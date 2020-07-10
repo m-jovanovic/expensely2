@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Expensely.Contracts\Expensely.Contracts.csproj" />
     <ProjectReference Include="..\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj" />
   </ItemGroup>
 

@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Contracts.Authentication;
+using Expensely.Common.Contracts.Authentication;
 
 namespace Expensely.Authentication.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<RegisterUserResponse> RegisterUserAsync(string email, string password);
+        Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest);
+
+        Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
     }
 }

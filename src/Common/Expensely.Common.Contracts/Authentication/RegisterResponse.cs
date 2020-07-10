@@ -1,8 +1,8 @@
-﻿namespace Expensely.Contracts.Authentication
+﻿namespace Expensely.Common.Contracts.Authentication
 {
-    public class RegisterUserResponse
+    public class RegisterResponse
     {
-        public RegisterUserResponse(bool success, string[]? errorCodes)
+        public RegisterResponse(bool success, string[]? errorCodes)
         {
             Success = success;
             ErrorCodes = errorCodes;

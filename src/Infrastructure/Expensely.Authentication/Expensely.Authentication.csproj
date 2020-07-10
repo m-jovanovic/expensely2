@@ -13,14 +13,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Expensely.Contracts\Expensely.Contracts.csproj" />
+    <ProjectReference Include="..\..\Common\Expensely.Common.Authorization\Expensely.Common.Authorization.csproj" />
+    <ProjectReference Include="..\..\Common\Expensely.Common.Contracts\Expensely.Common.Contracts.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Application.Queries.Expenses.GetExpenses;
 using Expensely.Application.Tests.Common;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Xunit;
 

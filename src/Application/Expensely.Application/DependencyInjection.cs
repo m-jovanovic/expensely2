@@ -11,7 +11,7 @@ namespace Expensely.Application
     {
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<CachingOptions>(configuration.GetSection(CachingOptions.Caching));
+            services.Configure<CachingOptions>(configuration.GetSection(CachingOptions.SettingsKey));
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingBehaviour<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehaviour<,>));

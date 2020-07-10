@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 
 namespace Expensely.Presentation.Store.ExpensesList.Actions
 {

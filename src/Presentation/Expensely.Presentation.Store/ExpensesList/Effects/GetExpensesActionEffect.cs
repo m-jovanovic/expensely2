@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Expensely.Contracts.Expenses;
+using Expensely.Common.Contracts.Expenses;
 using Expensely.Presentation.Services.Interfaces;
 using Expensely.Presentation.Store.ExpensesList.Actions;
 using Fluxor;
