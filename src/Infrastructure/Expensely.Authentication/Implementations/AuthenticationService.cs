@@ -4,14 +4,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Expensely.Authentication.Interfaces;
+using Expensely.Authentication.Abstractions;
 using Expensely.Authentication.Options;
 using Expensely.Common.Contracts.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Expensely.Authentication.Services
+namespace Expensely.Authentication.Implementations
 {
     internal sealed class AuthenticationService : IAuthenticationService
     {

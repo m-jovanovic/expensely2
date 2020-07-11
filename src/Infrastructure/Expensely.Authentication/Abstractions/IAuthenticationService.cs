@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Common.Contracts.Authentication;
 
-namespace Expensely.Authentication.Interfaces
+namespace Expensely.Authentication.Abstractions
 {
     public interface IAuthenticationService
     {

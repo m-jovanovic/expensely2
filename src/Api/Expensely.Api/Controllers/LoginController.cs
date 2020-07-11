@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Authentication.Interfaces;
+using Expensely.Authentication.Abstractions;
 using Expensely.Common.Contracts.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

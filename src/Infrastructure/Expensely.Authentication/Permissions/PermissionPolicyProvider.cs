@@ -6,12 +6,9 @@ namespace Expensely.Authentication.Permissions
 {
     internal class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
     {
-        private readonly AuthorizationOptions _options;
-
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
             : base(options)
         {
-            _options = options.Value;
         }
 
         /// <inheritdoc />

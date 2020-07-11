@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
+using Expensely.Authentication.Abstractions;
+using Expensely.Authentication.Cryptography;
 using Expensely.Authentication.Factories;
-using Expensely.Authentication.Interfaces;
+using Expensely.Authentication.Implementations;
 using Expensely.Authentication.Options;
 using Expensely.Authentication.Permissions;
-using Expensely.Authentication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +29,6 @@ namespace Expensely.Authentication
                 {
                     o.User.RequireUniqueEmail = true;
 
-                    // TODO: Consider enabling this for production?
-                    // o.Stores.ProtectPersonalData = true;
-
                     // TODO: Implement support for this some time in the future.
                     // o.SignIn.RequireConfirmedAccount = true;
                     // o.SignIn.RequireConfirmedEmail = true;
@@ -50,9 +48,6 @@ namespace Expensely.Authentication
                         ValidAudience = configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]))
                     };
-
-                    // TODO: See if this is really necessary.
-                    // options.SaveToken = true;
                 });
 
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SettingsKey));
@@ -60,6 +55,7 @@ namespace Expensely.Authentication
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, ExpenselyClaimsPrincipalFactory>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
         }
     }
 }
