@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Expensely.Domain.Primitives;
+using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Domain.ValueObjects
 {

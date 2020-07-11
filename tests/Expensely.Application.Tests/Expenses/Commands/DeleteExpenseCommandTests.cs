@@ -6,7 +6,7 @@ using Expensely.Application.Commands.Expenses.DeleteExpense;
 using Expensely.Application.Events.Expenses.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using MediatR;

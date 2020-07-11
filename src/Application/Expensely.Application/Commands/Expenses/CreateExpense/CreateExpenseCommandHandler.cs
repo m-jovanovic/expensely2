@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Events.Expenses.ExpenseCreated;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using MediatR;

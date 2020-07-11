@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Common.Primitives
+namespace Expensely.Domain.Core.Primitives
 {
     /// <summary>
     /// Represents a result of some operation, with status information and possibly an error message.

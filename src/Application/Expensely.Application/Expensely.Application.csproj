@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Expensely.Common.Contracts\Expensely.Common.Contracts.csproj" />
-    <ProjectReference Include="..\..\Common\Expensely.Common\Expensely.Common.csproj" />
     <ProjectReference Include="..\..\Domain\Expensely.Domain\Expensely.Domain.csproj" />
   </ItemGroup>
 

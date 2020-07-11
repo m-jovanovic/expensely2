@@ -5,7 +5,7 @@ using Expensely.Application.Commands.Expenses.CreateExpense;
 using Expensely.Application.Events.Expenses.ExpenseCreated;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using Expensely.Persistence.Repositories;

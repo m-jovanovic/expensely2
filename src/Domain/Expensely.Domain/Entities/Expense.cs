@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.ValueObjects;
 
 namespace Expensely.Domain.Entities

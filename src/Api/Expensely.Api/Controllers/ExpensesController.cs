@@ -8,7 +8,7 @@ using Expensely.Application.Queries.Expenses.GetExpenses;
 using Expensely.Common.Authorization;
 using Expensely.Common.Authorization.Attributes;
 using Expensely.Common.Contracts.Expenses;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

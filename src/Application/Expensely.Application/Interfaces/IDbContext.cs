@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Domain.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Interfaces

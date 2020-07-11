@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Application.Messaging;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Commands.Expenses.DeleteExpense
 {

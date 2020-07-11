@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Events.Expenses.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
-using Expensely.Common.Primitives;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using MediatR;
 
