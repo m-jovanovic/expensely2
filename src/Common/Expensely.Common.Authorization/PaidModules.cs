@@ -3,7 +3,7 @@
 namespace Expensely.Common.Authorization
 {
     [Flags]
-    public enum PaidModule : long
+    public enum PaidModules : long
     {
         None = 0,
         LinkedExpenses = 1

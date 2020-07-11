@@ -3,7 +3,7 @@ using Expensely.Common.Authorization.Attributes;
 
 namespace Expensely.Common.Authorization
 {
-    public enum Permission : short
+    public enum Permission
     {
         [Display(GroupName = "Expense", Name = "Read", Description = "Can read expenses.")]
         ExpenseRead = 0,
@@ -17,11 +17,11 @@ namespace Expensely.Common.Authorization
         [Display(GroupName = "Expense", Name = "Remove", Description = "Can remove expenses.")]
         ExpenseRemove = 3,
 
-        [LinkedToModule(PaidModule.LinkedExpenses)]
+        [LinkedToModule(PaidModules.LinkedExpenses)]
         [Display(GroupName = "Features", Name = "Linked expenses", Description = "Can access linked expenses feature.")]
         LinkedExpensesAccess = 1000,
 
         [Display(GroupName = "Admin", Name = "Access everything", Description = "Allow access to every feature.")]
-        AccessEverything = short.MaxValue
+        AccessEverything = int.MaxValue
     }
 }

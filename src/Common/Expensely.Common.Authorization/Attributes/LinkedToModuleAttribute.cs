@@ -5,11 +5,11 @@ namespace Expensely.Common.Authorization.Attributes
     [AttributeUsage(AttributeTargets.Field)]
     public class LinkedToModuleAttribute : Attribute
     {
-        public LinkedToModuleAttribute(PaidModule paidModule)
+        public LinkedToModuleAttribute(PaidModules paidModules)
         {
-            PaidModule = paidModule;
+            PaidModules = paidModules;
         }
 
-        public PaidModule PaidModule { get; }
+        public PaidModules PaidModules { get; }
     }
 }

@@ -72,7 +72,7 @@ namespace Expensely.Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        [HasPermission(Permission.ExpenseRead)]
+        [HasPermission(Permission.ExpenseRemove)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveExpense(Guid id)
