@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Interfaces;
 using Expensely.Domain;
+using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;

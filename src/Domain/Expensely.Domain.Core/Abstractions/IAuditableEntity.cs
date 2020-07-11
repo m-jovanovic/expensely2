@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain
+namespace Expensely.Domain.Core.Abstractions
 {
     /// <summary>
     /// Represents the marker interface for auditable entities.

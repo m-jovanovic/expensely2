@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.ValueObjects;
 

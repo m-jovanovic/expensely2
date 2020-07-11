@@ -1,4 +1,4 @@
-﻿namespace Expensely.Domain
+﻿namespace Expensely.Domain.Core.Abstractions
 {
     /// <summary>
     /// Represents the marker interface for soft-deletable entities.

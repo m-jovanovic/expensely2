@@ -9,10 +9,6 @@
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Abstractions\" />
-  </ItemGroup>
-
   <Import Project="..\..\..\CodeAnalysis.targets" />
 
 </Project>
