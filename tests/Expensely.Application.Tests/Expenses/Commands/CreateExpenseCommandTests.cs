@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Commands.Expenses.CreateExpense;
@@ -19,23 +20,29 @@ namespace Expensely.Application.Tests.Expenses.Commands
     {
         private static readonly decimal Amount = 0.0m;
         private static readonly int CurrencyId = Currency.Usd.Id;
+        private static readonly string Name = "Expense";
 
         [Fact]
-        public void Command_Should_CreateProperly()
+        public void Command_should_create_properly()
         {
-            var command = new CreateExpenseCommand(Amount, CurrencyId);
+            DateTime now = DateTime.Now;
+
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
 
             Assert.NotNull(command);
+            Assert.Equal(Name, command.Name);
             Assert.Equal(Amount, command.Amount);
             Assert.Equal(CurrencyId, command.CurrencyId);
+            Assert.Equal(now, command.Date);
         }
 
         [Fact]
-        public async Task Handle_Should_CompleteSuccessfully()
+        public async Task Handle_should_complete_successfully()
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(Amount, CurrencyId);
+            DateTime now = DateTime.Now;
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
 
             Result result = await commandHandler.Handle(command, default);
@@ -44,11 +51,12 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_Should_CallInsert_OnExpenseRepository()
+        public async Task Handle_should_call_Insert_on_ExpenseRepository()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(Amount, CurrencyId);
+            DateTime now = DateTime.Now;
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);
@@ -57,11 +65,12 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_Should_Publish_ExpenseCreatedEvent()
+        public async Task Handle_should_publish_ExpenseCreatedEvent()
         {
             var expenseRepositorystub = new Mock<IExpenseRepository>();
             var mediatorMock = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(Amount, CurrencyId);
+            DateTime now = DateTime.Now;
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositorystub.Object, mediatorMock.Object);
 
             await commandHandler.Handle(command, default);
@@ -70,11 +79,12 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_Should_CreateAnExpense()
+        public async Task Handle_should_create_an_expense()
         {
             var expenseRepositoryStub = new ExpenseRepository(_dbContext);
             var mediatorStub = new Mock<IMediator>();
-            var command = new CreateExpenseCommand(Amount, CurrencyId);
+            DateTime now = DateTime.Now;
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);

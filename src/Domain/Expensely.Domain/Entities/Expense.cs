@@ -13,7 +13,7 @@ namespace Expensely.Domain.Entities
             Id = id;
             Name = name;
             Money = money;
-            Date = date;
+            Date = date.Date;
         }
 
         private Expense()

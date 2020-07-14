@@ -18,7 +18,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
     public class DeleteExpenseCommandTests : BaseTest
     {
         [Fact]
-        public void Command_Should_CreateProperly()
+        public void Command_should_create_properly()
         {
             var command = new DeleteExpenseCommand(Guid.Empty);
 
@@ -27,7 +27,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_Should_CompleteUnsuccessfully_GivenEmptyExpenseId()
+        public async Task Handle_should_complete_unsuccessfully_given_empty_expense_id()
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
@@ -41,7 +41,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCompleteUnsuccessfully_GivenNonExistingExpenseId()
+        public async Task Handle_should_complete_unsuccessfully_given_non_existing_expense_id()
         {
             await SeedExpenses();
 
@@ -57,7 +57,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCall_GetByIdAsync_OnExpenseRepository()
+        public async Task Handle_should_call_GetByIdAsync_on_ExpenseRepository()
         {
             await SeedExpenses();
 
@@ -74,7 +74,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldCall_Remove_OnExpenseRepository()
+        public async Task Handle_should_call_Remove_on_ExpenseRepository()
         {
             await SeedExpenses();
 
@@ -94,7 +94,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_Should_Publish_ExpenseDeletedEvent()
+        public async Task Handle_should_publish_ExpenseDeletedEvent()
         {
             await SeedExpenses();
 
@@ -114,7 +114,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_ShouldDeleteAnExpense()
+        public async Task Handle_should_delete_an_expense()
         {
             await SeedExpenses();
 
@@ -139,7 +139,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
 
         private async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), Money.Null);
+            var expense1 = new Expense(Guid.NewGuid(), string.Empty, Money.Null, DateTime.Now);
 
             _dbContext.Add(expense1);
 

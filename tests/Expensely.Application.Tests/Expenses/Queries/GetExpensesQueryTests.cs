@@ -12,7 +12,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
     public class GetExpensesQueryTests : BaseTest
     {
         [Fact]
-        public async Task Should_ReturnEmptyCollection_IfNoExpensesExist()
+        public async Task Should_return_empty_collection_if_no_expenses_exist()
         {
             var query = new GetExpensesQuery();
 
@@ -25,7 +25,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
         }
 
         [Fact]
-        public async Task Should_ReturnCorrectNumberOfExpenses_IfExpensesExist()
+        public async Task Should_return_correct_number_of_expenses_if_expenses_exist()
         {
             await SeedExpenses();
 
@@ -41,9 +41,9 @@ namespace Expensely.Application.Tests.Expenses.Queries
 
         private async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), default);
-            var expense2 = new Expense(Guid.NewGuid(), default);
-            var expense3 = new Expense(Guid.NewGuid(), default);
+            var expense1 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
+            var expense2 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
+            var expense3 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
 
             _dbContext.Add(expense1);
             _dbContext.Add(expense2);
