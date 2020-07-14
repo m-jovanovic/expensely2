@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reflection;
 using DbUp.Engine;
 using DbUp.Engine.Transactions;
-using Expensely.Migrations.Hashing;
-using Expensely.Migrations.Journal;
+using Expensely.Migrations.Core.Hashing;
+using Expensely.Migrations.Core.Journal;
 
-namespace Expensely.Migrations.ScriptProviders
+namespace Expensely.Migrations.Core.ScriptProviders
 {
     /// <summary>
     /// Represents the hashed embedded scripts provider.

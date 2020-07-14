@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using DbUp.Engine;
 using DbUp.Engine.Output;
 using DbUp.Engine.Transactions;
-using Expensely.Migrations.Hashing;
+using Expensely.Migrations.Core.Hashing;
 
-namespace Expensely.Migrations.Journal
+namespace Expensely.Migrations.Core.Journal
 {
     /// <summary>
     /// Represents the hashed SQL table journal.
@@ -16,8 +15,8 @@ namespace Expensely.Migrations.Journal
     public class HashedSqlTableJournal : IJournal
     {
         public const string VersionTableName = "SchemaVersions";
-        private const string QuotedVersionTableName = "[SchemaVersions]";
-        private const string PrimaryKeyName = "[PK_SchemaVersions_Id]";
+        private const string QuotedVersionTableName = "\"SchemaVersions\"";
+        private const string PrimaryKeyName = "\"PK_SchemaVersions_Id\"";
 
         private readonly Func<IConnectionManager> _connectionManager;
         private readonly Func<IUpgradeLog> _log;
@@ -102,26 +101,25 @@ namespace Expensely.Migrations.Journal
             using IDbCommand command = dbCommandFactory();
 
             command.CommandText = $@"
-                MERGE {QuotedVersionTableName} AS [Target] 
-                USING(SELECT @ScriptName AS ScriptName, @AppliedOnUtc AS AppliedOnUtc, @Hash AS Hash) AS [Source] 
-                ON [Target].ScriptName = [Source].ScriptName 
-                WHEN MATCHED THEN 
-                    UPDATE SET [Target].AppliedOnUtc = [Source].AppliedOnUtc, [Target].Hash = [Source].Hash 
-                WHEN NOT MATCHED THEN 
-                    INSERT(ScriptName, AppliedOnUtc, Hash) VALUES([Source].ScriptName, [Source].AppliedOnUtc, [Source].Hash);";
+                INSERT INTO {QuotedVersionTableName}(""ScriptName"", ""AppliedOnUtc"", ""Hash"")
+                    VALUES(@ScriptName, @AppliedOnUtc, @Hash)
+                ON CONFLICT (""ScriptName"")
+                DO UPDATE SET
+                    ""AppliedOnUtc"" = @AppliedOnUtc,
+                    ""Hash"" = @Hash;";
 
             IDbDataParameter scriptNameParameter = command.CreateParameter();
-            scriptNameParameter.ParameterName = "ScriptName";
+            scriptNameParameter.ParameterName = "@ScriptName";
             scriptNameParameter.Value = sqlScript.Name;
             command.Parameters.Add(scriptNameParameter);
 
             IDbDataParameter appliedParameter = command.CreateParameter();
-            appliedParameter.ParameterName = "AppliedOnUtc";
+            appliedParameter.ParameterName = "@AppliedOnUtc";
             appliedParameter.Value = DateTime.UtcNow;
             command.Parameters.Add(appliedParameter);
 
             IDbDataParameter hashParameter = command.CreateParameter();
-            hashParameter.ParameterName = "Hash";
+            hashParameter.ParameterName = "@Hash";
             hashParameter.Value = SHA256.ComputeHash(sqlScript.Contents);
             command.Parameters.Add(hashParameter);
 
@@ -141,10 +139,9 @@ namespace Expensely.Migrations.Journal
             command.CommandText = $@"
                 CREATE TABLE {QuotedVersionTableName}
                 (
-	                [Id] INT IDENTITY(1,1) NOT NULL CONSTRAINT {PrimaryKeyName} PRIMARY KEY,
-	                [ScriptName] VARCHAR(255) NOT NULL,
-	                [AppliedOnUtc] DATETIME2(7) NOT NULL,
-                    [Hash] VARCHAR(64) NULL
+	                ""ScriptName"" VARCHAR(255) CONSTRAINT {PrimaryKeyName} PRIMARY KEY,
+	                ""AppliedOnUtc"" TIMESTAMP NOT NULL,
+                    ""Hash"" VARCHAR(64) NULL
                 )";
 
             command.CommandType = CommandType.Text;
@@ -161,7 +158,7 @@ namespace Expensely.Migrations.Journal
         {
             IDbCommand command = dbCommandFactory();
 
-            command.CommandText = $"SELECT [ScriptName], [Hash] from {QuotedVersionTableName} ORDER BY [ScriptName]";
+            command.CommandText = $"SELECT \"ScriptName\", \"Hash\" FROM {QuotedVersionTableName} ORDER BY \"ScriptName\"";
 
             command.CommandType = CommandType.Text;
 
@@ -187,10 +184,6 @@ namespace Expensely.Migrations.Journal
                     var result = (int?)command.ExecuteScalar();
 
                     return result == 1;
-                }
-                catch (SqlException)
-                {
-                    return false;
                 }
                 catch (DbException)
                 {

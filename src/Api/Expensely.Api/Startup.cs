@@ -1,7 +1,7 @@
 using Expensely.Application;
 using Expensely.Authentication;
 using Expensely.Infrastructure;
-using Expensely.Migrations.Extensions;
+using Expensely.Migrations.Core.Extensions;
 using Expensely.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,19 +45,16 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            if (env.IsProduction())
-            {
-                app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
-            }
+            app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
 
             app.UseCors(configurePolicy =>
             {
                 string origins = Configuration.GetValue<string>("Cors:AllowedOrigins");
 
                 configurePolicy
+                    .WithOrigins(origins)
                     .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithOrigins(origins);
+                    .AllowAnyMethod();
             });
 
             app.UseAuthentication();

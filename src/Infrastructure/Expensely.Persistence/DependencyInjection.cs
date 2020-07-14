@@ -14,7 +14,7 @@ namespace Expensely.Persistence
             string connectionString = configuration.GetConnectionString(ConnectionString.ExpenselyDb);
             services.AddSingleton(new ConnectionString(connectionString));
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
-            services.AddDbContextPool<ExpenselyDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContextPool<ExpenselyDbContext>(options => options.UseNpgsql(connectionString).EnableSensitiveDataLogging());
             services.AddScoped<IDbContext>(impl => impl.GetRequiredService<ExpenselyDbContext>());
             services.AddScoped<IUnitOfWork>(impl => impl.GetRequiredService<ExpenselyDbContext>());
             services.AddScoped<IExpenseRepository, ExpenseRepository>();

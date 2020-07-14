@@ -3,9 +3,10 @@ using System.Reflection;
 using DbUp;
 using DbUp.Engine;
 using DbUp.Engine.Output;
-using DbUp.SqlServer;
-using Expensely.Migrations.Extensions;
-using Expensely.Migrations.Journal;
+using DbUp.Postgresql;
+using Expensely.Migrations.Core.Extensions;
+using Expensely.Migrations.Core.Journal;
+using Expensely.Migrations.Scripts;
 
 namespace Expensely.Migrations.Core
 {
@@ -23,7 +24,7 @@ namespace Expensely.Migrations.Core
         {
             UpgradeEngine upgradeEngine = BuildUpgradeEngine(connectionString);
 
-            EnsureDatabase.For.SqlDatabase(connectionString);
+            EnsureDatabase.For.PostgresqlDatabase(connectionString);
 
             DatabaseUpgradeResult result = upgradeEngine.PerformUpgrade();
 
@@ -37,9 +38,9 @@ namespace Expensely.Migrations.Core
         /// <returns>The configured database upgrade engine instance.</returns>
         private static UpgradeEngine BuildUpgradeEngine(string connectionString)
         {
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            Assembly scriptsAssembly = typeof(ScriptsAssembly).Assembly;
 
-            var connectionManager = new SqlConnectionManager(connectionString);
+            var connectionManager = new PostgresqlConnectionManager(connectionString);
 
             var log = new ConsoleUpgradeLog();
 
@@ -48,7 +49,7 @@ namespace Expensely.Migrations.Core
             UpgradeEngine upgradeEngine = DeployChanges
                 .To
                 .HashedSqlDatabase(connectionManager)
-                .WithHashedScriptsEmbeddedInAssembly(executingAssembly, hashedSqlTableJournal)
+                .WithHashedScriptsEmbeddedInAssembly(scriptsAssembly, hashedSqlTableJournal)
                 .LogToConsole()
                 .Build();
 

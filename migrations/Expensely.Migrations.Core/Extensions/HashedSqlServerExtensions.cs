@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using DbUp.Builder;
-using DbUp.SqlServer;
-using Expensely.Migrations.Journal;
-using Expensely.Migrations.ScriptProviders;
+using DbUp.Postgresql;
+using Expensely.Migrations.Core.Journal;
+using Expensely.Migrations.Core.ScriptProviders;
 
-namespace Expensely.Migrations.Extensions
+namespace Expensely.Migrations.Core.Extensions
 {
     public static class HashedSqlServerExtensions
     {
@@ -15,14 +15,14 @@ namespace Expensely.Migrations.Extensions
         /// <param name="connectionManager">The connection manager instance.</param>
         /// <returns>The configured upgrade engine builder instance.</returns>
         public static UpgradeEngineBuilder HashedSqlDatabase(
-            this SupportedDatabases supportedDatabases, SqlConnectionManager connectionManager)
+            this SupportedDatabases supportedDatabases, PostgresqlConnectionManager connectionManager)
         {
             var builder = new UpgradeEngineBuilder();
 
             builder.Configure(c => c.ConnectionManager = connectionManager);
 
             builder.Configure(c => c.ScriptExecutor =
-                new SqlScriptExecutor(
+                new PostgresqlScriptExecutor(
                     () => c.ConnectionManager,
                     () => c.Log,
                     null,

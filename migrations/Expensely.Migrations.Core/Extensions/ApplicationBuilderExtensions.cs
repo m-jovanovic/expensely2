@@ -1,7 +1,6 @@
-﻿using Expensely.Migrations.Core;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 
-namespace Expensely.Migrations.Extensions
+namespace Expensely.Migrations.Core.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

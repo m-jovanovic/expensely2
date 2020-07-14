@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="001_CreateExpenseTable.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="001_CreateExpenseTable.sql" />
+  </ItemGroup>
+
+</Project>

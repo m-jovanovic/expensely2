@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Expensely.Migrations\Expensely.Migrations.csproj" />
+    <ProjectReference Include="..\Expensely.Migrations.Core\Expensely.Migrations.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,19 +7,26 @@ namespace Expensely.Domain.Entities
 {
     public class Expense : Entity, IAuditableEntity, ISoftDeletableEntity
     {
-        public Expense(Guid id, Money money)
+        public Expense(Guid id, string name, Money money, DateTime date)
             : this()
         {
             Id = id;
+            Name = name;
             Money = money;
+            Date = date;
         }
 
         private Expense()
         {
+            Name = string.Empty;
             Money = Money.Null;
         }
 
+        public string Name { get; private set; }
+
         public Money Money { get; private set; }
+
+        public DateTime Date { get; private set; }
 
         public DateTime CreatedOnUtc { get; }
 

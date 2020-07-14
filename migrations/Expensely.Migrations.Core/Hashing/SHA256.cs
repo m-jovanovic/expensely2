@@ -1,8 +1,7 @@
-﻿using System.Globalization;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Expensely.Migrations.Hashing
+namespace Expensely.Migrations.Core.Hashing
 {
     /// <summary>
     /// Represents the SHA256 hash function.

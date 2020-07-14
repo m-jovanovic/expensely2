@@ -59,7 +59,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
         {
-            var command = new CreateExpenseCommand(request.Amount, request.CurrencyId);
+            var command = new CreateExpenseCommand(request.Name, request.Amount, request.CurrencyId, request.Date);
 
             Result result = await Mediator.Send(command);
 

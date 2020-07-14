@@ -1,0 +1,12 @@
+﻿CREATE TABLE "Expense" (
+	"Id" UUID CONSTRAINT "PK_Expense_Id" PRIMARY KEY,
+	"Name" VARCHAR(100) NOT NULL,
+	"Amount" NUMERIC(19, 4) NOT NULL,
+	"CurrencyId" INT NOT NULL,
+	"CurrencyCode" VARCHAR(3) NOT NULL,
+	"CurrencySign" VARCHAR(5) NOT NULL,
+	"Date" DATE NOT NULL,
+	"CreatedOnUtc" TIMESTAMP NOT NULL,
+	"ModifiedOnUtc" TIMESTAMP NULL,
+	"Deleted" BOOLEAN NOT NULL DEFAULT FALSE
+)

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\migrations\Expensely.Migrations\Expensely.Migrations.csproj" />
+    <ProjectReference Include="..\..\..\migrations\Expensely.Migrations.Core\Expensely.Migrations.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Authentication\Expensely.Authentication.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Persistence\Expensely.Persistence.csproj" />

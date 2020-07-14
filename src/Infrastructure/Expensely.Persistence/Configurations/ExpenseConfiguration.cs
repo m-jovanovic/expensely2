@@ -11,11 +11,13 @@ namespace Expensely.Persistence.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.Property(e => e.Name).HasColumnType("varchar(100)").IsRequired();
+
             builder.OwnsOne(m => m.Money, moneyBuilder =>
             {
                 moneyBuilder.WithOwner();
 
-                moneyBuilder.Property(m => m.Amount).HasColumnName("Amount").HasColumnType("decimal(19,4)").IsRequired();
+                moneyBuilder.Property(m => m.Amount).HasColumnName("Amount").HasColumnType("numeric(19,4)").IsRequired();
 
                 moneyBuilder.OwnsOne(m => m.Currency, currencyBuilder =>
                 {
@@ -37,9 +39,11 @@ namespace Expensely.Persistence.Configurations
                 });
             });
 
-            builder.Property(e => e.CreatedOnUtc).HasColumnType("datetime2(7)").IsRequired();
+            builder.Property(e => e.Date).HasColumnType("date").IsRequired();
 
-            builder.Property(e => e.ModifiedOnUtc).HasColumnType("datetime2(7)").IsRequired(false);
+            builder.Property(e => e.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
+
+            builder.Property(e => e.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
             builder.Property(e => e.Deleted).HasDefaultValue(false).IsRequired();
         }

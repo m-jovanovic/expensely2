@@ -32,9 +32,11 @@ namespace Expensely.Application.Queries.Expenses.GetExpenseById
                 .Select(e => new ExpenseDto
                 {
                     Id = e.Id,
+                    Name = e.Name,
                     Amount = e.Money.Amount,
                     CurrencyId = e.Money.Currency.Id,
                     CurrencyCode = e.Money.Currency.Code,
+                    Date = e.Date,
                     CreatedOnUtc = e.CreatedOnUtc,
                     ModifiedOnUtc = e.ModifiedOnUtc,
                     Deleted = e.Deleted

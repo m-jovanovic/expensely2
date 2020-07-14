@@ -42,7 +42,7 @@ namespace Expensely.Application.Commands.Expenses.CreateExpense
 
             var money = new Money(request.Amount, currency);
 
-            var expense = new Expense(Guid.NewGuid(), money);
+            var expense = new Expense(Guid.NewGuid(), request.Name, money, request.Date);
 
             _expenseRepository.Insert(expense);
 
