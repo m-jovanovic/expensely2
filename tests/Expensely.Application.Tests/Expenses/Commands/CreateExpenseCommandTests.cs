@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Commands.Expenses.CreateExpense;
-using Expensely.Application.Events.Expenses.ExpenseCreated;
+using Expensely.Application.Expenses.Commands.CreateExpense;
+using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
 using Expensely.Domain.Core.Primitives;
@@ -41,9 +41,9 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
             DateTime now = DateTime.Now;
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -55,9 +55,9 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
             DateTime now = DateTime.Now;
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);
 
@@ -69,9 +69,9 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositorystub = new Mock<IExpenseRepository>();
             var mediatorMock = new Mock<IMediator>();
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositorystub.Object, mediatorMock.Object);
             DateTime now = DateTime.Now;
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositorystub.Object, mediatorMock.Object);
 
             await commandHandler.Handle(command, default);
 
@@ -83,9 +83,9 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryStub = new ExpenseRepository(_dbContext);
             var mediatorStub = new Mock<IMediator>();
+            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
             DateTime now = DateTime.Now;
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
 
             await commandHandler.Handle(command, default);
 

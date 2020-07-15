@@ -3,7 +3,7 @@ using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using Xunit;
 
-namespace Expensely.Domain.Tests
+namespace Expensely.Domain.Tests.Entities
 {
     public sealed class ExpenseTests
     {

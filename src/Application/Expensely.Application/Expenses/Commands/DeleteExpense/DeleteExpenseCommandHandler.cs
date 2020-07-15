@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Events.Expenses.ExpenseDeleted;
+using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using MediatR;
 
-namespace Expensely.Application.Commands.Expenses.DeleteExpense
+namespace Expensely.Application.Expenses.Commands.DeleteExpense
 {
     public class DeleteExpenseCommandHandler : ICommandHandler<DeleteExpenseCommand, Result>
     {

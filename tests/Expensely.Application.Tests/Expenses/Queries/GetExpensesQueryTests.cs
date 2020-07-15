@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Expenses.GetExpenses;
+using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Application.Tests.Common;
 using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
@@ -14,9 +15,8 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Should_return_empty_collection_if_no_expenses_exist()
         {
-            var query = new GetExpensesQuery();
-
             var queryHandler = new GetExpensesQueryHandler(_dbContext);
+            var query = new GetExpensesQuery();
 
             IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
 
@@ -29,14 +29,13 @@ namespace Expensely.Application.Tests.Expenses.Queries
         {
             await SeedExpenses();
 
-            var query = new GetExpensesQuery();
-
             var queryHandler = new GetExpensesQueryHandler(_dbContext);
+            var query = new GetExpensesQuery();
 
             IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
 
             Assert.NotNull(result);
-            Assert.True(result.Count == 3);
+            Assert.True(result.Count == _dbContext.Set<Expense>().Count());
         }
 
         private async Task SeedExpenses()

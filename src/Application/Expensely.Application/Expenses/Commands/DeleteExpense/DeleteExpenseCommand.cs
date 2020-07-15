@@ -2,7 +2,7 @@
 using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
 
-namespace Expensely.Application.Commands.Expenses.DeleteExpense
+namespace Expensely.Application.Expenses.Commands.DeleteExpense
 {
     public class DeleteExpenseCommand : ICommand<Result>
     {

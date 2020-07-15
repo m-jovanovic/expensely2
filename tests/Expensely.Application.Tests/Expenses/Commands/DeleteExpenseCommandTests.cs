@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Commands.Expenses.DeleteExpense;
-using Expensely.Application.Events.Expenses.ExpenseDeleted;
+using Expensely.Application.Expenses.Commands.DeleteExpense;
+using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
 using Expensely.Domain.Core.Primitives;
@@ -31,8 +31,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(Guid.Empty);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
+            var command = new DeleteExpenseCommand(Guid.Empty);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -47,8 +47,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
 
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(Guid.NewGuid());
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
+            var command = new DeleteExpenseCommand(Guid.NewGuid());
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -65,8 +65,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
 
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(expenseId);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
+            var command = new DeleteExpenseCommand(expenseId);
 
             await commandHandler.Handle(command, default);
 
@@ -85,8 +85,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             expenseRepositoryMock.Setup(e => e.GetByIdAsync(expenseId)).ReturnsAsync(expense);
             var mediatorStub = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(expenseId);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
+            var command = new DeleteExpenseCommand(expenseId);
 
             await commandHandler.Handle(command, default);
 
@@ -105,8 +105,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
             var expenseRepositoryStub = new Mock<IExpenseRepository>();
             expenseRepositoryStub.Setup(e => e.GetByIdAsync(expenseId)).ReturnsAsync(expense);
             var mediatorMock = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(expenseId);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryStub.Object, mediatorMock.Object);
+            var command = new DeleteExpenseCommand(expenseId);
 
             await commandHandler.Handle(command, default);
 
@@ -126,8 +126,8 @@ namespace Expensely.Application.Tests.Expenses.Commands
             expenseRepositoryMock.Setup(e => e.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expense);
             expenseRepositoryMock.Setup(e => e.Remove(It.IsAny<Expense>())).Callback(() => _dbContext.Remove(expense));
             var mediatorStub = new Mock<IMediator>();
-            var command = new DeleteExpenseCommand(expenseId);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
+            var command = new DeleteExpenseCommand(expenseId);
 
             await commandHandler.Handle(command, default);
 

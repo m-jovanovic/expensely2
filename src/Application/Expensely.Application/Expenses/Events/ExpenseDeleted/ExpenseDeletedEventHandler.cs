@@ -4,20 +4,22 @@ using Expensely.Application.Caching;
 using Expensely.Application.Constants;
 using Expensely.Application.Messaging;
 
-namespace Expensely.Application.Events.Expenses.ExpenseCreated
+namespace Expensely.Application.Expenses.Events.ExpenseDeleted
 {
-    public sealed class ExpenseCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>
+    public class ExpenseDeletedEventHandler : IEventHandler<ExpenseDeletedEvent>
     {
         private readonly ICacheService _cacheService;
 
-        public ExpenseCreatedEventHandler(ICacheService cacheService)
+        public ExpenseDeletedEventHandler(ICacheService cacheService)
         {
             _cacheService = cacheService;
         }
 
-        public Task Handle(ExpenseCreatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(ExpenseDeletedEvent notification, CancellationToken cancellationToken)
         {
             _cacheService.RemoveValue(CacheKeys.Expenses);
+
+            _cacheService.RemoveValue(string.Format(CacheKeys.ExpenseById, notification.ExpenseId));
 
             return Task.CompletedTask;
         }

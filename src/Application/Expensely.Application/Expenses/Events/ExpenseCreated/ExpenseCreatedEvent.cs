@@ -1,11 +1,11 @@
 ﻿using System;
 using Expensely.Application.Messaging;
 
-namespace Expensely.Application.Events.Expenses.ExpenseDeleted
+namespace Expensely.Application.Expenses.Events.ExpenseCreated
 {
-    public class ExpenseDeletedEvent : IEvent
+    public sealed class ExpenseCreatedEvent : IEvent
     {
-        public ExpenseDeletedEvent(Guid expenseId)
+        public ExpenseCreatedEvent(Guid expenseId)
         {
             ExpenseId = expenseId;
         }

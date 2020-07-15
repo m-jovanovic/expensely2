@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Events.Expenses.ExpenseCreated;
+using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
@@ -9,7 +9,7 @@ using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using MediatR;
 
-namespace Expensely.Application.Commands.Expenses.CreateExpense
+namespace Expensely.Application.Expenses.Commands.CreateExpense
 {
     /// <summary>
     /// Represents the <see cref="CreateExpenseCommand"/> command-handler.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Queries.Expenses.GetExpenseById;
+using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Tests.Common;
 using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
@@ -15,9 +15,8 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Handle_should_return_null_given_empty_id()
         {
-            var query = new GetExpenseByIdQuery(Guid.Empty);
-
             var queryHandler = new GetExpenseByIdQueryHandler(_dbContext);
+            var query = new GetExpenseByIdQuery(Guid.Empty);
 
             ExpenseDto? result = await queryHandler.Handle(query, default);
 
@@ -27,9 +26,8 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Handle_should_return_null_given_non_existing_id()
         {
-            var query = new GetExpenseByIdQuery(Guid.NewGuid());
-
             var queryHandler = new GetExpenseByIdQueryHandler(_dbContext);
+            var query = new GetExpenseByIdQuery(Guid.NewGuid());
 
             ExpenseDto? result = await queryHandler.Handle(query, default);
 
@@ -41,11 +39,9 @@ namespace Expensely.Application.Tests.Expenses.Queries
         {
             await SeedExpenses();
 
-            Expense expense = _dbContext.Set<Expense>().First();
-
-            var query = new GetExpenseByIdQuery(expense.Id);
-
             var queryHandler = new GetExpenseByIdQueryHandler(_dbContext);
+            Expense expense = _dbContext.Set<Expense>().First();
+            var query = new GetExpenseByIdQuery(expense.Id);
 
             ExpenseDto? result = await queryHandler.Handle(query, default);
 

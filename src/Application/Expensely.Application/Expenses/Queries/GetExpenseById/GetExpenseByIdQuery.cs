@@ -3,7 +3,7 @@ using Expensely.Application.Constants;
 using Expensely.Application.Messaging;
 using Expensely.Common.Contracts.Expenses;
 
-namespace Expensely.Application.Queries.Expenses.GetExpenseById
+namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {
     public sealed class GetExpenseByIdQuery : ICacheableQuery<ExpenseDto?>
     {

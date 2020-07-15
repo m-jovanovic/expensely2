@@ -8,7 +8,7 @@ using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensely.Application.Queries.Expenses.GetExpenseById
+namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {
     public sealed class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, ExpenseDto?>
     {

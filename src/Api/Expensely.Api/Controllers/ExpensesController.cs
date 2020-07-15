@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Expensely.Application.Commands.Expenses.CreateExpense;
-using Expensely.Application.Commands.Expenses.DeleteExpense;
-using Expensely.Application.Queries.Expenses.GetExpenseById;
-using Expensely.Application.Queries.Expenses.GetExpenses;
+using Expensely.Application.Expenses.Commands.CreateExpense;
+using Expensely.Application.Expenses.Commands.DeleteExpense;
+using Expensely.Application.Expenses.Queries.GetExpenseById;
+using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Common.Authorization;
 using Expensely.Common.Authorization.Attributes;
 using Expensely.Common.Contracts.Expenses;
