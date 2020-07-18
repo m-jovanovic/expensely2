@@ -45,6 +45,8 @@ namespace Expensely.Persistence.Configurations
 
             builder.Property(e => e.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
+            builder.Property(e => e.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
+
             builder.Property(e => e.Deleted).HasDefaultValue(false).IsRequired();
         }
     }

@@ -6,6 +6,7 @@ using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
@@ -37,7 +38,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
             Result result = await commandHandler.Handle(command, default);
 
             Assert.True(result.IsFailure);
-            Assert.NotEmpty(result.Error);
+            Assert.Equal(Errors.General.NotFound, result.Error);
         }
 
         [Fact]
@@ -53,7 +54,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
             Result result = await commandHandler.Handle(command, default);
 
             Assert.True(result.IsFailure);
-            Assert.NotEmpty(result.Error);
+            Assert.Equal(Errors.General.NotFound, result.Error);
         }
 
         [Fact]

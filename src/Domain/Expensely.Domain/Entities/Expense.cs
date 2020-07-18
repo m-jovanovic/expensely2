@@ -32,6 +32,8 @@ namespace Expensely.Domain.Entities
 
         public DateTime? ModifiedOnUtc { get; }
 
+        public DateTime? DeletedOnUtc { get; }
+
         public bool Deleted { get; }
     }
 }

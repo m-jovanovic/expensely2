@@ -3,7 +3,7 @@
 namespace Expensely.Domain.Core.Primitives
 {
     /// <summary>
-    /// Represents a result of some operation, with status information and possibly an error message.
+    /// Represents a result of some operation, with status information and possibly an error.
     /// </summary>
     public class Result
     {
@@ -11,15 +11,15 @@ namespace Expensely.Domain.Core.Primitives
         /// Initializes a new instance of the <see cref="Result"/> class with the specified parameters.
         /// </summary>
         /// <param name="isSuccess">The flag indicating if the result is successful.</param>
-        /// <param name="error">The error message.</param>
-        protected Result(bool isSuccess, string error)
+        /// <param name="error">The error.</param>
+        protected Result(bool isSuccess, Error error)
         {
-            if (isSuccess && !string.IsNullOrWhiteSpace(error))
+            if (isSuccess && !string.IsNullOrWhiteSpace(error.Code))
             {
                 throw new InvalidOperationException();
             }
 
-            if (!isSuccess && string.IsNullOrWhiteSpace(error))
+            if (!isSuccess && string.IsNullOrWhiteSpace(error.Code))
             {
                 throw new InvalidOperationException();
             }
@@ -39,15 +39,15 @@ namespace Expensely.Domain.Core.Primitives
         public bool IsFailure => !IsSuccess;
 
         /// <summary>
-        /// Gets the error string.
+        /// Gets the error.
         /// </summary>
-        public string Error { get; }
+        public Error Error { get; }
 
         /// <summary>
         /// Returns a success <see cref="Result"/>.
         /// </summary>
         /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
-        public static Result Ok() => new Result(true, string.Empty);
+        public static Result Ok() => new Result(true, Error.None);
 
         /// <summary>
         /// Returns a success <see cref="Result"/> with the specified value.
@@ -57,22 +57,22 @@ namespace Expensely.Domain.Core.Primitives
         /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
         public static Result<TValue> Ok<TValue>(TValue? value)
             where TValue : class
-            => new Result<TValue>(value, true, string.Empty);
+            => new Result<TValue>(value, true, Error.None);
 
         /// <summary>
-        /// Returns a fail <see cref="Result"/> with the specified error message.
+        /// Returns a fail <see cref="Result"/> with the specified error.
         /// </summary>
-        /// <param name="error">The error message.</param>
-        /// <returns>A new instance of <see cref="Result"/> with the specified error message and failure flag set.</returns>
-        public static Result Fail(string error) => new Result(false, error);
+        /// <param name="error">The error.</param>
+        /// <returns>A new instance of <see cref="Result"/> with the specified error and failure flag set.</returns>
+        public static Result Fail(Error error) => new Result(false, error);
 
         /// <summary>
-        /// Returns a fail <see cref="Result{T}"/> with the specified error message.
+        /// Returns a fail <see cref="Result{T}"/> with the specified error.
         /// </summary>
         /// <typeparam name="TValue">The result type.</typeparam>
-        /// <param name="error">The error message.</param>
-        /// <returns>A new instance of <see cref="Result{T}"/> with the specified error message and failure flag set.</returns>
-        public static Result<TValue> Fail<TValue>(string error)
+        /// <param name="error">The error.</param>
+        /// <returns>A new instance of <see cref="Result{T}"/> with the specified error and failure flag set.</returns>
+        public static Result<TValue> Fail<TValue>(Error error)
             where TValue : class
             => new Result<TValue>(null, false, error);
 
@@ -96,7 +96,7 @@ namespace Expensely.Domain.Core.Primitives
     }
 
     /// <summary>
-    /// Represents the result of some operation, with status information and possibly a value and an error message.
+    /// Represents the result of some operation, with status information and possibly a value and an error.
     /// </summary>
     /// <typeparam name="TValue">The result value type.</typeparam>
     public class Result<TValue> : Result
@@ -109,10 +109,10 @@ namespace Expensely.Domain.Core.Primitives
         /// </summary>
         /// <param name="value">The result value.</param>
         /// <param name="isSuccess">The flag indicating if the result is successful.</param>
-        /// <param name="error">The error message.</param>
-        protected internal Result(TValue? value, bool isSuccess, string error)
-            : base(isSuccess, error) =>
-            _value = value;
+        /// <param name="error">The error.</param>
+        protected internal Result(TValue? value, bool isSuccess, Error error)
+            : base(isSuccess, error)
+            => _value = value;
 
         /// <summary>
         /// Returns the result value if the result is successful, otherwise throws an exception.

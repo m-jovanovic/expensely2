@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
@@ -37,7 +38,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
 
             if (currency is null)
             {
-                return Result.Fail("The specified currency was not found.");
+                return Result.Fail(Errors.Currency.NotFound);
             }
 
             var money = new Money(request.Amount, currency);

@@ -10,7 +10,6 @@ namespace Expensely.Domain.Tests.Entities
         private static readonly string Name = "Expense";
         private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
 
-
         [Fact]
         public void Should_create_properly()
         {

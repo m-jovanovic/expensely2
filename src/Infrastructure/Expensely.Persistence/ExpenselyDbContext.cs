@@ -59,7 +59,7 @@ namespace Expensely.Persistence
 
             UpdateAuditableEntities(utcNow);
 
-            UpdateSoftDeletableEntities();
+            UpdateSoftDeletableEntities(utcNow);
 
             return base.SaveChangesAsync(cancellationToken);
         }
@@ -92,12 +92,14 @@ namespace Expensely.Persistence
             }
         }
 
-        private void UpdateSoftDeletableEntities()
+        private void UpdateSoftDeletableEntities(DateTime utcNow)
         {
             foreach (EntityEntry<ISoftDeletableEntity> entityEntry in ChangeTracker.Entries<ISoftDeletableEntity>())
             {
                 if (entityEntry.State == EntityState.Deleted)
                 {
+                    entityEntry.Property(nameof(ISoftDeletableEntity.DeletedOnUtc)).CurrentValue = utcNow;
+
                     entityEntry.Property(nameof(ISoftDeletableEntity.Deleted)).CurrentValue = true;
 
                     entityEntry.State = EntityState.Modified;

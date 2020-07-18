@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using MediatR;
@@ -26,7 +27,7 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
 
             if (expense is null)
             {
-                return Result.Fail($"The expense with the identifier {request.ExpenseId} was not found.");
+                return Result.Fail(Errors.General.NotFound);
             }
 
             _expenseRepository.Remove(expense);
