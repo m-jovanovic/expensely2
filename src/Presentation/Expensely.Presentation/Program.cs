@@ -4,8 +4,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AKSoftware.Localization.MultiLanguages;
 using Blazored.LocalStorage;
+using Expensely.Common.Authorization.Permissions;
 using Expensely.Presentation.Services;
 using Expensely.Presentation.Store;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +33,11 @@ namespace Expensely.Presentation
             builder.Services.AddStore();
 
             builder.Services.AddLanguageContainer(Assembly.GetExecutingAssembly());
+
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             await builder.Build().RunAsync();
         }

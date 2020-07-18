@@ -1,54 +1,45 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
+using Expensely.Authentication.Cryptography;
 using Expensely.Authentication.Options;
 using Expensely.Common.Contracts.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Expensely.Authentication.Implementations
+namespace Expensely.Authentication.Services
 {
     internal sealed class AuthenticationService : IAuthenticationService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JwtOptions _jwtOptions;
-        private readonly IUserClaimsPrincipalFactory<IdentityUser> _claimsPrincipalFactory;
+        private readonly IUserService _userService;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly IClaimsProvider _claimsProvider;
 
         public AuthenticationService(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserClaimsPrincipalFactory<IdentityUser> claimsPrincipalFactory,
-            IOptions<JwtOptions> jwtOptions)
+            IOptions<JwtOptions> jwtOptions,
+            IUserService userService,
+            IPasswordHasher passwordHasher,
+            IClaimsProvider claimsProvider)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _claimsPrincipalFactory = claimsPrincipalFactory;
             _jwtOptions = jwtOptions.Value;
+            _userService = userService;
+            _passwordHasher = passwordHasher;
+            _claimsProvider = claimsProvider;
         }
 
         /// <inheritdoc />
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
         {
-            var user = new IdentityUser
-            {
-                UserName = registerRequest.Email,
-                Email = registerRequest.Email
-            };
+            string[] errorCodes = await _userService.CreateAsync(registerRequest.Email, registerRequest.Password);
 
-            IdentityResult result = await _userManager.CreateAsync(user, registerRequest.Password);
-
-            if (result.Succeeded)
+            if (errorCodes.Length == 0)
             {
                 return new RegisterResponse(true, null);
             }
-
-            string[] errorCodes = result.Errors.Select(x => x.Code).ToArray();
 
             return new RegisterResponse(false, errorCodes);
         }
@@ -56,27 +47,33 @@ namespace Expensely.Authentication.Implementations
         /// <inheritdoc />
         public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
         {
-            SignInResult result = await _signInManager.PasswordSignInAsync(loginRequest.Email, loginRequest.Password, false, true);
+            dynamic user = await _userService.GetByEmailAsync(loginRequest.Email);
 
-            if (!result.Succeeded)
+            if (user is null)
             {
-                return LoginResponse.Failed(result.ToString());
+                // TODO: Introduce class for error codes.
+                return LoginResponse.Failed("UserNotFound");
+            }
+
+            if (_passwordHasher.VerifyHashedPassword(user.PasswordHash, loginRequest.Password) ==
+                PasswordVerificationResult.Failure)
+            {
+                // TODO: Introduce class for error codes.
+                return LoginResponse.Failed("InvalidPassword");
             }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            IdentityUser user = await _userManager.FindByEmailAsync(loginRequest.Email);
-
-            ClaimsPrincipal claimsPrincipal = await _claimsPrincipalFactory.CreateAsync(user);
+            Claim[] claims = await _claimsProvider.GetClaimsAsync(user);
 
             DateTime tokenExpirationTime = DateTime.UtcNow.AddMinutes(_jwtOptions.TokenExpirationInMinutes);
 
             var token = new JwtSecurityToken(
                 _jwtOptions.Issuer,
                 _jwtOptions.Audience,
-                claimsPrincipal.Claims,
+                claims,
                 null,
                 tokenExpirationTime,
                 signingCredentials);

@@ -1,4 +1,7 @@
 ﻿@using Expensely.Common.Contracts.Expenses
+@using Expensely.Common.Authorization.Attributes
+@using Expensely.Common.Authorization
+@attribute [HasPermission(Permission.ExpenseRead)]
 @inherits ExpensesListBase
 
 <div class="row">
@@ -15,27 +18,27 @@
                 {
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>@Resource("Expenses.Table.Header.Id")</th>
-                            <th>@Resource("Expenses.Table.Header.Amount")</th>
-                            <th>@Resource("Expenses.Table.Header.CreatedOn")</th>
-                            <th>@Resource("Expenses.Table.Header.Actions")</th>
-                        </tr>
+                            <tr>
+                                <th>@Resource("Expenses.Table.Header.Id")</th>
+                                <th>@Resource("Expenses.Table.Header.Amount")</th>
+                                <th>@Resource("Expenses.Table.Header.CreatedOn")</th>
+                                <th>@Resource("Expenses.Table.Header.Actions")</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach (ExpenseDto expense in State.Value.Expenses)
-                        {
-                            <tr>
-                                <td>@expense.Id</td>
-                                <td>@expense.FormattedExpense</td>
-                                <td>@expense.CreatedOnUtc</td>
-                                <td>
-                                    <button class="btn btn-danger" @onclick="() => RemoveExpense(expense.Id)">
-                                        @Resource("Expenses.Table.Actions.Remove") <i class="ml-1 fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
+                            @foreach (ExpenseDto expense in State.Value.Expenses)
+                            {
+                                <tr>
+                                    <td>@expense.Id</td>
+                                    <td>@expense.FormattedExpense</td>
+                                    <td>@expense.CreatedOnUtc</td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => RemoveExpense(expense.Id)">
+                                            @Resource("Expenses.Table.Actions.Remove") <i class="ml-1 fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 }

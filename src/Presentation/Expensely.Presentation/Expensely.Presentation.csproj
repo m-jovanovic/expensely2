@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Expensely.Common.Authorization\Expensely.Common.Authorization.csproj" />
     <ProjectReference Include="..\Expensely.Presentation.Services\Expensely.Presentation.Services.csproj" />
     <ProjectReference Include="..\Expensely.Presentation.Store\Expensely.Presentation.Store.csproj" />
   </ItemGroup>

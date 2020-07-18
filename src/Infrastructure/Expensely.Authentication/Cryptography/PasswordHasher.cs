@@ -21,6 +21,7 @@ namespace Expensely.Authentication.Cryptography
             _rng = new RNGCryptoServiceProvider();
         }
 
+        /// <inheritdoc />
         public string HashPassword(string password)
         {
             if (password is null)
@@ -33,14 +34,15 @@ namespace Expensely.Authentication.Cryptography
             return hashedPassword;
         }
 
+        /// <inheritdoc />
         public PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword)
         {
-            if (hashedPassword == null)
+            if (hashedPassword is null)
             {
                 throw new ArgumentNullException(nameof(hashedPassword));
             }
 
-            if (providedPassword == null)
+            if (providedPassword is null)
             {
                 throw new ArgumentNullException(nameof(providedPassword));
             }
@@ -57,6 +59,7 @@ namespace Expensely.Authentication.Cryptography
             return verified ? PasswordVerificationResult.Success : PasswordVerificationResult.Failure;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _rng.Dispose();
@@ -69,7 +72,7 @@ namespace Expensely.Authentication.Cryptography
         /// <returns>The bytes of the hash for the specified password.</returns>
         private byte[] HashPasswordInternal(string password)
         {
-            byte[] salt = GetSalt();
+            byte[] salt = GetRandomSalt();
 
             byte[] subKey = KeyDerivation.Pbkdf2(password, salt, Prf, IterationCount, NumberOfBytesRequested);
 
@@ -86,7 +89,7 @@ namespace Expensely.Authentication.Cryptography
         /// Gets a randomly generated salt.
         /// </summary>
         /// <returns>The randomly generated salt.</returns>
-        private byte[] GetSalt()
+        private byte[] GetRandomSalt()
         {
             byte[] salt = new byte[SaltSize];
 

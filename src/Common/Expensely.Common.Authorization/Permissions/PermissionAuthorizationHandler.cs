@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Expensely.Authentication.Permissions
+namespace Expensely.Common.Authorization.Permissions
 {
-    internal class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
+    public sealed class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {

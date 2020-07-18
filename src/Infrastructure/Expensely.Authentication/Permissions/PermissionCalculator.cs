@@ -15,7 +15,7 @@ namespace Expensely.Authentication.Permissions
 
         internal async Task<Permission[]> CalculatePermissionsForUserIdAsync(Guid userId)
         {
-            await _dbContext.Users.FindAsync(userId.ToString());
+            await _dbContext.SaveChangesAsync();
 
             return new[]
             {

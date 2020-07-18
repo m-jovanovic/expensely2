@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
-using Expensely.Common.Authorization;
 
-namespace Expensely.Authentication.Permissions
+namespace Expensely.Common.Authorization.Permissions
 {
-    internal static class PermissionExtensions
+    public static class PermissionExtensions
     {
-        internal static string PackPermissions(this IEnumerable<Permission> permissions) =>
+        public static string PackPermissions(this IEnumerable<Permission> permissions) =>
             permissions.Aggregate(string.Empty, (aggregated, permission) => aggregated + (char)permission);
 
-        internal static IEnumerable<Permission> UnpackPermissions(this string packedPermissions) =>
+        public static IEnumerable<Permission> UnpackPermissions(this string packedPermissions) =>
             packedPermissions.Select(permission => (Permission)permission);
 
-        internal static Permission? ToPermission(this string permissionName) =>
+        public static Permission? ToPermission(this string permissionName) =>
             Enum.TryParse(permissionName, out Permission permission)
                 ? (Permission?)permission
                 : null;
 
-        internal static Claim FindPermissionsClaim(this IEnumerable<Claim> claims) =>
+        public static Claim FindPermissionsClaim(this IEnumerable<Claim> claims) =>
             claims.SingleOrDefault(c => c.Type == PermissionConstants.PermissionsClaimType);
 
-        internal static bool CheckIfPermissionIsAllowed(this string packedPermissions, string permissionName)
+        public static bool CheckIfPermissionIsAllowed(this string packedPermissions, string permissionName)
         {
             Permission[] permissions = packedPermissions.UnpackPermissions().ToArray();
 
@@ -35,7 +34,7 @@ namespace Expensely.Authentication.Permissions
             return permissions.CheckIfPermissionIsAllowed(permission);
         }
 
-        internal static bool CheckIfPermissionIsAllowed(this Permission[] permissions, Permission permission) =>
+        public static bool CheckIfPermissionIsAllowed(this Permission[] permissions, Permission permission) =>
             permissions.Contains(permission) || permissions.Contains(Permission.AccessEverything);
     }
 }

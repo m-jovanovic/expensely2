@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace Expensely.Authentication.Permissions
+namespace Expensely.Common.Authorization.Permissions
 {
-    internal class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
+    public sealed class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
     {
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
             : base(options)
