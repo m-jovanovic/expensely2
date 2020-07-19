@@ -55,7 +55,7 @@ namespace Expensely.Domain.Core.Primitives
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="value">The result value.</param>
         /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
-        public static Result<TValue> Ok<TValue>(TValue? value)
+        public static Result<TValue> Ok<TValue>(TValue value)
             where TValue : class
             => new Result<TValue>(value, true, Error.None);
 
@@ -119,14 +119,14 @@ namespace Expensely.Domain.Core.Primitives
         /// </summary>
         /// <returns>The result value if the result is successful.</returns>
         /// <exception cref="InvalidOperationException"> when <see cref="Result.IsFailure"/> is true.</exception>
-        public TValue? Value()
+        public TValue Value()
         {
             if (IsFailure)
             {
                 throw new InvalidOperationException();
             }
 
-            return _value;
+            return _value!;
         }
     }
 }

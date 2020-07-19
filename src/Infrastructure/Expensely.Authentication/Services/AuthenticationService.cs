@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
 using Expensely.Authentication.Cryptography;
+using Expensely.Authentication.Entities;
 using Expensely.Authentication.Options;
 using Expensely.Common.Contracts.Authentication;
+using Expensely.Domain;
+using Expensely.Domain.Core.Primitives;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -32,41 +35,38 @@ namespace Expensely.Authentication.Services
         }
 
         /// <inheritdoc />
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest)
+        public async Task<Result> RegisterAsync(RegisterRequest registerRequest)
         {
-            string[] errorCodes = await _userService.CreateAsync(registerRequest.Email, registerRequest.Password);
+            Result result = await _userService.CreateAsync(
+                registerRequest.FirstName,
+                registerRequest.LastName,
+                registerRequest.Email,
+                registerRequest.Password);
 
-            if (errorCodes.Length == 0)
-            {
-                return new RegisterResponse(true, null);
-            }
-
-            return new RegisterResponse(false, errorCodes);
+            return result;
         }
 
         /// <inheritdoc />
-        public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+        public async Task<Result<string>> LoginAsync(LoginRequest loginRequest)
         {
-            dynamic user = await _userService.GetByEmailAsync(loginRequest.Email);
+            AuthenticatedUser authenticatedUser = await _userService.GetByEmailAsync(loginRequest.Email);
 
-            if (user is null)
+            if (authenticatedUser is null)
             {
-                // TODO: Introduce class for error codes.
-                return LoginResponse.Failed("UserNotFound");
+                return Result.Fail<string>(Errors.Authentication.UserNotFound);
             }
 
-            if (_passwordHasher.VerifyHashedPassword(user.PasswordHash, loginRequest.Password) ==
+            if (_passwordHasher.VerifyHashedPassword(authenticatedUser.PasswordHash, loginRequest.Password) ==
                 PasswordVerificationResult.Failure)
             {
-                // TODO: Introduce class for error codes.
-                return LoginResponse.Failed("InvalidPassword");
+                return Result.Fail<string>(Errors.Authentication.InvalidPassword);
             }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            Claim[] claims = await _claimsProvider.GetClaimsAsync(user);
+            Claim[] claims = await _claimsProvider.GetClaimsAsync(authenticatedUser);
 
             DateTime tokenExpirationTime = DateTime.UtcNow.AddMinutes(_jwtOptions.TokenExpirationInMinutes);
 
@@ -80,7 +80,7 @@ namespace Expensely.Authentication.Services
 
             string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return LoginResponse.Successful(tokenString);
+            return Result.Ok(tokenString);
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Expensely.Domain.Tests.ValueObjects
         [Fact]
         public void Should_be_equal_if_email_values_are_equal()
         {
-            Email email1 = Email.Create("test@email.test").Value()!;
-            Email email2 = Email.Create("test@email.test").Value()!;
+            Email email1 = Email.Create("test@email.test").Value();
+            Email email2 = Email.Create("test@email.test").Value();
 
             Assert.Equal(email1, email2);
             Assert.Equal(email2, email1);
@@ -59,7 +59,7 @@ namespace Expensely.Domain.Tests.ValueObjects
 
             Assert.False(result.IsFailure);
             Assert.True(result.IsSuccess);
-            Email? value = result.Value();
+            Email value = result.Value();
             Assert.NotNull(value);
             Assert.Equal(email, value.Value);
         }

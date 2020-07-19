@@ -2,14 +2,14 @@
 {
     public class RegisterResponse
     {
-        public RegisterResponse(bool success, string[]? errorCodes)
+        public RegisterResponse(bool success, string? errorCode)
         {
             Success = success;
-            ErrorCodes = errorCodes;
+            ErrorCode = errorCode;
         }
 
         public bool Success { get; }
 
-        public string[]? ErrorCodes { get; }
+        public string? ErrorCode { get; }
     }
 }

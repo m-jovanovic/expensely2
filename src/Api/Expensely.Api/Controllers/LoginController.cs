@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
 using Expensely.Common.Contracts.Authentication;
+using Expensely.Domain.Core.Primitives;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +24,14 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
-            LoginResponse response = await _authenticationService.LoginAsync(request);
+            Result result = await _authenticationService.LoginAsync(request);
 
-            if (!response.Success)
+            if (result.IsFailure)
             {
-                return BadRequest(response);
+                return BadRequest(result);
             }
 
-            return Ok(response);
+            return Ok(result);
         }
     }
 }

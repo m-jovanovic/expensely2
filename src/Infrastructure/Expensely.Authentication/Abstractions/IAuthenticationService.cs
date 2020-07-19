@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Common.Contracts.Authentication;
+using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Authentication.Abstractions
 {
     public interface IAuthenticationService
     {
-        Task<RegisterResponse> RegisterAsync(RegisterRequest registerRequest);
+        Task<Result> RegisterAsync(RegisterRequest registerRequest);
 
-        Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
+        Task<Result<string>> LoginAsync(LoginRequest loginRequest);
     }
 }

@@ -43,6 +43,9 @@ namespace Expensely.Authentication
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleUniquenessChecker, RoleUniquenessChecker>();
+            services.AddScoped<IClaimsProvider, ClaimsProvider>();
         }
     }
 }

@@ -2,8 +2,15 @@
 
 namespace Expensely.Domain
 {
-    public static class Errors
+    public static partial class Errors
     {
+        public static class Authentication
+        {
+            public static Error UserNotFound => new Error("Authentication.UserNotFound");
+
+            public static Error InvalidPassword => new Error("Authentication.InvalidPassword");
+        }
+
         public static class Email
         {
             public static Error NullOrEmpty => new Error("Email.NullOrEmpty");
@@ -18,9 +25,16 @@ namespace Expensely.Domain
             public static Error NotFound => new Error("Currency.NotFound");
         }
 
+        public static class Role
+        {
+            public static Error AtLeastOnePermissionIsRequired => new Error("Role.AtLeastOnePermissionIsRequired");
+        }
+
         public static class General
         {
             public static Error NotFound => new Error("Entity.NotFound");
+
+            public static Error AlreadyExists => new Error("Entity.AlreadyExists");
         }
     }
 }

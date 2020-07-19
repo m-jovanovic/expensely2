@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Expensely.Domain.Core.Primitives;
 using Xunit;
 
 namespace Expensely.Domain.Tests.Error

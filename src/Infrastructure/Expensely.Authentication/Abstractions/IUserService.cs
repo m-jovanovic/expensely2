@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
+using Expensely.Authentication.Entities;
+using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Authentication.Abstractions
 {
     internal interface IUserService
     {
-        // TODO: Replace object with actual user class.
-        Task<object> GetByEmailAsync(string email);
+        Task<AuthenticatedUser> GetByEmailAsync(string email);
 
-        // TODO: Replace return type with something more meaningful.
-        Task<string[]> CreateAsync(string registerRequestEmail, string registerRequestPassword);
+        Task<Result> CreateAsync(string firstName, string lastName, string email, string password);
     }
 }
