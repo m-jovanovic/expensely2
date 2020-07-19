@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Expensely.Domain.Core.Primitives;
+﻿using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Domain
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Core.Validators;
 using Expensely.Domain.Validators.Email;

@@ -10,7 +10,7 @@ namespace Expensely.Domain.Tests.ValueObjects
     public class EmailTests
     {
         [Fact]
-        public void EmailsShouldBeEqualIfValuesAreEqual()
+        public void Should_be_equal_if_email_values_are_equal()
         {
             Email email1 = Email.Create("test@email.test").Value()!;
             Email email2 = Email.Create("test@email.test").Value()!;
@@ -30,7 +30,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         [InlineData(@"teeest.@example.com")]
         [InlineData(@".@example.com")]
         [InlineData(@"Tes T@example.com")]
-        public void EmailCreateResultShouldMatchExpected(string email)
+        public void Create_should_fail_if_email_format_is_invalid(string email)
         {
             Result<Email> result = Email.Create(email);
 
@@ -53,7 +53,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         [InlineData(@"Test.Test@example.com")]
         [InlineData(@"""Test.Test""@example.com")]
         [InlineData(@"""Test Test""@example.com")]
-        public void EmailCreateResultShouldMatchExpected1(string email)
+        public void Create_should_succeed_if_email_format_is_valid(string email)
         {
             Result<Email> result = Email.Create(email);
 
@@ -65,7 +65,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         }
 
         [Fact]
-        public void EmailCreateShouldFailIfEmailIsNull()
+        public void Create_should_fail_if_email_is_null()
         {
             Result<Email> result = Email.Create(null);
 
@@ -75,7 +75,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         }
 
         [Fact]
-        public void EmailCreateShouldFailIfEmailIsEmpty()
+        public void Create_should_fail_if_email_is_empty()
         {
             Result<Email> result = Email.Create(string.Empty);
 
@@ -85,7 +85,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         }
 
         [Fact]
-        public void EmailCreateShouldFailIfEmailIsMoreThan255CharactersLong()
+        public void Create_should_fail_if_email_is_longer_than_allowed()
         {
             string email = string.Join(
                 string.Empty, Enumerable.Range(0, EmailLengthValidator.MaxEmailLength + 1).Select(x => "a"));
