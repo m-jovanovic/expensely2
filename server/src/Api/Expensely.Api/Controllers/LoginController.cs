@@ -24,14 +24,14 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
-            Result result = await _authenticationService.LoginAsync(request);
+            Result<string> result = await _authenticationService.LoginAsync(request);
 
             if (result.IsFailure)
             {
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            return Ok(result.Value());
         }
     }
 }

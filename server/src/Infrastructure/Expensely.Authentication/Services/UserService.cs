@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
 using Expensely.Authentication.Entities;
 using Expensely.Domain.Core.Primitives;
@@ -33,7 +34,7 @@ namespace Expensely.Authentication.Services
             string hashedPassword = _passwordHasher.HashPassword(password);
 
             // TODO: Add initial roles here.
-            var user = new AuthenticatedUser(firstName, lastName, emailResult.Value(), hashedPassword);
+            var user = new AuthenticatedUser(Guid.NewGuid(), firstName, lastName, emailResult.Value(), hashedPassword);
 
             _dbContext.Set<AuthenticatedUser>().Add(user);
 

@@ -1,11 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
 using Expensely.Authentication.Constants;
 using Expensely.Authentication.Entities;
 using Expensely.Authentication.Permissions;
 using Expensely.Common.Authorization;
-using Expensely.Common.Authorization.Permissions;
 
 namespace Expensely.Authentication.Services
 {
@@ -20,18 +20,23 @@ namespace Expensely.Authentication.Services
 
         public async Task<Claim[]> GetClaimsAsync(AuthenticatedUser authenticatedUser)
         {
+            var claims = new List<Claim>()
+            {
+                new Claim(ExpenselyJwtClaimTypes.UserId, authenticatedUser.Id.ToString()),
+                new Claim(ExpenselyJwtClaimTypes.Email, authenticatedUser.Email.Value),
+                new Claim(ExpenselyJwtClaimTypes.Name, $"{authenticatedUser.FirstName} {authenticatedUser.LastName}")
+            };
+
             var permissionCalculator = new PermissionCalculator(_dbContext);
 
             Permission[] permissions = await permissionCalculator.CalculatePermissionsForUserIdAsync(authenticatedUser.Id);
 
-            Claim[] claims =
+            foreach (Permission permission in permissions)
             {
-                new Claim(ExpenselyJwtClaimTypes.UserId, authenticatedUser.Id.ToString()),
-                new Claim(ExpenselyJwtClaimTypes.Email, authenticatedUser.Email.Value),
-                new Claim(ExpenselyJwtClaimTypes.Permissions, permissions.PackPermissions())
-            };
+                claims.Add(new Claim(ExpenselyJwtClaimTypes.Permissions, permission.ToString()));
+            }
 
-            return claims;
+            return claims.ToArray();
         }
     }
 }

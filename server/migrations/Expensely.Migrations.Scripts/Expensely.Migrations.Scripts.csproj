@@ -7,9 +7,11 @@
   <ItemGroup>
     <None Remove="001_CreateExpenseTable.sql" />
     <None Remove="002_AddDeletedOnColumnToExpense.sql" />
+    <None Remove="003_CreateUserTable.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="003_CreateUserTable.sql" />
     <EmbeddedResource Include="002_AddDeletedOnColumnToExpense.sql" />
     <EmbeddedResource Include="001_CreateExpenseTable.sql" />
   </ItemGroup>

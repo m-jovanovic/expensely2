@@ -8,6 +8,8 @@ namespace Expensely.Authentication.Constants
 
         public const string Email = "Email";
 
+        public const string Name = "Name";
+
         public const string Permissions = PermissionConstants.PermissionsClaimType;
     }
 }

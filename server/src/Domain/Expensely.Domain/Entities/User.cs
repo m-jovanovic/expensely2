@@ -7,11 +7,20 @@ namespace Expensely.Domain.Entities
 {
     public class User : Entity, IAuditableEntity, ISoftDeletableEntity
     {
-        public User(string firstName, string lastName, Email email)
+        public User(Guid id, string firstName, string lastName, Email email)
+            : this()
         {
+            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+        }
+
+        protected User()
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Email = Email.Empty;
         }
 
         public string FirstName { get; private set; }

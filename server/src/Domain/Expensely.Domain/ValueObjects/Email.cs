@@ -14,6 +14,10 @@ namespace Expensely.Domain.ValueObjects
 
         public string Value { get; }
 
+        public static implicit operator string(Email? email) => email?.Value ?? string.Empty;
+
+        public static explicit operator Email(string email) => Create(email).Value();
+
         public static Result<Email> Create(string? email)
         {
             IValidator<string> validator = new EmailNullOrEmptyValidator();
@@ -30,6 +34,8 @@ namespace Expensely.Domain.ValueObjects
 
             return Result.Ok(new Email(email!));
         }
+
+        internal static Email Empty => new Email(string.Empty);
 
         protected override IEnumerable<object> GetAtomicValues()
         {

@@ -13,9 +13,9 @@ namespace Expensely.Common.Contracts.Authentication
             ConfirmPassword = string.Empty;
         }
 
-        public string FirstName { get; }
+        public string FirstName { get; set; }
 
-        public string LastName { get; }
+        public string LastName { get; set; }
 
         public string Email { get; set; }
 

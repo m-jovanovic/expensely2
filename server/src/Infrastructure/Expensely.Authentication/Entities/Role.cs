@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Authentication.Abstractions;
@@ -13,10 +14,18 @@ namespace Expensely.Authentication.Entities
         private Permission[] _permissions;
 
         private Role(string name, string description, IEnumerable<Permission> permissions)
+            : this()
         {
             Name = name;
             Description = description;
             _permissions = permissions.ToArray();
+        }
+
+        private Role()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+            _permissions = Array.Empty<Permission>();
         }
 
         public string Name { get; }
