@@ -9,7 +9,7 @@ namespace Expensely.Infrastructure.Authorization.Permissions
     internal static class PermissionExtensions
     {
         internal static IEnumerable<Permission> UnpackPermissions(this string packedPermissions) =>
-            packedPermissions.Select(permission => (Permission)permission);
+            packedPermissions.Split(',').Select(Enum.Parse<Permission>);
 
         internal static Claim FindPermissionsClaim(this IEnumerable<Claim> claims) =>
             claims.SingleOrDefault(c => c.Type == PermissionConstants.PermissionsClaimType);
