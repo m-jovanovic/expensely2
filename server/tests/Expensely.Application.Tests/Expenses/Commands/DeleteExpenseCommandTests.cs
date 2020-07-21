@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
-using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;

@@ -6,7 +6,7 @@ using Expensely.Application.Messaging;
 
 namespace Expensely.Application.Expenses.Events.ExpenseDeleted
 {
-    public class ExpenseDeletedEventHandler : IEventHandler<ExpenseDeletedEvent>
+    internal class ExpenseDeletedEventHandler : IEventHandler<ExpenseDeletedEvent>
     {
         private readonly ICacheService _cacheService;
 

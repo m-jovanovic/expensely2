@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
-using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
@@ -15,7 +15,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
     /// <summary>
     /// Represents the <see cref="CreateExpenseCommand"/> command-handler.
     /// </summary>
-    public sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
+    internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
         private readonly IExpenseRepository _expenseRepository;
         private readonly IMediator _mediator;

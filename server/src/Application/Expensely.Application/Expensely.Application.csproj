@@ -15,8 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Expensely.Common.Contracts\Expensely.Common.Contracts.csproj" />
     <ProjectReference Include="..\..\Domain\Expensely.Domain\Expensely.Domain.csproj" />
+    <ProjectReference Include="..\Expensely.Application.Contracts\Expensely.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Expensely.Application.Tests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

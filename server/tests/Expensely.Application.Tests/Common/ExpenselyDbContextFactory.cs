@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Persistence;
+using Expensely.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Tests.Common

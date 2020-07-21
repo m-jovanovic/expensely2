@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Expensely.Application.Constants;
+using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Messaging;
-using Expensely.Common.Contracts.Expenses;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {

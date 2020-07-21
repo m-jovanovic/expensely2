@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\migrations\Expensely.Migrations.Core\Expensely.Migrations.Core.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Expensely.Authentication\Expensely.Authentication.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure\Expensely.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Expensely.Persistence\Expensely.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure.Authentication\Expensely.Infrastructure.Authentication.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure.Persistence\Expensely.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure.Services\Expensely.Infrastructure.Services.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

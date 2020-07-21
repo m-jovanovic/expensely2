@@ -8,6 +8,8 @@ namespace Expensely.Domain
         {
             public static Error UserNotFound => new Error("Authentication.UserNotFound");
 
+            public static Error DuplicateEmail => new Error("Authentication.DuplicateEmail");
+
             public static Error InvalidPassword => new Error("Authentication.InvalidPassword");
         }
 

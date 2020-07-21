@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Application.Tests.Common;
-using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Xunit;
 

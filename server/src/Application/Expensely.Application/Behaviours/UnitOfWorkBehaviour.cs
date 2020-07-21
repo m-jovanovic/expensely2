@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions;
 using Expensely.Application.Extensions;
-using Expensely.Application.Interfaces;
 using MediatR;
 
 namespace Expensely.Application.Behaviours

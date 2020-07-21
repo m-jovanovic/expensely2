@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
-using Expensely.Application.Interfaces;
 using Expensely.Application.Tests.Common;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
-using Expensely.Persistence.Repositories;
+using Expensely.Infrastructure.Persistence.Repositories;
 using MediatR;
 using Moq;
 using Xunit;

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
-using Expensely.Application.Interfaces;
 using Expensely.Application.Messaging;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Expensely.Application.Expenses.Commands.DeleteExpense
 {
-    public class DeleteExpenseCommandHandler : ICommandHandler<DeleteExpenseCommand, Result>
+    internal class DeleteExpenseCommandHandler : ICommandHandler<DeleteExpenseCommand, Result>
     {
         private readonly IExpenseRepository _expenseRepository;
         private readonly IMediator _mediator;

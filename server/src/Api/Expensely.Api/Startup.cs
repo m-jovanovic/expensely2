@@ -1,8 +1,9 @@
 using Expensely.Application;
-using Expensely.Authentication;
-using Expensely.Infrastructure;
+using Expensely.Infrastructure.Authentication;
+using Expensely.Infrastructure.Authorization;
+using Expensely.Infrastructure.Persistence;
+using Expensely.Infrastructure.Services;
 using Expensely.Migrations.Core.Extensions;
-using Expensely.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,9 @@ namespace Expensely.Api
 {
     public class Startup
     {
+        private const string ConnectionStringSettings = "ExpenselyDb";
+        private const string CorsSettings = "Cors:AllowedOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,11 +31,13 @@ namespace Expensely.Api
         {
             services.AddApplication(Configuration);
 
-            services.AddCustomAuthentication(Configuration);
-
-            services.AddInfrastructure();
-
             services.AddPersistence(Configuration);
+
+            services.AddAuthentication(Configuration);
+
+            services.AddPermissionAuthorization();
+
+            services.AddServices();
 
             services.AddControllers();
 
@@ -45,11 +51,11 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ExecuteMigrations(Configuration.GetConnectionString("ExpenselyDb"));
+            app.ExecuteMigrations(Configuration.GetConnectionString(ConnectionStringSettings));
 
             app.UseCors(configurePolicy =>
             {
-                string origins = Configuration.GetValue<string>("Cors:AllowedOrigins");
+                string origins = Configuration.GetValue<string>(CorsSettings);
 
                 configurePolicy
                     .WithOrigins(origins)

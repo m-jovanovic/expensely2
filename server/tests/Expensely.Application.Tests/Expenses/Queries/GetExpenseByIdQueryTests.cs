@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Tests.Common;
-using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using Xunit;

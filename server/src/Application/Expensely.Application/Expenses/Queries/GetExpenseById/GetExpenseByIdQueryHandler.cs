@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Interfaces;
+using Expensely.Application.Abstractions;
+using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Messaging;
-using Expensely.Common.Contracts.Expenses;
 using Expensely.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {
-    public sealed class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, ExpenseDto?>
+    internal sealed class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, ExpenseDto?>
     {
         private readonly IDbContext _dbContext;
 
