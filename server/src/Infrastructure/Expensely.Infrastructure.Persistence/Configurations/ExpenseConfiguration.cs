@@ -33,7 +33,7 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                         .HasMaxLength(3)
                         .IsRequired();
 
-                    currencyBuilder.Property(c => c.Sign)
+                    currencyBuilder.Property(c => c.Symbol)
                         .HasColumnName("CurrencySign")
                         .HasColumnType("varchar(5)")
                         .HasMaxLength(5)

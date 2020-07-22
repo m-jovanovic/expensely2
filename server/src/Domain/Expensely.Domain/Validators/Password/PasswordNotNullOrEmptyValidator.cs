@@ -3,8 +3,12 @@ using Expensely.Domain.Core.Validators;
 
 namespace Expensely.Domain.Validators.Password
 {
-    public class PasswordNotNullOrEmptyValidator : Validator<string>
+    /// <summary>
+    /// Validates that the password is not null or empty.
+    /// </summary>
+    public sealed class PasswordNotNullOrEmptyValidator : Validator<string>
     {
+        /// <inheritdoc />
         public override Result Validate(string? item) =>
             string.IsNullOrWhiteSpace(item) ? Result.Fail(Errors.Password.NullOrEmpty) : base.Validate(item);
     }

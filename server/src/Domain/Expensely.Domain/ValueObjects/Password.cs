@@ -5,17 +5,29 @@ using Expensely.Domain.Validators.Password;
 
 namespace Expensely.Domain.ValueObjects
 {
-    public class Password : ValueObject
+    /// <summary>
+    /// Represents the password value object.
+    /// </summary>
+    public sealed class Password : ValueObject
     {
-        private Password(string value)
-        {
-            Value = value;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Password"/> class.
+        /// </summary>
+        /// <param name="value">The password value.</param>
+        private Password(string value) => Value = value;
 
+        /// <summary>
+        /// Gets the password value.
+        /// </summary>
         public string Value { get; }
 
         public static implicit operator string(Password? password) => password?.Value ?? string.Empty;
 
+        /// <summary>
+        /// Creates a new <see cref="Password"/> instance based on the specified value.
+        /// </summary>
+        /// <param name="password">The password value.</param>
+        /// <returns>The result of the password creation.</returns>
         public static Result<Password> Create(string? password)
         {
             IValidator<string> validator = new PasswordNotNullOrEmptyValidator();
@@ -36,6 +48,7 @@ namespace Expensely.Domain.ValueObjects
             return Result.Ok(new Password(password!));
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;

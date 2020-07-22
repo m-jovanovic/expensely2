@@ -4,10 +4,18 @@ using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Domain.ValueObjects
 {
-    public class Money : ValueObject
+    /// <summary>
+    /// Represents the money value object.
+    /// </summary>
+    public sealed class Money : ValueObject
     {
-        public static readonly Money Null = new Money(decimal.Zero, Currency.Null);
+        public static readonly Money None = new Money(decimal.Zero, Currency.None);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Money"/> class.
+        /// </summary>
+        /// <param name="amount">The money amount.</param>
+        /// <param name="currency">The currency instance.</param>
         public Money(decimal amount, Currency currency)
             : this()
         {
@@ -15,13 +23,25 @@ namespace Expensely.Domain.ValueObjects
             Currency = currency;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Money"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
         private Money()
         {
-            Currency = Currency.Null;
+            Currency = Currency.None;
         }
 
+        /// <summary>
+        /// Gets the money amount.
+        /// </summary>
         public decimal Amount { get; }
 
+        /// <summary>
+        /// Gets the money currency.
+        /// </summary>
         public Currency Currency { get; }
 
         public static Money operator +(Money left, Money right)
@@ -44,6 +64,7 @@ namespace Expensely.Domain.ValueObjects
             return new Money(left.Amount - right.Amount, left.Currency);
         }
 
+        /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Amount;

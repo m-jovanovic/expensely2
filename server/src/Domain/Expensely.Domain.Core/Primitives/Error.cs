@@ -3,7 +3,7 @@
 namespace Expensely.Domain.Core.Primitives
 {
     /// <summary>
-    /// Represents a concrete application error.
+    /// Represents a concrete domain error.
     /// </summary>
     public sealed class Error : ValueObject
     {

@@ -59,7 +59,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
 
         private async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), string.Empty, Money.Null, DateTime.Now);
+            var expense1 = new Expense(Guid.NewGuid(), string.Empty, Money.None, DateTime.Now);
 
             _dbContext.Add(expense1);
 
