@@ -34,9 +34,9 @@ namespace Expensely.Domain
 
             public static Error MissingLowercaseLetter => new Error("Password.MissingLowercaseLetter");
 
-            public static Error MissingNumber => new Error("Password.MissingNumber");
+            public static Error MissingDigit => new Error("Password.MissingDigit");
 
-            public static Error MissingSymbol => new Error("Password.MissingSymbol");
+            public static Error MissingNonAlphaNumeric => new Error("Password.MissingNonAlphaNumeric");
         }
 
         public static class Currency

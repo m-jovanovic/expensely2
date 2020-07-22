@@ -23,8 +23,8 @@ namespace Expensely.Domain.ValueObjects
                 .SetNext(new PasswordMinLengthValidator())
                 .SetNext(new PasswordHasLowercaseLetterValidator())
                 .SetNext(new PasswordHasUppercaseLetterValidator())
-                .SetNext(new PasswordHasNumberValidator())
-                .SetNext(new PasswordHasSymbolValidator());
+                .SetNext(new PasswordHasDigitValidator())
+                .SetNext(new PasswordHasNonAlphanumericValidator());
 
             Result result = validator.Validate(password);
 
