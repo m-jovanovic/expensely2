@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Password
     {
         public const int MinPasswordLength = 6;
 
-        public override Result Validate(string? request) =>
-            request?.Length < MinPasswordLength ? Result.Fail(Errors.Password.TooShort) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            item?.Length < MinPasswordLength ? Result.Fail(Errors.Password.TooShort) : base.Validate(item);
     }
 }

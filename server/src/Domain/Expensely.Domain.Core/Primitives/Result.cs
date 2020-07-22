@@ -14,12 +14,12 @@ namespace Expensely.Domain.Core.Primitives
         /// <param name="error">The error.</param>
         protected Result(bool isSuccess, Error error)
         {
-            if (isSuccess && !string.IsNullOrWhiteSpace(error.Code))
+            if (isSuccess && error != Error.None)
             {
                 throw new InvalidOperationException();
             }
 
-            if (!isSuccess && string.IsNullOrWhiteSpace(error.Code))
+            if (!isSuccess && error == Error.None)
             {
                 throw new InvalidOperationException();
             }
@@ -75,24 +75,6 @@ namespace Expensely.Domain.Core.Primitives
         public static Result<TValue> Fail<TValue>(Error error)
             where TValue : class
             => new Result<TValue>(null, false, error);
-
-        /// <summary>
-        /// Combines multiple <see cref="Result"/> instances, returning the first failure or a success result.
-        /// </summary>
-        /// <param name="results">The result instances to combine.</param>
-        /// <returns>The first failure <see cref="Result"/> instance or a new success <see cref="Result"/> instance.</returns>
-        public static Result FirstFailureOrSuccess(params Result[] results)
-        {
-            foreach (Result result in results)
-            {
-                if (result.IsFailure)
-                {
-                    return result;
-                }
-            }
-
-            return Ok();
-        }
     }
 
     /// <summary>

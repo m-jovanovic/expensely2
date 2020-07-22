@@ -6,8 +6,8 @@ namespace Expensely.Domain.Validators.Password
 {
     public class PasswordHasDigitValidator : Validator<string>
     {
-        public override Result Validate(string? request) =>
-            !request?.Any(IsDigit) ?? false ? Result.Fail(Errors.Password.MissingDigit) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            !item?.Any(IsDigit) ?? false ? Result.Fail(Errors.Password.MissingDigit) : base.Validate(item);
 
         private static bool IsDigit(char c) => c >= '0' && c <= '9';
     }

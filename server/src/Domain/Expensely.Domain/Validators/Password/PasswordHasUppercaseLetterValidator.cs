@@ -6,9 +6,9 @@ namespace Expensely.Domain.Validators.Password
 {
     public class PasswordHasUppercaseLetterValidator : Validator<string>
     {
-        public override Result Validate(string? request) =>
-            !request?.Any(IsUpper) ?? false ?
-                Result.Fail(Errors.Password.MissingUppercaseLetter) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            !item?.Any(IsUpper) ?? false ?
+                Result.Fail(Errors.Password.MissingUppercaseLetter) : base.Validate(item);
 
         private static bool IsUpper(char c) => c >= 'A' && c <= 'Z';
     }

@@ -2,11 +2,25 @@
 
 namespace Expensely.Domain.Core.Validators
 {
+    /// <summary>
+    /// Represents the validator interface.
+    /// </summary>
+    /// <typeparam name="T">The type that is being validated.</typeparam>
     public interface IValidator<T>
         where T : class
     {
+        /// <summary>
+        /// Sets the next validator in the chain.
+        /// </summary>
+        /// <param name="next">The next validator instance.</param>
+        /// <returns>The specified next validator, to allow a fluent API.</returns>
         IValidator<T> SetNext(IValidator<T> next);
 
-        Result Validate(T? request);
+        /// <summary>
+        /// Validates the specified item.
+        /// </summary>
+        /// <param name="item">The item that is being validated.</param>
+        /// <returns>The result instance representing the success status of the validation.</returns>
+        Result Validate(T? item);
     }
 }

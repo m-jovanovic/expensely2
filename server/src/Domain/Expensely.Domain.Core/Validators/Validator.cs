@@ -9,6 +9,6 @@ namespace Expensely.Domain.Core.Validators
 
         public IValidator<T> SetNext(IValidator<T> next) => _next = next;
 
-        public virtual Result Validate(T? request) => _next?.Validate(request) ?? Result.Ok();
+        public virtual Result Validate(T? item) => _next?.Validate(item) ?? Result.Ok();
     }
 }

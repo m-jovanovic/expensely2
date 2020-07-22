@@ -8,8 +8,8 @@ namespace Expensely.Domain.Validators.Email
     {
         private const string EmailRegexPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
 
-        public override Result Validate(string? request) =>
-            !Regex.IsMatch(request, EmailRegexPattern, RegexOptions.IgnoreCase) ?
-                Result.Fail(Errors.Email.IncorrectFormat) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            !Regex.IsMatch(item, EmailRegexPattern, RegexOptions.IgnoreCase) ?
+                Result.Fail(Errors.Email.IncorrectFormat) : base.Validate(item);
     }
 }

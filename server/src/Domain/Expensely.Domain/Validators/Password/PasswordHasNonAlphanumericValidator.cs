@@ -6,8 +6,8 @@ namespace Expensely.Domain.Validators.Password
 {
     public class PasswordHasNonAlphanumericValidator : Validator<string>
     {
-        public override Result Validate(string? request) =>
-            request?.All(IsLetterOrDigit) ?? false ? Result.Fail(Errors.Password.MissingNonAlphaNumeric) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            item?.All(IsLetterOrDigit) ?? false ? Result.Fail(Errors.Password.MissingNonAlphaNumeric) : base.Validate(item);
 
         private static bool IsLetterOrDigit(char c) => IsLower(c) || IsUpper(c) || IsDigit(c);
 

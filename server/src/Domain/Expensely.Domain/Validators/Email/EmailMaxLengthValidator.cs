@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Email
     {
         public const int MaxEmailLength = 256;
 
-        public override Result Validate(string? request) =>
-            request?.Length > MaxEmailLength ? Result.Fail(Errors.Email.LongerThanAllowed) : base.Validate(request);
+        public override Result Validate(string? item) =>
+            item?.Length > MaxEmailLength ? Result.Fail(Errors.Email.LongerThanAllowed) : base.Validate(item);
     }
 }
