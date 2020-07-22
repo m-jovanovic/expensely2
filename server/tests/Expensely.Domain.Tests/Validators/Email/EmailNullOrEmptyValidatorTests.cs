@@ -13,7 +13,7 @@ namespace Expensely.Domain.Tests.Validators.Email
         [InlineData("   ")]
         public void Should_fail_if_passed_null_or_empty_email(string email)
         {
-            var validator = new EmailNullOrEmptyValidator();
+            var validator = new EmailNotNullOrEmptyValidator();
 
             Result result = validator.Validate(email);
 
@@ -25,7 +25,7 @@ namespace Expensely.Domain.Tests.Validators.Email
         [Fact]
         public void Should_succeed_if_passed_valid_email()
         {
-            var validator = new EmailNullOrEmptyValidator();
+            var validator = new EmailNotNullOrEmptyValidator();
 
             Result result = validator.Validate("test@test.com");
 

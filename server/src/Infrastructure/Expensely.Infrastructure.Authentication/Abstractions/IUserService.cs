@@ -9,6 +9,6 @@ namespace Expensely.Infrastructure.Authentication.Abstractions
     {
         Task<AuthenticatedUser?> GetByEmailAsync(string email);
 
-        Task<Result<AuthenticatedUser>> CreateAsync(string firstName, string lastName, Email email, string password);
+        Task<Result<AuthenticatedUser>> CreateAsync(string firstName, string lastName, Email email, Password password);
     }
 }

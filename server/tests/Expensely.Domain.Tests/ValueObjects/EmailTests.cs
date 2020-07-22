@@ -88,7 +88,7 @@ namespace Expensely.Domain.Tests.ValueObjects
         public void Create_should_fail_if_email_is_longer_than_allowed()
         {
             string email = string.Join(
-                string.Empty, Enumerable.Range(0, EmailLengthValidator.MaxEmailLength + 1).Select(x => "a"));
+                string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
 
             Result<Email> result = Email.Create(email);
 

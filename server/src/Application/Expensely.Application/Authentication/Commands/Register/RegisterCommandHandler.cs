@@ -21,6 +21,18 @@ namespace Expensely.Application.Authentication.Commands.Register
 
         public async Task<Result<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
+            if (request.Password != request.ConfirmPassword)
+            {
+                return Result.Fail<string>(Errors.Authentication.PasswordsDoNotMatch);
+            }
+
+            Result<Password> passwordResult = Password.Create(request.Password);
+
+            if (passwordResult.IsFailure)
+            {
+                return Result.Fail<string>(passwordResult.Error);
+            }
+
             Result<Email> emailResult = Email.Create(request.Email);
 
             if (emailResult.IsFailure)
@@ -41,7 +53,7 @@ namespace Expensely.Application.Authentication.Commands.Register
                 request.FirstName,
                 request.LastName,
                 email,
-                request.Password);
+                passwordResult.Value());
 
             return result;
         }

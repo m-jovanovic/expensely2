@@ -20,12 +20,12 @@ namespace Expensely.Domain.ValueObjects
 
         public static Result<Email> Create(string? email)
         {
-            IValidator<string> validator = new EmailNullOrEmptyValidator();
+            IValidator<string> validator = new EmailNotNullOrEmptyValidator();
             validator
-                .SetNext(new EmailLengthValidator())
+                .SetNext(new EmailMaxLengthValidator())
                 .SetNext(new EmailFormatValidator());
 
-            Result result = validator.Validate(email ?? string.Empty);
+            Result result = validator.Validate(email);
 
             if (result.IsFailure)
             {

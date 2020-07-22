@@ -24,7 +24,7 @@ namespace Expensely.Infrastructure.Authentication.Configurations
 
                 emailBuilder.Property(e => e.Value)
                     .HasColumnName("Email")
-                    .HasColumnType($"nvarchar({EmailLengthValidator.MaxEmailLength})")
+                    .HasColumnType($"nvarchar({EmailMaxLengthValidator.MaxEmailLength})")
                     .IsRequired();
             });
 

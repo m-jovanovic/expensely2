@@ -36,7 +36,7 @@ namespace Expensely.Infrastructure.Authentication.Services
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> RegisterAsync(string firstName, string lastName, Email email, string password)
+        public async Task<Result<string>> RegisterAsync(string firstName, string lastName, Email email, Password password)
         {
             Result<AuthenticatedUser> result = await _userService.CreateAsync(firstName, lastName, email, password);
 

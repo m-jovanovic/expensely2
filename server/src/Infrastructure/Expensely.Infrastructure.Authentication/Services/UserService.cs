@@ -22,9 +22,9 @@ namespace Expensely.Infrastructure.Authentication.Services
         public async Task<AuthenticatedUser?> GetByEmailAsync(string email)
             => await _dbContext.Set<AuthenticatedUser>().FirstOrDefaultAsync(user => user.Email.Value == email);
 
-        public async Task<Result<AuthenticatedUser>> CreateAsync(string firstName, string lastName, Email email, string password)
+        public async Task<Result<AuthenticatedUser>> CreateAsync(
+            string firstName, string lastName, Email email, Password password)
         {
-            // TODO: Check for password strength.
             string hashedPassword = _passwordHasher.HashPassword(password);
 
             // TODO: Add initial roles here.
