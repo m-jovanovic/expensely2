@@ -15,7 +15,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
         [Fact]
         public async Task Should_return_empty_collection_if_no_expenses_exist()
         {
-            var queryHandler = new GetExpensesQueryHandler(_dbContext);
+            var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 
             IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
@@ -29,13 +29,13 @@ namespace Expensely.Application.Tests.Expenses.Queries
         {
             await SeedExpenses();
 
-            var queryHandler = new GetExpensesQueryHandler(_dbContext);
+            var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 
             IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
 
             Assert.NotNull(result);
-            Assert.True(result.Count == _dbContext.Set<Expense>().Count());
+            Assert.True(result.Count == DbContext.Set<Expense>().Count());
         }
 
         private async Task SeedExpenses()
@@ -44,11 +44,11 @@ namespace Expensely.Application.Tests.Expenses.Queries
             var expense2 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
             var expense3 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
 
-            _dbContext.Add(expense1);
-            _dbContext.Add(expense2);
-            _dbContext.Add(expense3);
+            DbContext.Add(expense1);
+            DbContext.Add(expense2);
+            DbContext.Add(expense3);
 
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

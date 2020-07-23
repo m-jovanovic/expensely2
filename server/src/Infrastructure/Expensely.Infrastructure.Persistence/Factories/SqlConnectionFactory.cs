@@ -6,14 +6,18 @@ using Expensely.Application.Abstractions;
 
 namespace Expensely.Infrastructure.Persistence.Factories
 {
-    public sealed class SqlConnectionFactory : ISqlConnectionFactory
+    /// <summary>
+    /// Represents the SQL connection factory.
+    /// </summary>
+    internal sealed class SqlConnectionFactory : ISqlConnectionFactory
     {
         private readonly ConnectionString _connectionString;
 
-        public SqlConnectionFactory(ConnectionString connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlConnectionFactory"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        public SqlConnectionFactory(ConnectionString connectionString) => _connectionString = connectionString;
 
         /// <inheritdoc />
         public async Task<SqlConnection> CreateSqlConnectionAsync(CancellationToken cancellationToken)

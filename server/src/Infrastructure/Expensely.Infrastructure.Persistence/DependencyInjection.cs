@@ -11,7 +11,7 @@ namespace Expensely.Infrastructure.Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString(ConnectionString.ExpenselyDb);
+            string connectionString = configuration.GetConnectionString(ConnectionString.SettingsKey);
             services.AddSingleton(new ConnectionString(connectionString));
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
             services.AddDbContextPool<ExpenselyDbContext>(options => options.UseNpgsql(connectionString).EnableSensitiveDataLogging());

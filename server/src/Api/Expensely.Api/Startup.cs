@@ -17,7 +17,6 @@ namespace Expensely.Api
 {
     public class Startup
     {
-        private const string ConnectionStringSettings = "ExpenselyDb";
         private const string CorsSettings = "Cors:AllowedOrigins";
 
         public Startup(IConfiguration configuration)
@@ -51,7 +50,7 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ExecuteMigrations(Configuration.GetConnectionString(ConnectionStringSettings));
+            app.ExecuteMigrations(Configuration.GetConnectionString(ConnectionString.SettingsKey));
 
             app.UseCors(configurePolicy =>
             {

@@ -5,10 +5,17 @@ using Expensely.Domain.Entities;
 
 namespace Expensely.Infrastructure.Persistence.Repositories
 {
-    public class ExpenseRepository : IExpenseRepository
+    /// <summary>
+    /// Represents the expense repository.
+    /// </summary>
+    internal sealed class ExpenseRepository : IExpenseRepository
     {
         private readonly IDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpenseRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
         public ExpenseRepository(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />

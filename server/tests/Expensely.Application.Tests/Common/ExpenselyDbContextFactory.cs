@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Tests.Common
 {
-    public static class ExpenselyDbContextFactory
+    internal static class ExpenselyDbContextFactory
     {
-        public static ExpenselyDbContext Create()
+        internal static ExpenselyDbContext Create()
         {
-            var options = new DbContextOptionsBuilder<ExpenselyDbContext>()
+            DbContextOptions options = new DbContextOptionsBuilder<ExpenselyDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
@@ -19,7 +19,7 @@ namespace Expensely.Application.Tests.Common
             return context;
         }
 
-        public static void Destroy(ExpenselyDbContext context)
+        internal static void Destroy(ExpenselyDbContext context)
         {
             context.Database.EnsureDeleted();
 

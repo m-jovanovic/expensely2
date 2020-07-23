@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expensely.Infrastructure.Persistence.Configurations
 {
+    /// <summary>
+    /// Contains the <see cref="User"/> entity configuration.
+    /// </summary>
     internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)

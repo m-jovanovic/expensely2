@@ -9,7 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Expensely.Infrastructure.Persistence.Extensions
 {
-    public static class ModelBuilderExtensions
+    /// <summary>
+    /// Contains extensions methods for the <see cref="ModelBuilder"/> class.
+    /// </summary>
+    internal static class ModelBuilderExtensions
     {
         private static readonly ValueConverter<DateTime, DateTime> UtcValueConverter =
             new ValueConverter<DateTime, DateTime>(outside => outside, inside => DateTime.SpecifyKind(inside, DateTimeKind.Utc));
@@ -18,7 +21,11 @@ namespace Expensely.Infrastructure.Persistence.Extensions
             .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
             .Single(m => m.IsGenericMethod && m.Name == nameof(SetSoftDeleteFilter));
 
-        public static void ApplyUtcDateTimeConverter(this ModelBuilder modelBuilder)
+        /// <summary>
+        /// Applies the UTC date-time converter to all of the properties that are <see cref="DateTime"/> and end with Utc.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        internal static void ApplyUtcDateTimeConverter(this ModelBuilder modelBuilder)
         {
             foreach (IMutableEntityType mutableEntityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -32,7 +39,11 @@ namespace Expensely.Infrastructure.Persistence.Extensions
             }
         }
 
-        public static void ApplySoftDeleteQueryFilter(this ModelBuilder modelBuilder)
+        /// <summary>
+        /// Applies the soft delete query filter to all entities implementing <see cref="ISoftDeletableEntity"/> interface.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        internal static void ApplySoftDeleteQueryFilter(this ModelBuilder modelBuilder)
         {
             IEnumerable<IMutableEntityType> softDeletableEntities = modelBuilder.Model.GetEntityTypes()
                 .Where(e => typeof(ISoftDeletableEntity).IsAssignableFrom(e.ClrType));
@@ -43,11 +54,21 @@ namespace Expensely.Infrastructure.Persistence.Extensions
             }
         }
 
-        private static void SetSoftDeleteFilter(this ModelBuilder modelBuilder, Type entityType)
+        /// <summary>
+        /// Applies the soft delete query filter to the specified entity type.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        /// <param name="entityType">The entity type.</param>
+        internal static void SetSoftDeleteFilter(this ModelBuilder modelBuilder, Type entityType)
         {
             SetSoftDeleteFilterMethod.MakeGenericMethod(entityType).Invoke(null, new object[] { modelBuilder });
         }
 
+        /// <summary>
+        /// Applies the soft delete query filter to the specified entity type.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type.</typeparam>
+        /// <param name="modelBuilder">The model builder.</param>
         private static void SetSoftDeleteFilter<TEntity>(this ModelBuilder modelBuilder)
             where TEntity : class, ISoftDeletableEntity
         {

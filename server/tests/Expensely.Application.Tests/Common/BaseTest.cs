@@ -5,7 +5,7 @@ namespace Expensely.Application.Tests.Common
 {
     public class BaseTest : IDisposable
     {
-        protected readonly ExpenselyDbContext _dbContext;
+        private readonly ExpenselyDbContext _dbContext;
 
         public BaseTest()
         {
@@ -16,5 +16,7 @@ namespace Expensely.Application.Tests.Common
         {
             ExpenselyDbContextFactory.Destroy(_dbContext);
         }
+
+        internal ExpenselyDbContext DbContext => _dbContext;
     }
 }

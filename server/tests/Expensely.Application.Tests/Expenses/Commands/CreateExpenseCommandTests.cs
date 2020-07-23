@@ -81,7 +81,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         [Fact]
         public async Task Handle_should_create_an_expense()
         {
-            var expenseRepositoryStub = new ExpenseRepository(_dbContext);
+            var expenseRepositoryStub = new ExpenseRepository(DbContext);
             var mediatorStub = new Mock<IMediator>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
             DateTime now = DateTime.Now;
@@ -90,9 +90,9 @@ namespace Expensely.Application.Tests.Expenses.Commands
             await commandHandler.Handle(command, default);
 
             // Calling save changes because this would usually be done by the Unit of Work.
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
-            Assert.True(_dbContext.Set<Expense>().Count() == 1);
+            Assert.True(DbContext.Set<Expense>().Count() == 1);
         }
     }
 }

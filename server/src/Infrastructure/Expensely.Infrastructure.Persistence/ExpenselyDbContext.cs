@@ -12,7 +12,10 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Expensely.Infrastructure.Persistence
 {
-    public sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
+    /// <summary>
+    /// Represents the application database context.
+    /// </summary>
+    internal sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
@@ -52,6 +55,11 @@ namespace Expensely.Infrastructure.Persistence
             where TEntity : Entity =>
             Set<TEntity>().Remove(entity);
 
+        /// <summary>
+        /// Saves all of the pending changes in the unit of work.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The number of entities that have been saved.</returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             DateTime utcNow = DateTime.UtcNow;
@@ -75,6 +83,10 @@ namespace Expensely.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
         }
 
+        /// <summary>
+        /// Updates the entities implementing <see cref="IAuditableEntity"/> interface.
+        /// </summary>
+        /// <param name="utcNow">The current date and time in UTC format.</param>
         private void UpdateAuditableEntities(DateTime utcNow)
         {
             foreach (EntityEntry<IAuditableEntity> entityEntry in ChangeTracker.Entries<IAuditableEntity>())
@@ -91,6 +103,10 @@ namespace Expensely.Infrastructure.Persistence
             }
         }
 
+        /// <summary>
+        /// Updates the entities implementing <see cref="ISoftDeletableEntity"/> interface.
+        /// </summary>
+        /// <param name="utcNow">The current date and time in UTC format.</param>
         private void UpdateSoftDeletableEntities(DateTime utcNow)
         {
             foreach (EntityEntry<ISoftDeletableEntity> entityEntry in ChangeTracker.Entries<ISoftDeletableEntity>())

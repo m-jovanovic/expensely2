@@ -62,7 +62,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             await SeedExpenses();
 
-            Guid expenseId = _dbContext.Set<Expense>().First().Id;
+            Guid expenseId = DbContext.Set<Expense>().First().Id;
 
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var mediatorStub = new Mock<IMediator>();
@@ -79,7 +79,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             await SeedExpenses();
 
-            Expense expense = _dbContext.Set<Expense>().First();
+            Expense expense = DbContext.Set<Expense>().First();
 
             Guid expenseId = expense.Id;
 
@@ -99,7 +99,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             await SeedExpenses();
 
-            Expense expense = _dbContext.Set<Expense>().First();
+            Expense expense = DbContext.Set<Expense>().First();
 
             Guid expenseId = expense.Id;
 
@@ -119,13 +119,13 @@ namespace Expensely.Application.Tests.Expenses.Commands
         {
             await SeedExpenses();
 
-            Expense expense = _dbContext.Set<Expense>().First();
+            Expense expense = DbContext.Set<Expense>().First();
 
             Guid expenseId = expense.Id;
 
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             expenseRepositoryMock.Setup(e => e.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expense);
-            expenseRepositoryMock.Setup(e => e.Remove(It.IsAny<Expense>())).Callback(() => _dbContext.Remove(expense));
+            expenseRepositoryMock.Setup(e => e.Remove(It.IsAny<Expense>())).Callback(() => DbContext.Remove(expense));
             var mediatorStub = new Mock<IMediator>();
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, mediatorStub.Object);
             var command = new DeleteExpenseCommand(expenseId);
@@ -133,18 +133,18 @@ namespace Expensely.Application.Tests.Expenses.Commands
             await commandHandler.Handle(command, default);
 
             // Calling save changes because this would usually be done by the Unit of Work.
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
-            Assert.True(_dbContext.Set<Expense>().Count() == 0);
+            Assert.True(DbContext.Set<Expense>().Count() == 0);
         }
 
         private async Task SeedExpenses()
         {
             var expense1 = new Expense(Guid.NewGuid(), string.Empty, Money.None, DateTime.Now);
 
-            _dbContext.Add(expense1);
+            DbContext.Add(expense1);
 
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
     }
 }
