@@ -6,7 +6,10 @@ using Expensely.Migrations.Core.ScriptProviders;
 
 namespace Expensely.Migrations.Core.Extensions
 {
-    public static class HashedSqlServerExtensions
+    /// <summary>
+    /// Contains extension methods for the hashed SQL migrations implementation.
+    /// </summary>
+    public static class HashedSqlExtensions
     {
         /// <summary>
         /// Configures the upgrade upgrade engine builder with the hashed SQL database.
@@ -39,7 +42,7 @@ namespace Expensely.Migrations.Core.Extensions
         }
 
         /// <summary>
-        /// Adds all scripts found as embedded resources in the given assembly.
+        /// Adds all of the scripts found as embedded resources in the given assembly.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="assembly">The assembly.</param>

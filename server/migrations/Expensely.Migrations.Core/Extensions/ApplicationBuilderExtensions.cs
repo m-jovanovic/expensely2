@@ -2,6 +2,9 @@
 
 namespace Expensely.Migrations.Core.Extensions
 {
+    /// <summary>
+    /// Contains the extension methods for the application builder.
+    /// </summary>
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
