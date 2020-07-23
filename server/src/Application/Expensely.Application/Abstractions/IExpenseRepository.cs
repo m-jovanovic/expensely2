@@ -5,7 +5,7 @@ using Expensely.Domain.Entities;
 namespace Expensely.Application.Abstractions
 {
     /// <summary>
-    /// Represents the repository interface for managing expenses.
+    /// Represents the expense repository interface.
     /// </summary>
     public interface IExpenseRepository
     {
