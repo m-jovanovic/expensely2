@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expensely.Infrastructure.Authentication.Configurations
 {
-    internal class AuthenticatedUserConfiguration : IEntityTypeConfiguration<AuthenticatedUser>
+    /// <summary>
+    /// Represents the <see cref="AuthenticatedUser"/> entity configuration.
+    /// </summary>
+    internal sealed class AuthenticatedUserConfiguration : IEntityTypeConfiguration<AuthenticatedUser>
     {
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<AuthenticatedUser> builder)

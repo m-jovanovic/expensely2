@@ -16,10 +16,10 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
         private const int SaltSize = 128 / 8;
         private readonly RandomNumberGenerator _rng;
 
-        public PasswordHasher()
-        {
-            _rng = new RNGCryptoServiceProvider();
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordHasher"/> class.
+        /// </summary>
+        public PasswordHasher() => _rng = new RNGCryptoServiceProvider();
 
         /// <inheritdoc />
         public string HashPassword(string password)

@@ -10,27 +10,32 @@ using Expensely.Infrastructure.Authorization;
 
 namespace Expensely.Infrastructure.Authentication.Services
 {
+    /// <summary>
+    /// Represents the claims provider.
+    /// </summary>
     internal sealed class ClaimsProvider : IClaimsProvider
     {
         private readonly ExpenselyAuthenticationDbContext _dbContext;
 
-        public ClaimsProvider(ExpenselyAuthenticationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClaimsProvider"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
+        public ClaimsProvider(ExpenselyAuthenticationDbContext dbContext) => _dbContext = dbContext;
 
-        public async Task<Claim[]> GetClaimsAsync(AuthenticatedUser authenticatedUser)
+        /// <inheritdoc />
+        public async Task<Claim[]> GetClaimsAsync(AuthenticatedUser user)
         {
             var claims = new List<Claim>()
             {
-                new Claim(ExpenselyJwtClaimTypes.UserId, authenticatedUser.Id.ToString()),
-                new Claim(ExpenselyJwtClaimTypes.Email, authenticatedUser.Email.Value),
-                new Claim(ExpenselyJwtClaimTypes.Name, $"{authenticatedUser.FirstName} {authenticatedUser.LastName}")
+                new Claim(ExpenselyJwtClaimTypes.UserId, user.Id.ToString()),
+                new Claim(ExpenselyJwtClaimTypes.Email, user.Email.Value),
+                new Claim(ExpenselyJwtClaimTypes.Name, $"{user.FirstName} {user.LastName}")
             };
 
             var permissionCalculator = new PermissionCalculator(_dbContext);
 
-            Permission[] permissions = await permissionCalculator.CalculatePermissionsForUserIdAsync(authenticatedUser.Id);
+            Permission[] permissions = await permissionCalculator.CalculatePermissionsForUserIdAsync(user.Id);
 
             IEnumerable<Claim> permissionClaims = permissions
                 .Select(permission => new Claim(ExpenselyJwtClaimTypes.Permissions, permission.ToString()));

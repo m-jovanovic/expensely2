@@ -16,6 +16,11 @@ namespace Expensely.Infrastructure.Authentication
     {
         private const string ExpenselyDb = "ExpenselyDb";
 
+        /// <summary>
+        /// Registers the necessary services with the DI framework.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="configuration">The configuration.</param>
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContextPool<ExpenselyAuthenticationDbContext>(o =>
@@ -38,10 +43,15 @@ namespace Expensely.Infrastructure.Authentication
                 });
 
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SettingsKey));
+
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+
             services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<IRoleUniquenessChecker, RoleUniquenessChecker>();
+
             services.AddScoped<IClaimsProvider, ClaimsProvider>();
         }
     }

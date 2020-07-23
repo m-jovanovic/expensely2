@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace Expensely.Infrastructure.Persistence
 {
     /// <summary>
-    /// Represents the application database context.
+    /// Represents the applications database context.
     /// </summary>
     internal sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
     {

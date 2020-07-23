@@ -4,8 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expensely.Infrastructure.Authentication.Configurations
 {
-    internal class UserToRoleMappingConfiguration : IEntityTypeConfiguration<UserToRoleMapping>
+    /// <summary>
+    /// Represents the <see cref="UserToRoleMapping"/> entity configuration.
+    /// </summary>
+    internal sealed class UserToRoleMappingConfiguration : IEntityTypeConfiguration<UserToRoleMapping>
     {
+        /// <inheritdoc />
         public void Configure(EntityTypeBuilder<UserToRoleMapping> builder)
         {
             builder.ToTable("UserToRoleMapping");

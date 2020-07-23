@@ -4,8 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expensely.Infrastructure.Authentication.Configurations
 {
-    internal class UserToPaidModulesMappingConfiguration : IEntityTypeConfiguration<UserToPaidModulesMapping>
+    /// <summary>
+    /// Represents the <see cref="UserToPaidModulesMapping"/> entity configuration.
+    /// </summary>
+    internal sealed class UserToPaidModulesMappingConfiguration : IEntityTypeConfiguration<UserToPaidModulesMapping>
     {
+        /// <inheritdoc />
         public void Configure(EntityTypeBuilder<UserToPaidModulesMapping> builder)
         {
             builder.ToTable("UserToPaidModulesMapping");

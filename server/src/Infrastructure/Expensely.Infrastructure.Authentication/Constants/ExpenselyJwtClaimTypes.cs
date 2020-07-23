@@ -2,14 +2,17 @@
 
 namespace Expensely.Infrastructure.Authentication.Constants
 {
-    public static class ExpenselyJwtClaimTypes
+    /// <summary>
+    /// Contains the application JWT claim types.
+    /// </summary>
+    internal static class ExpenselyJwtClaimTypes
     {
-        public const string UserId = "userId";
+        internal const string UserId = "userId";
 
-        public const string Email = "email";
+        internal const string Email = "email";
 
-        public const string Name = "name";
+        internal const string Name = "name";
 
-        public const string Permissions = PermissionConstants.PermissionsClaimType;
+        internal const string Permissions = PermissionConstants.PermissionsClaimType;
     }
 }

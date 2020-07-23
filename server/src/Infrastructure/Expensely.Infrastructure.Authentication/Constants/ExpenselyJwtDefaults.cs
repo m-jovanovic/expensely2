@@ -2,14 +2,17 @@
 
 namespace Expensely.Infrastructure.Authentication.Constants
 {
-    public static class ExpenselyJwtDefaults
+    /// <summary>
+    /// Contains default values for configuring JWT authentication.
+    /// </summary>
+    internal static class ExpenselyJwtDefaults
     {
-        public const string AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
+        internal const string AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
 
-        public const string IssuerSettingsKey = "Jwt:Issuer";
+        internal const string IssuerSettingsKey = "Jwt:Issuer";
 
-        public const string AudienceSettingsKey = "Jwt:Audience";
+        internal const string AudienceSettingsKey = "Jwt:Audience";
 
-        public const string SecurityKeySettingsKey = "Jwt:SecurityKey";
+        internal const string SecurityKeySettingsKey = "Jwt:SecurityKey";
     }
 }

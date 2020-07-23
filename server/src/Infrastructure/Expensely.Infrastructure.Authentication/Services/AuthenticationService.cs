@@ -16,6 +16,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Expensely.Infrastructure.Authentication.Services
 {
+    /// <summary>
+    /// Represents the authentication service.
+    /// </summary>
     internal sealed class AuthenticationService : IAuthenticationService
     {
         private readonly JwtOptions _jwtOptions;
@@ -23,6 +26,13 @@ namespace Expensely.Infrastructure.Authentication.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IClaimsProvider _claimsProvider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
+        /// </summary>
+        /// <param name="jwtOptions">The JWT options.</param>
+        /// <param name="userService">The user service.</param>
+        /// <param name="passwordHasher">The password hasher.</param>
+        /// <param name="claimsProvider">The claims provider.</param>
         public AuthenticationService(
             IOptions<JwtOptions> jwtOptions,
             IUserService userService,
@@ -75,13 +85,18 @@ namespace Expensely.Infrastructure.Authentication.Services
             return Result.Ok(jwt);
         }
 
-        private async Task<string> CreateJwtAsync(AuthenticatedUser authenticatedUser)
+        /// <summary>
+        /// Creates the JWT for the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>The JWT for the specified user.</returns>
+        private async Task<string> CreateJwtAsync(AuthenticatedUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            Claim[] claims = await _claimsProvider.GetClaimsAsync(authenticatedUser);
+            Claim[] claims = await _claimsProvider.GetClaimsAsync(user);
 
             DateTime tokenExpirationTime = DateTime.UtcNow.AddMinutes(_jwtOptions.TokenExpirationInMinutes);
 
