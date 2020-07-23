@@ -57,7 +57,7 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.ExpenseCreate)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
+        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequestDto request)
         {
             var command = new CreateExpenseCommand(request.Name, request.Amount, request.CurrencyId, request.Date);
 

@@ -16,7 +16,7 @@ namespace Expensely.Api.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
         {
             var registerCommand = new RegisterCommand(
                 request.FirstName,
@@ -39,7 +39,7 @@ namespace Expensely.Api.Controllers
         [HttpPost("login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             var loginCommand = new LoginCommand(request.Email, request.Password);
 
