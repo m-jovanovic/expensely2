@@ -3,6 +3,9 @@ using Expensely.Infrastructure.Authorization.Attributes;
 
 namespace Expensely.Infrastructure.Authorization
 {
+    /// <summary>
+    /// Represents the application permissions.
+    /// </summary>
     public enum Permission
     {
         [Display(GroupName = "Expense", Name = "Read", Description = "Can read expenses.")]

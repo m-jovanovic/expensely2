@@ -4,14 +4,18 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Expensely.Infrastructure.Services.Caching
 {
-    public sealed class CacheService : ICacheService
+    /// <summary>
+    /// Represents the cache service.
+    /// </summary>
+    internal sealed class CacheService : ICacheService
     {
         private readonly IMemoryCache _memoryCache;
 
-        public CacheService(IMemoryCache memoryCache)
-        {
-            _memoryCache = memoryCache;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CacheService"/> class.
+        /// </summary>
+        /// <param name="memoryCache">The memory cache.</param>
+        public CacheService(IMemoryCache memoryCache) => _memoryCache = memoryCache;
 
         /// <inheritdoc />
         public T? GetValue<T>(string key)

@@ -2,13 +2,20 @@
 
 namespace Expensely.Infrastructure.Authorization.Permissions
 {
+    /// <summary>
+    /// Represents the permission requirement.
+    /// </summary>
     internal sealed class PermissionRequirement : IAuthorizationRequirement
     {
-        public PermissionRequirement(string permissionName)
-        {
-            PermissionName = permissionName;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PermissionRequirement"/> class.
+        /// </summary>
+        /// <param name="permissionName">The permission name.</param>
+        internal PermissionRequirement(string permissionName) => PermissionName = permissionName;
 
-        public string PermissionName { get; }
+        /// <summary>
+        /// Gets the permission name.
+        /// </summary>
+        internal string PermissionName { get; }
     }
 }

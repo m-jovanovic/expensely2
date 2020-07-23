@@ -4,8 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Expensely.Infrastructure.Authorization.Permissions
 {
+    /// <summary>
+    /// Represents the permission authorization handler.
+    /// </summary>
     internal sealed class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
+        /// <inheritdoc />
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
             Claim? permissionsClaim = context.User?.Claims.FindPermissionsClaim();

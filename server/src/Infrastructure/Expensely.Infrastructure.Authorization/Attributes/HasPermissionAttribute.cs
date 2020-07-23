@@ -3,11 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Expensely.Infrastructure.Authorization.Attributes
 {
+    /// <summary>
+    /// Represents the permission authorization attribute.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false)]
-    public class HasPermissionAttribute : AuthorizeAttribute
+    public sealed class HasPermissionAttribute : AuthorizeAttribute
     {
-        public HasPermissionAttribute(Permission permission)
-            : base(permission.ToString())
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasPermissionAttribute"/> class.
+        /// </summary>
+        /// <param name="requiredPermission">The required permission.</param>
+        public HasPermissionAttribute(Permission requiredPermission)
+            : base(requiredPermission.ToString())
         {
         }
     }
