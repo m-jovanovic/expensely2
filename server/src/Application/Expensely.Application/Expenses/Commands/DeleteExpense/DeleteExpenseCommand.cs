@@ -4,12 +4,16 @@ using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Expenses.Commands.DeleteExpense
 {
-    public class DeleteExpenseCommand : ICommand<Result>
+    /// <summary>
+    /// Represents the command for deleting an expense.
+    /// </summary>
+    public sealed class DeleteExpenseCommand : ICommand<Result>
     {
-        public DeleteExpenseCommand(Guid expenseId)
-        {
-            ExpenseId = expenseId;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteExpenseCommand"/> class.
+        /// </summary>
+        /// <param name="expenseId">The expense identifier.</param>
+        public DeleteExpenseCommand(Guid expenseId) => ExpenseId = expenseId;
 
         /// <summary>
         /// Gets the expense identifier.

@@ -5,8 +5,12 @@ using Expensely.Application.Messaging;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
+    /// <summary>
+    /// Represents the query for getting expenses.
+    /// </summary>
     public sealed class GetExpensesQuery : ICacheableQuery<IReadOnlyCollection<ExpenseDto>>
     {
+        /// <inheritdoc />
         public string GetCacheKey() => CacheKeys.Expenses;
     }
 }

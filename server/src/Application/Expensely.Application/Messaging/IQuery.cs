@@ -3,10 +3,10 @@
 namespace Expensely.Application.Messaging
 {
     /// <summary>
-    /// Represents the marker interface for a query.
+    /// Represents the query interface.
     /// </summary>
-    /// <typeparam name="TResult">The query result type.</typeparam>
-    public interface IQuery<out TResult> : IRequest<TResult>
+    /// <typeparam name="TResponse">The query response type.</typeparam>
+    public interface IQuery<out TResponse> : IRequest<TResponse>
     {
     }
 }

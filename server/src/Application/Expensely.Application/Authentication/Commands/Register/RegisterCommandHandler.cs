@@ -8,17 +8,26 @@ using Expensely.Domain.ValueObjects;
 
 namespace Expensely.Application.Authentication.Commands.Register
 {
-    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, Result<string>>
+    /// <summary>
+    /// Represents the <see cref="RegisterCommand"/> handler.
+    /// </summary>
+    internal sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, Result<string>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthenticationService _authenticationService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisterCommandHandler"/> class.
+        /// </summary>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="authenticationService">The authentication service.</param>
         public RegisterCommandHandler(IUserRepository userRepository, IAuthenticationService authenticationService)
         {
             _userRepository = userRepository;
             _authenticationService = authenticationService;
         }
 
+        /// <inheritdoc />
         public async Task<Result<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             if (request.Password != request.ConfirmPassword)

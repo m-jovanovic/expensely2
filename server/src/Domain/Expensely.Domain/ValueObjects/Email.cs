@@ -29,7 +29,7 @@ namespace Expensely.Domain.ValueObjects
         /// Creates a new <see cref="Email"/> instance based on the specified value.
         /// </summary>
         /// <param name="email">The email value.</param>
-        /// <returns>The result of the email creation.</returns>
+        /// <returns>The result of the email creation process containing the email or an error.</returns>
         public static Result<Email> Create(string? email)
         {
             IValidator<string> validator = new EmailNotNullOrEmptyValidator();

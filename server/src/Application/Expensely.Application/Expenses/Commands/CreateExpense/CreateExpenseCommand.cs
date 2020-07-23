@@ -12,10 +12,10 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.
         /// </summary>
-        /// <param name="name">The name of the expense.</param>
-        /// <param name="amount">The amount of the expense.</param>
-        /// <param name="currencyId">The currency identifier of the expense.</param>
-        /// <param name="date">The date of the expense.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="amount">The amount.</param>
+        /// <param name="currencyId">The currency identifier.</param>
+        /// <param name="date">The date.</param>
         public CreateExpenseCommand(string name, decimal amount, int currencyId, DateTime date)
         {
             Name = name;

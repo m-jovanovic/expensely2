@@ -9,19 +9,30 @@ using Microsoft.Extensions.Options;
 
 namespace Expensely.Application.Behaviours
 {
-    public sealed class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    /// <summary>
+    /// Represents the caching behaviour middleware.
+    /// </summary>
+    /// <typeparam name="TRequest">The request type.</typeparam>
+    /// <typeparam name="TResponse">The response type.</typeparam>
+    internal sealed class CachingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : class
     {
         private readonly ICacheService _cacheService;
         private readonly CachingOptions _cachingOptions;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CachingBehaviour{TRequest,TResponse}"/> class.
+        /// </summary>
+        /// <param name="cacheService">The cache service.</param>
+        /// <param name="cachingOptions">The caching options.</param>
         public CachingBehaviour(ICacheService cacheService, IOptions<CachingOptions> cachingOptions)
         {
             _cacheService = cacheService;
             _cachingOptions = cachingOptions.Value;
         }
 
+        /// <inheritdoc />
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             if (!request.IsCacheableQuery() || !_cachingOptions.Enabled)

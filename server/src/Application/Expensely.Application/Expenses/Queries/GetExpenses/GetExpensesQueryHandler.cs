@@ -10,15 +10,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
+    /// <summary>
+    /// Represents the <see cref="GetExpensesQuery"/> handler.
+    /// </summary>
     internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IReadOnlyCollection<ExpenseDto>>
     {
         private readonly IDbContext _dbContext;
 
-        public GetExpensesQueryHandler(IDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetExpensesQueryHandler"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context.</param>
+        public GetExpensesQueryHandler(IDbContext dbContext) => _dbContext = dbContext;
 
+        /// <inheritdoc />
         public async Task<IReadOnlyCollection<ExpenseDto>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
             IReadOnlyCollection<ExpenseDto> expenses = await _dbContext.Set<Expense>()

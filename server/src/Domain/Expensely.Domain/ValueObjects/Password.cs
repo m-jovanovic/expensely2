@@ -27,7 +27,7 @@ namespace Expensely.Domain.ValueObjects
         /// Creates a new <see cref="Password"/> instance based on the specified value.
         /// </summary>
         /// <param name="password">The password value.</param>
-        /// <returns>The result of the password creation.</returns>
+        /// <returns>The result of the password creation process containing the password or an error.</returns>
         public static Result<Password> Create(string? password)
         {
             IValidator<string> validator = new PasswordNotNullOrEmptyValidator();

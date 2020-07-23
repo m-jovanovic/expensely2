@@ -6,15 +6,21 @@ using MediatR;
 
 namespace Expensely.Application.Behaviours
 {
-    public sealed class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    /// <summary>
+    /// Represents the unit of work behaviour middleware.
+    /// </summary>
+    /// <typeparam name="TRequest">The request type.</typeparam>
+    /// <typeparam name="TResponse">The response type.</typeparam>
+    internal sealed class UnitOfWorkBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UnitOfWorkBehaviour(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitOfWorkBehaviour{TRequest,TResponse}"/> class.
+        /// </summary>
+        /// <param name="unitOfWork">The unit of work.</param>
+        public UnitOfWorkBehaviour(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         /// <inheritdoc />
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

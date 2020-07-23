@@ -13,7 +13,7 @@ using MediatR;
 namespace Expensely.Application.Expenses.Commands.CreateExpense
 {
     /// <summary>
-    /// Represents the <see cref="CreateExpenseCommand"/> command-handler.
+    /// Represents the <see cref="CreateExpenseCommand"/> handler.
     /// </summary>
     internal sealed class CreateExpenseCommandHandler : ICommandHandler<CreateExpenseCommand, Result>
     {
@@ -23,8 +23,8 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommandHandler"/> class.
         /// </summary>
-        /// <param name="expenseRepository">The expense repository instance.</param>
-        /// <param name="mediator">The mediator instance.</param>
+        /// <param name="expenseRepository">The expense repository.</param>
+        /// <param name="mediator">The mediator.</param>
         public CreateExpenseCommandHandler(IExpenseRepository expenseRepository, IMediator mediator)
         {
             _expenseRepository = expenseRepository;

@@ -3,7 +3,7 @@
 namespace Expensely.Application.Messaging
 {
     /// <summary>
-    /// Represents the marker interface for an event.
+    /// Represents the event interface.
     /// </summary>
     public interface IEvent : INotification
     {
