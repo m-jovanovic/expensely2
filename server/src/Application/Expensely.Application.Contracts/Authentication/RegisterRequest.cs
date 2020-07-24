@@ -1,14 +1,14 @@
 ﻿namespace Expensely.Application.Contracts.Authentication
 {
     /// <summary>
-    /// Represents the register request DTO..
+    /// Represents the register request.
     /// </summary>
-    public sealed class RegisterRequestDto
+    public sealed class RegisterRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterRequestDto"/> class.
+        /// Initializes a new instance of the <see cref="RegisterRequest"/> class.
         /// </summary>
-        public RegisterRequestDto()
+        public RegisterRequest()
         {
             FirstName = string.Empty;
             LastName = string.Empty;

@@ -13,7 +13,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
     /// <summary>
     /// Represents the <see cref="GetExpenseByIdQuery"/> handler.
     /// </summary>
-    internal sealed class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, ExpenseDto?>
+    internal sealed class GetExpenseByIdQueryHandler : IQueryHandler<GetExpenseByIdQuery, ExpenseResponse?>
     {
         private readonly IDbContext _dbContext;
 
@@ -24,17 +24,17 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
         public GetExpenseByIdQueryHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
-        public async Task<ExpenseDto?> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ExpenseResponse?> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
         {
             if (request.ExpenseId == Guid.Empty)
             {
                 return null;
             }
 
-            ExpenseDto? expense = await _dbContext.Set<Expense>()
+            ExpenseResponse? expense = await _dbContext.Set<Expense>()
                 .AsNoTracking()
                 .Where(e => e.Id == request.ExpenseId)
-                .Select(e => new ExpenseDto
+                .Select(e => new ExpenseResponse
                 {
                     Id = e.Id,
                     Name = e.Name,

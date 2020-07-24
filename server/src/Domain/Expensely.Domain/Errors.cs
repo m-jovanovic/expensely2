@@ -72,9 +72,11 @@ namespace Expensely.Domain
         /// </summary>
         public static class General
         {
-            public static Error NotFound => new Error("Entity.NotFound");
+            public static Error EntityNotFound => new Error("General.EntityNotFound");
 
-            public static Error AlreadyExists => new Error("Entity.AlreadyExists");
+            public static Error EntityAlreadyExists => new Error("General.EntityAlreadyExists");
+
+            public static Error ServerError => new Error("General.ServerError");
         }
     }
 }

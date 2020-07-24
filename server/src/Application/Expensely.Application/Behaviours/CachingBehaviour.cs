@@ -33,7 +33,8 @@ namespace Expensely.Application.Behaviours
         }
 
         /// <inheritdoc />
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(
+            TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             if (!request.IsCacheableQuery() || !_cachingOptions.Enabled)
             {

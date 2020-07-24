@@ -3,14 +3,14 @@
 namespace Expensely.Application.Contracts.Expenses
 {
     /// <summary>
-    /// Represents the expense DTO.
+    /// Represents the expense.
     /// </summary>
-    public sealed class ExpenseDto
+    public sealed class ExpenseResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseDto"/> class.
+        /// Initializes a new instance of the <see cref="ExpenseResponse"/> class.
         /// </summary>
-        public ExpenseDto()
+        public ExpenseResponse()
         {
             Name = string.Empty;
             CurrencyCode = string.Empty;

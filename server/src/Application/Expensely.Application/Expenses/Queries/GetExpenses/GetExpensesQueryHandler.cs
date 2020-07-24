@@ -13,7 +13,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     /// <summary>
     /// Represents the <see cref="GetExpensesQuery"/> handler.
     /// </summary>
-    internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IReadOnlyCollection<ExpenseDto>>
+    internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IReadOnlyCollection<ExpenseResponse>>
     {
         private readonly IDbContext _dbContext;
 
@@ -24,11 +24,11 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         public GetExpensesQueryHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
-        public async Task<IReadOnlyCollection<ExpenseDto>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ExpenseResponse>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
-            IReadOnlyCollection<ExpenseDto> expenses = await _dbContext.Set<Expense>()
+            IReadOnlyCollection<ExpenseResponse> expenses = await _dbContext.Set<Expense>()
                 .AsNoTracking()
-                .Select(e => new ExpenseDto
+                .Select(e => new ExpenseResponse
                 {
                     Id = e.Id,
                     Name = e.Name,

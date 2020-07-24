@@ -18,6 +18,8 @@ namespace Expensely.Domain.Core.Primitives
         /// </summary>
         public string Code { get; }
 
+        public static implicit operator string(Error? error) => error?.Code ?? string.Empty;
+
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {

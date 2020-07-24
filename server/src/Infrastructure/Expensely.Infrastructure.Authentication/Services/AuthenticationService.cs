@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.ValueObjects;
@@ -46,30 +47,30 @@ namespace Expensely.Infrastructure.Authentication.Services
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> RegisterAsync(string firstName, string lastName, Email email, Password password)
+        public async Task<Result<TokenResponse>> RegisterAsync(string firstName, string lastName, Email email, Password password)
         {
             Result<AuthenticatedUser> result = await _userService.CreateAsync(firstName, lastName, email, password);
 
             if (result.IsFailure)
             {
-                return Result.Fail<string>(result.Error);
+                return Result.Fail<TokenResponse>(result.Error);
             }
 
             AuthenticatedUser authenticatedUser = result.Value();
 
             string jwt = await CreateJwtAsync(authenticatedUser);
 
-            return Result.Ok(jwt);
+            return Result.Ok(new TokenResponse(jwt));
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> LoginAsync(string email, string password)
+        public async Task<Result<TokenResponse>> LoginAsync(string email, string password)
         {
             AuthenticatedUser? authenticatedUser = await _userService.GetByEmailAsync(email);
 
             if (authenticatedUser is null)
             {
-                return Result.Fail<string>(Errors.Authentication.UserNotFound);
+                return Result.Fail<TokenResponse>(Errors.Authentication.UserNotFound);
             }
 
             PasswordVerificationResult passwordVerificationResult = _passwordHasher
@@ -77,12 +78,12 @@ namespace Expensely.Infrastructure.Authentication.Services
 
             if (passwordVerificationResult == PasswordVerificationResult.Failure)
             {
-                return Result.Fail<string>(Errors.Authentication.InvalidPassword);
+                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidPassword);
             }
 
             string jwt = await CreateJwtAsync(authenticatedUser);
 
-            return Result.Ok(jwt);
+            return Result.Ok(new TokenResponse(jwt));
         }
 
         /// <summary>

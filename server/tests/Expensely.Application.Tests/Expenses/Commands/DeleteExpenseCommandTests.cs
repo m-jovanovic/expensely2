@@ -38,7 +38,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
             Result result = await commandHandler.Handle(command, default);
 
             Assert.True(result.IsFailure);
-            Assert.Equal(Errors.General.NotFound, result.Error);
+            Assert.Equal(Errors.General.EntityNotFound, result.Error);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Expensely.Application.Tests.Expenses.Commands
             Result result = await commandHandler.Handle(command, default);
 
             Assert.True(result.IsFailure);
-            Assert.Equal(Errors.General.NotFound, result.Error);
+            Assert.Equal(Errors.General.EntityNotFound, result.Error);
         }
 
         [Fact]

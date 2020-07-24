@@ -8,7 +8,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
     /// <summary>
     /// Represents the query for getting an expense by identifier.
     /// </summary>
-    public sealed class GetExpenseByIdQuery : ICacheableQuery<ExpenseDto?>
+    public sealed class GetExpenseByIdQuery : ICacheableQuery<ExpenseResponse?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetExpenseByIdQuery"/> class.

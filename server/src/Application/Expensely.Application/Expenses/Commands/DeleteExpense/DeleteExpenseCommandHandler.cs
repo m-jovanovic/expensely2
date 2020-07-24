@@ -36,7 +36,7 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
 
             if (expense is null)
             {
-                return Result.Fail(Errors.General.NotFound);
+                return Result.Fail(Errors.General.EntityNotFound);
             }
 
             _expenseRepository.Remove(expense);

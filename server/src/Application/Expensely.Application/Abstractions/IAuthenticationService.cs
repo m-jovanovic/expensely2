@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.ValueObjects;
 
@@ -17,7 +18,7 @@ namespace Expensely.Application.Abstractions
         /// <param name="email">The user email.</param>
         /// <param name="password">The user password.</param>
         /// <returns>The result of the registration process containing a JWT or an error.</returns>
-        Task<Result<string>> RegisterAsync(string firstName, string lastName, Email email, Password password);
+        Task<Result<TokenResponse>> RegisterAsync(string firstName, string lastName, Email email, Password password);
 
         /// <summary>
         /// Logs in the user with the specified credentials.
@@ -25,6 +26,6 @@ namespace Expensely.Application.Abstractions
         /// <param name="email">The user email.</param>
         /// <param name="password">The user password.</param>
         /// <returns>The result of the login process containing a JWT or an error.</returns>
-        Task<Result<string>> LoginAsync(string email, string password);
+        Task<Result<TokenResponse>> LoginAsync(string email, string password);
     }
 }

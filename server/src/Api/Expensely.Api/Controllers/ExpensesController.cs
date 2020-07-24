@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Expensely.Api.Contracts;
+using Expensely.Api.Infrastructure;
+using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
@@ -14,18 +17,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Expensely.Api.Controllers
 {
-    [Route("api/expenses")]
     public class ExpensesController : ApiController
     {
-        [HttpGet]
+        [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [HasPermission(Permission.ExpenseRead)]
-        [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExpenses()
         {
             var query = new GetExpensesQuery();
 
-            IReadOnlyCollection<ExpenseDto> expenses = await Mediator.Send(query);
+            IReadOnlyCollection<ExpenseResponse> expenses = await Mediator.Send(query);
 
             if (expenses is null)
             {
@@ -35,15 +37,15 @@ namespace Expensely.Api.Controllers
             return Ok(expenses);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet(ApiRoutes.Expenses.GetExpenseById)]
         [HasPermission(Permission.ExpenseRead)]
-        [ProducesResponseType(typeof(ExpenseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExpenseResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExpenseById(Guid id)
         {
             var query = new GetExpenseByIdQuery(id);
 
-            ExpenseDto? expenseDto = await Mediator.Send(query);
+            ExpenseResponse? expenseDto = await Mediator.Send(query);
 
             if (expenseDto is null)
             {
@@ -53,29 +55,31 @@ namespace Expensely.Api.Controllers
             return Ok(expenseDto);
         }
 
-        [HttpPost]
+        [HttpPost(ApiRoutes.Expenses.CreateExpense)]
         [HasPermission(Permission.ExpenseCreate)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(EntityCreatedResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequestDto request)
+        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
         {
             var command = new CreateExpenseCommand(request.Name, request.Amount, request.CurrencyId, request.Date);
 
-            Result result = await Mediator.Send(command);
+            Result<EntityCreatedResponse> result = await Mediator.Send(command);
 
             if (result.IsFailure)
             {
-                return BadRequest(result.Error);
+                return BadRequest(result);
             }
 
-            return Ok(result);
+            EntityCreatedResponse entityCreatedResponse = result.Value();
+
+            return CreatedAtAction(nameof(GetExpenseById), new { id = entityCreatedResponse.Id }, entityCreatedResponse);
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [HasPermission(Permission.ExpenseRemove)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RemoveExpense(Guid id)
+        public async Task<IActionResult> DeleteExpense(Guid id)
         {
             var command = new DeleteExpenseCommand(id);
 
@@ -83,10 +87,10 @@ namespace Expensely.Api.Controllers
 
             if (result.IsFailure)
             {
-                return BadRequest(result.Error);
+                return NotFound();
             }
 
-            return Ok(result);
+            return NoContent();
         }
     }
 }

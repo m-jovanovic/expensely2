@@ -1,14 +1,14 @@
 ﻿namespace Expensely.Application.Contracts.Authentication
 {
     /// <summary>
-    /// Represents the login request DTO.
+    /// Represents the login request.
     /// </summary>
-    public sealed class LoginRequestDto
+    public sealed class LoginRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginRequestDto"/> class.
+        /// Initializes a new instance of the <see cref="LoginRequest"/> class.
         /// </summary>
-        public LoginRequestDto()
+        public LoginRequest()
         {
             Email = string.Empty;
             Password = string.Empty;

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Messaging;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
@@ -11,7 +12,7 @@ namespace Expensely.Application.Authentication.Commands.Register
     /// <summary>
     /// Represents the <see cref="RegisterCommand"/> handler.
     /// </summary>
-    internal sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, Result<string>>
+    internal sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthenticationService _authenticationService;
@@ -28,25 +29,25 @@ namespace Expensely.Application.Authentication.Commands.Register
         }
 
         /// <inheritdoc />
-        public async Task<Result<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<TokenResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             if (request.Password != request.ConfirmPassword)
             {
-                return Result.Fail<string>(Errors.Authentication.PasswordsDoNotMatch);
+                return Result.Fail<TokenResponse>(Errors.Authentication.PasswordsDoNotMatch);
             }
 
             Result<Password> passwordResult = Password.Create(request.Password);
 
             if (passwordResult.IsFailure)
             {
-                return Result.Fail<string>(passwordResult.Error);
+                return Result.Fail<TokenResponse>(passwordResult.Error);
             }
 
             Result<Email> emailResult = Email.Create(request.Email);
 
             if (emailResult.IsFailure)
             {
-                return Result.Fail<string>(emailResult.Error);
+                return Result.Fail<TokenResponse>(emailResult.Error);
             }
 
             Email email = emailResult.Value();
@@ -55,10 +56,10 @@ namespace Expensely.Application.Authentication.Commands.Register
 
             if (!isUnique)
             {
-                return Result.Fail<string>(Errors.Authentication.DuplicateEmail);
+                return Result.Fail<TokenResponse>(Errors.Authentication.DuplicateEmail);
             }
 
-            Result<string> result = await _authenticationService.RegisterAsync(
+            Result<TokenResponse> result = await _authenticationService.RegisterAsync(
                 request.FirstName,
                 request.LastName,
                 email,

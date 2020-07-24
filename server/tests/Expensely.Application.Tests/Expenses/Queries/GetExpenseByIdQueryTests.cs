@@ -18,7 +18,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
             var query = new GetExpenseByIdQuery(Guid.Empty);
 
-            ExpenseDto? result = await queryHandler.Handle(query, default);
+            ExpenseResponse? result = await queryHandler.Handle(query, default);
 
             Assert.Null(result);
         }
@@ -29,7 +29,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
             var query = new GetExpenseByIdQuery(Guid.NewGuid());
 
-            ExpenseDto? result = await queryHandler.Handle(query, default);
+            ExpenseResponse? result = await queryHandler.Handle(query, default);
 
             Assert.Null(result);
         }
@@ -43,7 +43,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             Expense expense = DbContext.Set<Expense>().First();
             var query = new GetExpenseByIdQuery(expense.Id);
 
-            ExpenseDto? result = await queryHandler.Handle(query, default);
+            ExpenseResponse? result = await queryHandler.Handle(query, default);
 
             Assert.NotNull(result);
             Assert.Equal(expense.Id, result!.Id);

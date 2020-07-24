@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Application.Contracts.Common;
 using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
 
@@ -7,7 +8,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
     /// <summary>
     /// Represents the command for creating an expense.
     /// </summary>
-    public sealed class CreateExpenseCommand : ICommand<Result>
+    public sealed class CreateExpenseCommand : ICommand<Result<EntityCreatedResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.

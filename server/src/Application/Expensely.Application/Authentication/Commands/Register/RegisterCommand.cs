@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Messaging;
+﻿using Expensely.Application.Contracts.Authentication;
+using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Authentication.Commands.Register
@@ -6,7 +7,7 @@ namespace Expensely.Application.Authentication.Commands.Register
     /// <summary>
     /// Represents the command for registering a user.
     /// </summary>
-    public sealed class RegisterCommand : ICommand<Result<string>>
+    public sealed class RegisterCommand : ICommand<Result<TokenResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterCommand"/> class.

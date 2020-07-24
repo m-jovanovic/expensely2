@@ -93,7 +93,7 @@ namespace Expensely.Infrastructure.Authentication.Entities
 
             if (!isUnique)
             {
-                return Result.Fail<Role>(Errors.General.AlreadyExists);
+                return Result.Fail<Role>(Errors.General.EntityAlreadyExists);
             }
 
             return Result.Ok(new Role(name, description, permissions));

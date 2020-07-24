@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Messaging;
+﻿using Expensely.Application.Contracts.Authentication;
+using Expensely.Application.Messaging;
 using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Authentication.Commands.Login
@@ -6,7 +7,7 @@ namespace Expensely.Application.Authentication.Commands.Login
     /// <summary>
     /// Represents the command for logging in a user.
     /// </summary>
-    public sealed class LoginCommand : ICommand<Result<string>>
+    public sealed class LoginCommand : ICommand<Result<TokenResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginCommand"/> class.

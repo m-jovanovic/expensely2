@@ -18,7 +18,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 
-            IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
+            IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
             Assert.NotNull(result);
             Assert.Empty(result);
@@ -32,7 +32,7 @@ namespace Expensely.Application.Tests.Expenses.Queries
             var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 
-            IReadOnlyCollection<ExpenseDto> result = await queryHandler.Handle(query, default);
+            IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
             Assert.NotNull(result);
             Assert.True(result.Count == DbContext.Set<Expense>().Count());

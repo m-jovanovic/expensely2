@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Expensely.Application.Behaviours;
 using Expensely.Application.Options;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,11 @@ namespace Expensely.Application
         {
             services.Configure<CachingOptions>(configuration.GetSection(CachingOptions.SettingsKey));
 
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingBehaviour<,>));
 

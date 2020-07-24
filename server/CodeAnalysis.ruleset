@@ -3,6 +3,7 @@
   <IncludeAll Action="Error" />
   <Rules AnalyzerId="Roslyn" RuleNamespace="Roslyn">
     <Rule Id="IDE0060" Action="None" />
+    <Rule Id="IDE0007" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
     <Rule Id="CA1819" Action="None" />

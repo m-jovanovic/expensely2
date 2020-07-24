@@ -1,9 +1,12 @@
+using System.Text.Json;
+using Expensely.Api.Middleware;
 using Expensely.Application;
 using Expensely.Infrastructure.Authentication;
 using Expensely.Infrastructure.Authorization;
 using Expensely.Infrastructure.Persistence;
 using Expensely.Infrastructure.Services;
 using Expensely.Migrations.Core.Extensions;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +41,8 @@ namespace Expensely.Api
 
             services.AddServices();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
         }
@@ -62,6 +66,8 @@ namespace Expensely.Api
                     .AllowAnyMethod();
             });
 
+            app.UseCustomExceptionHandler();
+
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -69,8 +75,6 @@ namespace Expensely.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

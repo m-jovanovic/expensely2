@@ -8,7 +8,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     /// <summary>
     /// Represents the query for getting expenses.
     /// </summary>
-    public sealed class GetExpensesQuery : ICacheableQuery<IReadOnlyCollection<ExpenseDto>>
+    public sealed class GetExpensesQuery : ICacheableQuery<IReadOnlyCollection<ExpenseResponse>>
     {
         /// <inheritdoc />
         public string GetCacheKey() => CacheKeys.Expenses;

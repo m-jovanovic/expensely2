@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Expensely.Api.Contracts;
+using Expensely.Api.Infrastructure;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
@@ -9,14 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Expensely.Api.Controllers
 {
-    [Route("api/authentication")]
+    [AllowAnonymous]
     public class AuthenticationController : ApiController
     {
-        [AllowAnonymous]
-        [HttpPost("register")]
+        [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var registerCommand = new RegisterCommand(
                 request.FirstName,
@@ -25,7 +26,7 @@ namespace Expensely.Api.Controllers
                 request.Password,
                 request.ConfirmPassword);
 
-            Result<string> result = await Mediator.Send(registerCommand);
+            Result<TokenResponse> result = await Mediator.Send(registerCommand);
 
             if (result.IsFailure)
             {
@@ -35,15 +36,14 @@ namespace Expensely.Api.Controllers
             return Ok(result.Value());
         }
 
-        [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var loginCommand = new LoginCommand(request.Email, request.Password);
 
-            Result<string> result = await Mediator.Send(loginCommand);
+            Result<TokenResponse> result = await Mediator.Send(loginCommand);
 
             if (result.IsFailure)
             {

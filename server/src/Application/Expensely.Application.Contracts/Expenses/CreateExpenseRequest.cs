@@ -3,14 +3,14 @@
 namespace Expensely.Application.Contracts.Expenses
 {
     /// <summary>
-    /// Represents the create expense request DTO.
+    /// Represents the create expense request.
     /// </summary>
-    public sealed class CreateExpenseRequestDto
+    public sealed class CreateExpenseRequest
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateExpenseRequestDto"/> class.
+        /// Initializes a new instance of the <see cref="CreateExpenseRequest"/> class.
         /// </summary>
-        public CreateExpenseRequestDto() => Name = string.Empty;
+        public CreateExpenseRequest() => Name = string.Empty;
 
         /// <summary>
         /// Gets or sets the name.

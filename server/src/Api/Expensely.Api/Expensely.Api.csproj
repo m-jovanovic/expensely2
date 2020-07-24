@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\migrations\Expensely.Migrations.Core\Expensely.Migrations.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure.Authentication\Expensely.Infrastructure.Authentication.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Expensely.Infrastructure.Persistence\Expensely.Infrastructure.Persistence.csproj" />
