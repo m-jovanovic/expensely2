@@ -6,7 +6,7 @@ using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Moq;
 using Xunit;
 
-namespace Expensely.Application.Tests.Expenses.Events
+namespace Expensely.Application.IntegrationTests.Expenses.Events
 {
     public class ExpenseCreatedEventTests
     {

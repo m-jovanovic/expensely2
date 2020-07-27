@@ -2,7 +2,7 @@
 using Expensely.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensely.Application.Tests.Common
+namespace Expensely.Application.IntegrationTests.Common
 {
     internal static class ExpenselyDbContextFactory
     {

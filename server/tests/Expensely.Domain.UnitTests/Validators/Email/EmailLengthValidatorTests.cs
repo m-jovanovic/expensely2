@@ -2,7 +2,7 @@
 using Expensely.Domain.Validators.Email;
 using Xunit;
 
-namespace Expensely.Domain.Tests.Validators.Email
+namespace Expensely.Domain.UnitTests.Validators.Email
 {
     public class EmailLengthValidatorTests
     {

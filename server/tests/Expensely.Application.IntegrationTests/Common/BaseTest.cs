@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Infrastructure.Persistence;
 
-namespace Expensely.Application.Tests.Common
+namespace Expensely.Application.IntegrationTests.Common
 {
     public class BaseTest : IDisposable
     {

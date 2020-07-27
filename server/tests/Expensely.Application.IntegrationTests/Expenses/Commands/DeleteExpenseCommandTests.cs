@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
-using Expensely.Application.Tests.Common;
+using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
@@ -14,7 +14,7 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace Expensely.Application.Tests.Expenses.Commands
+namespace Expensely.Application.IntegrationTests.Expenses.Commands
 {
     public class DeleteExpenseCommandTests : BaseTest
     {

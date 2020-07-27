@@ -28,10 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{F73EAA76-E776-48D9-AC48-DA27460885EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.Tests", "tests\Expensely.Domain.Tests\Expensely.Domain.Tests.csproj", "{898E4098-32E3-49BD-96F1-0105918B4862}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Tests", "tests\Expensely.Application.Tests\Expensely.Application.Tests.csproj", "{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.Core", "src\Domain\Expensely.Domain.Core\Expensely.Domain.Core.csproj", "{C1CA1884-D5C7-4397-B43B-32CEEC075BDC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Migrations.Core", "migrations\Expensely.Migrations.Core\Expensely.Migrations.Core.csproj", "{2498177B-E9DB-45EE-8B1B-EF6ABE0A77A1}"
@@ -47,6 +43,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Infrastructure.Authorization", "src\Infrastructure\Expensely.Infrastructure.Authorization\Expensely.Infrastructure.Authorization.csproj", "{AFDDC1E7-39A5-4E89-92E3-9D52D08DF553}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.Contracts", "src\Application\Expensely.Application.Contracts\Expensely.Application.Contracts.csproj", "{4F51C975-DD53-4E48-A548-77764A7CCDF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Domain.UnitTests", "tests\Expensely.Domain.UnitTests\Expensely.Domain.UnitTests.csproj", "{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.UnitTests", "tests\Expensely.Application.UnitTests\Expensely.Application.UnitTests.csproj", "{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expensely.Application.IntegrationTests", "tests\Expensely.Application.IntegrationTests\Expensely.Application.IntegrationTests.csproj", "{AB8DBFCD-BC2F-40F5-8486-670931AFB13E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,14 +68,6 @@ Global
 		{80F1B40B-8AB3-400F-8ABF-B07A6C5746B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F1B40B-8AB3-400F-8ABF-B07A6C5746B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F1B40B-8AB3-400F-8ABF-B07A6C5746B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{898E4098-32E3-49BD-96F1-0105918B4862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{898E4098-32E3-49BD-96F1-0105918B4862}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{898E4098-32E3-49BD-96F1-0105918B4862}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{898E4098-32E3-49BD-96F1-0105918B4862}.Release|Any CPU.Build.0 = Release|Any CPU
-		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1CA1884-D5C7-4397-B43B-32CEEC075BDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1CA1884-D5C7-4397-B43B-32CEEC075BDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1CA1884-D5C7-4397-B43B-32CEEC075BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -106,6 +100,18 @@ Global
 		{4F51C975-DD53-4E48-A548-77764A7CCDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F51C975-DD53-4E48-A548-77764A7CCDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F51C975-DD53-4E48-A548-77764A7CCDF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8DBFCD-BC2F-40F5-8486-670931AFB13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8DBFCD-BC2F-40F5-8486-670931AFB13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8DBFCD-BC2F-40F5-8486-670931AFB13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8DBFCD-BC2F-40F5-8486-670931AFB13E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,8 +124,6 @@ Global
 		{D664F13C-B7D5-4142-B6F5-9AD6BB627BC6} = {AACCCEB8-3E2E-4BA8-91D1-2536840A2BDD}
 		{263F5730-B510-4B18-AAC6-D1B5B7059B19} = {48D3D15B-25C1-4DD1-B3FF-6A186FDB4794}
 		{80F1B40B-8AB3-400F-8ABF-B07A6C5746B6} = {B4473D8E-3892-4F4A-ABE8-6AF9D9FC0944}
-		{898E4098-32E3-49BD-96F1-0105918B4862} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
-		{570A572D-CB8C-4407-9462-BC5A2D7EFCE9} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
 		{C1CA1884-D5C7-4397-B43B-32CEEC075BDC} = {AACCCEB8-3E2E-4BA8-91D1-2536840A2BDD}
 		{2498177B-E9DB-45EE-8B1B-EF6ABE0A77A1} = {F73EAA76-E776-48D9-AC48-DA27460885EF}
 		{A54B16A5-51CC-4713-8CB9-CD6FE60F7F53} = {F73EAA76-E776-48D9-AC48-DA27460885EF}
@@ -128,6 +132,9 @@ Global
 		{0B8BB6C1-F51E-4884-B081-6D9B3F665FDC} = {5C878372-8DD9-4B7D-928B-746F90CD649D}
 		{AFDDC1E7-39A5-4E89-92E3-9D52D08DF553} = {5C878372-8DD9-4B7D-928B-746F90CD649D}
 		{4F51C975-DD53-4E48-A548-77764A7CCDF5} = {B4473D8E-3892-4F4A-ABE8-6AF9D9FC0944}
+		{CD664DB4-3B03-4864-B8D9-95ACCE4C74C9} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
+		{1BF0C4C4-C712-4BFE-AB48-F5990D4D5E7D} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
+		{AB8DBFCD-BC2F-40F5-8486-670931AFB13E} = {6F928FB5-09CC-4E9F-97F2-F9565A0CD45C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1880B85-7E37-4934-9AFB-71FA67B3D181}

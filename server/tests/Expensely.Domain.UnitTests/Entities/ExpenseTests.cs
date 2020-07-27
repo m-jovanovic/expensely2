@@ -3,7 +3,7 @@ using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using Xunit;
 
-namespace Expensely.Domain.Tests.Entities
+namespace Expensely.Domain.UnitTests.Entities
 {
     public sealed class ExpenseTests
     {
@@ -11,7 +11,7 @@ namespace Expensely.Domain.Tests.Entities
         private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
 
         [Fact]
-        public void Should_create_properly()
+        public void Should_construct_properly()
         {
             var id = Guid.NewGuid();
             DateTime now = DateTime.Now;
@@ -26,7 +26,7 @@ namespace Expensely.Domain.Tests.Entities
         }
 
         [Fact]
-        public void Should_be_equal_when_they_have_same_id()
+        public void Should_be_equal_with_expense_with_same_id()
         {
             var id1 = Guid.NewGuid();
             DateTime now = DateTime.Now;
@@ -40,7 +40,7 @@ namespace Expensely.Domain.Tests.Entities
         }
 
         [Fact]
-        public void Should_not_be_equal_when_they_have_different_id()
+        public void Should_not_be_equal_with_expense_with_different_id()
         {
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();

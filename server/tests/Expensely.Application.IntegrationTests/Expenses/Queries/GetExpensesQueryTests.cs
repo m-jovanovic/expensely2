@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
-using Expensely.Application.Tests.Common;
+using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain.Entities;
 using Xunit;
 
-namespace Expensely.Application.Tests.Expenses.Queries
+namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
     public class GetExpensesQueryTests : BaseTest
     {

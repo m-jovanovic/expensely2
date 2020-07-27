@@ -5,7 +5,7 @@ using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
 using Xunit;
 
-namespace Expensely.Domain.Tests.ValueObjects
+namespace Expensely.Domain.UnitTests.ValueObjects
 {
     public class EmailTests
     {
