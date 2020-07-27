@@ -51,5 +51,28 @@ namespace Expensely.Domain.UnitTests.Entities
             Assert.False(user1 == user2);
             Assert.NotEqual(user1, user2);
         }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_id_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new User(Guid.Empty, FirstName, LastName, Email));
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_first_name_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), string.Empty, LastName, Email));
+        }
+
+        [Fact] public void Should_throw_argument_exception_if_last_name_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), FirstName, string.Empty, Email));
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_email_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), FirstName, LastName, Email.Empty));
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Utility;
 using Expensely.Domain.ValueObjects;
 
 namespace Expensely.Domain.Entities
@@ -20,6 +21,11 @@ namespace Expensely.Domain.Entities
         public User(Guid id, string firstName, string lastName, Email email)
             : this()
         {
+            Ensure.NotEmpty(id, "The identifier is required.", nameof(id));
+            Ensure.NotEmpty(firstName, "The first name is required.", nameof(firstName));
+            Ensure.NotEmpty(lastName, "The last name is required.", nameof(lastName));
+            Ensure.NotEmpty(email, "The email is required.", nameof(email));
+
             Id = id;
 
             // TODO: Create first name value object.

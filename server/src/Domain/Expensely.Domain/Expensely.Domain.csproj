@@ -5,10 +5,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <Import Project="..\..\..\CodeAnalysis.targets" />
-
   <ItemGroup>
     <ProjectReference Include="..\Expensely.Domain.Core\Expensely.Domain.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Expensely.Domain.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Import Project="..\..\..\CodeAnalysis.targets" />
 
 </Project>
