@@ -19,6 +19,42 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             Assert.Equal(email2, email1);
         }
 
+        [Fact]
+        public void Create_should_fail_if_email_is_null()
+        {
+            Result<Email> result = Email.Create(null);
+
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
+            Assert.Throws<InvalidOperationException>(() => result.Value());
+        }
+
+        [Fact]
+        public void Create_should_fail_if_email_is_empty()
+        {
+            Result<Email> result = Email.Create(string.Empty);
+
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
+            Assert.Throws<InvalidOperationException>(() => result.Value());
+        }
+
+        [Fact]
+        public void Create_should_fail_if_email_is_longer_than_allowed()
+        {
+            string email = string.Join(
+                string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
+
+            Result<Email> result = Email.Create(email);
+
+            Assert.True(result.IsFailure);
+            Assert.False(result.IsSuccess);
+            Assert.Equal(Errors.Email.LongerThanAllowed, result.Error);
+            Assert.Throws<InvalidOperationException>(() => result.Value());
+        }
+
         [Theory]
         [InlineData(@"NotAnEmail")]
         [InlineData(@"@NotAnEmail")]
@@ -62,39 +98,6 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             Email value = result.Value();
             Assert.NotNull(value);
             Assert.Equal(email, value.Value);
-        }
-
-        [Fact]
-        public void Create_should_fail_if_email_is_null()
-        {
-            Result<Email> result = Email.Create(null);
-
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
-        }
-
-        [Fact]
-        public void Create_should_fail_if_email_is_empty()
-        {
-            Result<Email> result = Email.Create(string.Empty);
-
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
-        }
-
-        [Fact]
-        public void Create_should_fail_if_email_is_longer_than_allowed()
-        {
-            string email = string.Join(
-                string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
-
-            Result<Email> result = Email.Create(email);
-
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.LongerThanAllowed, result.Error);
         }
     }
 }

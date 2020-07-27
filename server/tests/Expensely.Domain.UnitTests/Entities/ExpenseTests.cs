@@ -28,11 +28,11 @@ namespace Expensely.Domain.UnitTests.Entities
         [Fact]
         public void Should_be_equal_with_expense_with_same_id()
         {
-            var id1 = Guid.NewGuid();
+            var id = Guid.NewGuid();
             DateTime now = DateTime.Now;
 
-            var expense1 = new Expense(id1, Name, Money, now);
-            var expense2 = new Expense(id1, Name, Money, now);
+            var expense1 = new Expense(id, Name, Money, now);
+            var expense2 = new Expense(id, Name, Money, now);
 
             Assert.True(expense1.Equals(expense2));
             Assert.True(expense1 == expense2);

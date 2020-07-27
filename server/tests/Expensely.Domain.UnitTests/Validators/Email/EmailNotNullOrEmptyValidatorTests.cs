@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Expensely.Domain.UnitTests.Validators.Email
 {
-    public class EmailNullOrEmptyValidatorTests
+    public class EmailNotNullOrEmptyValidatorTests
     {
         [Theory]
         [InlineData(null)]
