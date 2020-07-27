@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Utility;
 using Expensely.Domain.ValueObjects;
 
 namespace Expensely.Domain.Entities
@@ -20,6 +21,10 @@ namespace Expensely.Domain.Entities
         public Expense(Guid id, string name, Money money, DateTime date)
             : this()
         {
+            Ensure.NotEmpty(id, "The identifier is required.", nameof(id));
+            Ensure.NotEmpty(money, "The money is required.", nameof(money));
+            Ensure.NotEmpty(date, "The date is required.", nameof(date));
+
             Id = id;
             Name = name;
             Money = money;

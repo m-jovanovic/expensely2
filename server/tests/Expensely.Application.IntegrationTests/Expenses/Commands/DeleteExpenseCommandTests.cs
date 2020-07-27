@@ -18,6 +18,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 {
     public class DeleteExpenseCommandTests : BaseTest
     {
+        private const string Name = "Expense";
+        private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
+
         [Fact]
         public void Command_should_create_properly()
         {
@@ -140,9 +143,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
         private async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), string.Empty, Money.None, DateTime.Now);
+            var expense = new Expense(Guid.NewGuid(), Name, Money, DateTime.Now);
 
-            DbContext.Add(expense1);
+            DbContext.Add(expense);
 
             await DbContext.SaveChangesAsync();
         }

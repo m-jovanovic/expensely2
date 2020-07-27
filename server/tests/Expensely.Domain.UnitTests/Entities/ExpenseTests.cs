@@ -7,7 +7,7 @@ namespace Expensely.Domain.UnitTests.Entities
 {
     public sealed class ExpenseTests
     {
-        private static readonly string Name = "Expense";
+        private const string Name = "Expense";
         private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
 
         [Fact]
@@ -52,6 +52,24 @@ namespace Expensely.Domain.UnitTests.Entities
             Assert.False(expense1.Equals(expense2));
             Assert.False(expense1 == expense2);
             Assert.NotEqual(expense1, expense2);
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_id_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new Expense(Guid.Empty, Name, Money, DateTime.Now));
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_money_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new Expense(Guid.NewGuid(), Name, Money.None, DateTime.Now));
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_date_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => new Expense(Guid.NewGuid(), Name, Money, default));
         }
     }
 }
