@@ -8,9 +8,11 @@
     <None Remove="001_CreateExpenseTable.sql" />
     <None Remove="002_AddDeletedOnColumnToExpense.sql" />
     <None Remove="003_CreateUserTable.sql" />
+    <None Remove="004_CreateUniqueIndexOnUserEmail.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="004_CreateUniqueIndexOnUserEmail.sql" />
     <EmbeddedResource Include="003_CreateUserTable.sql" />
     <EmbeddedResource Include="002_AddDeletedOnColumnToExpense.sql" />
     <EmbeddedResource Include="001_CreateExpenseTable.sql" />
