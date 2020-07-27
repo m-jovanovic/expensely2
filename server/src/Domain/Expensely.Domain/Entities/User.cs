@@ -21,7 +21,11 @@ namespace Expensely.Domain.Entities
             : this()
         {
             Id = id;
+
+            // TODO: Create first name value object.
             FirstName = firstName;
+
+            // TODO: Create last name value object.
             LastName = lastName;
             Email = email;
         }

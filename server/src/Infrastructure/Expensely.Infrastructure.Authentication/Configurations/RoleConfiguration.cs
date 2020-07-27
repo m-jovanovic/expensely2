@@ -21,6 +21,8 @@ namespace Expensely.Infrastructure.Authentication.Configurations
             builder.Property(r => r.Description).HasColumnType("nvarchar(200)").IsRequired(false);
 
             builder.Property(r => r.Permissions).HasField("_permissions").HasColumnType("int[]").IsRequired();
+
+            builder.Ignore(r => r.Permissions);
         }
     }
 }

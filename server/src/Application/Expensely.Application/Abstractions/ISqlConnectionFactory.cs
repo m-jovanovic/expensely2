@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,10 +10,10 @@ namespace Expensely.Application.Abstractions
     public interface ISqlConnectionFactory
     {
         /// <summary>
-        /// Creates a new <see cref="SqlConnection"/> instance.
+        /// Creates a new <see cref="IDbConnection"/> instance.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The new <see cref="SqlConnection"/> instance.</returns>
-        Task<SqlConnection> CreateSqlConnectionAsync(CancellationToken cancellationToken = default);
+        /// <returns>The new <see cref="IDbConnection"/> instance.</returns>
+        Task<IDbConnection> CreateSqlConnectionAsync(CancellationToken cancellationToken = default);
     }
 }

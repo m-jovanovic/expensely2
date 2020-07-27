@@ -9,6 +9,7 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Authorization;
 using Expensely.Infrastructure.Authorization.Attributes;
@@ -29,7 +30,7 @@ namespace Expensely.Api.Controllers
 
             IReadOnlyCollection<ExpenseResponse> expenses = await Mediator.Send(query);
 
-            if (expenses is null)
+            if (expenses is null || expenses.Count == 0)
             {
                 return NotFound();
             }
@@ -61,6 +62,11 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
         {
+            if (request is null)
+            {
+                return BadRequest();
+            }
+
             var command = new CreateExpenseCommand(request.Name, request.Amount, request.CurrencyId, request.Date);
 
             Result<EntityCreatedResponse> result = await Mediator.Send(command);
@@ -77,8 +83,8 @@ namespace Expensely.Api.Controllers
 
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [HasPermission(Permission.ExpenseRemove)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Result), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExpense(Guid id)
         {
             var command = new DeleteExpenseCommand(id);

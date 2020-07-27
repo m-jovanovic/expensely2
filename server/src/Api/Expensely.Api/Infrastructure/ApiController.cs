@@ -1,7 +1,10 @@
-﻿using Expensely.Api.Contracts;
+﻿using System;
+using Expensely.Api.Contracts;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,13 +21,22 @@ namespace Expensely.Api.Infrastructure
         /// <summary>
         /// Gets the <see cref="IMediator"/> instance.
         /// </summary>
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        protected IMediator Mediator => (_mediator ??= HttpContext.RequestServices.GetService<IMediator>()) ??
+                                        throw new ArgumentNullException(nameof(Mediator));
 
         /// <summary>
-        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/> response.
+        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
+        /// response with a generic bad request error.
         /// </summary>
+        /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
+        protected new IActionResult BadRequest()
+        {
+            return BadRequest(Result.Fail(Errors.General.BadRequest));
+        }
+
         /// <summary>
-        /// Creates <see cref="BadRequestObjectResult"/> that produces a  based on the specified <see cref="Result"/>.
+        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
+        /// response based on the specified <see cref="Result"/>.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>

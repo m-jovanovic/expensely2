@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Npgsql;
 
 namespace Expensely.Infrastructure.Persistence.Factories
 {
@@ -20,9 +20,9 @@ namespace Expensely.Infrastructure.Persistence.Factories
         public SqlConnectionFactory(ConnectionString connectionString) => _connectionString = connectionString;
 
         /// <inheritdoc />
-        public async Task<SqlConnection> CreateSqlConnectionAsync(CancellationToken cancellationToken)
+        public async Task<IDbConnection> CreateSqlConnectionAsync(CancellationToken cancellationToken)
         {
-            var sqlConnection = new SqlConnection(_connectionString);
+            var sqlConnection = new NpgsqlConnection(_connectionString);
 
             if (sqlConnection.State != ConnectionState.Open)
             {

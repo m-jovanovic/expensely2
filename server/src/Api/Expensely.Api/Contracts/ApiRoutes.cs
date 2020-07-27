@@ -13,7 +13,7 @@
 
             public const string CreateExpense = "api/expenses";
 
-            public const string DeleteExpense = "api/exepsnes/{id:guid}";
+            public const string DeleteExpense = "api/expenses/{id:guid}";
         }
 
         public static class Authentication

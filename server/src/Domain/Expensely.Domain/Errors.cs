@@ -22,6 +22,22 @@ namespace Expensely.Domain
         }
 
         /// <summary>
+        /// Contains the first name errors.
+        /// </summary>
+        public static class FirstName
+        {
+            public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty");
+        }
+
+        /// <summary>
+        /// Contains the last name errors.
+        /// </summary>
+        public static class LastName
+        {
+            public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty");
+        }
+
+        /// <summary>
         /// Contains the email errors.
         /// </summary>
         public static class Email
@@ -52,6 +68,18 @@ namespace Expensely.Domain
         }
 
         /// <summary>
+        /// Contains the expense errors.
+        /// </summary>
+        public static class Expense
+        {
+            public static Error NameIsRequired => new Error("Expense.NameMissing");
+
+            public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing");
+
+            public static Error DateIsRequired => new Error("Expense.DateMissing");
+        }
+
+        /// <summary>
         /// Contains the currency errors.
         /// </summary>
         public static class Currency
@@ -72,6 +100,8 @@ namespace Expensely.Domain
         /// </summary>
         public static class General
         {
+            public static Error BadRequest => new Error("General.BadRequest");
+
             public static Error EntityNotFound => new Error("General.EntityNotFound");
 
             public static Error EntityAlreadyExists => new Error("General.EntityAlreadyExists");

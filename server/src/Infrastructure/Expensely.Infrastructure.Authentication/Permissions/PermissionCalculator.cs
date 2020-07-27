@@ -24,6 +24,7 @@ namespace Expensely.Infrastructure.Authentication.Permissions
         /// <returns>The array of permissions for the specified user identifier.</returns>
         internal async Task<Permission[]> CalculatePermissionsForUserIdAsync(Guid userId)
         {
+            // TODO: Implement permission calculation.
             await _dbContext.SaveChangesAsync();
 
             return new[]
