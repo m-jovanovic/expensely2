@@ -22,29 +22,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
 
         [Fact]
-        public void Command_should_create_properly()
-        {
-            var command = new DeleteExpenseCommand(Guid.Empty);
-
-            Assert.NotNull(command);
-            Assert.Equal(Guid.Empty, command.ExpenseId);
-        }
-
-        [Fact]
-        public async Task Handle_should_complete_unsuccessfully_given_empty_expense_id()
-        {
-            var expenseRepositoryStub = new Mock<IExpenseRepository>();
-            var mediatorStub = new Mock<IMediator>();
-            var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryStub.Object, mediatorStub.Object);
-            var command = new DeleteExpenseCommand(Guid.Empty);
-
-            Result result = await commandHandler.Handle(command, default);
-
-            Assert.True(result.IsFailure);
-            Assert.Equal(Errors.General.EntityNotFound, result.Error);
-        }
-
-        [Fact]
         public async Task Handle_should_complete_unsuccessfully_given_non_existing_expense_id()
         {
             await SeedExpenses();

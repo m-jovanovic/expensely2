@@ -14,29 +14,30 @@ namespace Expensely.Domain.UnitTests.Entities
         public void Should_construct_properly()
         {
             var id = Guid.NewGuid();
-            DateTime now = DateTime.Now;
+            DateTime date = GetDate();
 
-            var expense = new Expense(id, Name, Money, now);
+            var expense = new Expense(id, Name, Money, date);
 
             Assert.NotNull(expense);
             Assert.Equal(id, expense.Id);
             Assert.Equal(Name, expense.Name);
             Assert.Equal(Money.Amount, expense.Money.Amount);
-            Assert.Equal(now.Date, expense.Date);
+            Assert.Equal(date.Date, expense.Date);
         }
 
         [Fact]
         public void Should_be_equal_with_expense_with_same_id()
         {
             var id = Guid.NewGuid();
-            DateTime now = DateTime.Now;
+            DateTime date = GetDate();
 
-            var expense1 = new Expense(id, Name, Money, now);
-            var expense2 = new Expense(id, Name, Money, now);
+            var expense1 = new Expense(id, Name, Money, date);
+            var expense2 = new Expense(id, Name, Money, date);
 
             Assert.True(expense1.Equals(expense2));
             Assert.True(expense1 == expense2);
             Assert.Equal(expense1, expense2);
+            Assert.Equal(expense1.GetHashCode(), expense2.GetHashCode());
         }
 
         [Fact]
@@ -44,14 +45,15 @@ namespace Expensely.Domain.UnitTests.Entities
         {
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();
-            DateTime now = DateTime.Now;
+            DateTime date = GetDate();
 
-            var expense1 = new Expense(id1, Name, Money, now);
-            var expense2 = new Expense(id2, Name, Money, now);
+            var expense1 = new Expense(id1, Name, Money, date);
+            var expense2 = new Expense(id2, Name, Money, date);
 
             Assert.False(expense1.Equals(expense2));
-            Assert.False(expense1 == expense2);
+            Assert.True(expense1 != expense2);
             Assert.NotEqual(expense1, expense2);
+            Assert.NotEqual(expense1.GetHashCode(), expense2.GetHashCode());
         }
 
         [Fact]
@@ -71,5 +73,7 @@ namespace Expensely.Domain.UnitTests.Entities
         {
             Assert.Throws<ArgumentException>(() => new Expense(Guid.NewGuid(), Name, Money, default));
         }
+
+        private static DateTime GetDate() => DateTime.Now;
     }
 }

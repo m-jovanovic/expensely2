@@ -15,8 +15,27 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             Email email1 = Email.Create("test@email.test").Value();
             Email email2 = Email.Create("test@email.test").Value();
 
+            Assert.NotSame(email1, email2);
             Assert.Equal(email1, email2);
             Assert.Equal(email2, email1);
+            Assert.True(email1 == email2);
+            Assert.True(email2 == email1);
+            Assert.Equal(email1.GetHashCode(), email2.GetHashCode());
+            Assert.Equal(email2.GetHashCode(), email1.GetHashCode());
+        }
+
+        [Fact]
+        public void Should_not_be_equal_if_email_values_are_not_equal()
+        {
+            Email email1 = Email.Create("test1@email.test").Value();
+            Email email2 = Email.Create("test2@email.test").Value();
+
+            Assert.NotEqual(email1, email2);
+            Assert.NotEqual(email2, email1);
+            Assert.True(email1 != email2);
+            Assert.True(email2 != email1);
+            Assert.NotEqual(email1.GetHashCode(), email2.GetHashCode());
+            Assert.NotEqual(email2.GetHashCode(), email1.GetHashCode());
         }
 
         [Fact]

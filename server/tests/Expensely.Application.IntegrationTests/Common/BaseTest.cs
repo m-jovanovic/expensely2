@@ -3,20 +3,18 @@ using Expensely.Infrastructure.Persistence;
 
 namespace Expensely.Application.IntegrationTests.Common
 {
-    public class BaseTest : IDisposable
+    public abstract class BaseTest : IDisposable
     {
-        private readonly ExpenselyDbContext _dbContext;
-
-        public BaseTest()
+        protected BaseTest()
         {
-            _dbContext = ExpenselyDbContextFactory.Create();
+            DbContext = ExpenselyDbContextFactory.Create();
         }
 
         public void Dispose()
         {
-            ExpenselyDbContextFactory.Destroy(_dbContext);
+            ExpenselyDbContextFactory.Destroy(DbContext);
         }
 
-        internal ExpenselyDbContext DbContext => _dbContext;
+        internal ExpenselyDbContext DbContext { get; }
     }
 }

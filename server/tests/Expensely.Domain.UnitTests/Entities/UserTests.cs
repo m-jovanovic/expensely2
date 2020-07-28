@@ -36,6 +36,7 @@ namespace Expensely.Domain.UnitTests.Entities
             Assert.True(user1.Equals(user2));
             Assert.True(user1 == user2);
             Assert.Equal(user1, user2);
+            Assert.Equal(user1.GetHashCode(), user2.GetHashCode());
         }
 
         [Fact]
@@ -48,8 +49,9 @@ namespace Expensely.Domain.UnitTests.Entities
             var user2 = new User(id2, FirstName, LastName, Email);
 
             Assert.False(user1.Equals(user2));
-            Assert.False(user1 == user2);
+            Assert.True(user1 != user2);
             Assert.NotEqual(user1, user2);
+            Assert.NotEqual(user1.GetHashCode(), user2.GetHashCode());
         }
 
         [Fact]

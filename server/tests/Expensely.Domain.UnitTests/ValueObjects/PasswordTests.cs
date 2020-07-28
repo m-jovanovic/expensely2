@@ -8,13 +8,31 @@ namespace Expensely.Domain.UnitTests.ValueObjects
     public class PasswordTests
     {
         [Fact]
-        public void Should_be_equal_if_email_values_are_equal()
+        public void Should_be_equal_if_password_values_are_equal()
         {
             Password password1 = Password.Create("123aA!").Value();
             Password password2 = Password.Create("123aA!").Value();
 
             Assert.Equal(password1, password2);
             Assert.Equal(password2, password1);
+            Assert.True(password1 == password2);
+            Assert.True(password2 == password1);
+            Assert.Equal(password1.GetHashCode(), password2.GetHashCode());
+            Assert.Equal(password2.GetHashCode(), password1.GetHashCode());
+        }
+
+        [Fact]
+        public void Should_not_be_equal_if_password_values_are_not_equal()
+        {
+            Password password1 = Password.Create("123aA!1").Value();
+            Password password2 = Password.Create("123aA!2").Value();
+
+            Assert.NotEqual(password1, password2);
+            Assert.NotEqual(password2, password1);
+            Assert.True(password1 != password2);
+            Assert.True(password2 != password1);
+            Assert.NotEqual(password1.GetHashCode(), password2.GetHashCode());
+            Assert.NotEqual(password2.GetHashCode(), password1.GetHashCode());
         }
 
         [Theory]
@@ -92,7 +110,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [InlineData("A0000a")]
         [InlineData("0Aaaaa")]
         [InlineData("1AAAAb")]
-        public void Create_should_fail_if_password_is_missing_nonalphanumeric(string password)
+        public void Create_should_fail_if_password_is_missing_non_alphanumeric(string password)
         {
             Result<Password> result = Password.Create(password);
 

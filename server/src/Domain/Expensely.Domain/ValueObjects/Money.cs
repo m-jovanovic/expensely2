@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.ValueObjects
 {
@@ -9,7 +10,7 @@ namespace Expensely.Domain.ValueObjects
     /// </summary>
     public sealed class Money : ValueObject
     {
-        public static readonly Money None = new Money(decimal.Zero, Currency.None);
+        public static readonly Money None = new Money();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Money"/> class.
@@ -17,8 +18,9 @@ namespace Expensely.Domain.ValueObjects
         /// <param name="amount">The money amount.</param>
         /// <param name="currency">The currency instance.</param>
         public Money(decimal amount, Currency currency)
-            : this()
         {
+            Ensure.NotEmpty(currency, "The currency is required", nameof(currency));
+
             Amount = amount;
             Currency = currency;
         }

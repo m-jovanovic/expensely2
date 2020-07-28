@@ -9,15 +9,15 @@ namespace Expensely.Domain.Utility
     public static class Ensure
     {
         /// <summary>
-        /// Ensures that the specified <see cref="Guid"/> value is not empty.
+        /// Ensures that the specified <see cref="decimal"/> value is not empty.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <param name="message">The message to show if the check fails.</param>
         /// <param name="argumentName">The name of the argument being checked.</param>
         /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
-        public static void NotEmpty(Guid value, string message, string argumentName)
+        public static void NotEmpty(decimal value, string message, string argumentName)
         {
-            if (value == Guid.Empty)
+            if (value == default)
             {
                 throw new ArgumentException(message, argumentName);
             }
@@ -39,6 +39,21 @@ namespace Expensely.Domain.Utility
         }
 
         /// <summary>
+        /// Ensures that the specified <see cref="Guid"/> value is not empty.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="message">The message to show if the check fails.</param>
+        /// <param name="argumentName">The name of the argument being checked.</param>
+        /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
+        public static void NotEmpty(Guid value, string message, string argumentName)
+        {
+            if (value == Guid.Empty)
+            {
+                throw new ArgumentException(message, argumentName);
+            }
+        }
+
+        /// <summary>
         /// Ensures that the specified <see cref="DateTime"/> value is not empty.
         /// </summary>
         /// <param name="value">The value to check.</param>
@@ -48,6 +63,21 @@ namespace Expensely.Domain.Utility
         public static void NotEmpty(DateTime value, string message, string argumentName)
         {
             if (value == default)
+            {
+                throw new ArgumentException(message, argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the specified <see cref="Currency"/> value is not empty.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="message">The message to show if the check fails.</param>
+        /// <param name="argumentName">The name of the argument being checked.</param>
+        /// <exception cref="ArgumentException"> if the specified value is null.</exception>
+        public static void NotEmpty(Currency value, string message, string argumentName)
+        {
+            if (value == Currency.None)
             {
                 throw new ArgumentException(message, argumentName);
             }
