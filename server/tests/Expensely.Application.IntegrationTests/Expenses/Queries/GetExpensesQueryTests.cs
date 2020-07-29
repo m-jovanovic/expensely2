@@ -6,6 +6,8 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain.Entities;
+using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Queries
@@ -20,8 +22,8 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            Assert.NotNull(result);
-            Assert.Empty(result);
+            result.Should().NotBeNull();
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -34,15 +36,15 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            Assert.NotNull(result);
-            Assert.True(result.Count == DbContext.Set<Expense>().Count());
+            result.Should().NotBeNull();
+            result.Count.Should().Be(DbContext.Set<Expense>().Count());
         }
 
         private async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
-            var expense2 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
-            var expense3 = new Expense(Guid.NewGuid(), string.Empty, default, DateTime.Now);
+            var expense1 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
+            var expense2 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
+            var expense3 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
 
             DbContext.Add(expense1);
             DbContext.Add(expense2);

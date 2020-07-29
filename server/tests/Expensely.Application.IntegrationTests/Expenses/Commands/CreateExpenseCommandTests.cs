@@ -5,6 +5,7 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain.Entities;
 using Expensely.Infrastructure.Persistence.Repositories;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
@@ -28,10 +29,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             await commandHandler.Handle(command, default);
 
-            // Calling save changes because this would usually be done by the Unit of Work.
             await DbContext.SaveChangesAsync();
 
-            Assert.True(DbContext.Set<Expense>().Count() == 1);
+            DbContext.Set<Expense>().Count().Should().Be(1);
         }
     }
 }

@@ -10,6 +10,7 @@ using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
@@ -33,8 +34,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             Result result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.Equal(Errors.General.EntityNotFound, result.Error);
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.General.EntityNotFound);
         }
 
         [Fact]
@@ -112,10 +114,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             await commandHandler.Handle(command, default);
 
-            // Calling save changes because this would usually be done by the Unit of Work.
             await DbContext.SaveChangesAsync();
 
-            Assert.True(DbContext.Set<Expense>().Count() == 0);
+            DbContext.Set<Expense>().Count().Should().Be(0);
         }
 
         private async Task SeedExpenses()
