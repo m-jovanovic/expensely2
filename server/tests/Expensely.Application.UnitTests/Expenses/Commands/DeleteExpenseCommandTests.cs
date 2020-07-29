@@ -8,6 +8,7 @@ using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
@@ -19,10 +20,11 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         [Fact]
         public void Should_construct_properly()
         {
-            var command = new DeleteExpenseCommand(Guid.Empty);
+            var expenseId = Guid.NewGuid();
+            var command = new DeleteExpenseCommand(expenseId);
 
-            Assert.NotNull(command);
-            Assert.Equal(Guid.Empty, command.ExpenseId);
+            command.Should().NotBeNull();
+            command.ExpenseId.Should().Be(expenseId);
         }
 
         [Fact]
@@ -47,9 +49,9 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.General.EntityNotFound, result.Error);
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.General.EntityNotFound);
         }
 
         [Fact]
@@ -94,8 +96,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result result = await commandHandler.Handle(command, default);
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
         }
 
         private static Expense CreateExpense()

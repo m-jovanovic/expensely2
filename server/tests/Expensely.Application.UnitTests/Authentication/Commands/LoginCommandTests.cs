@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
 using Expensely.Application.Authentication.Commands.Login;
+using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -16,9 +17,9 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var command = new LoginCommand(Email, Password);
 
-            Assert.NotNull(command);
-            Assert.Equal(Email, command.Email);
-            Assert.Equal(Password, command.Password);
+            command.Should().NotBeNull();
+            command.Email.Should().Be(Email);
+            command.Password.Should().Be(Password);
         }
 
         [Fact]

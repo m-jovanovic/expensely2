@@ -7,6 +7,7 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
 using Xunit;
@@ -23,7 +24,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             ExpenseResponse? result = await queryHandler.Handle(query, default);
 
-            Assert.Null(result);
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             ExpenseResponse? result = await queryHandler.Handle(query, default);
 
-            Assert.Null(result);
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -57,16 +58,16 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             ExpenseResponse result = (await queryHandler.Handle(query, default))!;
 
-            Assert.NotNull(result);
-            Assert.Equal(expense.Id, result.Id);
-            Assert.Equal(expense.Name, result.Name);
-            Assert.Equal(expense.Money.Amount, result.Amount);
-            Assert.Equal(expense.Money.Currency.Id, result.CurrencyId);
-            Assert.Equal(expense.Money.Currency.Code, result.CurrencyCode);
-            Assert.Equal(expense.Date, result.Date);
-            Assert.Equal(expense.CreatedOnUtc, result.CreatedOnUtc);
-            Assert.Equal(expense.ModifiedOnUtc, result.ModifiedOnUtc);
-            Assert.Equal(expense.Deleted, result.Deleted);
+            result.Should().NotBeNull();
+            result.Id.Should().Be(expense.Id);
+            result.Name.Should().Be(expense.Name);
+            result.Amount.Should().Be(expense.Money.Amount);
+            result.CurrencyId.Should().Be(expense.Money.Currency.Id);
+            result.CurrencyCode.Should().Be(expense.Money.Currency.Code);
+            result.Date.Should().Be(expense.Date);
+            result.CreatedOnUtc.Should().Be(expense.CreatedOnUtc);
+            result.ModifiedOnUtc.Should().Be(expense.ModifiedOnUtc);
+            result.Deleted.Should().Be(expense.Deleted);
         }
 
         private static Expense CreateExpense()

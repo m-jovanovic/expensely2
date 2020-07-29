@@ -8,6 +8,7 @@ using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
@@ -28,11 +29,11 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, date);
 
-            Assert.NotNull(command);
-            Assert.Equal(Name, command.Name);
-            Assert.Equal(Amount, command.Amount);
-            Assert.Equal(CurrencyId, command.CurrencyId);
-            Assert.Equal(date, command.Date);
+            command.Should().NotBeNull();
+            command.Name.Should().Be(Name);
+            command.Amount.Should().Be(Amount);
+            command.CurrencyId.Should().Be(CurrencyId);
+            command.Date.Should().Be(date);
         }
 
         [Fact]
@@ -44,10 +45,10 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Currency.NotFound, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Currency.NotFound);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -85,11 +86,12 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
+            result.Invoking(r => r.Value()).Should().NotThrow();
             EntityCreatedResponse entityCreatedResponse = result.Value();
-            Assert.NotNull(entityCreatedResponse);
-            Assert.NotEqual(Guid.Empty, entityCreatedResponse.Id);
+            entityCreatedResponse.Should().NotBeNull();
+            entityCreatedResponse.Id.Should().NotBe(Guid.Empty);
         }
 
         private static DateTime GetDate() => DateTime.Now;

@@ -8,6 +8,7 @@ using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -27,12 +28,12 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
 
-            Assert.NotNull(command);
-            Assert.Equal(FirstName, command.FirstName);
-            Assert.Equal(LastName, command.LastName);
-            Assert.Equal(Email, command.Email);
-            Assert.Equal(Password, command.Password);
-            Assert.Equal(Password, command.ConfirmPassword);
+            command.Should().NotBeNull();
+            command.FirstName.Should().Be(FirstName);
+            command.LastName.Should().Be(LastName);
+            command.Email.Should().Be(Email);
+            command.Password.Should().Be(Password);
+            command.ConfirmPassword.Should().Be(Password);
         }
 
         [Fact]
@@ -45,10 +46,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Authentication.PasswordsDoNotMatch, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Authentication.PasswordsDoNotMatch);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -65,10 +66,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.NullOrEmpty, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.NullOrEmpty);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -86,10 +87,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.TooShort, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.TooShort);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -105,10 +106,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.MissingLowercaseLetter, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.MissingLowercaseLetter);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -124,10 +125,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.MissingUppercaseLetter, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.MissingUppercaseLetter);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -141,10 +142,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.MissingDigit, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.MissingDigit);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -160,10 +161,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.MissingNonAlphaNumeric, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.MissingNonAlphaNumeric);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
         
         [Theory]
@@ -180,10 +181,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.NullOrEmpty);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -198,10 +199,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.LongerThanAllowed, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.LongerThanAllowed);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -224,10 +225,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.IncorrectFormat, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.IncorrectFormat);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -256,10 +257,10 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Authentication.DuplicateEmail, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Authentication.DuplicateEmail);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -300,11 +301,12 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
+            result.Invoking(r => r.Value()).Should().NotThrow();
             var tokenResponse = result.Value();
-            Assert.NotNull(tokenResponse);
-            Assert.Equal(TokenResponse, tokenResponse.Token);
+            tokenResponse.Should().NotBeNull();
+            tokenResponse.Token.Should().Be(TokenResponse);
         }
     }
 }

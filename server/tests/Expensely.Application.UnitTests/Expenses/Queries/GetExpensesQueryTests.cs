@@ -7,6 +7,7 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
 using Xunit;
@@ -26,8 +27,8 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            Assert.NotNull(result);
-            Assert.Empty(result);
+            result.Should().NotBeNull();
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -47,8 +48,8 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            Assert.NotNull(result);
-            Assert.Equal(expenses.Count, result.Count);
+            result.Should().NotBeNull();
+            result.Count.Should().Be(expenses.Count);
         }
 
         private static Expense CreateExpense()
