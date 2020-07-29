@@ -15,17 +15,14 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
     public class CreateExpenseCommandTests : BaseTest
     {
         private const string Name = "Expense";
-        private const decimal Amount = 0.0m;
+        private const decimal Amount = 1.0m;
         private const int CurrencyId = 1;
 
         [Fact]
         public async Task Handle_should_create_an_expense()
         {
-            var expenseRepositoryStub = new ExpenseRepository(DbContext);
-            var mediatorStub = new Mock<IMediator>();
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryStub, mediatorStub.Object);
-            DateTime now = DateTime.Now;
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, now);
+            var commandHandler = new CreateExpenseCommandHandler(new ExpenseRepository(DbContext), new Mock<IMediator>().Object);
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, DateTime.Now);
 
             await commandHandler.Handle(command, default);
 
