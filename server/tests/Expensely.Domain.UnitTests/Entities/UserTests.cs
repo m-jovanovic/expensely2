@@ -1,15 +1,48 @@
 ﻿using System;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.Entities
 {
     public class UserTests
     {
-        public static string FirstName = "FirstName";
-        public static string LastName = "LastName";
+        public const string FirstName = "FirstName";
+        public const string LastName = "LastName";
         public static Email Email = Email.Create("test@test.com").Value();
+
+        [Fact]
+        public void Should_throw_argument_exception_if_id_is_empty()
+        {
+            Action action = () => new User(Guid.Empty, FirstName, LastName, Email);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("id");
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_first_name_is_empty()
+        {
+            Action action = () => new User(Guid.NewGuid(), string.Empty, LastName, Email);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("firstName");
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_last_name_is_empty()
+        {
+            Action action = () => new User(Guid.NewGuid(), FirstName, string.Empty, Email);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("lastName");
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_email_is_empty()
+        {
+            Action action = () => new User(Guid.NewGuid(), FirstName, LastName, Email.Empty);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("email");
+        }
 
         [Fact]
         public void Should_construct_properly()
@@ -18,11 +51,11 @@ namespace Expensely.Domain.UnitTests.Entities
 
             var user = new User(id, FirstName, LastName, Email);
 
-            Assert.NotNull(user);
-            Assert.Equal(id, user.Id);
-            Assert.Equal(FirstName, user.FirstName);
-            Assert.Equal(LastName, user.LastName);
-            Assert.Equal(Email, user.Email);
+            user.Should().NotBeNull();
+            user.Id.Should().Be(id);
+            user.FirstName.Should().Be(FirstName);
+            user.LastName.Should().Be(LastName);
+            user.Email.Should().Be(Email);
         }
 
         [Fact]
@@ -33,10 +66,12 @@ namespace Expensely.Domain.UnitTests.Entities
             var user1 = new User(id, FirstName, LastName, Email);
             var user2 = new User(id, FirstName, LastName, Email);
 
-            Assert.True(user1.Equals(user2));
-            Assert.True(user1 == user2);
-            Assert.Equal(user1, user2);
-            Assert.Equal(user1.GetHashCode(), user2.GetHashCode());
+            user1.Should().Be(user2);
+            user2.Should().Be(user1);
+            (user1 == user2).Should().BeTrue();
+            (user2 == user1).Should().BeTrue();
+            user1.GetHashCode().Should().Be(user2.GetHashCode());
+            user2.GetHashCode().Should().Be(user1.GetHashCode());
         }
 
         [Fact]
@@ -48,33 +83,12 @@ namespace Expensely.Domain.UnitTests.Entities
             var user1 = new User(id1, FirstName, LastName, Email);
             var user2 = new User(id2, FirstName, LastName, Email);
 
-            Assert.False(user1.Equals(user2));
-            Assert.True(user1 != user2);
-            Assert.NotEqual(user1, user2);
-            Assert.NotEqual(user1.GetHashCode(), user2.GetHashCode());
-        }
-
-        [Fact]
-        public void Should_throw_argument_exception_if_id_is_empty()
-        {
-            Assert.Throws<ArgumentException>(() => new User(Guid.Empty, FirstName, LastName, Email));
-        }
-
-        [Fact]
-        public void Should_throw_argument_exception_if_first_name_is_empty()
-        {
-            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), string.Empty, LastName, Email));
-        }
-
-        [Fact] public void Should_throw_argument_exception_if_last_name_is_empty()
-        {
-            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), FirstName, string.Empty, Email));
-        }
-
-        [Fact]
-        public void Should_throw_argument_exception_if_email_is_empty()
-        {
-            Assert.Throws<ArgumentException>(() => new User(Guid.NewGuid(), FirstName, LastName, Email.Empty));
+            user1.Should().NotBe(user2);
+            user2.Should().NotBe(user1);
+            (user1 != user2).Should().BeTrue();
+            (user2 != user1).Should().BeTrue();
+            user1.GetHashCode().Should().NotBe(user2.GetHashCode());
+            user2.GetHashCode().Should().NotBe(user1.GetHashCode());
         }
     }
 }

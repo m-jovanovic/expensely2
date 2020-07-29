@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.ValueObjects
@@ -11,24 +12,24 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [MemberData(nameof(GetIdenticalCurrencyPairs))]
         public void Should_be_equal_given_same_currencies(Currency currency1, Currency currency2)
         {
-            Assert.Equal(currency1, currency2);
-            Assert.Equal(currency2, currency1);
-            Assert.True(currency1 == currency2);
-            Assert.True(currency2 == currency1);
-            Assert.Equal(currency1.GetHashCode(), currency2.GetHashCode());
-            Assert.Equal(currency2.GetHashCode(), currency1.GetHashCode());
+            currency1.Should().Be(currency2);
+            currency2.Should().Be(currency1);
+            (currency1 == currency2).Should().BeTrue();
+            (currency2 == currency1).Should().BeTrue();
+            currency1.GetHashCode().Should().Be(currency2.GetHashCode());
+            currency2.GetHashCode().Should().Be(currency1.GetHashCode());
         }
 
         [Theory]
         [MemberData(nameof(GetDifferentCurrencyPairs))]
         public void Should_not_be_equal_given_different_currencies(Currency currency1, Currency currency2)
         {
-            Assert.NotEqual(currency1, currency2);
-            Assert.NotEqual(currency2, currency1);
-            Assert.True(currency1 != currency2);
-            Assert.True(currency2 != currency1);
-            Assert.NotEqual(currency1.GetHashCode(), currency2.GetHashCode());
-            Assert.NotEqual(currency2.GetHashCode(), currency1.GetHashCode());
+            currency1.Should().NotBe(currency2);
+            currency2.Should().NotBe(currency1);
+            (currency1 != currency2).Should().BeTrue();
+            (currency2 != currency1).Should().BeTrue();
+            currency1.GetHashCode().Should().NotBe(currency2.GetHashCode());
+            currency2.GetHashCode().Should().NotBe(currency1.GetHashCode());
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             var currency = Currency.FromId(default);
 
-            Assert.Null(currency);
+            currency.Should().BeNull();
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             var currency = Currency.FromId(currencyId);
 
-            Assert.Null(currency);
+            currency.Should().BeNull();
         }
 
         [Fact]
@@ -56,7 +57,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             var currency = Currency.FromId(currencyId);
 
-            Assert.NotNull(currency);
+            currency.Should().NotBeNull();
         }
 
         [Fact]
@@ -66,7 +67,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             var currency = Currency.FromId(currencyId);
 
-            Assert.NotNull(currency);
+            currency.Should().NotBeNull();
         }
 
         private static IEnumerable<object[]> GetIdenticalCurrencyPairs()

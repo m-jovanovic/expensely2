@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.Error
@@ -20,7 +21,7 @@ namespace Expensely.Domain.UnitTests.Error
                 .Distinct()
                 .Count();
 
-            Assert.Equal(methods.Count, numberOfUniqueCodes);
+            methods.Count.Should().Be(numberOfUniqueCodes);
         }
 
         private static string GetErrorCode(MethodInfo method)

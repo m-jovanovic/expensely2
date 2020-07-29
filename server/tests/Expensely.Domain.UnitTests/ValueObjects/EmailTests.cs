@@ -3,6 +3,7 @@ using System.Linq;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.ValueObjects
@@ -15,13 +16,13 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             Email email1 = Email.Create("test@email.test").Value();
             Email email2 = Email.Create("test@email.test").Value();
 
-            Assert.NotSame(email1, email2);
-            Assert.Equal(email1, email2);
-            Assert.Equal(email2, email1);
-            Assert.True(email1 == email2);
-            Assert.True(email2 == email1);
-            Assert.Equal(email1.GetHashCode(), email2.GetHashCode());
-            Assert.Equal(email2.GetHashCode(), email1.GetHashCode());
+            email1.Should().NotBeSameAs(email2);
+            email1.Should().Be(email2);
+            email2.Should().Be(email1);
+            (email1 == email2).Should().BeTrue();
+            (email2 == email1).Should().BeTrue();
+            email1.GetHashCode().Should().Be(email2.GetHashCode());
+            email2.GetHashCode().Should().Be(email1.GetHashCode());
         }
 
         [Fact]
@@ -30,12 +31,12 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             Email email1 = Email.Create("test1@email.test").Value();
             Email email2 = Email.Create("test2@email.test").Value();
 
-            Assert.NotEqual(email1, email2);
-            Assert.NotEqual(email2, email1);
-            Assert.True(email1 != email2);
-            Assert.True(email2 != email1);
-            Assert.NotEqual(email1.GetHashCode(), email2.GetHashCode());
-            Assert.NotEqual(email2.GetHashCode(), email1.GetHashCode());
+            email1.Should().NotBe(email2);
+            email2.Should().NotBe(email1);
+            (email1 != email2).Should().BeTrue();
+            (email2 != email1).Should().BeTrue();
+            email1.GetHashCode().Should().NotBe(email2.GetHashCode());
+            email2.GetHashCode().Should().NotBe(email1.GetHashCode());
         }
 
         [Fact]
@@ -43,10 +44,10 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(null);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.NullOrEmpty);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -54,10 +55,10 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(string.Empty);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.NullOrEmpty, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.NullOrEmpty);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -68,10 +69,10 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Result<Email> result = Email.Create(email);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.LongerThanAllowed, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.LongerThanAllowed);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -89,10 +90,10 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(email);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.IncorrectFormat, result.Error);
-            Assert.Throws<InvalidOperationException>(() => result.Value());
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.IncorrectFormat);
+            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -112,11 +113,12 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(email);
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
+            result.Invoking(r => r.Value()).Should().NotThrow();
             Email value = result.Value();
-            Assert.NotNull(value);
-            Assert.Equal(email, value.Value);
+            value.Should().NotBeNull();
+            value.Value.Should().Be(email);
         }
     }
 }

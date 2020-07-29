@@ -1,5 +1,6 @@
 ﻿using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.Validators.Email
@@ -14,9 +15,9 @@ namespace Expensely.Domain.UnitTests.Validators.Email
 
             Result result = validator.Validate(email);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Email.LongerThanAllowed, result.Error);
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Email.LongerThanAllowed);
         }
 
         [Fact]
@@ -27,8 +28,8 @@ namespace Expensely.Domain.UnitTests.Validators.Email
 
             Result result = validator.Validate(email);
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
         }
     }
 }

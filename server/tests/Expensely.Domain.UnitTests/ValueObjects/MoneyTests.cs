@@ -1,5 +1,6 @@
 ﻿using System;
 using Expensely.Domain.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.ValueObjects
@@ -12,7 +13,9 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_throw_argument_exception_if_currency_is_missing()
         {
-            Assert.Throws<ArgumentException>(() => new Money(1.0m, Currency.None));
+            Action action = () => new Money(1.0m, Currency.None);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("currency");
         }
 
         [Fact]
@@ -20,8 +23,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             var money = new Money(Amount, Currency);
 
-            Assert.Equal(Amount, money.Amount);
-            Assert.Equal(Currency.Usd, money.Currency);
+            money.Amount.Should().Be(Amount);
+            money.Currency.Should().Be(Currency);
         }
 
         [Fact]
@@ -30,13 +33,13 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             var money1 = new Money(Amount, Currency);
             var money2 = new Money(Amount, Currency);
 
-            Assert.NotSame(money1, money2);
-            Assert.Equal(money1, money2);
-            Assert.Equal(money2, money1);
-            Assert.True(money1 == money2);
-            Assert.True(money2 == money1);
-            Assert.Equal(money1.GetHashCode(), money2.GetHashCode());
-            Assert.Equal(money2.GetHashCode(), money1.GetHashCode());
+            money1.Should().NotBeSameAs(money2);
+            money1.Should().Be(money2);
+            money2.Should().Be(money1);
+            (money1 == money2).Should().BeTrue();
+            (money2 == money1).Should().BeTrue();
+            money1.GetHashCode().Should().Be(money2.GetHashCode());
+            money2.GetHashCode().Should().Be(money1.GetHashCode());
         }
 
         [Fact]
@@ -45,13 +48,13 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             var money1 = new Money(1.0m, Currency);
             var money2 = new Money(2.0m, Currency);
 
-            Assert.NotSame(money1, money2);
-            Assert.NotEqual(money1, money2);
-            Assert.NotEqual(money2, money1);
-            Assert.True(money1 != money2);
-            Assert.True(money2 != money1);
-            Assert.NotEqual(money1.GetHashCode(), money2.GetHashCode());
-            Assert.NotEqual(money2.GetHashCode(), money1.GetHashCode());
+            money1.Should().NotBeSameAs(money2);
+            money1.Should().NotBe(money2);
+            money2.Should().NotBe(money1);
+            (money1 != money2).Should().BeTrue();
+            (money2 != money1).Should().BeTrue();
+            money1.GetHashCode().Should().NotBe(money2.GetHashCode());
+            money2.GetHashCode().Should().NotBe(money1.GetHashCode());
         }
 
         [Fact]
@@ -60,13 +63,24 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             var money1 = new Money(Amount, Currency.Usd);
             var money2 = new Money(Amount, Currency.Eur);
 
-            Assert.NotSame(money1, money2);
-            Assert.NotEqual(money1, money2);
-            Assert.NotEqual(money2, money1);
-            Assert.True(money1 != money2);
-            Assert.True(money2 != money1);
-            Assert.NotEqual(money1.GetHashCode(), money2.GetHashCode());
-            Assert.NotEqual(money2.GetHashCode(), money1.GetHashCode());
+            money1.Should().NotBeSameAs(money2);
+            money1.Should().NotBe(money2);
+            money2.Should().NotBe(money1);
+            (money1 != money2).Should().BeTrue();
+            (money2 != money1).Should().BeTrue();
+            money1.GetHashCode().Should().NotBe(money2.GetHashCode());
+            money2.GetHashCode().Should().NotBe(money1.GetHashCode());
+        }
+
+        [Fact]
+        public void Should_throw_invalid_operation_exception_when_adding_moneys_with_different_currencies()
+        {
+            var money1 = new Money(Amount, Currency.Usd);
+            var money2 = new Money(Amount, Currency.Eur);
+
+            Func<Money> action = () => money1 + money2;
+
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -81,17 +95,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Money addedMoney = money1 + money2;
 
-            Assert.Equal(addedMoney.Amount, amount1 + amount2);
-            Assert.Equal(addedMoney.Currency, Currency);
-        }
-
-        [Fact]
-        public void Should_throw_invalid_operation_exception_when_adding_moneys_with_different_currencies()
-        {
-            var money1 = new Money(Amount, Currency.Usd);
-            var money2 = new Money(Amount, Currency.Eur);
-
-            Assert.Throws<InvalidOperationException>(() => money1 + money2);
+            addedMoney.Amount.Should().Be(amount1 + amount2);
+            addedMoney.Currency.Should().Be(Currency);
         }
 
         [Fact]
@@ -102,10 +107,21 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Money addedMoney = money1 + money2;
 
-            Assert.NotSame(addedMoney, money1);
-            Assert.NotSame(addedMoney, money2);
+            addedMoney.Should().NotBeSameAs(money1);
+            addedMoney.Should().NotBeSameAs(money2);
         }
 
+
+        [Fact]
+        public void Should_throw_invalid_operation_exception_when_subtracting_moneys_with_different_currencies()
+        {
+            var money1 = new Money(Amount, Currency.Usd);
+            var money2 = new Money(Amount, Currency.Eur);
+
+            Func<Money> action = () => money1 - money2;
+
+            action.Should().Throw<InvalidOperationException>();
+        }
         [Theory]
         [InlineData(0, 0)]
         [InlineData(-1, 1)]
@@ -118,17 +134,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Money addedMoney = money1 - money2;
 
-            Assert.Equal(addedMoney.Amount, amount1 - amount2);
-            Assert.Equal(addedMoney.Currency, Currency);
-        }
-
-        [Fact]
-        public void Should_throw_invalid_operation_exception_when_subtracting_moneys_with_different_currencies()
-        {
-            var money1 = new Money(Amount, Currency.Usd);
-            var money2 = new Money(Amount, Currency.Eur);
-
-            Assert.Throws<InvalidOperationException>(() => money1 - money2);
+            addedMoney.Amount.Should().Be(amount1 - amount2);
+            addedMoney.Currency.Should().Be(Currency);
         }
 
         [Fact]
@@ -139,8 +146,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Money addedMoney = money1 - money2;
 
-            Assert.NotSame(addedMoney, money1);
-            Assert.NotSame(addedMoney, money2);
+            addedMoney.Should().NotBeSameAs(money1);
+            addedMoney.Should().NotBeSameAs(money2);
         }
     }
 }

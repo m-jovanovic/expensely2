@@ -1,5 +1,6 @@
 ﻿using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Password;
+using FluentAssertions;
 using Xunit;
 
 namespace Expensely.Domain.UnitTests.Validators.Password
@@ -17,9 +18,9 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate(password);
 
-            Assert.True(result.IsFailure);
-            Assert.False(result.IsSuccess);
-            Assert.Equal(Errors.Password.NullOrEmpty, result.Error);
+            result.IsFailure.Should().BeTrue();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Be(Errors.Password.NullOrEmpty);
         }
 
         [Fact]
@@ -29,8 +30,8 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate("1");
 
-            Assert.False(result.IsFailure);
-            Assert.True(result.IsSuccess);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
         }
     }
 }
