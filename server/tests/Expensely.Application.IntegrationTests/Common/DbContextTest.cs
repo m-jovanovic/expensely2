@@ -3,9 +3,9 @@ using Expensely.Infrastructure.Persistence;
 
 namespace Expensely.Application.IntegrationTests.Common
 {
-    public abstract class BaseTest : IDisposable
+    public abstract class DbContextTest : IDisposable
     {
-        protected BaseTest()
+        protected DbContextTest()
         {
             DbContext = ExpenselyDbContextFactory.Create();
         }

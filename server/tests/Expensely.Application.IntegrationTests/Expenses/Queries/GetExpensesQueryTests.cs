@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
-    public class GetExpensesQueryTests : BaseTest
+    public class GetExpensesQueryTests : DbContextTest
     {
         [Fact]
         public async Task Should_return_empty_collection_if_no_expenses_exist()
@@ -30,7 +30,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         public async Task Should_return_correct_number_of_expenses_if_expenses_exist()
         {
             await SeedExpenses();
-
             var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 

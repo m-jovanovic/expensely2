@@ -11,24 +11,10 @@ using Xunit;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
-    public class GetExpenseByIdQueryTests : BaseTest
+    public class GetExpenseByIdQueryTests : DbContextTest
     {
-        private const string Name = "Expense";
-        private static readonly Money Money = new Money(decimal.Zero, Currency.Usd);
-
         [Fact]
-        public async Task Handle_should_return_null_given_empty_id()
-        {
-            var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
-            var query = new GetExpenseByIdQuery(Guid.Empty);
-
-            ExpenseResponse? result = await queryHandler.Handle(query, default);
-
-            result.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task Handle_should_return_null_given_non_existing_id()
+        public async Task Handle_should_return_null_given_non_existing_expense_id()
         {
             var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
             var query = new GetExpenseByIdQuery(Guid.NewGuid());
@@ -39,10 +25,9 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         }
 
         [Fact]
-        public async Task Handle_should_return_ExpenseDto_given_existing_id()
+        public async Task Handle_should_return_expense_response_given_existing_expense_id()
         {
             await SeedExpenses();
-
             var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
             Expense expense = DbContext.Set<Expense>().First();
             var query = new GetExpenseByIdQuery(expense.Id);
@@ -63,7 +48,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 
         private async Task SeedExpenses()
         {
-            var expense = new Expense(Guid.NewGuid(), Name, Money, DateTime.Now);
+            var expense = new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.Usd), DateTime.Now);
 
             DbContext.Add(expense);
 
