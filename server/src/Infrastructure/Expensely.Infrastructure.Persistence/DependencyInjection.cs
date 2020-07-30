@@ -22,6 +22,7 @@ namespace Expensely.Infrastructure.Persistence
 
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
 
+            // TODO: Turn off sensitive data logging later on.
             services.AddDbContextPool<ExpenselyDbContext>(options => options.UseNpgsql(connectionString).EnableSensitiveDataLogging());
 
             services.AddScoped<IDbContext>(impl => impl.GetRequiredService<ExpenselyDbContext>());
