@@ -36,7 +36,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
             result.Should().NotBeNull();
-            result.Count.Should().Be(DbContext.Set<Expense>().Count());
+            result.Should().HaveCount(DbContext.Set<Expense>().Count());
         }
 
         private async Task SeedExpenses()

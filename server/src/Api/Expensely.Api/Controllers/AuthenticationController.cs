@@ -5,6 +5,7 @@ using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain.Core.Primitives;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,11 @@ namespace Expensely.Api.Controllers
     [AllowAnonymous]
     public class AuthenticationController : ApiController
     {
+        public AuthenticationController(IMediator mediator)
+            : base(mediator)
+        {
+        }
+
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]

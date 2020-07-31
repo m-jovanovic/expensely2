@@ -1,12 +1,10 @@
-﻿using System;
-using Expensely.Api.Contracts;
+﻿using Expensely.Api.Contracts;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.Api.Infrastructure
 {
@@ -16,13 +14,19 @@ namespace Expensely.Api.Infrastructure
     [Authorize]
     public abstract class ApiController : ControllerBase
     {
-        private IMediator? _mediator;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiController"/> class.
+        /// </summary>
+        /// <param name="mediator">The mediator.</param>
+        protected ApiController(IMediator mediator)
+        {
+            Mediator = mediator;
+        }
 
         /// <summary>
         /// Gets the <see cref="IMediator"/> instance.
         /// </summary>
-        protected IMediator Mediator => (_mediator ??= HttpContext.RequestServices.GetService<IMediator>()) ??
-                                        throw new ArgumentNullException(nameof(Mediator));
+        protected IMediator Mediator { get; }
 
         /// <summary>
         /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>

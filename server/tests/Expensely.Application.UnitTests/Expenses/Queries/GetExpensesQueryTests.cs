@@ -49,7 +49,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
             IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
             result.Should().NotBeNull();
-            result.Count.Should().Be(expenses.Count);
+            result.Should().HaveCount(expenses.Count);
         }
 
         private static Expense CreateExpense()

@@ -9,10 +9,10 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Expenses.Queries.GetExpenses;
-using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Authorization;
 using Expensely.Infrastructure.Authorization.Attributes;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +20,11 @@ namespace Expensely.Api.Controllers
 {
     public class ExpensesController : ApiController
     {
+        public ExpensesController(IMediator mediator)
+            : base(mediator)
+        {
+        }
+
         [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [HasPermission(Permission.ExpenseRead)]
         [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseResponse>), StatusCodes.Status200OK)]
@@ -30,7 +35,7 @@ namespace Expensely.Api.Controllers
 
             IReadOnlyCollection<ExpenseResponse> expenses = await Mediator.Send(query);
 
-            if (expenses is null || expenses.Count == 0)
+            if (expenses.Count == 0)
             {
                 return NotFound();
             }
