@@ -84,10 +84,21 @@ namespace Expensely.Api.UnitTests.Controllers
         }
 
         [Fact]
-        public async Task Create_expense_should_return_bad_request_if_request_is_null()
+        public async Task Get_expense_by_id_should_send_valid_query()
         {
             var mediatorMock = new Mock<IMediator>();
             var controller = new ExpensesController(mediatorMock.Object);
+            var expenseId = Guid.NewGuid();
+
+            await controller.GetExpenseById(expenseId);
+
+            mediatorMock.Verify(x => x.Send(It.Is<GetExpenseByIdQuery>(q => q.ExpenseId == expenseId), default), Times.Once);
+        }
+
+        [Fact]
+        public async Task Create_expense_should_return_bad_request_if_request_is_null()
+        {
+            var controller = new ExpensesController(new Mock<IMediator>().Object);
 
             IActionResult result = await controller.CreateExpense(null);
 
@@ -137,6 +148,28 @@ namespace Expensely.Api.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task Create_expense_should_send_valid_command()
+        {
+            var mediatorMock = new Mock<IMediator>();
+            mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
+                .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
+            var controller = new ExpensesController(mediatorMock.Object);
+            CreateExpenseRequest createExpenseRequest = CreateRequest();
+            
+            await controller.CreateExpense(createExpenseRequest);
+
+            mediatorMock.Verify(
+                x => x.Send(
+                    It.Is<CreateExpenseCommand>(c =>
+                        c.Name == createExpenseRequest.Name &&
+                        c.Amount == createExpenseRequest.Amount &&
+                        c.CurrencyId == createExpenseRequest.CurrencyId &&
+                        c.Date == createExpenseRequest.Date),
+                    default),
+                Times.Once);
+        }
+
+        [Fact]
         public async Task Delete_expense_should_return_not_found_if_command_returns_failure_result()
         {
             var mediatorMock = new Mock<IMediator>();
@@ -162,6 +195,20 @@ namespace Expensely.Api.UnitTests.Controllers
 
             result.Should().NotBeNull();
             result.Should().BeOfType<NoContentResult>();
+        }
+
+        [Fact]
+        public async Task Delete_expense_should_send_valid_command()
+        {
+            var mediatorMock = new Mock<IMediator>();
+            mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
+                .ReturnsAsync(Result.Ok);
+            var controller = new ExpensesController(mediatorMock.Object);
+            var expenseId = Guid.NewGuid();
+
+            await controller.DeleteExpense(expenseId);
+
+            mediatorMock.Verify(x => x.Send(It.Is<DeleteExpenseCommand>(c => c.ExpenseId == expenseId), default), Times.Once);
         }
 
         private static CreateExpenseRequest CreateRequest()

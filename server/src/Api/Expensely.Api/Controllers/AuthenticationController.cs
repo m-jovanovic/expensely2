@@ -23,8 +23,13 @@ namespace Expensely.Api.Controllers
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest? request)
         {
+            if (request is null)
+            {
+                return BadRequest();
+            }
+
             var registerCommand = new RegisterCommand(
                 request.FirstName,
                 request.LastName,
@@ -45,8 +50,13 @@ namespace Expensely.Api.Controllers
         [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest? request)
         {
+            if (request is null)
+            {
+                return BadRequest();
+            }
+
             var loginCommand = new LoginCommand(request.Email, request.Password);
 
             Result<TokenResponse> result = await Mediator.Send(loginCommand);

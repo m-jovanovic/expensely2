@@ -65,7 +65,7 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.ExpenseCreate)]
         [ProducesResponseType(typeof(EntityCreatedResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest request)
+        public async Task<IActionResult> CreateExpense([FromBody]CreateExpenseRequest? request)
         {
             if (request is null)
             {
