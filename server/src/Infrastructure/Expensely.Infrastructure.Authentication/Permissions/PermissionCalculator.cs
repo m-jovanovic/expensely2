@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Infrastructure.Authorization;
+using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
+using Expensely.Domain.Enums;
 
 namespace Expensely.Infrastructure.Authentication.Permissions
 {
@@ -9,23 +11,22 @@ namespace Expensely.Infrastructure.Authentication.Permissions
     /// </summary>
     internal sealed class PermissionCalculator
     {
-        private readonly ExpenselyAuthenticationDbContext _dbContext;
+        private readonly IDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PermissionCalculator"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
-        internal PermissionCalculator(ExpenselyAuthenticationDbContext dbContext) => _dbContext = dbContext;
+        internal PermissionCalculator(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <summary>
         /// Calculates the permissions for the specified user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>The array of permissions for the specified user identifier.</returns>
-        internal async Task<Permission[]> CalculatePermissionsForUserIdAsync(Guid userId)
+        internal static async Task<Permission[]> CalculatePermissionsForUserIdAsync(Guid userId)
         {
-            // TODO: Implement permission calculation.
-            await _dbContext.SaveChangesAsync();
+            await Task.Delay(1);
 
             return new[]
             {

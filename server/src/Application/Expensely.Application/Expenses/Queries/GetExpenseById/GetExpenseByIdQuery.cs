@@ -1,7 +1,7 @@
 ﻿using System;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
-using Expensely.Application.Messaging;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {
@@ -22,6 +22,6 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
         public Guid ExpenseId { get; }
 
         /// <inheritdoc />
-        public string GetCacheKey() => string.Format(CacheKeys.ExpenseById, ExpenseId);
+        public string GetCacheKey() => string.Format(CacheKeys.Expense.ById, ExpenseId);
     }
 }

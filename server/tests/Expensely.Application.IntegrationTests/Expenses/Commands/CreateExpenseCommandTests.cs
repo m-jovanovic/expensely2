@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Common;
+using Expensely.Application.Exceptions;
 using Expensely.Application.Expenses.Commands.CreateExpense;
-using Expensely.Application.IntegrationTests.Common;
+using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
-using Expensely.Infrastructure.Persistence.Repositories;
 using FluentAssertions;
-using MediatR;
-using Moq;
 using Xunit;
+using static Expensely.Application.IntegrationTests.Common.Testing;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Commands
 {
-    public class CreateExpenseCommandTests : DbContextTest
+    public class CreateExpenseCommandTests
     {
         private const string Name = "Expense";
         private const decimal Amount = 1.0m;
@@ -22,34 +20,49 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         private static readonly DateTime Date = DateTime.Now;
 
         [Fact]
-        public async Task Handle_should_create_an_expense()
+        public async Task Should_create_an_expense_given_valid_command()
         {
-            var commandHandler = new CreateExpenseCommandHandler(new ExpenseRepository(DbContext), new Mock<IMediator>().Object);
             var command = new CreateExpenseCommand(Name, Amount, CurrencyId, Date);
 
-            await commandHandler.Handle(command, default);
+            Result<EntityCreatedResponse> result = await SendAsync(command);
 
-            await DbContext.SaveChangesAsync();
-
-            DbContext.Set<Expense>().Count().Should().Be(1);
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
+            result.Invoking(r => r.Value()).Should().NotThrow();
+            EntityCreatedResponse entityCreatedResponse = result.Value();
+            entityCreatedResponse.Id.Should().NotBeEmpty();
+            Expense? expense = await FindAsync<Expense>(result.Value().Id);
+            expense.Should().NotBeNull();
         }
 
         [Fact]
-        public async Task Handle_should_return_entity_created_response_with_id_of_created_expense()
+        public void Handle_should_throw_validation_exception_if_name_is_empty()
         {
-            var commandHandler = new CreateExpenseCommandHandler(new ExpenseRepository(DbContext), new Mock<IMediator>().Object);
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, Date);
+            var command = new CreateExpenseCommand(string.Empty, Amount, CurrencyId, Date);
+            
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.NameIsRequired);
+        }
 
-            Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
+        [Fact]
+        public void Handle_should_throw_validation_exception_if_currency_id_is_empty()
+        {
+            var command = new CreateExpenseCommand(Name, Amount, default, Date);
 
-            await DbContext.SaveChangesAsync();
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.CurrencyIsRequired);
+        }
 
-            result.Should().NotBeNull();
-            result.Invoking(r => r.Value()).Should().NotThrow();
-            EntityCreatedResponse entityCreatedResponse = result.Value();
-            entityCreatedResponse.Should().NotBeNull();
-            entityCreatedResponse.Id.Should().NotBeEmpty();
-            entityCreatedResponse.Id.Should().Be(DbContext.Set<Expense>().Single().Id);
+        [Fact]
+        public void Handle_should_throw_validation_exception_if_date_is_empty()
+        {
+            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, default);
+
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.DateIsRequired);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Messaging;
+﻿using Expensely.Application.Abstractions.Messaging;
 using MediatR;
 
 namespace Expensely.Application.Extensions

@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Caching;
+﻿using Expensely.Application.Abstractions.Caching;
 using Expensely.Infrastructure.Services.Caching;
 using Microsoft.Extensions.DependencyInjection;
 

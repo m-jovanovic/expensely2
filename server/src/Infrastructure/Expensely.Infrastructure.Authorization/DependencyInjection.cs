@@ -12,9 +12,6 @@ namespace Expensely.Infrastructure.Authorization
         /// <param name="services">The service collection.</param>
         public static void AddPermissionAuthorization(this IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-
-            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
     }
 }

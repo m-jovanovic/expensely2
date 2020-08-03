@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Abstractions.Repositories;
 using Expensely.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,5 +22,12 @@ namespace Expensely.Infrastructure.Persistence.Repositories
         /// <inheritdoc />
         public async Task<bool> IsUniqueAsync(string email)
             => !await _dbContext.Set<User>().AnyAsync(user => user.Email.Value == email);
+
+        /// <inheritdoc />
+        public async Task<User?> GetByEmailAsync(string email)
+            => await _dbContext.Set<User>().FirstOrDefaultAsync(user => user.Email.Value == email);
+
+        /// <inheritdoc />
+        public void Insert(User user) => _dbContext.Set<User>().Add(user);
     }
 }

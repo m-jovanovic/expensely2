@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
-using Expensely.Infrastructure.Authentication.Abstractions;
+using Expensely.Application.Abstractions.Cryptography;
+using Expensely.Domain.ValueObjects;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Expensely.Infrastructure.Authentication.Cryptography
@@ -22,7 +23,7 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
         public PasswordHasher() => _rng = new RNGCryptoServiceProvider();
 
         /// <inheritdoc />
-        public string HashPassword(string password)
+        public string HashPassword(Password password)
         {
             if (password is null)
             {

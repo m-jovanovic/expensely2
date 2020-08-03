@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Persistence.Extensions;

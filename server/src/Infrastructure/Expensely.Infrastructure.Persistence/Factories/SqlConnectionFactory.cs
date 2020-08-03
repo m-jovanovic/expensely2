@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
 using Npgsql;
 
 namespace Expensely.Infrastructure.Persistence.Factories

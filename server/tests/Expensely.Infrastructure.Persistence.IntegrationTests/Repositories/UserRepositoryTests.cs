@@ -51,7 +51,8 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
                 Guid.NewGuid(),
                 "FirstName",
                 "LastName",
-                Domain.ValueObjects.Email.Create(email).Value());
+                Domain.ValueObjects.Email.Create(email).Value(),
+                Guid.NewGuid().ToString());
 
             DbContext.Add(user);
 

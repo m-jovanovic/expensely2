@@ -37,14 +37,14 @@ namespace Expensely.Api.Controllers
                 request.Password,
                 request.ConfirmPassword);
 
-            Result<TokenResponse> result = await Mediator.Send(registerCommand);
+            Result result = await Mediator.Send(registerCommand);
 
             if (result.IsFailure)
             {
                 return BadRequest(result);
             }
 
-            return Ok(result.Value());
+            return Ok();
         }
 
         [HttpPost(ApiRoutes.Authentication.Login)]

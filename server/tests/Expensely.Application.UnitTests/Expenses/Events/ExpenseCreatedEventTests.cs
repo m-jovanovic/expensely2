@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Application.Caching;
+using Expensely.Application.Abstractions.Caching;
 using Expensely.Application.Constants;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Moq;
@@ -19,7 +19,7 @@ namespace Expensely.Application.UnitTests.Expenses.Events
 
             await eventHandler.Handle(@event, default);
 
-            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == CacheKeys.Expenses)), Times.Once);
+            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == CacheKeys.Expense.List)), Times.Once);
         }
     }
 }

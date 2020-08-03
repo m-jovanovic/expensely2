@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Application.Caching;
+using Expensely.Application.Abstractions.Caching;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Expensely.Infrastructure.Services.Caching

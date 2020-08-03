@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Caching;
+using Expensely.Application.Abstractions.Caching;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
-using Expensely.Application.Messaging;
 
 namespace Expensely.Application.Expenses.Events.ExpenseDeleted
 {
@@ -22,9 +22,9 @@ namespace Expensely.Application.Expenses.Events.ExpenseDeleted
         /// <inheritdoc />
         public Task Handle(ExpenseDeletedEvent notification, CancellationToken cancellationToken)
         {
-            _cacheService.RemoveValue(CacheKeys.Expenses);
+            _cacheService.RemoveValue(CacheKeys.Expense.List);
 
-            _cacheService.RemoveValue(string.Format(CacheKeys.ExpenseById, notification.ExpenseId));
+            _cacheService.RemoveValue(string.Format(CacheKeys.Expense.ById, notification.ExpenseId));
 
             return Task.CompletedTask;
         }

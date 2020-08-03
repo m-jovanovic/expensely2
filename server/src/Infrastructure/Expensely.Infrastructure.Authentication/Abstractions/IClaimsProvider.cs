@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Expensely.Infrastructure.Authentication.Entities;
+using Expensely.Domain.Entities;
 
 namespace Expensely.Infrastructure.Authentication.Abstractions
 {
@@ -14,6 +14,6 @@ namespace Expensely.Infrastructure.Authentication.Abstractions
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>The array of claims for the specified user.</returns>
-        Task<Claim[]> GetClaimsAsync(AuthenticatedUser user);
+        Task<Claim[]> GetClaimsAsync(User user);
     }
 }

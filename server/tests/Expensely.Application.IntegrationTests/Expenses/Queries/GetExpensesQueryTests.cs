@@ -1,55 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
-using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using FluentAssertions;
 using Xunit;
+using static Expensely.Application.IntegrationTests.Common.Testing;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
-    public class GetExpensesQueryTests : DbContextTest
+    public class GetExpensesQueryTests
     {
         [Fact]
-        public async Task Should_return_empty_collection_if_no_expenses_exist()
-        {
-            var queryHandler = new GetExpensesQueryHandler(DbContext);
-            var query = new GetExpensesQuery();
-
-            IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
-
-            result.Should().NotBeNull();
-            result.Should().BeEmpty();
-        }
-
-        [Fact]
-        public async Task Should_return_correct_number_of_expenses_if_expenses_exist()
+        public async Task Should_return_non_empty_collection_of_expense_responses_if_expenses_exist()
         {
             await SeedExpenses();
-            var queryHandler = new GetExpensesQueryHandler(DbContext);
             var query = new GetExpensesQuery();
 
-            IReadOnlyCollection<ExpenseResponse> result = await queryHandler.Handle(query, default);
+            IReadOnlyCollection<ExpenseResponse> result = await SendAsync(query);
 
             result.Should().NotBeNull();
-            result.Should().HaveCount(DbContext.Set<Expense>().Count());
+            result.Should().NotBeEmpty();
+            result.Should().NotContainNulls();
         }
 
-        private async Task SeedExpenses()
+        private static async Task SeedExpenses()
         {
             var expense1 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
             var expense2 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
             var expense3 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
 
-            DbContext.Add(expense1);
-            DbContext.Add(expense2);
-            DbContext.Add(expense3);
-
-            await DbContext.SaveChangesAsync();
+            await AddAsync(expense1);
+            await AddAsync(expense2);
+            await AddAsync(expense3);
         }
     }
 }

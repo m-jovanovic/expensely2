@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
-using Expensely.Application.Messaging;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
@@ -11,6 +11,6 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     public sealed class GetExpensesQuery : ICacheableQuery<IReadOnlyCollection<ExpenseResponse>>
     {
         /// <inheritdoc />
-        public string GetCacheKey() => CacheKeys.Expenses;
+        public string GetCacheKey() => CacheKeys.Expense.List;
     }
 }

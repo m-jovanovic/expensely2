@@ -1,4 +1,4 @@
-﻿using Expensely.Infrastructure.Authorization.Permissions;
+﻿using Expensely.Infrastructure.Authentication.Permissions;
 
 namespace Expensely.Infrastructure.Authentication.Constants
 {

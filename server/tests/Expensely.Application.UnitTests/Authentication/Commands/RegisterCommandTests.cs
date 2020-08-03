@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Cryptography;
+using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
@@ -36,22 +39,6 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             command.ConfirmPassword.Should().Be(Password);
         }
 
-        [Fact]
-        public async Task Handle_should_fail_if_password_and_confirmation_password_do_not_match()
-        {
-            var commandHandler = new RegisterCommandHandler(
-                new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, InvalidConfirmPassword);
-
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
-
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
-            result.Error.Should().Be(Errors.Authentication.PasswordsDoNotMatch);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
-        }
-
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -61,15 +48,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.NullOrEmpty);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -82,15 +68,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.TooShort);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -101,15 +86,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingLowercaseLetter);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -120,15 +104,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingUppercaseLetter);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -137,15 +120,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingDigit);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -156,15 +138,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, password, password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingNonAlphaNumeric);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
         
         [Theory]
@@ -176,33 +157,31 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.NullOrEmpty);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public async Task Handle_should_fail_email_longer_than_allowed()
         {
-            string email = string.Join(
-                string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
+            string email = string.Join(
+                string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
             var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.LongerThanAllowed);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -220,15 +199,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         {
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.IncorrectFormat);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -237,7 +215,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
 
             await commandHandler.Handle(command, default);
@@ -252,61 +230,14 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(false);
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
-                new Mock<IAuthenticationService>().Object);
+                new Mock<IPasswordHasher>().Object);
             var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
 
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
+            Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.DuplicateEmail);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
-        }
-
-        [Fact]
-        public async Task Handle_should_call_register_on_authentication_service()
-        {
-            var userRepositoryMock = new Mock<IUserRepository>();
-            userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(true);
-            var authenticationServiceMock = new Mock<IAuthenticationService>();
-            var commandHandler = new RegisterCommandHandler(
-                userRepositoryMock.Object,
-                authenticationServiceMock.Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
-
-            await commandHandler.Handle(command, default);
-
-            authenticationServiceMock.Verify(
-                x => x.RegisterAsync(
-                    It.Is<string>(r => r == FirstName),
-                    It.Is<string>(r => r == LastName),
-                    It.Is<Email>(r => r == Expensely.Domain.ValueObjects.Email.Create(Email).Value()),
-                    It.Is<Password>(r => r == Expensely.Domain.ValueObjects.Password.Create(Password).Value())),
-                Times.Once);
-        }
-
-        [Fact]
-        public async Task Handle_should_succeed_if_command_is_valid()
-        {
-            var userRepositoryMock = new Mock<IUserRepository>();
-            userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(true);
-            var authenticationServiceMock = new Mock<IAuthenticationService>();
-            authenticationServiceMock.Setup(
-                    x => x.RegisterAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Email>(), It.IsAny<Password>()))
-                .ReturnsAsync(Result.Ok(new TokenResponse(TokenResponse)));
-            var commandHandler = new RegisterCommandHandler(
-                userRepositoryMock.Object,
-                authenticationServiceMock.Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
-
-            Result<TokenResponse> result = await commandHandler.Handle(command, default);
-
-            result.IsFailure.Should().BeFalse();
-            result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
-            var tokenResponse = result.Value();
-            tokenResponse.Should().NotBeNull();
-            tokenResponse.Token.Should().Be(TokenResponse);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Expensely.Application.Authentication.Commands.Register
             RuleFor(x => x.Password).NotEmpty().WithErrorCode(Errors.Password.NullOrEmpty);
 
             RuleFor(x => x.ConfirmPassword).NotEmpty().WithErrorCode(Errors.Password.NullOrEmpty);
+
+            RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithErrorCode(Errors.Authentication.PasswordsDoNotMatch);
         }
     }
 }

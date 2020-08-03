@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Domain;

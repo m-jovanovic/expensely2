@@ -53,18 +53,14 @@ namespace Expensely.Api.UnitTests.Controllers
         public async Task Register_should_return_ok_if_command_returns_success_result()
         {
             var mediatorMock = new Mock<IMediator>();
-            const string tokenValue = "Token";
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default))
-                .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
+                .ReturnsAsync(Result.Ok());
             var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Register(CreateRegisterRequest());
 
-            OkObjectResult okObjectResult = result.As<OkObjectResult>();
-            okObjectResult.Should().NotBeNull();
-            TokenResponse tokenResponse = okObjectResult.Value.As<TokenResponse>();
-            tokenResponse.Should().NotBeNull();
-            tokenResponse.Token.Should().Be(tokenValue);
+            OkResult okResult = result.As<OkResult>();
+            okResult.Should().NotBeNull();
         }
 
         [Fact]

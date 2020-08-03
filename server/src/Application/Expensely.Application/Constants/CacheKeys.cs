@@ -5,8 +5,14 @@
     /// </summary>
     public static class CacheKeys
     {
-        public const string Expenses = "expenses";
+        /// <summary>
+        /// Contains the cache keys related to expenses.
+        /// </summary>
+        public static class Expense
+        {
+            public const string List = "expenses";
 
-        public const string ExpenseById = "expenses-{0}";
+            public const string ById = "expenses-{0}";
+        }
     }
 }

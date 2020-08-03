@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain.Entities;

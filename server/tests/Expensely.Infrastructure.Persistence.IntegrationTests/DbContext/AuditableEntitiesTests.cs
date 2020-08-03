@@ -78,6 +78,11 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
             => new Expense(Guid.NewGuid(), "Name", new Money(1.0m, Currency.FromId(1)!), DateTime.Now);
 
         private static User CreateUser()
-            => new User(Guid.NewGuid(), "FirstName", "LastName", Email.Create("test@expensely.com").Value());
+            => new User(
+                Guid.NewGuid(),
+                "FirstName",
+                "LastName",
+                Email.Create("test@expensely.com").Value(),
+                Guid.NewGuid().ToString());
     }
 }

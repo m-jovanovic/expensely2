@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Application.Caching;
+using Expensely.Application.Abstractions.Caching;
 using Expensely.Application.Constants;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Moq;
@@ -19,7 +19,7 @@ namespace Expensely.Application.UnitTests.Expenses.Events
 
             await eventHandler.Handle(@event, default);
 
-            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == CacheKeys.Expenses)), Times.Once);
+            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == CacheKeys.Expense.List)), Times.Once);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Expensely.Application.UnitTests.Expenses.Events
             var cacheServiceMock = new Mock<ICacheService>();
             var eventHandler = new ExpenseDeletedEventHandler(cacheServiceMock.Object);
             var @event = new ExpenseDeletedEvent(Guid.Empty);
-            string cacheKey = string.Format(CacheKeys.ExpenseById, @event.ExpenseId);
+            string cacheKey = string.Format(CacheKeys.Expense.ById, @event.ExpenseId);
 
             await eventHandler.Handle(@event, default);
 

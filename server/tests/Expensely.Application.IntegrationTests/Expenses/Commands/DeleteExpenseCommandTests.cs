@@ -1,30 +1,24 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
-using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
-using Expensely.Infrastructure.Persistence.Repositories;
 using FluentAssertions;
-using MediatR;
-using Moq;
 using Xunit;
+using static Expensely.Application.IntegrationTests.Common.Testing;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Commands
 {
-    public class DeleteExpenseCommandTests : DbContextTest
+    public class DeleteExpenseCommandTests
     {
         [Fact]
-        public async Task Handle_should_fail_given_non_existing_expense_id()
+        public async Task Should_return_failure_result_given_non_existing_expense_id()
         {
-            await SeedExpenses();
-            var commandHandler = new DeleteExpenseCommandHandler(new ExpenseRepository(DbContext), new Mock<IMediator>().Object);
             var command = new DeleteExpenseCommand(Guid.NewGuid());
 
-            Result result = await commandHandler.Handle(command, default);
+            Result result = await SendAsync(command);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
@@ -32,27 +26,21 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         }
 
         [Fact]
-        public async Task Handle_should_delete_an_expense()
+        public async Task Should_delete_an_expense_given_existing_expense_id()
         {
-            await SeedExpenses();
-            var commandHandler = new DeleteExpenseCommandHandler(new ExpenseRepository(DbContext), new Mock<IMediator>().Object);
-            Guid expenseId = DbContext.Set<Expense>().First().Id;
-            var command = new DeleteExpenseCommand(expenseId);
+            Expense expense = CreateExpense();
+            await AddAsync(expense);
+            var command = new DeleteExpenseCommand(expense.Id);
 
-            await commandHandler.Handle(command, default);
-
-            await DbContext.SaveChangesAsync();
-
-            DbContext.Set<Expense>().SingleOrDefault(x => x.Id == expenseId).Should().BeNull();
+            Result result = await SendAsync(command);
+            
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
+            Expense? foundExpense = await FindAsync<Expense>(expense.Id);
+            foundExpense.Should().BeNull();
         }
 
-        private async Task SeedExpenses()
-        {
-            var expense = new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.Usd), DateTime.Now);
-
-            DbContext.Add(expense);
-
-            await DbContext.SaveChangesAsync();
-        }
+        private static Expense CreateExpense()
+            => new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.FromId(1)!), DateTime.Now);
     }
 }

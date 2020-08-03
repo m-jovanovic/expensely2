@@ -1,4 +1,5 @@
-﻿using Expensely.Application.Abstractions;
+﻿using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Abstractions.Repositories;
 using Expensely.Infrastructure.Persistence.Factories;
 using Expensely.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,16 @@ namespace Expensely.Infrastructure.Persistence
 
             services.AddSingleton(new ConnectionString(connectionString));
 
+            if (connectionString.Length > 0)
+            {
+                services.AddDbContextPool<ExpenselyDbContext>(options => options.UseNpgsql(connectionString));
+            }
+
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
 
-            // TODO: Turn off sensitive data logging later on.
-            services.AddDbContextPool<ExpenselyDbContext>(options => options.UseNpgsql(connectionString).EnableSensitiveDataLogging());
+            services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 
-            services.AddScoped<IDbContext>(impl => impl.GetRequiredService<ExpenselyDbContext>());
-
-            services.AddScoped<IUnitOfWork>(impl => impl.GetRequiredService<ExpenselyDbContext>());
+            services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
 

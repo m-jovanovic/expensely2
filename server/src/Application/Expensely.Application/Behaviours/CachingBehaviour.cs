@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Caching;
+using Expensely.Application.Abstractions.Caching;
+using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Extensions;
-using Expensely.Application.Messaging;
 using Expensely.Application.Options;
 using MediatR;
 using Microsoft.Extensions.Options;

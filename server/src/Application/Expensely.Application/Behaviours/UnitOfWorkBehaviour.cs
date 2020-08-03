@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Extensions;
 using MediatR;
 

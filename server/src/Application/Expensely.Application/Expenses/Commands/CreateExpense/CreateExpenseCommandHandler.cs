@@ -2,9 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
+using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
-using Expensely.Application.Messaging;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;

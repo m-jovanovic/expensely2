@@ -30,6 +30,8 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                     .IsRequired();
             });
 
+            builder.Property(u => u.PasswordHash).HasColumnType("nvarchar(max)").IsRequired();
+
             builder.Property(e => e.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 
             builder.Property(e => e.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);

@@ -1,41 +1,38 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
-using Expensely.Application.IntegrationTests.Common;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using FluentAssertions;
 using Xunit;
+using static Expensely.Application.IntegrationTests.Common.Testing;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
-    public class GetExpenseByIdQueryTests : DbContextTest
+    public class GetExpenseByIdQueryTests
     {
         [Fact]
-        public async Task Handle_should_return_null_given_non_existing_expense_id()
+        public async Task Should_return_null_given_non_existing_expense_id()
         {
-            var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
             var query = new GetExpenseByIdQuery(Guid.NewGuid());
 
-            ExpenseResponse? result = await queryHandler.Handle(query, default);
+            ExpenseResponse? result = await SendAsync(query);
 
             result.Should().BeNull();
         }
 
         [Fact]
-        public async Task Handle_should_return_expense_response_given_existing_expense_id()
+        public async Task Should_return_expense_response_given_existing_expense_id()
         {
-            await SeedExpenses();
-            var queryHandler = new GetExpenseByIdQueryHandler(DbContext);
-            Expense expense = DbContext.Set<Expense>().First();
+            var expense = CreateExpense();
+            await AddAsync(expense);
             var query = new GetExpenseByIdQuery(expense.Id);
 
-            ExpenseResponse? result = await queryHandler.Handle(query, default);
+            ExpenseResponse? result = await SendAsync(query);
 
             result.Should().NotBeNull();
-            result!.Id.Should().Be(expense.Id);
+            result.Id.Should().Be(expense.Id);
             result.Name.Should().Be(expense.Name);
             result.Amount.Should().Be(expense.Money.Amount);
             result.CurrencyId.Should().Be(expense.Money.Currency.Id);
@@ -46,13 +43,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
             result.Deleted.Should().Be(expense.Deleted);
         }
 
-        private async Task SeedExpenses()
-        {
-            var expense = new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.Usd), DateTime.Now);
-
-            DbContext.Add(expense);
-
-            await DbContext.SaveChangesAsync();
-        }
+        private static Expense CreateExpense()
+            => new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.Usd), DateTime.Now);
     }
 }

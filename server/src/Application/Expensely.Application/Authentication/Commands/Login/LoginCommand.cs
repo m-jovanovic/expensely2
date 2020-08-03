@@ -1,5 +1,5 @@
-﻿using Expensely.Application.Contracts.Authentication;
-using Expensely.Application.Messaging;
+﻿using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Authentication.Commands.Login

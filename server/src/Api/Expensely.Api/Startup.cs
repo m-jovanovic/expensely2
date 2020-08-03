@@ -1,8 +1,6 @@
-using System.Text.Json;
 using Expensely.Api.Middleware;
 using Expensely.Application;
 using Expensely.Infrastructure.Authentication;
-using Expensely.Infrastructure.Authorization;
 using Expensely.Infrastructure.Persistence;
 using Expensely.Infrastructure.Services;
 using Expensely.Migrations.Core.Extensions;
@@ -36,8 +34,6 @@ namespace Expensely.Api
             services.AddPersistence(Configuration);
 
             services.AddAuthentication(Configuration);
-
-            services.AddPermissionAuthorization();
 
             services.AddServices();
 
