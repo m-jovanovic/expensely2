@@ -44,7 +44,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
                 Domain.ValueObjects.Email.Create(email).Value(),
                 Guid.NewGuid().ToString());
 
-            await AddAsync(user);
+            await InsertAsync(user);
         }
     }
 }

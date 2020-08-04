@@ -13,9 +13,9 @@ namespace Expensely.Tests.Common.Entities
         public static readonly int InvalidCurrencyId = 0;
 
         public static readonly Currency Currency = Currency.FromId(1) ?? throw new ArgumentException("currencyId");
-        
+
         public static readonly decimal ZeroAmount = decimal.Zero;
-        
+
         public static readonly Money Zero = new Money(ZeroAmount, Currency);
 
         public static Expense Expense => new Expense(Guid.NewGuid(), Name, Zero, Time.Now());

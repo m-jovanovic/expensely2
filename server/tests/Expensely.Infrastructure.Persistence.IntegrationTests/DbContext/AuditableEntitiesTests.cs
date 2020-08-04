@@ -11,7 +11,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_created_on_date_when_adding_new_expense()
         {
-            var expense = await AddAsync(ExpenseData.Expense);
+            var expense = await InsertAsync(ExpenseData.Expense);
             
             expense.CreatedOnUtc.Should().NotBe(default);
             expense.ModifiedOnUtc.Should().BeNull();
@@ -20,7 +20,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_modified_on_date_when_updating_existing_expense()
         {
-            var expense = await AddAsync(ExpenseData.Expense);
+            var expense = await InsertAsync(ExpenseData.Expense);
 
             await UpdateAsync(expense);
 
@@ -32,7 +32,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_created_on_date_when_adding_new_user()
         {
-            var user = await AddAsync(UserData.User);
+            var user = await InsertAsync(UserData.User);
 
             user.CreatedOnUtc.Should().NotBe(default);
             user.ModifiedOnUtc.Should().BeNull();
@@ -41,7 +41,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_modified_on_date_when_updating_existing_user()
         {
-            var user = await AddAsync(UserData.User);
+            var user = await InsertAsync(UserData.User);
 
             await UpdateAsync(user);
 

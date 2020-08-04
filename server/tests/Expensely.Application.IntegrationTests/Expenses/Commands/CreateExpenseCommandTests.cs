@@ -7,16 +7,36 @@ using Expensely.Domain.Entities;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;
-using static Expensely.Tests.Common.Commands.Expenses.ExpenseCommandsData;
+using static Expensely.Tests.Common.Commands.Expenses.CreateExpenseCommandData;
 
 namespace Expensely.Application.IntegrationTests.Expenses.Commands
 {
     public class CreateExpenseCommandTests
     {
         [Fact]
+        public void Handle_should_throw_validation_exception_if_currency_id_is_empty()
+        {
+            var command = CreateCommandWithInvalidCurrencyId();
+
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.CurrencyIsRequired);
+        }
+
+        [Fact]
+        public void Handle_should_throw_validation_exception_if_date_is_empty()
+        {
+            var command = CreateCommandWithInvalidDate();
+
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.DateIsRequired);
+        }
+
+        [Fact]
         public async Task Should_create_an_expense_given_valid_command()
         {
-            var command = ValidCreateExpenseCommand();
+            var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await SendAsync(command);
 
@@ -27,26 +47,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
             entityCreatedResponse.Id.Should().NotBeEmpty();
             Expense? expense = await FindAsync<Expense>(result.Value().Id);
             expense.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void Handle_should_throw_validation_exception_if_currency_id_is_empty()
-        {
-            var command = CreateExpenseCommandWithInvalidCurrencyId();
-
-            FluentActions.Invoking(() => SendAsync(command))
-                .Should().Throw<ValidationException>()
-                .And.ErrorCodes.Should().Contain(Errors.Expense.CurrencyIsRequired);
-        }
-
-        [Fact]
-        public void Handle_should_throw_validation_exception_if_date_is_empty()
-        {
-            var command = CreateExpenseCommandWithInvalidDate();
-
-            FluentActions.Invoking(() => SendAsync(command))
-                .Should().Throw<ValidationException>()
-                .And.ErrorCodes.Should().Contain(Errors.Expense.DateIsRequired);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
         {
             var expense = new Expense(expenseId, string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
 
-            return await AddAsync(expense);
+            return await InsertAsync(expense);
         }
     }
 }

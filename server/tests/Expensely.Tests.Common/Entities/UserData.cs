@@ -7,9 +7,9 @@ namespace Expensely.Tests.Common.Entities
     public static class UserData
     {
         public static readonly string FirstName = "John";
-        
+
         public static readonly string LastName = "Doe";
-        
+
         public static readonly Email ValidEmail = Email.Create("test@expensely.net").Value();
 
         public static readonly string Password = "123aA!";

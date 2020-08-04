@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Domain.Core.Primitives;
-using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 {
@@ -22,10 +21,10 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 
         public IDbContext DbContext => _dbContext;
 
-        protected async Task<TEntity> AddAsync<TEntity>(TEntity entity)
+        protected async Task<TEntity> InsertAsync<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            _dbContext.Add(entity);
+            _dbContext.Insert(entity);
 
             await _dbContext.SaveChangesAsync();
 
@@ -54,6 +53,6 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 
         protected async Task<TEntity?> FindAsync<TEntity>(Guid id)
             where TEntity : Entity
-            => await _dbContext.Set<TEntity>().FirstOrDefaultAsync<TEntity>(x => x.Id == id);
+            => await _dbContext.GetBydIdAsync<TEntity>(id);
     }
 }

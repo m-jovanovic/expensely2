@@ -12,7 +12,7 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
-using static Expensely.Tests.Common.Commands.Expenses.ExpenseCommandsData;
+using static Expensely.Tests.Common.Commands.Expenses.CreateExpenseCommandData;
 
 namespace Expensely.Application.UnitTests.Expenses.Commands
 {
@@ -23,7 +23,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = CreateExpenseCommandWithInvalidCurrencyId();
+            var command = CreateCommandWithInvalidCurrencyId();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -38,7 +38,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = ValidCreateExpenseCommand();
+            var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -50,7 +50,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var mediatorMock = new Mock<IMediator>();
             var commandHandler = new CreateExpenseCommandHandler(new Mock<IExpenseRepository>().Object, mediatorMock.Object);
-            var command = ValidCreateExpenseCommand();
+            var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -64,7 +64,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = ValidCreateExpenseCommand();
+            var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 

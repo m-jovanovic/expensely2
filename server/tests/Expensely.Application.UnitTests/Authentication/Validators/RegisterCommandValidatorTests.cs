@@ -99,6 +99,16 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         }
 
         [Fact]
+        public void Should_fail_if_confirm_password_does_not_match_password()
+        {
+            var validator = new RegisterCommandValidator();
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, string.Empty);
+
+            validator.ShouldHaveValidationErrorFor(x => x.ConfirmPassword, command)
+                .WithErrorCode(Errors.Authentication.PasswordsDoNotMatch);
+        }
+
+        [Fact]
         public void Should_succeed_if_command_is_valid()
         {
             var validator = new RegisterCommandValidator();

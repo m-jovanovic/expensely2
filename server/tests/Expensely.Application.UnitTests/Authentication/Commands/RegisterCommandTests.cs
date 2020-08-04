@@ -6,20 +6,19 @@ using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Entities;
 using Expensely.Domain.Validators.Email;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Moq;
 using Xunit;
 using static Expensely.Tests.Common.Entities.UserData;
+using Password = Expensely.Domain.ValueObjects.Password;
 
 namespace Expensely.Application.UnitTests.Authentication.Commands
 {
     public class RegisterCommandTests
     {
-        private const string InvalidConfirmPassword = "123aA!!";
-        private static readonly string TokenResponse = Guid.NewGuid().ToString();
-
-
         [Theory]
         [InlineData(null)]
         [InlineData("")]
@@ -139,7 +138,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, email, UserData.Password, UserData.Password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -156,7 +155,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
                 new Mock<IPasswordHasher>().Object);
             string email = string.Join(
                 string.Empty, Enumerable.Range(0, EmailMaxLengthValidator.MaxEmailLength + 1).Select(x => "a"));
-            var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, email, UserData.Password, UserData.Password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -181,7 +180,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, email, UserData.Password, UserData.Password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -197,7 +196,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, UserData.Password, UserData.Password);
 
             await commandHandler.Handle(command, default);
 
@@ -212,13 +211,76 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, UserData.Password, UserData.Password);
 
             Result result = await commandHandler.Handle(command, default);
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.DuplicateEmail);
+        }
+
+        [Fact]
+        public async Task Handle_should_call_hash_password_on_password_hasher()
+        {
+            var userRepositoryMock = new Mock<IUserRepository>();
+            userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(true);
+            var passwordHasherMock = new Mock<IPasswordHasher>();
+            string passwordHash = Guid.NewGuid().ToString();
+            passwordHasherMock.Setup(x => x.HashPassword(It.IsAny<Password>())).Returns(passwordHash);
+            var commandHandler = new RegisterCommandHandler(
+                userRepositoryMock.Object,
+                passwordHasherMock.Object);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, UserData.Password, UserData.Password);
+
+            await commandHandler.Handle(command, default);
+
+            passwordHasherMock.Verify(
+                x => x.HashPassword(It.Is<Password>(p => p == Password.Create(UserData.Password).Value())),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_should_call_insert_on_user_repository()
+        {
+            var userRepositoryMock = new Mock<IUserRepository>();
+            userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(true);
+            var passwordHasherMock = new Mock<IPasswordHasher>();
+            string passwordHash = Guid.NewGuid().ToString();
+            passwordHasherMock.Setup(x => x.HashPassword(It.IsAny<Password>())).Returns(passwordHash);
+            var commandHandler = new RegisterCommandHandler(
+                userRepositoryMock.Object,
+                passwordHasherMock.Object);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, UserData.Password, UserData.Password);
+
+            await commandHandler.Handle(command, default);
+
+            userRepositoryMock.Verify(
+                x => x.Insert(It.Is<User>(u =>
+                    u.FirstName == FirstName &&
+                    u.LastName == LastName &&
+                    u.Email.Value == ValidEmail &&
+                    u.PasswordHash == passwordHash)),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_should_succeed_given_valid_command()
+        {
+            var userRepositoryMock = new Mock<IUserRepository>();
+            userRepositoryMock.Setup(x => x.IsUniqueAsync(It.IsAny<string>())).ReturnsAsync(true);
+            var passwordHasherMock = new Mock<IPasswordHasher>();
+            string passwordHash = Guid.NewGuid().ToString();
+            passwordHasherMock.Setup(x => x.HashPassword(It.IsAny<Password>())).Returns(passwordHash);
+            var commandHandler = new RegisterCommandHandler(
+                userRepositoryMock.Object,
+                passwordHasherMock.Object);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, UserData.Password, UserData.Password);
+
+            Result result = await commandHandler.Handle(command, default);
+
+            result.IsFailure.Should().BeFalse();
+            result.IsSuccess.Should().BeTrue();
         }
     }
 }

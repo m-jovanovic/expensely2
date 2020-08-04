@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Cryptography;
 using Expensely.Infrastructure.Authentication.Abstractions;
 using Expensely.Infrastructure.Authentication.Constants;
@@ -47,6 +48,8 @@ namespace Expensely.Infrastructure.Authentication
             services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             services.AddScoped<IClaimsProvider, ClaimsProvider>();
+
+            services.AddScoped<IJwtProvider, JwtProvider>();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_deleted_flag_and_date_when_deleting_expense()
         {
-            var expense = await AddAsync(ExpenseData.Expense);
+            var expense = await InsertAsync(ExpenseData.Expense);
 
             await RemoveAsync(expense);
 
@@ -23,7 +23,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.DbContext
         [Fact]
         public async Task Should_set_deleted_flag_and_date_when_deleting_user()
         {
-            var user = await AddAsync(UserData.User);
+            var user = await InsertAsync(UserData.User);
 
             await RemoveAsync(user);
 
