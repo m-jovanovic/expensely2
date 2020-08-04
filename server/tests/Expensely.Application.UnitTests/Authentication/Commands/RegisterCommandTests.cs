@@ -10,7 +10,7 @@ using Expensely.Domain.Validators.Email;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using static Expensely.Tests.Common.Data.UserData;
+using static Expensely.Tests.Common.Entities.UserData;
 
 namespace Expensely.Application.UnitTests.Authentication.Commands
 {

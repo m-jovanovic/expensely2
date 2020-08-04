@@ -1,6 +1,7 @@
 ﻿using Expensely.Application.Expenses.Commands.CreateExpense;
+using Expensely.Tests.Common.Entities;
 
-namespace Expensely.Tests.Common.Data.Commands.Expenses
+namespace Expensely.Tests.Common.Commands.Expenses
 {
     public static class ExpenseCommandsData
     {

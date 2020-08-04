@@ -1,10 +1,10 @@
 ﻿using System;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Domain;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common;
 using FluentValidation.TestHelper;
 using Xunit;
-using static Expensely.Tests.Common.Data.ExpenseData;
+using static Expensely.Tests.Common.Entities.ExpenseData;
 
 namespace Expensely.Application.UnitTests.Expenses.Validators
 {

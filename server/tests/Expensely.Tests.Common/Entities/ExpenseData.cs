@@ -2,7 +2,7 @@
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 
-namespace Expensely.Tests.Common.Data
+namespace Expensely.Tests.Common.Entities
 {
     public static class ExpenseData
     {

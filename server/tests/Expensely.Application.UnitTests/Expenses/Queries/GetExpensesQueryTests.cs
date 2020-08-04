@@ -5,7 +5,7 @@ using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Entities;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;

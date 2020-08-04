@@ -4,7 +4,7 @@ using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;

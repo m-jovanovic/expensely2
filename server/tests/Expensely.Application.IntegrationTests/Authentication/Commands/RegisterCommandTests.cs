@@ -5,7 +5,7 @@ using Expensely.Domain.Entities;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;
-using static Expensely.Tests.Common.Data.UserData;
+using static Expensely.Tests.Common.Entities.UserData;
 
 namespace Expensely.Application.IntegrationTests.Authentication.Commands
 {

@@ -3,7 +3,6 @@ using System.Linq;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
-using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 

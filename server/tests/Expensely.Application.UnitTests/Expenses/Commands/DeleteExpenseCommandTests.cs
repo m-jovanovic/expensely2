@@ -7,7 +7,7 @@ using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using MediatR;
 using Moq;

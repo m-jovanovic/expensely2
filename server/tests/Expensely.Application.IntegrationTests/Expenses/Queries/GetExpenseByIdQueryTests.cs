@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;

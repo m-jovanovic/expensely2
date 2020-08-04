@@ -3,7 +3,7 @@ using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using FluentAssertions;
 using Xunit;
-using static Expensely.Tests.Common.Data.UserData;
+using static Expensely.Tests.Common.Entities.UserData;
 
 namespace Expensely.Domain.UnitTests.Entities
 {

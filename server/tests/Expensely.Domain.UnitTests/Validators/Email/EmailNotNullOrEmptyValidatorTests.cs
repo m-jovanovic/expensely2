@@ -1,6 +1,6 @@
 ﻿using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
 

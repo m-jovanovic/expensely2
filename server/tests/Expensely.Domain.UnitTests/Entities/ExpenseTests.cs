@@ -1,10 +1,10 @@
 ﻿using System;
 using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common;
 using FluentAssertions;
 using Xunit;
-using static Expensely.Tests.Common.Data.ExpenseData;
+using static Expensely.Tests.Common.Entities.ExpenseData;
 
 namespace Expensely.Domain.UnitTests.Entities
 {

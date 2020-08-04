@@ -12,7 +12,7 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
-using static Expensely.Tests.Common.Data.Commands.Expenses.ExpenseCommandsData;
+using static Expensely.Tests.Common.Commands.Expenses.ExpenseCommandsData;
 
 namespace Expensely.Application.UnitTests.Expenses.Commands
 {

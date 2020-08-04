@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Infrastructure.Persistence.IntegrationTests.Common;
-using Expensely.Tests.Common.Data;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
 

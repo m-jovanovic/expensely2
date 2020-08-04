@@ -1,8 +1,8 @@
-﻿using Expensely.Domain.Entities;
+﻿using System;
+using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
-using System;
 
-namespace Expensely.Tests.Common.Data
+namespace Expensely.Tests.Common.Entities
 {
     public static class UserData
     {

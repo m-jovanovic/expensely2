@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Tests.Common.Data
+namespace Expensely.Tests.Common
 {
     public static class Time
     {
