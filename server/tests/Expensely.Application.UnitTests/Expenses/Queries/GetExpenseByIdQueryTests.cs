@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
@@ -45,7 +44,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         [Fact]
         public async Task Should_return_expense_response_if_expense_with_specified_id_exists()
         {
-            var expense = CreateExpense();
+            var expense = ExpenseData.Expense;
             var dbSetMock = new List<Expense>
                 {
                     expense
@@ -70,8 +69,5 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
             result.ModifiedOnUtc.Should().Be(expense.ModifiedOnUtc);
             result.Deleted.Should().Be(expense.Deleted);
         }
-
-        private static Expense CreateExpense()
-            => new Expense(Guid.NewGuid(), "Expense name", new Money(1.0m, Currency.Usd), DateTime.Now);
     }
 }

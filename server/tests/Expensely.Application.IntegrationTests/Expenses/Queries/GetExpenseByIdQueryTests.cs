@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;
@@ -25,7 +24,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         [Fact]
         public async Task Should_return_expense_response_given_existing_expense_id()
         {
-            var expense = CreateExpense();
+            var expense = ExpenseData.Expense;
             await AddAsync(expense);
             var query = new GetExpenseByIdQuery(expense.Id);
 
@@ -42,8 +41,5 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
             result.ModifiedOnUtc.Should().Be(expense.ModifiedOnUtc);
             result.Deleted.Should().Be(expense.Deleted);
         }
-
-        private static Expense CreateExpense()
-            => new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.Usd), DateTime.Now);
     }
 }

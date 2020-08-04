@@ -2,14 +2,12 @@
 using Expensely.Domain;
 using FluentValidation.TestHelper;
 using Xunit;
+using static Expensely.Tests.Common.Data.UserData;
 
 namespace Expensely.Application.UnitTests.Authentication.Validators
 {
     public class LoginCommandValidatorTests
     {
-        private const string Email = "Email";
-        private const string Password = "Password";
-
         [Fact]
         public void Should_fail_if_email_is_null()
         {
@@ -32,7 +30,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_password_is_null()
         {
             var validator = new LoginCommandValidator();
-            var command = new LoginCommand(Email, null);
+            var command = new LoginCommand(ValidEmail, null);
 
             validator.ShouldHaveValidationErrorFor(x => x.Password, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -41,7 +39,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_password_is_empty()
         {
             var validator = new LoginCommandValidator();
-            var command = new LoginCommand(Email, string.Empty);
+            var command = new LoginCommand(ValidEmail, string.Empty);
 
             validator.ShouldHaveValidationErrorFor(x => x.Password, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -50,7 +48,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_succeed_if_command_is_valid()
         {
             var validator = new LoginCommandValidator();
-            var command = new LoginCommand(Email, Password);
+            var command = new LoginCommand(ValidEmail, Password);
 
             TestValidationResult<LoginCommand> result = validator.TestValidate(command);
 

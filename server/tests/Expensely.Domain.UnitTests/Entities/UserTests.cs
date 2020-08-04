@@ -3,20 +3,16 @@ using Expensely.Domain.Entities;
 using Expensely.Domain.ValueObjects;
 using FluentAssertions;
 using Xunit;
+using static Expensely.Tests.Common.Data.UserData;
 
 namespace Expensely.Domain.UnitTests.Entities
 {
     public class UserTests
     {
-        private const string FirstName = "FirstName";
-        private const string LastName = "LastName";
-        private static Email Email = Email.Create("test@test.com").Value();
-        private static readonly string PasswordHash = Guid.NewGuid().ToString();
-
         [Fact]
         public void Should_throw_argument_exception_if_id_is_empty()
         {
-            Action action = () => new User(Guid.Empty, FirstName, LastName, Email, PasswordHash);
+            Action action = () => new User(Guid.Empty, FirstName, LastName, ValidEmail, PasswordHash);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("id");
         }
@@ -24,7 +20,7 @@ namespace Expensely.Domain.UnitTests.Entities
         [Fact]
         public void Should_throw_argument_exception_if_first_name_is_empty()
         {
-            Action action = () => new User(Guid.NewGuid(), string.Empty, LastName, Email, PasswordHash);
+            Action action = () => new User(Guid.NewGuid(), string.Empty, LastName, ValidEmail, PasswordHash);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("firstName");
         }
@@ -32,7 +28,7 @@ namespace Expensely.Domain.UnitTests.Entities
         [Fact]
         public void Should_throw_argument_exception_if_last_name_is_empty()
         {
-            Action action = () => new User(Guid.NewGuid(), FirstName, string.Empty, Email, PasswordHash);
+            Action action = () => new User(Guid.NewGuid(), FirstName, string.Empty, ValidEmail, PasswordHash);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("lastName");
         }
@@ -50,13 +46,13 @@ namespace Expensely.Domain.UnitTests.Entities
         {
             var id = Guid.NewGuid();
 
-            var user = new User(id, FirstName, LastName, Email, PasswordHash);
+            var user = new User(id, FirstName, LastName, ValidEmail, PasswordHash);
 
             user.Should().NotBeNull();
             user.Id.Should().Be(id);
             user.FirstName.Should().Be(FirstName);
             user.LastName.Should().Be(LastName);
-            user.Email.Should().Be(Email);
+            user.Email.Should().Be(ValidEmail);
         }
 
         [Fact]
@@ -64,8 +60,8 @@ namespace Expensely.Domain.UnitTests.Entities
         {
             var id = Guid.NewGuid();
 
-            var user1 = new User(id, FirstName, LastName, Email, PasswordHash);
-            var user2 = new User(id, FirstName, LastName, Email, PasswordHash);
+            var user1 = new User(id, FirstName, LastName, ValidEmail, PasswordHash);
+            var user2 = new User(id, FirstName, LastName, ValidEmail, PasswordHash);
 
             user1.Should().Be(user2);
             user2.Should().Be(user1);
@@ -81,8 +77,8 @@ namespace Expensely.Domain.UnitTests.Entities
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();
 
-            var user1 = new User(id1, FirstName, LastName, Email, PasswordHash);
-            var user2 = new User(id2, FirstName, LastName, Email, PasswordHash);
+            var user1 = new User(id1, FirstName, LastName, ValidEmail, PasswordHash);
+            var user2 = new User(id2, FirstName, LastName, ValidEmail, PasswordHash);
 
             user1.Should().NotBe(user2);
             user2.Should().NotBe(user1);

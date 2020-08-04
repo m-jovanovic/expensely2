@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;
@@ -28,13 +26,11 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 
         private static async Task SeedExpenses()
         {
-            var expense1 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
-            var expense2 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
-            var expense3 = new Expense(Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
-
-            await AddAsync(expense1);
-            await AddAsync(expense2);
-            await AddAsync(expense3);
+            await AddAsync(ExpenseData.Expense);
+            
+            await AddAsync(ExpenseData.Expense);
+            
+            await AddAsync(ExpenseData.Expense);
         }
     }
 }

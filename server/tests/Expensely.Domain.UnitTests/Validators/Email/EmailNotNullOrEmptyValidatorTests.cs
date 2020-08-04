@@ -1,5 +1,6 @@
 ﻿using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 
@@ -28,7 +29,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
         {
             var validator = new EmailNotNullOrEmptyValidator();
 
-            Result result = validator.Validate("test@test.com");
+            Result result = validator.Validate(UserData.ValidEmail);
 
             result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();

@@ -3,6 +3,7 @@ using System.Linq;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 
@@ -13,8 +14,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_be_equal_if_email_values_are_equal()
         {
-            Email email1 = Email.Create("test@email.test").Value();
-            Email email2 = Email.Create("test@email.test").Value();
+            Email email1 = Email.Create("test1@expensely.net").Value();
+            Email email2 = Email.Create("test1@expensely.net").Value();
 
             email1.Should().NotBeSameAs(email2);
             email1.Should().Be(email2);
@@ -28,8 +29,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_not_be_equal_if_email_values_are_not_equal()
         {
-            Email email1 = Email.Create("test1@email.test").Value();
-            Email email2 = Email.Create("test2@email.test").Value();
+            Email email1 = Email.Create("test1@expensely.net").Value();
+            Email email2 = Email.Create("test2@expensely.net").Value();
 
             email1.Should().NotBe(email2);
             email2.Should().NotBe(email1);

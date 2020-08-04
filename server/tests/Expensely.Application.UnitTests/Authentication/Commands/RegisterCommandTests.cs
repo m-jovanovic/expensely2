@@ -1,43 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
-using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Cryptography;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Register;
-using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
-using Expensely.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using static Expensely.Tests.Common.Data.UserData;
 
 namespace Expensely.Application.UnitTests.Authentication.Commands
 {
     public class RegisterCommandTests
     {
-        private const string FirstName = "FirstName";
-        private const string LastName = "LastName";
-        private const string Email = "test@test.com";
-        private const string Password = "123aA!";
         private const string InvalidConfirmPassword = "123aA!!";
         private static readonly string TokenResponse = Guid.NewGuid().ToString();
 
-        [Fact]
-        public void Should_construct_properly()
-        {
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
-
-            command.Should().NotBeNull();
-            command.FirstName.Should().Be(FirstName);
-            command.LastName.Should().Be(LastName);
-            command.Email.Should().Be(Email);
-            command.Password.Should().Be(Password);
-            command.ConfirmPassword.Should().Be(Password);
-        }
 
         [Theory]
         [InlineData(null)]
@@ -49,7 +30,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -69,7 +50,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -87,7 +68,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -105,7 +86,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -121,7 +102,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -139,7 +120,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 new Mock<IUserRepository>().Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, password, password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, password, password);
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -216,11 +197,11 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, Password);
 
             await commandHandler.Handle(command, default);
 
-            userRepositoryMock.Verify(x => x.IsUniqueAsync(It.Is<string>(e => e == Email)), Times.Once);
+            userRepositoryMock.Verify(x => x.IsUniqueAsync(It.Is<string>(e => e == ValidEmail)), Times.Once);
         }
 
         [Fact]
@@ -231,7 +212,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var commandHandler = new RegisterCommandHandler(
                 userRepositoryMock.Object,
                 new Mock<IPasswordHasher>().Object);
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, Password);
 
             Result result = await commandHandler.Handle(command, default);
 

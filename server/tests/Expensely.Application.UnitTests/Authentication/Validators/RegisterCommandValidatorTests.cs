@@ -2,21 +2,17 @@
 using Expensely.Domain;
 using FluentValidation.TestHelper;
 using Xunit;
+using static Expensely.Tests.Common.Data.UserData;
 
 namespace Expensely.Application.UnitTests.Authentication.Validators
 {
     public class RegisterCommandValidatorTests
     {
-        private const string FirstName = "FirstName";
-        private const string LastName = "LastName";
-        private const string Email = "Email";
-        private const string Password = "Password";
-
         [Fact]
         public void Should_fail_if_first_name_is_null()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(null, LastName, Email, Password, Password);
+            var command = new RegisterCommand(null, LastName, ValidEmail, Password, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.FirstName, command).WithErrorCode(Errors.FirstName.NullOrEmpty);
         }
@@ -25,7 +21,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_first_name_is_empty()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(string.Empty, LastName, Email, Password, Password);
+            var command = new RegisterCommand(string.Empty, LastName, ValidEmail, Password, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.FirstName, command).WithErrorCode(Errors.FirstName.NullOrEmpty);
         }
@@ -34,7 +30,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_last_name_is_null()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, null, Email, Password, Password);
+            var command = new RegisterCommand(FirstName, null, ValidEmail, Password, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.LastName, command).WithErrorCode(Errors.LastName.NullOrEmpty);
         }
@@ -43,7 +39,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_last_name_is_empty()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, string.Empty, Email, Password, Password);
+            var command = new RegisterCommand(FirstName, string.Empty, ValidEmail, Password, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.LastName, command).WithErrorCode(Errors.LastName.NullOrEmpty);
         }
@@ -70,7 +66,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_password_is_null()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, LastName, Email, null, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, null, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.Password, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -79,7 +75,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_password_is_empty()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, LastName, Email, string.Empty, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, string.Empty, Password);
 
             validator.ShouldHaveValidationErrorFor(x => x.Password, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -88,7 +84,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_confirm_password_is_null()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, null);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, null);
 
             validator.ShouldHaveValidationErrorFor(x => x.ConfirmPassword, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -97,7 +93,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_fail_if_confirm_password_is_empty()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, string.Empty);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, string.Empty);
 
             validator.ShouldHaveValidationErrorFor(x => x.ConfirmPassword, command).WithErrorCode(Errors.Password.NullOrEmpty);
         }
@@ -106,7 +102,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
         public void Should_succeed_if_command_is_valid()
         {
             var validator = new RegisterCommandValidator();
-            var command = new RegisterCommand(FirstName, LastName, Email, Password, Password);
+            var command = new RegisterCommand(FirstName, LastName, ValidEmail, Password, Password);
 
             TestValidationResult<RegisterCommand> result = validator.TestValidate(command);
 

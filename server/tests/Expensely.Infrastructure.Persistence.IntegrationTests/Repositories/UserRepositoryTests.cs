@@ -14,16 +14,6 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
         private const string UniqueEmail = "test1@expensley.com";
 
         [Fact]
-        public async Task Is_unique_should_return_true_if_no_users_exist()
-        {
-            var userRepository = new UserRepository(DbContext);
-
-            bool isUnique = await userRepository.IsUniqueAsync(Email);
-
-            isUnique.Should().BeTrue();
-        }
-
-        [Fact]
         public async Task Is_unique_should_return_true_if_user_with_email_does_not_exist()
         {
             await SeedUser(UniqueEmail);
@@ -54,9 +44,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
                 Domain.ValueObjects.Email.Create(email).Value(),
                 Guid.NewGuid().ToString());
 
-            DbContext.Add(user);
-
-            await DbContext.SaveChangesAsync();
+            await AddAsync(user);
         }
     }
 }

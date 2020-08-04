@@ -4,7 +4,7 @@ using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using Xunit;
 using static Expensely.Application.IntegrationTests.Common.Testing;
@@ -28,7 +28,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         [Fact]
         public async Task Should_delete_an_expense_given_existing_expense_id()
         {
-            Expense expense = CreateExpense();
+            Expense expense = ExpenseData.Expense;
             await AddAsync(expense);
             var command = new DeleteExpenseCommand(expense.Id);
 
@@ -39,8 +39,5 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
             Expense? foundExpense = await FindAsync<Expense>(expense.Id);
             foundExpense.Should().BeNull();
         }
-
-        private static Expense CreateExpense()
-            => new Expense(Guid.NewGuid(), "Expense", new Money(decimal.Zero, Currency.FromId(1)!), DateTime.Now);
     }
 }

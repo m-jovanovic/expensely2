@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using MockQueryable.Moq;
 using Moq;
@@ -37,9 +35,9 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var expenses = new List<Expense>
             {
-                CreateExpense(),
-                CreateExpense(),
-                CreateExpense()
+                ExpenseData.Expense,
+                ExpenseData.Expense,
+                ExpenseData.Expense
             };
             var dbSetMock = expenses.AsQueryable().BuildMockDbSet();
             var dbContextMock = new Mock<IDbContext>();
@@ -52,8 +50,5 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
             result.Should().NotBeNull();
             result.Should().HaveCount(expenses.Count);
         }
-
-        private static Expense CreateExpense()
-            => new Expense(Guid.NewGuid(), "Expense name", new Money(1.0m, Currency.Usd), DateTime.Now);
     }
 }

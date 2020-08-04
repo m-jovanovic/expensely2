@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Tests.Common.Data;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -18,16 +17,6 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 {
     public class DeleteExpenseCommandTests
     {
-        [Fact]
-        public void Should_construct_properly()
-        {
-            var expenseId = Guid.NewGuid();
-            var command = new DeleteExpenseCommand(expenseId);
-
-            command.Should().NotBeNull();
-            command.ExpenseId.Should().Be(expenseId);
-        }
-
         [Fact]
         public async Task Handle_should_call_get_by_id_async_on_expense_repository()
         {
@@ -58,7 +47,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         [Fact]
         public async Task Handle_should_call_remove_on_expense_repository()
         {
-            var expense = CreateExpense();
+            var expense = ExpenseData.Expense;
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
@@ -72,7 +61,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         [Fact]
         public async Task Handle_should_publish_expense_deleted_event()
         {
-            var expense = CreateExpense();
+            var expense = ExpenseData.Expense;
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var mediatorMock = new Mock<IMediator>();
@@ -89,7 +78,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         [Fact]
         public async Task Handle_should_complete_successfully_if_command_is_valid()
         {
-            var expense = CreateExpense();
+            var expense = ExpenseData.Expense;
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var commandHandler = new DeleteExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
@@ -100,8 +89,5 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
         }
-
-        private static Expense CreateExpense()
-            =>new Expense(Guid.NewGuid(), "Expense name", new Money(1.0m, Currency.Usd), DateTime.Now);
     }
 }

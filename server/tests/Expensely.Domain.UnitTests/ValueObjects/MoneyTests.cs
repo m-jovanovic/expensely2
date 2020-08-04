@@ -13,7 +13,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_throw_argument_exception_if_currency_is_missing()
         {
-            Action action = () => new Money(1.0m, Currency.None);
+            Action action = () => new Money(Amount, Currency.None);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("currency");
         }

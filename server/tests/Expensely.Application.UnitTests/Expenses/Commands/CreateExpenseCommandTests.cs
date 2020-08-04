@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Expenses.Commands.CreateExpense;
@@ -13,36 +12,18 @@ using FluentAssertions;
 using MediatR;
 using Moq;
 using Xunit;
+using static Expensely.Tests.Common.Data.Commands.Expenses.ExpenseCommandsData;
 
 namespace Expensely.Application.UnitTests.Expenses.Commands
 {
     public class CreateExpenseCommandTests
     {
-        private const string Name = "Expense";
-        private const decimal Amount = 0.0m;
-        private const int CurrencyId = 1;
-        private const int InvalidCurrencyId = 0;
-
-        [Fact]
-        public void Should_construct_properly()
-        {
-            DateTime date = GetDate();
-
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, date);
-
-            command.Should().NotBeNull();
-            command.Name.Should().Be(Name);
-            command.Amount.Should().Be(Amount);
-            command.CurrencyId.Should().Be(CurrencyId);
-            command.Date.Should().Be(date);
-        }
-
         [Fact]
         public async Task Handle_should_fail_if_currency_id_is_invalid()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = new CreateExpenseCommand(Name, Amount, InvalidCurrencyId, GetDate());
+            var command = CreateExpenseCommandWithInvalidCurrencyId();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -57,7 +38,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, GetDate());
+            var command = ValidCreateExpenseCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -69,7 +50,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var mediatorMock = new Mock<IMediator>();
             var commandHandler = new CreateExpenseCommandHandler(new Mock<IExpenseRepository>().Object, mediatorMock.Object);
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, GetDate());
+            var command = ValidCreateExpenseCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -83,7 +64,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
             var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
-            var command = new CreateExpenseCommand(Name, Amount, CurrencyId, GetDate());
+            var command = ValidCreateExpenseCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
@@ -94,7 +75,5 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             entityCreatedResponse.Should().NotBeNull();
             entityCreatedResponse.Id.Should().NotBe(Guid.Empty);
         }
-
-        private static DateTime GetDate() => DateTime.Now;
     }
 }
