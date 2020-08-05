@@ -18,7 +18,7 @@ namespace Expensely.Domain.Enums
         ExpenseUpdate = 2,
 
         [Display(GroupName = "Expense", Name = "Remove", Description = "Can remove expenses.")]
-        ExpenseRemove = 3,
+        ExpenseDelete = 3,
 
         [LinkedToModule(PaidModules.LinkedExpenses)]
         [Display(GroupName = "Features", Name = "Linked expenses", Description = "Can access linked expenses feature.")]

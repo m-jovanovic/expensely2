@@ -24,7 +24,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         [Fact]
         public async Task Should_return_expense_response_given_existing_expense_id()
         {
-            var expense = ExpenseData.Expense;
+            var expense = ExpenseData.CreateExpense();
             await AddAsync(expense);
             var query = new GetExpenseByIdQuery(expense.Id);
 

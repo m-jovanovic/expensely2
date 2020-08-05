@@ -35,9 +35,9 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var expenses = new List<Expense>
             {
-                ExpenseData.Expense,
-                ExpenseData.Expense,
-                ExpenseData.Expense
+                ExpenseData.CreateExpense(),
+                ExpenseData.CreateExpense(),
+                ExpenseData.CreateExpense()
             };
             var dbSetMock = expenses.AsQueryable().BuildMockDbSet();
             var dbContextMock = new Mock<IDbContext>();

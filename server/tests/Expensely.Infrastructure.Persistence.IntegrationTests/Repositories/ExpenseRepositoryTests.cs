@@ -39,7 +39,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
         public async Task Insert_should_add_expense_to_database()
         {
             var expenseRepository = new ExpenseRepository(DbContext);
-            var expense = ExpenseData.Expense;
+            var expense = ExpenseData.CreateExpense();
 
             expenseRepository.Insert(expense);
             await SaveChangesAsync();

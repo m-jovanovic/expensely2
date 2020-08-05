@@ -87,7 +87,7 @@ namespace Expensely.Api.Controllers
         }
 
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
-        [HasPermission(Permission.ExpenseRemove)]
+        [HasPermission(Permission.ExpenseDelete)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExpense(Guid id)

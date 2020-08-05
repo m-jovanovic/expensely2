@@ -28,7 +28,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         [Fact]
         public async Task Should_delete_an_expense_given_existing_expense_id()
         {
-            Expense expense = ExpenseData.Expense;
+            Expense expense = ExpenseData.CreateExpense();
             await AddAsync(expense);
             var command = new DeleteExpenseCommand(expense.Id);
 

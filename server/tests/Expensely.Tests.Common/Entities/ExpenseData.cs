@@ -18,6 +18,6 @@ namespace Expensely.Tests.Common.Entities
 
         public static readonly Money Zero = new Money(ZeroAmount, Currency);
 
-        public static Expense Expense => new Expense(Guid.NewGuid(), Name, Zero, Time.Now());
+        public static Expense CreateExpense() => new Expense(Guid.NewGuid(), Name, Zero, Time.Now());
     }
 }

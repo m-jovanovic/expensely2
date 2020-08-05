@@ -44,7 +44,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         [Fact]
         public async Task Should_return_expense_response_if_expense_with_specified_id_exists()
         {
-            var expense = ExpenseData.Expense;
+            var expense = ExpenseData.CreateExpense();
             var dbSetMock = new List<Expense>
                 {
                     expense

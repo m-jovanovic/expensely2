@@ -55,7 +55,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         public async Task Handle_should_call_verify_password_on_password_hasher()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
-            User user = UserData.User;
+            User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
             var passwordHasherMock = new Mock<IPasswordHasher>();
             var commandHandler = new LoginCommandHandler(
@@ -75,7 +75,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         public async Task Handle_should_fail_if_password_verification_fails()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
-            User user = UserData.User;
+            User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
             var passwordHasherMock = new Mock<IPasswordHasher>();
             passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
@@ -97,7 +97,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         public async Task Handle_should_call_create_on_jwt_provider()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
-            User user = UserData.User;
+            User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
             var passwordHasherMock = new Mock<IPasswordHasher>();
             passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
@@ -118,7 +118,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
         public async Task Handle_should_succeed_given_valid_command()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
-            User user = UserData.User;
+            User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
             var passwordHasherMock = new Mock<IPasswordHasher>();
             passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))

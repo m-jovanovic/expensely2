@@ -26,11 +26,11 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 
         private static async Task SeedExpenses()
         {
-            await AddAsync(ExpenseData.Expense);
+            await AddAsync(ExpenseData.CreateExpense());
             
-            await AddAsync(ExpenseData.Expense);
+            await AddAsync(ExpenseData.CreateExpense());
             
-            await AddAsync(ExpenseData.Expense);
+            await AddAsync(ExpenseData.CreateExpense());
         }
     }
 }

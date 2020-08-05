@@ -16,6 +16,6 @@ namespace Expensely.Tests.Common.Entities
 
         public static readonly string PasswordHash = "password-hash";
 
-        public static User User => new User(Guid.NewGuid(), FirstName, LastName, ValidEmail, PasswordHash);
+        public static User CreateUser() => new User(Guid.NewGuid(), FirstName, LastName, ValidEmail, PasswordHash);
     }
 }

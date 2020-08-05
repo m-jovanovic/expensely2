@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Domain.Entities;
 using Expensely.Infrastructure.Persistence;
@@ -18,12 +19,15 @@ namespace Expensely.Api.IntegrationTests.Core
 
             dbContext.Set<Expense>().AddRange(new List<Expense>
             {
-                ExpenseData.Expense,
-                ExpenseData.Expense,
-                ExpenseData.Expense
+                ExpenseData.CreateExpense(),
+                ExpenseData.CreateExpense(),
+                ExpenseData.CreateExpense()
             });
 
             await dbContext.SaveChangesAsync();
+            
+            TestData.ExpenseIdForReading = dbContext.Set<Expense>().First().Id;
+            TestData.ExpenseIdForDeleting = dbContext.Set<Expense>().Last().Id;
         }
     }
 }

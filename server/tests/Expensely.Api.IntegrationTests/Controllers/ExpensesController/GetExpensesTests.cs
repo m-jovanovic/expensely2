@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.IntegrationTests.Core;
@@ -8,6 +7,7 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Domain.Enums;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Expensely.Api.IntegrationTests.Controllers.ExpensesController
@@ -36,11 +36,10 @@ namespace Expensely.Api.IntegrationTests.Controllers.ExpensesController
 
             HttpResponseMessage response = await client.GetAsync(ApiRoutes.Expenses.GetExpenses);
 
-            response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
             string content = await response.Content.ReadAsStringAsync();
             IReadOnlyCollection<ExpenseResponse> expenses =
-                JsonSerializer.Deserialize<IReadOnlyCollection<ExpenseResponse>>(content);
+                JsonConvert.DeserializeObject<IReadOnlyCollection<ExpenseResponse>>(content);
             expenses.Should().NotBeNull();
             expenses.Should().NotBeEmpty();
             expenses.Should().NotContainNulls();
