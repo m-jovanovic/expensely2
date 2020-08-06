@@ -50,7 +50,12 @@ namespace Expensely.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ExecuteMigrations(Configuration.GetConnectionString(ConnectionString.SettingsKey));
+            string connectionString = Configuration.GetConnectionString(ConnectionString.SettingsKey);
+
+            if (connectionString.Length > 0)
+            {
+                app.ExecuteMigrations(connectionString);
+            }
 
             app.UseCors(configurePolicy =>
             {

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0-preview.7.20365.15" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
@@ -24,9 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Api\Expensely.Api\Expensely.Api.csproj" />
-    <ProjectReference Include="..\..\src\Application\Expensely.Application\Expensely.Application.csproj" />
-    <ProjectReference Include="..\..\src\Infrastructure\Expensely.Infrastructure.Persistence\Expensely.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\Expensely.Tests.Common\Expensely.Tests.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
   </ItemGroup>
   
   <ItemGroup>
