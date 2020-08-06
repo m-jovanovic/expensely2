@@ -1,11 +1,9 @@
-﻿using System.Net.NetworkInformation;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Exceptions;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
 using Expensely.Tests.Common.Commands.Authentication;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
@@ -45,8 +43,6 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result<TokenResponse> result = await SendAsync(command);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.UserNotFound);
         }
 
@@ -60,8 +56,6 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result<TokenResponse> result = await SendAsync(command);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.InvalidPassword);
         }
         
@@ -75,9 +69,7 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result<TokenResponse> result = await SendAsync(command);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
             result.Value().Token.Should().NotBeEmpty();
         }
     }

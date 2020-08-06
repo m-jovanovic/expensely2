@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Validators.Email;
 using Expensely.Domain.ValueObjects;
@@ -44,10 +43,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(null);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.NullOrEmpty);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -55,10 +51,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(string.Empty);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.NullOrEmpty);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -69,10 +62,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
 
             Result<Email> result = Email.Create(email);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.LongerThanAllowed);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -90,10 +80,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(email);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.IncorrectFormat);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -113,9 +100,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(email);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
             Email value = result.Value();
             value.Should().NotBeNull();
             value.Value.Should().Be(email);

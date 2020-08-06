@@ -18,8 +18,6 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate(password);
             
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingDigit);
         }
 
@@ -40,7 +38,6 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate(password);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
         }
     }

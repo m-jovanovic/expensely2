@@ -20,8 +20,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             Result result = await SendAsync(command);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.General.EntityNotFound);
         }
 
@@ -34,7 +32,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             Result result = await SendAsync(command);
             
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
             Expense? foundExpense = await FindAsync<Expense>(expense.Id);
             foundExpense.Should().BeNull();

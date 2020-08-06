@@ -18,8 +18,6 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.NullOrEmpty);
         }
 
@@ -30,7 +28,6 @@ namespace Expensely.Domain.UnitTests.Validators.Password
 
             Result result = validator.Validate("1");
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
         }
     }

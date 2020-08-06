@@ -79,7 +79,6 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result result = await SendAsync(command);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
             User? user = await FindAsync<User>(u => u.Email.Value == command.Email);
             user.Should().NotBeNull();
@@ -95,8 +94,6 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result result = await SendAsync(command);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.DuplicateEmail);
         }
     }

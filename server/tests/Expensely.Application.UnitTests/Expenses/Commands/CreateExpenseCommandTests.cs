@@ -27,10 +27,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Currency.NotFound);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -68,9 +65,7 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
             EntityCreatedResponse entityCreatedResponse = result.Value();
             entityCreatedResponse.Should().NotBeNull();
             entityCreatedResponse.Id.Should().NotBe(Guid.Empty);

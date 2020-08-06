@@ -40,9 +40,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             Result<EntityCreatedResponse> result = await SendAsync(command);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
             EntityCreatedResponse entityCreatedResponse = result.Value();
             entityCreatedResponse.Id.Should().NotBeEmpty();
             Expense? expense = await FindAsync<Expense>(result.Value().Id);

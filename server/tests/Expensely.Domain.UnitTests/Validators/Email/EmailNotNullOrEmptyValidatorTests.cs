@@ -19,8 +19,6 @@ namespace Expensely.Domain.UnitTests.Validators.Email
 
             Result result = validator.Validate(email);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Email.NullOrEmpty);
         }
 
@@ -31,7 +29,6 @@ namespace Expensely.Domain.UnitTests.Validators.Email
 
             Result result = validator.Validate(UserData.ValidEmail);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
         }
     }

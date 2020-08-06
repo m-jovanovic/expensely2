@@ -39,8 +39,6 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.General.EntityNotFound);
         }
 
@@ -86,7 +84,6 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
 
             Result result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
         }
     }

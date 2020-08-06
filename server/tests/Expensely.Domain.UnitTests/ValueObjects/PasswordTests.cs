@@ -47,10 +47,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.NullOrEmpty);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -63,10 +60,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.TooShort);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -77,10 +71,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingLowercaseLetter);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -91,10 +82,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingUppercaseLetter);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -103,10 +91,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingDigit);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -117,10 +102,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Password.MissingNonAlphaNumeric);
-            result.Invoking(r => r.Value()).Should().Throw<InvalidOperationException>();
         }
 
         [Theory]
@@ -129,9 +111,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Password> result = Password.Create(password);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Invoking(r => r.Value()).Should().NotThrow();
             Password value = result.Value();
             value.Should().NotBeNull();
             value.Value.Should().Be(password);
