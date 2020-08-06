@@ -8,7 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
-namespace Expensely.Api.IntegrationTests.Controllers.ExpensesController
+namespace Expensely.Api.IntegrationTests.Controllers.Expenses
 {
     public class DeleteExpenseTests : IClassFixture<CustomWebApplicationFactory>
     {

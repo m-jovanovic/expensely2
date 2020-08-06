@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
+using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Commands.CreateExpense;
@@ -12,14 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.ExpensesController
+namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class CreateExpenseTests
     {
         [Fact]
         public async Task Create_expense_should_return_bad_request_if_request_is_null()
         {
-            var controller = new Api.Controllers.ExpensesController(new Mock<IMediator>().Object);
+            var controller = new ExpensesController(new Mock<IMediator>().Object);
 
             IActionResult result = await controller.CreateExpense(null);
 
@@ -37,7 +38,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             var failureResult = Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
             mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default)).ReturnsAsync(failureResult);
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.CreateExpense(CreateRequest());
 
@@ -56,14 +57,14 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var entityCreatedResponse = new EntityCreatedResponse(Guid.NewGuid());
             mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok(entityCreatedResponse));
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.CreateExpense(CreateRequest());
 
             CreatedAtActionResult createdAtActionResult = result.As<CreatedAtActionResult>();
             createdAtActionResult.Should().NotBeNull();
             createdAtActionResult.ControllerName.Should().BeNull();
-            createdAtActionResult.ActionName.Should().Be(nameof(Api.Controllers.ExpensesController.GetExpenseById));
+            createdAtActionResult.ActionName.Should().Be(nameof(ExpensesController.GetExpenseById));
             createdAtActionResult.RouteValues.Keys.Should().Contain("id");
             createdAtActionResult.RouteValues.Values.Should().Contain(entityCreatedResponse.Id);
         }
@@ -74,7 +75,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
             CreateExpenseRequest createExpenseRequest = CreateRequest();
 
             await controller.CreateExpense(createExpenseRequest);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Api.Controllers;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.ExpensesController
+namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class DeleteExpenseTests
     {
@@ -19,7 +20,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
                 .ReturnsAsync(Result.Fail(Errors.General.EntityNotFound));
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
 
@@ -33,7 +34,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok);
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
 
@@ -47,7 +48,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok);
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
             var expenseId = Guid.NewGuid();
 
             await controller.DeleteExpense(expenseId);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using FluentAssertions;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.ExpensesController
+namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class GetExpenseByIdTests
     {
@@ -18,7 +19,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
                 .ReturnsAsync((ExpenseResponse?)null);
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.GetExpenseById(Guid.NewGuid());
 
@@ -32,7 +33,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
                 .ReturnsAsync(new ExpenseResponse());
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.GetExpenseById(Guid.NewGuid());
 
@@ -46,7 +47,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
         public async Task Get_expense_by_id_should_send_valid_query()
         {
             var mediatorMock = new Mock<IMediator>();
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
             var expenseId = Guid.NewGuid();
 
             await controller.GetExpenseById(expenseId);

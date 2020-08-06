@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Api.Contracts;
+using Expensely.Api.Controllers;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
@@ -10,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
+namespace Expensely.Api.UnitTests.Controllers.Authentication
 {
     public class LoginTests
     {
         [Fact]
         public async Task Login_should_return_bad_request_if_request_is_null()
         {
-            var controller = new Api.Controllers.AuthenticationController(new Mock<IMediator>().Object);
+            var controller = new AuthenticationController(new Mock<IMediator>().Object);
 
             IActionResult result = await controller.Login(null);
 
@@ -35,7 +36,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             var mediatorMock = new Mock<IMediator>();
             var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.UserNotFound);
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default)).ReturnsAsync(failureResult);
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Login(CreateLoginRequest());
 
@@ -54,7 +55,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             const string tokenValue = "Token";
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default))
                 .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Login(CreateLoginRequest());
 
@@ -71,7 +72,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default))
                 .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
             LoginRequest loginRequest = CreateLoginRequest();
 
             await controller.Login(loginRequest);

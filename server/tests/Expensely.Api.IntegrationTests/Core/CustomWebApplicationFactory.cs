@@ -41,22 +41,25 @@ namespace Expensely.Api.IntegrationTests.Core
                     options.UseInMemoryDatabase("Expensely");
                 });
 
-                ServiceProvider sp = services.BuildServiceProvider();
+                ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-                using IServiceScope serviceScope = sp.CreateScope();
+                using IServiceScope serviceScope = serviceProvider.CreateScope();
 
-                IServiceProvider scopedServices = serviceScope.ServiceProvider;
+                IServiceProvider scopedServiceProvider = serviceScope.ServiceProvider;
 
-                using ExpenselyDbContext dbContext = scopedServices.GetRequiredService<ExpenselyDbContext>();
+                using ExpenselyDbContext dbContext = scopedServiceProvider.GetRequiredService<ExpenselyDbContext>();
 
-                ILogger<CustomWebApplicationFactory> logger = scopedServices
+                ILogger<CustomWebApplicationFactory> logger = scopedServiceProvider
                     .GetRequiredService<ILogger<CustomWebApplicationFactory>>();
 
                 dbContext.Database.EnsureCreated();
 
                 try
                 {
-                    DatabaseInitializer.InitializeExpensesForTestsAsync(dbContext).GetAwaiter().GetResult();
+                    DatabaseInitializer
+                        .InitializeDatabaseForTestsAsync(dbContext, scopedServiceProvider)
+                        .GetAwaiter()
+                        .GetResult();
                 }
                 catch (Exception ex)
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Api.Contracts;
+using Expensely.Api.Controllers;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
@@ -10,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
+namespace Expensely.Api.UnitTests.Controllers.Authentication
 {
     public class RegisterTests
     {
         [Fact]
         public async Task Register_should_return_bad_request_if_request_is_null()
         {
-            var controller = new Api.Controllers.AuthenticationController(new Mock<IMediator>().Object);
+            var controller = new AuthenticationController(new Mock<IMediator>().Object);
 
             IActionResult result = await controller.Register(null);
 
@@ -35,7 +36,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             var mediatorMock = new Mock<IMediator>();
             var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.DuplicateEmail);
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default)).ReturnsAsync(failureResult);
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Register(CreateRegisterRequest());
 
@@ -53,7 +54,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default))
                 .ReturnsAsync(Result.Ok());
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Register(CreateRegisterRequest());
 
@@ -67,7 +68,7 @@ namespace Expensely.Api.UnitTests.Controllers.AuthenticationController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default))
                 .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
-            var controller = new Api.Controllers.AuthenticationController(mediatorMock.Object);
+            var controller = new AuthenticationController(mediatorMock.Object);
             RegisterRequest registerRequest = CreateRegisterRequest();
 
             await controller.Register(registerRequest);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using FluentAssertions;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Expensely.Api.UnitTests.Controllers.ExpensesController
+namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class GetExpensesTests
     {
@@ -18,7 +19,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
                 .ReturnsAsync(new List<ExpenseResponse>());
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.GetExpenses();
 
@@ -33,7 +34,7 @@ namespace Expensely.Api.UnitTests.Controllers.ExpensesController
             var expenseResponses = new List<ExpenseResponse> { new ExpenseResponse() };
             mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
                 .ReturnsAsync(expenseResponses);
-            var controller = new Api.Controllers.ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(mediatorMock.Object);
 
             IActionResult result = await controller.GetExpenses();
 

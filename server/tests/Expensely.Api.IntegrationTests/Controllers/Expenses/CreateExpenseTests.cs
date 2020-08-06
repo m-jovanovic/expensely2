@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Expensely.Api.IntegrationTests.Controllers.ExpensesController
+namespace Expensely.Api.IntegrationTests.Controllers.Expenses
 {
     public class CreateExpenseTests : IClassFixture<CustomWebApplicationFactory>
     {
