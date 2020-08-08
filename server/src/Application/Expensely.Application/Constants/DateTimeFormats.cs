@@ -13,6 +13,6 @@
         /// <summary>
         /// The millisecond precision date-time string format.
         /// </summary>
-        public const string MillisecondPrecision = "yyyy-MM-dd HH:mm:ss.ffffff";
+        public const string MillisecondPrecision = "yyyy-MM-dd HH:mm:ss.fffffff";
     }
 }

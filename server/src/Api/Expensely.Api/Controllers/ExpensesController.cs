@@ -35,7 +35,8 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExpenses(int limit, string? cursor)
         {
-            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor);
+            // TODO: Create service for system time.
+            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor, DateTime.UtcNow);
 
             ExpenseListResponse expenseListResponse = await Mediator.Send(query);
 

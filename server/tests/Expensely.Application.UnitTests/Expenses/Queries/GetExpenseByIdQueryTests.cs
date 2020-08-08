@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain.Entities;
@@ -16,6 +17,16 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 {
     public class GetExpenseByIdQueryTests
     {
+        [Fact]
+        public void Should_create_valid_cache_key()
+        {
+            var query = new GetExpenseByIdQuery(Guid.NewGuid(), Guid.NewGuid());
+
+            string cacheKey = query.GetCacheKey();
+
+            cacheKey.Should().Be(string.Format(CacheKeys.Expense.ExpenseById, query.UserId, query.ExpenseId));
+        }
+        
         [Fact]
         public async Task Should_return_null_given_empty_expense_id()
         {

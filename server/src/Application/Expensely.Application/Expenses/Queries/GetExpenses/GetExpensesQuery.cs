@@ -19,15 +19,14 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         /// <param name="userId">The user identifier.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="cursor">The cursor.</param>
-        public GetExpensesQuery(Guid userId, int limit, string? cursor)
+        /// <param name="utcNow">The current date and time in UTC format.</param>
+        public GetExpensesQuery(Guid userId, int limit, string? cursor, DateTime utcNow)
         {
             UserId = userId;
             Limit = limit + 1;
             _cursor = cursor ?? string.Empty;
 
-            DateTime utcNow = DateTime.UtcNow;
-
-            if (cursor is null)
+            if (string.IsNullOrWhiteSpace(cursor))
             {
                 Date = utcNow.Date;
                 CreatedOnUtc = utcNow;

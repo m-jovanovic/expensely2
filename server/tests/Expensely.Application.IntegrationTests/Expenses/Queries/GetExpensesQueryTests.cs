@@ -17,7 +17,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         public async Task Should_return_non_empty_response_if_expenses_exist_for_user_id()
         {
             await SeedExpenses();
-            var query = new GetExpensesQuery(UserId, Limit, null);
+            var query = new GetExpensesQuery(UserId, Limit, null, DateTime.UtcNow);
 
             var result = await SendAsync(query);
 
@@ -29,7 +29,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         public async Task Should_return_empty_cursor_if_no_more_expenses_exist_for_user_id()
         {
             await SeedExpenses();
-            var query = new GetExpensesQuery(UserId, 100, null);
+            var query = new GetExpensesQuery(UserId, 100, null, DateTime.UtcNow);
 
             var result = await SendAsync(query);
 
@@ -41,10 +41,10 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         public async Task Should_return_more_expenses_with_cursor_from_response()
         {
             await SeedExpenses();
-            var query = new GetExpensesQuery(UserId, Limit, null);
+            var query = new GetExpensesQuery(UserId, Limit, null, DateTime.UtcNow);
 
             var resultWithCursor = await SendAsync(query);
-            var queryWithCursor = new GetExpensesQuery(UserId, Limit, resultWithCursor.Cursor);
+            var queryWithCursor = new GetExpensesQuery(UserId, Limit, resultWithCursor.Cursor, DateTime.UtcNow);
             var result = await SendAsync(queryWithCursor);
 
             result.Should().NotBeNull();
