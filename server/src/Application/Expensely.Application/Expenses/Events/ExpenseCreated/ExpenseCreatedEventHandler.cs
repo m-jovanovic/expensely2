@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Caching;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
@@ -12,17 +13,23 @@ namespace Expensely.Application.Expenses.Events.ExpenseCreated
     internal sealed class ExpenseCreatedEventHandler : IEventHandler<ExpenseCreatedEvent>
     {
         private readonly ICacheService _cacheService;
+        private readonly IUserIdentifierProvider _userIdentifierProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseCreatedEventHandler"/> class.
         /// </summary>
         /// <param name="cacheService">The cache service.</param>
-        public ExpenseCreatedEventHandler(ICacheService cacheService) => _cacheService = cacheService;
+        /// <param name="userIdentifierProvider">The user identifier provider.</param>
+        public ExpenseCreatedEventHandler(ICacheService cacheService, IUserIdentifierProvider userIdentifierProvider)
+        {
+            _cacheService = cacheService;
+            _userIdentifierProvider = userIdentifierProvider;
+        }
 
         /// <inheritdoc />
         public Task Handle(ExpenseCreatedEvent notification, CancellationToken cancellationToken)
         {
-            _cacheService.RemoveValue(CacheKeys.Expense.List);
+            _cacheService.RemoveByPattern(string.Format(CacheKeys.Expense.CacheKeyPrefix, _userIdentifierProvider.UserId));
 
             return Task.CompletedTask;
         }

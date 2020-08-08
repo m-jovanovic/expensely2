@@ -15,17 +15,20 @@ namespace Expensely.Domain.Entities
         /// Initializes a new instance of the <see cref="Expense"/> class.
         /// </summary>
         /// <param name="id">The expense identifier.</param>
+        /// <param name="userId">The expense user identifier.</param>
         /// <param name="name">The expense name.</param>
         /// <param name="money">The expense money instance.</param>
         /// <param name="date">The expense date.</param>
-        public Expense(Guid id, string name, Money money, DateTime date)
+        public Expense(Guid id, Guid userId, string name, Money money, DateTime date)
             : this()
         {
             Ensure.NotEmpty(id, "The identifier is required.", nameof(id));
+            Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
             Ensure.NotEmpty(money, "The money is required.", nameof(money));
             Ensure.NotEmpty(date, "The date is required.", nameof(date));
 
             Id = id;
+            UserId = userId;
             Name = name;
             Money = money;
             Date = date.Date;
@@ -42,6 +45,11 @@ namespace Expensely.Domain.Entities
             Name = string.Empty;
             Money = Money.None;
         }
+
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public Guid UserId { get; private set; }
 
         /// <summary>
         /// Gets the expense name.

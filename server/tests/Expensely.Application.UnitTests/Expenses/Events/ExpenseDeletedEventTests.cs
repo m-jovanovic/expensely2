@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Caching;
 using Expensely.Application.Constants;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
@@ -10,29 +11,27 @@ namespace Expensely.Application.UnitTests.Expenses.Events
 {
     public class ExpenseDeleetedEventTests
     {
-        [Fact]
-        public async Task Handle_should_call_remove_with_expenses_key_on_cache_service()
+        private readonly Mock<ICacheService> _cacheServiceMock;
+        private readonly Mock<IUserIdentifierProvider> _userIdentifierProviderMock;
+
+        public ExpenseDeleetedEventTests()
         {
-            var cacheServiceMock = new Mock<ICacheService>();
-            var eventHandler = new ExpenseDeletedEventHandler(cacheServiceMock.Object);
-            var @event = new ExpenseDeletedEvent(Guid.Empty);
-
-            await eventHandler.Handle(@event, default);
-
-            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == CacheKeys.Expense.List)), Times.Once);
+            _cacheServiceMock = new Mock<ICacheService>();
+            _userIdentifierProviderMock = new Mock<IUserIdentifierProvider>();
         }
 
         [Fact]
-        public async Task Handle_should_call_remove_with_expense_by_id_key_on_cache_service()
+        public async Task Handle_should_call_remove_by_pattern_on_cache_service()
         {
-            var cacheServiceMock = new Mock<ICacheService>();
-            var eventHandler = new ExpenseDeletedEventHandler(cacheServiceMock.Object);
+            var userId = Guid.NewGuid();
+            _userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(userId);
+            string cacheKeyPattern = string.Format(CacheKeys.Expense.CacheKeyPrefix, userId);
+            var eventHandler = new ExpenseDeletedEventHandler(_cacheServiceMock.Object, _userIdentifierProviderMock.Object);
             var @event = new ExpenseDeletedEvent(Guid.Empty);
-            string cacheKey = string.Format(CacheKeys.Expense.ById, @event.ExpenseId);
 
             await eventHandler.Handle(@event, default);
 
-            cacheServiceMock.Verify(x => x.RemoveValue(It.Is<string>(s => s == cacheKey)), Times.Once);
+            _cacheServiceMock.Verify(x => x.RemoveByPattern(It.Is<string>(s => s == cacheKeyPattern)), Times.Once);
         }
     }
 }

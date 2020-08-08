@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Utilities;
 using Expensely.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     /// <summary>
     /// Represents the <see cref="GetExpensesQuery"/> handler.
     /// </summary>
-    internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, IReadOnlyCollection<ExpenseResponse>>
+    internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, ExpenseListResponse>
     {
         private readonly IDbContext _dbContext;
 
@@ -25,10 +26,20 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         public GetExpensesQueryHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
-        public async Task<IReadOnlyCollection<ExpenseResponse>> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
+        public async Task<ExpenseListResponse> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
         {
-            IReadOnlyCollection<ExpenseResponse> expenses = await _dbContext.Set<Expense>()
-                .AsNoTracking()
+            if (request.UserId == Guid.Empty)
+            {
+                return new ExpenseListResponse(Array.Empty<ExpenseResponse>());
+            }
+
+            ExpenseResponse[] expenses = await _dbContext.Set<Expense>().AsNoTracking()
+                .Where(e => e.UserId == request.UserId &&
+                            e.Date <= request.Date &&
+                            e.CreatedOnUtc <= request.CreatedOnUtc)
+                .OrderByDescending(x => x.Date)
+                .ThenByDescending(x => x.CreatedOnUtc)
+                .Take(request.Limit)
                 .Select(e => new ExpenseResponse
                 {
                     Id = e.Id,
@@ -37,12 +48,21 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
                     CurrencyId = e.Money.Currency.Id,
                     CurrencyCode = e.Money.Currency.Code,
                     Date = e.Date,
-                    CreatedOnUtc = e.CreatedOnUtc,
-                    ModifiedOnUtc = e.ModifiedOnUtc,
-                    Deleted = e.Deleted
-                }).ToListAsync(cancellationToken);
+                    CreatedOnUtc = e.CreatedOnUtc
+                }).ToArrayAsync(cancellationToken);
 
-            return expenses;
+            if (expenses.Length != request.Limit)
+            {
+                return new ExpenseListResponse(expenses);
+            }
+
+            ExpenseResponse lastExpense = expenses[^1];
+
+            string cursor = Cursor.Create(
+                lastExpense.Date.ToString(DateTimeFormats.DatePrecision),
+                lastExpense.CreatedOnUtc.ToString(DateTimeFormats.MillisecondPrecision));
+
+            return new ExpenseListResponse(expenses[..^1], cursor);
         }
     }
 }

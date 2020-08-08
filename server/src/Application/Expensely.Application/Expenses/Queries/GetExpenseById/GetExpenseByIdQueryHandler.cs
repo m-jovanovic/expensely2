@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Expenses;
@@ -27,14 +26,14 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
         /// <inheritdoc />
         public async Task<ExpenseResponse?> Handle(GetExpenseByIdQuery request, CancellationToken cancellationToken)
         {
-            if (request.ExpenseId == Guid.Empty)
+            if (request.ExpenseId == Guid.Empty || request.UserId == Guid.Empty)
             {
                 return null;
             }
 
-            ExpenseResponse? expense = await _dbContext.Set<Expense>()
-                .AsNoTracking()
-                .Where(e => e.Id == request.ExpenseId)
+            ExpenseResponse? expense = await _dbContext.Set<Expense>().AsNoTracking()
+                .Where(e => e.Id == request.ExpenseId &&
+                            e.UserId == request.UserId)
                 .Select(e => new ExpenseResponse
                 {
                     Id = e.Id,
@@ -43,9 +42,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
                     CurrencyId = e.Money.Currency.Id,
                     CurrencyCode = e.Money.Currency.Code,
                     Date = e.Date,
-                    CreatedOnUtc = e.CreatedOnUtc,
-                    ModifiedOnUtc = e.ModifiedOnUtc,
-                    Deleted = e.Deleted
+                    CreatedOnUtc = e.CreatedOnUtc
                 }).FirstOrDefaultAsync(cancellationToken);
 
             return expense;

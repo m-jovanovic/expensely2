@@ -50,6 +50,8 @@ namespace Expensely.Infrastructure.Authentication
             services.AddScoped<IClaimsProvider, ClaimsProvider>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
+
+            services.AddScoped<IUserIdentifierProvider, UserIdentifierProvider>();
         }
     }
 }

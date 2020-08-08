@@ -5,17 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="001_CreateExpenseTable.sql" />
-    <None Remove="002_AddDeletedOnColumnToExpense.sql" />
-    <None Remove="003_CreateUserTable.sql" />
-    <None Remove="004_CreateUniqueIndexOnUserEmail.sql" />
+    <None Remove="001_Create_user_table.sql" />
+    <None Remove="002_Create_unique_index_user_email.sql" />
+    <None Remove="003_Create_expense_table.sql" />
+    <None Remove="004_Create_index_expense_userId_date_createdOnUtc.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="004_CreateUniqueIndexOnUserEmail.sql" />
-    <EmbeddedResource Include="003_CreateUserTable.sql" />
-    <EmbeddedResource Include="002_AddDeletedOnColumnToExpense.sql" />
-    <EmbeddedResource Include="001_CreateExpenseTable.sql" />
+    <EmbeddedResource Include="004_Create_index_expense_userId_date_createdOnUtc.sql" />
+    <EmbeddedResource Include="002_Create_unique_index_user_email.sql" />
+    <EmbeddedResource Include="001_Create_user_table.sql" />
+    <EmbeddedResource Include="003_Create_expense_table.sql" />
   </ItemGroup>
 
 </Project>

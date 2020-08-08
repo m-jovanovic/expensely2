@@ -3,7 +3,7 @@
 namespace Expensely.Application.Contracts.Expenses
 {
     /// <summary>
-    /// Represents the expense.
+    /// Represents the expense response.
     /// </summary>
     public sealed class ExpenseResponse
     {
@@ -55,15 +55,5 @@ namespace Expensely.Application.Contracts.Expenses
         /// Gets or sets the created on date in UTC format.
         /// </summary>
         public DateTime CreatedOnUtc { get; set; }
-
-        /// <summary>
-        /// Gets or sets the modified on date in UTC format.
-        /// </summary>
-        public DateTime? ModifiedOnUtc { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the expense has been deleted.
-        /// </summary>
-        public bool Deleted { get; set; }
     }
 }

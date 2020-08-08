@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Controllers;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Commands.CreateExpense;
@@ -17,10 +18,21 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class CreateExpenseTests
     {
+        private static readonly Guid UserId = Guid.NewGuid();
+        private readonly Mock<IMediator> _mediatorMock;
+        private readonly Mock<IUserIdentifierProvider> _userIdentifierProviderMock;
+
+        public CreateExpenseTests()
+        {
+            _mediatorMock = new Mock<IMediator>();
+            _userIdentifierProviderMock = new Mock<IUserIdentifierProvider>();
+            _userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(UserId);
+        }
+
         [Fact]
         public async Task Create_expense_should_return_bad_request_if_request_is_null()
         {
-            var controller = new ExpensesController(new Mock<IMediator>().Object);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
             IActionResult result = await controller.CreateExpense(null);
 
@@ -35,10 +47,9 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Create_expense_should_return_bad_request_if_command_returns_failure_result()
         {
-            var mediatorMock = new Mock<IMediator>();
             var failureResult = Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
-            mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default)).ReturnsAsync(failureResult);
-            var controller = new ExpensesController(mediatorMock.Object);
+            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default)).ReturnsAsync(failureResult);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
             IActionResult result = await controller.CreateExpense(CreateRequest());
 
@@ -53,11 +64,10 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Create_expense_should_return_created_at_action_if_command_returns_success_result()
         {
-            var mediatorMock = new Mock<IMediator>();
             var entityCreatedResponse = new EntityCreatedResponse(Guid.NewGuid());
-            mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
+            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok(entityCreatedResponse));
-            var controller = new ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
             IActionResult result = await controller.CreateExpense(CreateRequest());
 
@@ -72,17 +82,17 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Create_expense_should_send_valid_command()
         {
-            var mediatorMock = new Mock<IMediator>();
-            mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
+            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
-            var controller = new ExpensesController(mediatorMock.Object);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
             CreateExpenseRequest createExpenseRequest = CreateRequest();
 
             await controller.CreateExpense(createExpenseRequest);
 
-            mediatorMock.Verify(
+            _mediatorMock.Verify(
                 x => x.Send(
                     It.Is<CreateExpenseCommand>(c =>
+                        c.UserId == UserId &&
                         c.Name == createExpenseRequest.Name &&
                         c.Amount == createExpenseRequest.Amount &&
                         c.CurrencyId == createExpenseRequest.CurrencyId &&

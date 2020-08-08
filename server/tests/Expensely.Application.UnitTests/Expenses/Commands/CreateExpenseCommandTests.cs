@@ -22,7 +22,9 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         public async Task Handle_should_fail_if_currency_id_is_invalid()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
+            var commandHandler = new CreateExpenseCommandHandler(
+                expenseRepositoryMock.Object,
+                new Mock<IMediator>().Object);
             var command = CreateCommandWithInvalidCurrencyId();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
@@ -34,7 +36,9 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         public async Task Handle_should_call_insert_on_expense_repository()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
+            var commandHandler = new CreateExpenseCommandHandler(
+                expenseRepositoryMock.Object,
+                new Mock<IMediator>().Object);
             var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
@@ -46,7 +50,9 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         public async Task Handle_should_publish_expense_created_event()
         {
             var mediatorMock = new Mock<IMediator>();
-            var commandHandler = new CreateExpenseCommandHandler(new Mock<IExpenseRepository>().Object, mediatorMock.Object);
+            var commandHandler = new CreateExpenseCommandHandler(
+                new Mock<IExpenseRepository>().Object,
+                mediatorMock.Object);
             var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);
@@ -60,7 +66,9 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         public async Task Handle_should_complete_successfully_if_command_is_valid()
         {
             var expenseRepositoryMock = new Mock<IExpenseRepository>();
-            var commandHandler = new CreateExpenseCommandHandler(expenseRepositoryMock.Object, new Mock<IMediator>().Object);
+            var commandHandler = new CreateExpenseCommandHandler(
+                expenseRepositoryMock.Object,
+                new Mock<IMediator>().Object);
             var command = CreateValidCommand();
 
             Result<EntityCreatedResponse> result = await commandHandler.Handle(command, default);

@@ -72,6 +72,8 @@ namespace Expensely.Domain
         /// </summary>
         public static class Expense
         {
+            public static Error UserIdIsRequired => new Error("Expense.UserIdMissing");
+
             public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing");
 
             public static Error DateIsRequired => new Error("Expense.DateMissing");

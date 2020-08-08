@@ -13,6 +13,8 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// </summary>
         public CreateExpenseCommandValidator()
         {
+            RuleFor(x => x.UserId).NotEmpty().WithErrorCode(Errors.Expense.UserIdIsRequired);
+
             RuleFor(x => x.CurrencyId).NotEmpty().WithErrorCode(Errors.Expense.CurrencyIsRequired);
 
             RuleFor(x => x.Date).NotEmpty().WithErrorCode(Errors.Expense.DateIsRequired);

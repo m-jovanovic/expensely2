@@ -13,15 +13,23 @@ namespace Expensely.Domain.UnitTests.Entities
         [Fact]
         public void Should_throw_argument_exception_if_id_is_empty()
         {
-            Action action = () => new Expense(Guid.Empty, EmptyName, Zero, GetDate());
+            Action action = () => new Expense(Guid.Empty, Guid.NewGuid(), EmptyName, Zero, GetDate());
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("id");
         }
 
         [Fact]
+        public void Should_throw_argument_exception_if_user_id_is_empty()
+        {
+            Action action = () => new Expense(Guid.NewGuid(), Guid.Empty, EmptyName, Zero, GetDate());
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("userId");
+        }
+
+        [Fact]
         public void Should_throw_argument_exception_if_money_is_empty()
         {
-            Action action = () => new Expense(Guid.NewGuid(), EmptyName, Money.None, DateTime.Now);
+            Action action = () => new Expense(Guid.NewGuid(), Guid.NewGuid(), EmptyName, Money.None, DateTime.Now);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("money");
         }
@@ -29,7 +37,7 @@ namespace Expensely.Domain.UnitTests.Entities
         [Fact]
         public void Should_throw_argument_exception_if_date_is_empty()
         {
-            Action action = () => new Expense(Guid.NewGuid(), EmptyName, Zero, default);
+            Action action = () => new Expense(Guid.NewGuid(), Guid.NewGuid(), EmptyName, Zero, default);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("date");
         }
@@ -40,7 +48,7 @@ namespace Expensely.Domain.UnitTests.Entities
             var id = Guid.NewGuid();
             DateTime date = GetDate();
 
-            var expense = new Expense(id, Name, Zero, date);
+            var expense = new Expense(id, Guid.NewGuid(), Name, Zero, date);
 
             expense.Should().NotBeNull();
             expense.Id.Should().Be(id);
@@ -55,8 +63,8 @@ namespace Expensely.Domain.UnitTests.Entities
             var id = Guid.NewGuid();
             DateTime date = GetDate();
 
-            var expense1 = new Expense(id, Name, Zero, date);
-            var expense2 = new Expense(id, Name, Zero, date);
+            var expense1 = new Expense(id, Guid.NewGuid(), Name, Zero, date);
+            var expense2 = new Expense(id, Guid.NewGuid(), Name, Zero, date);
 
             expense1.Should().Be(expense2);
             expense2.Should().Be(expense1);
@@ -73,8 +81,8 @@ namespace Expensely.Domain.UnitTests.Entities
             var id2 = Guid.NewGuid();
             DateTime date = GetDate();
 
-            var expense1 = new Expense(id1, Name, Zero, date);
-            var expense2 = new Expense(id2, Name, Zero, date);
+            var expense1 = new Expense(id1, Guid.NewGuid(), Name, Zero, date);
+            var expense2 = new Expense(id2, Guid.NewGuid(), Name, Zero, date);
 
             expense1.Should().NotBe(expense2);
             expense2.Should().NotBe(expense1);

@@ -14,7 +14,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         [Fact]
         public async Task Should_return_null_given_non_existing_expense_id()
         {
-            var query = new GetExpenseByIdQuery(Guid.NewGuid());
+            var query = new GetExpenseByIdQuery(Guid.NewGuid(), UserId);
 
             ExpenseResponse? result = await SendAsync(query);
 
@@ -22,11 +22,23 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         }
 
         [Fact]
-        public async Task Should_return_expense_response_given_existing_expense_id()
+        public async Task Should_return_null_response_given_existing_expense_id_with_invalid_user_id()
         {
             var expense = ExpenseData.CreateExpense();
             await AddAsync(expense);
-            var query = new GetExpenseByIdQuery(expense.Id);
+            var query = new GetExpenseByIdQuery(expense.Id, UserId);
+
+            ExpenseResponse? result = await SendAsync(query);
+
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task Should_return_null_response_given_existing_expense_id_with_valid_user_id()
+        {
+            var expense = ExpenseData.CreateExpense(UserId);
+            await AddAsync(expense);
+            var query = new GetExpenseByIdQuery(expense.Id, UserId);
 
             ExpenseResponse? result = await SendAsync(query);
 
@@ -38,8 +50,6 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
             result.CurrencyCode.Should().Be(expense.Money.Currency.Code);
             result.Date.Should().Be(expense.Date);
             result.CreatedOnUtc.Should().Be(expense.CreatedOnUtc);
-            result.ModifiedOnUtc.Should().Be(expense.ModifiedOnUtc);
-            result.Deleted.Should().Be(expense.Deleted);
         }
     }
 }

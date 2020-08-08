@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Contracts.Common;
@@ -27,7 +26,9 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// </summary>
         /// <param name="expenseRepository">The expense repository.</param>
         /// <param name="mediator">The mediator.</param>
-        public CreateExpenseCommandHandler(IExpenseRepository expenseRepository, IMediator mediator)
+        public CreateExpenseCommandHandler(
+            IExpenseRepository expenseRepository,
+            IMediator mediator)
         {
             _expenseRepository = expenseRepository;
             _mediator = mediator;
@@ -46,7 +47,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
 
             var money = new Money(request.Amount, currency);
 
-            var expense = new Expense(Guid.NewGuid(), request.Name, money, request.Date);
+            var expense = new Expense(Guid.NewGuid(), request.UserId, request.Name, money, request.Date);
 
             _expenseRepository.Insert(expense);
 

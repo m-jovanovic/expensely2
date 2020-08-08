@@ -24,7 +24,8 @@ namespace Expensely.Api.IntegrationTests.Core
         {
             Claim[] claims =
             {
-                new Claim(ExpenselyJwtClaimTypes.Permissions, Options.ClaimsIssuer) 
+                new Claim(ExpenselyJwtClaimTypes.UserId, TestData.UserId.ToString()), 
+                new Claim(ExpenselyJwtClaimTypes.Permissions, Options.ClaimsIssuer)
             };
 
             var identity = new ClaimsIdentity(claims, "Test");

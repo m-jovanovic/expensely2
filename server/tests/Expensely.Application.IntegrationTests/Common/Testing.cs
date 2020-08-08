@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Expensely.Api;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Persistence;
 using MediatR;
@@ -20,6 +21,7 @@ namespace Expensely.Application.IntegrationTests.Common
         private const string DatabaseName = "Expensely";
         private static readonly IConfiguration Configuration;
         private static readonly IServiceScopeFactory ScopeFactory;
+        public static readonly Guid UserId = Guid.NewGuid();
 
         static Testing()
         {
@@ -39,6 +41,15 @@ namespace Expensely.Application.IntegrationTests.Common
                                       webHostEnvironment.EnvironmentName == "Development"));
 
             startup.ConfigureServices(services);
+
+            services.AddScoped(factory =>
+            {
+                var userIdentifierProviderMock = new Mock<IUserIdentifierProvider>();
+
+                userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(UserId);
+
+                return userIdentifierProviderMock.Object;
+            });
 
             services.RemoveAll(typeof(ExpenselyDbContext));
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using FluentAssertions;
@@ -13,36 +15,60 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
 {
     public class GetExpensesTests
     {
+        private const int Limit = 1;
+        private static readonly Guid UserId = Guid.NewGuid();
+        private readonly Mock<IMediator> _mediatorMock;
+        private readonly Mock<IUserIdentifierProvider> _userIdentifierProviderMock;
+
+        public GetExpensesTests()
+        {
+            _mediatorMock = new Mock<IMediator>();
+            _userIdentifierProviderMock = new Mock<IUserIdentifierProvider>();
+            _userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(UserId);
+        }
+
         [Fact]
         public async Task Get_expenses_should_return_not_found_if_query_returns_empty_collection()
         {
-            var mediatorMock = new Mock<IMediator>();
-            mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
-                .ReturnsAsync(new List<ExpenseResponse>());
-            var controller = new ExpensesController(mediatorMock.Object);
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
+                .ReturnsAsync(new ExpenseListResponse(Array.Empty<ExpenseResponse>()));
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
-            IActionResult result = await controller.GetExpenses();
+            IActionResult result = await controller.GetExpenses(Limit, null);
 
             result.Should().NotBeNull();
             result.Should().BeOfType<NotFoundResult>();
         }
 
         [Fact]
-        public async Task Get_expenses_should_return_ok_if_query_returns_non_empty_collection()
+        public async Task Get_expenses_should_return_ok_if_query_returns_non_empty_response()
         {
-            var mediatorMock = new Mock<IMediator>();
-            var expenseResponses = new List<ExpenseResponse> { new ExpenseResponse() };
-            mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
-                .ReturnsAsync(expenseResponses);
-            var controller = new ExpensesController(mediatorMock.Object);
+            var expenseListResponse = new ExpenseListResponse(new List<ExpenseResponse> { new ExpenseResponse() });
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
+                .ReturnsAsync(expenseListResponse);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
-            IActionResult result = await controller.GetExpenses();
+            IActionResult result = await controller.GetExpenses(Limit, null);
 
             OkObjectResult okObjectResult = result.As<OkObjectResult>();
             okObjectResult.Should().NotBeNull();
-            IReadOnlyCollection<ExpenseResponse> value = okObjectResult.Value.As<IReadOnlyCollection<ExpenseResponse>>();
-            value.Should().NotBeNull();
-            value.Should().HaveCount(expenseResponses.Count);
+            ExpenseListResponse response = okObjectResult.Value.As<ExpenseListResponse>();
+            response.Should().NotBeNull();
+            response.Items.Should().HaveCount(expenseListResponse.Items.Count);
+        }
+
+        [Fact]
+        public async Task Get_expenses_should_send_valid_query()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
+                .ReturnsAsync(new ExpenseListResponse(Array.Empty<ExpenseResponse>()));
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
+
+            await controller.GetExpenses(Limit, null);
+
+            _mediatorMock.Verify(
+                x => x.Send(It.Is<GetExpensesQuery>(q => q.UserId == UserId && q.Limit == Limit + 1), default),
+                Times.Once);
         }
     }
 }

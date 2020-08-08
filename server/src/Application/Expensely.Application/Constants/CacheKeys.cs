@@ -10,9 +10,32 @@
         /// </summary>
         public static class Expense
         {
-            public const string List = "expenses";
+            /// <summary>
+            /// The cache key prefix for expense cache keys.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// </remarks>
+            public const string CacheKeyPrefix = "expenses-{0}";
 
-            public const string ById = "expenses-{0}";
+            /// <summary>
+            /// The expenses list cache key.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// {1] - Limit.
+            /// {2} - Cursor.
+            /// </remarks>
+            public const string ExpensesList = "expenses-{0}-list-{1}-{2}";
+
+            /// <summary>
+            /// The expense by identifier cache key.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// {1] - Expense identifier.
+            /// </remarks>
+            public const string ExpenseById = "expenses-{0}-by-id-{1}";
         }
     }
 }

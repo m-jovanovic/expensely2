@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
+using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Commands.CreateExpense;
@@ -20,27 +21,30 @@ namespace Expensely.Api.Controllers
 {
     public class ExpensesController : ApiController
     {
-        public ExpensesController(IMediator mediator)
+        private readonly IUserIdentifierProvider _userIdentifierProvider;
+
+        public ExpensesController(IMediator mediator, IUserIdentifierProvider userIdentifierProvider)
             : base(mediator)
         {
+            _userIdentifierProvider = userIdentifierProvider;
         }
 
         [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [HasPermission(Permission.ExpenseRead)]
         [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExpenses()
+        public async Task<IActionResult> GetExpenses(int limit, string? cursor)
         {
-            var query = new GetExpensesQuery();
+            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor);
 
-            IReadOnlyCollection<ExpenseResponse> expenses = await Mediator.Send(query);
+            ExpenseListResponse expenseListResponse = await Mediator.Send(query);
 
-            if (expenses.Count == 0)
+            if (expenseListResponse.Items.Count == 0)
             {
                 return NotFound();
             }
 
-            return Ok(expenses);
+            return Ok(expenseListResponse);
         }
 
         [HttpGet(ApiRoutes.Expenses.GetExpenseById)]
@@ -49,7 +53,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExpenseById(Guid id)
         {
-            var query = new GetExpenseByIdQuery(id);
+            var query = new GetExpenseByIdQuery(id, _userIdentifierProvider.UserId);
 
             ExpenseResponse? expenseDto = await Mediator.Send(query);
 
@@ -72,7 +76,12 @@ namespace Expensely.Api.Controllers
                 return BadRequest();
             }
 
-            var command = new CreateExpenseCommand(request.Name, request.Amount, request.CurrencyId, request.Date);
+            var command = new CreateExpenseCommand(
+                _userIdentifierProvider.UserId,
+                request.Name,
+                request.Amount,
+                request.CurrencyId,
+                request.Date);
 
             Result<EntityCreatedResponse> result = await Mediator.Send(command);
 

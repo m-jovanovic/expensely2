@@ -13,17 +13,24 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseCommand"/> class.
         /// </summary>
+        /// <param name="userId">The user identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="amount">The amount.</param>
         /// <param name="currencyId">The currency identifier.</param>
         /// <param name="date">The date.</param>
-        public CreateExpenseCommand(string name, decimal amount, int currencyId, DateTime date)
+        public CreateExpenseCommand(Guid userId, string name, decimal amount, int currencyId, DateTime date)
         {
+            UserId = userId;
             Name = name;
             Amount = amount;
             CurrencyId = currencyId;
             Date = date;
         }
+
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public Guid UserId { get; }
 
         /// <summary>
         /// Gets the name.

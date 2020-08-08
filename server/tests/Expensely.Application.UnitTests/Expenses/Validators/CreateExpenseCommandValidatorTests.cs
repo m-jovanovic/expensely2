@@ -13,10 +13,19 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         private static readonly DateTime Date = Time.Now();
 
         [Fact]
+        public void Should_fail_if_user_id_is_empty()
+        {
+            var validator = new CreateExpenseCommandValidator();
+            var command = new CreateExpenseCommand(Guid.Empty, Name, ZeroAmount, Currency.Id, Date);
+
+            validator.ShouldHaveValidationErrorFor(x => x.UserId, command).WithErrorCode(Errors.Expense.UserIdIsRequired);
+        }
+
+        [Fact]
         public void Should_fail_if_currency_id_is_empty()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Name, ZeroAmount, InvalidCurrencyId, Date);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, ZeroAmount, InvalidCurrencyId, Date);
 
             validator.ShouldHaveValidationErrorFor(x => x.CurrencyId, command).WithErrorCode(Errors.Expense.CurrencyIsRequired);
         }
@@ -25,7 +34,7 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         public void Should_fail_if_date_is_empty()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Name, ZeroAmount, Currency.Id, default);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, ZeroAmount, Currency.Id, default);
 
             validator.ShouldHaveValidationErrorFor(x => x.Date, command).WithErrorCode(Errors.Expense.DateIsRequired);
         }
@@ -34,11 +43,11 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         public void Should_not_fail_if_command_is_valid()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Name, ZeroAmount, Currency.Id, Date);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, ZeroAmount, Currency.Id, Date);
 
             TestValidationResult<CreateExpenseCommand> result = validator.TestValidate(command);
 
-            result.ShouldNotHaveValidationErrorFor(x => x.Name);
+            result.ShouldNotHaveValidationErrorFor(x => x.UserId);
             result.ShouldNotHaveValidationErrorFor(x => x.CurrencyId);
             result.ShouldNotHaveValidationErrorFor(x => x.Date);
         }

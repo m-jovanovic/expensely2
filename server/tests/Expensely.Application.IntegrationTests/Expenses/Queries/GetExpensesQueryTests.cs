@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
-using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Tests.Common;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
@@ -11,26 +11,55 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
 {
     public class GetExpensesQueryTests
     {
+        private const int Limit = 1;
+        
         [Fact]
-        public async Task Should_return_non_empty_collection_of_expense_responses_if_expenses_exist()
+        public async Task Should_return_non_empty_response_if_expenses_exist_for_user_id()
         {
             await SeedExpenses();
-            var query = new GetExpensesQuery();
+            var query = new GetExpensesQuery(UserId, Limit, null);
 
-            IReadOnlyCollection<ExpenseResponse> result = await SendAsync(query);
+            var result = await SendAsync(query);
 
             result.Should().NotBeNull();
-            result.Should().NotBeEmpty();
-            result.Should().NotContainNulls();
+            result.Items.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public async Task Should_return_empty_cursor_if_no_more_expenses_exist_for_user_id()
+        {
+            await SeedExpenses();
+            var query = new GetExpensesQuery(UserId, 100, null);
+
+            var result = await SendAsync(query);
+
+            result.Should().NotBeNull();
+            result.Cursor.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task Should_return_more_expenses_with_cursor_from_response()
+        {
+            await SeedExpenses();
+            var query = new GetExpensesQuery(UserId, Limit, null);
+
+            var resultWithCursor = await SendAsync(query);
+            var queryWithCursor = new GetExpensesQuery(UserId, Limit, resultWithCursor.Cursor);
+            var result = await SendAsync(queryWithCursor);
+
+            result.Should().NotBeNull();
+            result.Items.Should().NotBeEmpty();
         }
 
         private static async Task SeedExpenses()
         {
-            await AddAsync(ExpenseData.CreateExpense());
+            DateTime date = Time.Now().Date;
+
+            await AddAsync(ExpenseData.CreateExpense(UserId, date));
             
-            await AddAsync(ExpenseData.CreateExpense());
+            await AddAsync(ExpenseData.CreateExpense(UserId, date.AddDays(-1)));
             
-            await AddAsync(ExpenseData.CreateExpense());
+            await AddAsync(ExpenseData.CreateExpense(UserId, date.AddDays(-2)));
         }
     }
 }

@@ -14,6 +14,16 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
     public class CreateExpenseCommandTests
     {
         [Fact]
+        public void Handle_should_throw_validation_exception_if_user_id_is_empty()
+        {
+            var command = CreateCommandWithInvalidUserId();
+
+            FluentActions.Invoking(() => SendAsync(command))
+                .Should().Throw<ValidationException>()
+                .And.ErrorCodes.Should().Contain(Errors.Expense.UserIdIsRequired);
+        }
+
+        [Fact]
         public void Handle_should_throw_validation_exception_if_currency_id_is_empty()
         {
             var command = CreateCommandWithInvalidCurrencyId();

@@ -27,5 +27,11 @@
         /// </summary>
         /// <param name="key">The cache key.</param>
         void RemoveValue(string key);
+
+        /// <summary>
+        /// Removes the values where the keys match the specified pattern.
+        /// </summary>
+        /// <param name="pattern">The cache key pattern.</param>
+        void RemoveByPattern(string pattern);
     }
 }

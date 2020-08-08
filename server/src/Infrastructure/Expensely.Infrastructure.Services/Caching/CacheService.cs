@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using Expensely.Application.Abstractions.Caching;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -9,6 +11,7 @@ namespace Expensely.Infrastructure.Services.Caching
     /// </summary>
     internal sealed class CacheService : ICacheService
     {
+        private static readonly ConcurrentDictionary<string, bool> CacheKeys = new ConcurrentDictionary<string, bool>();
         private readonly IMemoryCache _memoryCache;
 
         /// <summary>
@@ -20,9 +23,7 @@ namespace Expensely.Infrastructure.Services.Caching
         /// <inheritdoc />
         public T? GetValue<T>(string key)
             where T : class
-        {
-            return _memoryCache.TryGetValue(key, out T value) ? value : null;
-        }
+            => _memoryCache.TryGetValue(key, out T value) ? value : null;
 
         /// <inheritdoc />
         public void SetValue(string key, object value, int cacheTimeInMinutes)
@@ -31,12 +32,30 @@ namespace Expensely.Infrastructure.Services.Caching
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(cacheTimeInMinutes)
             });
+
+            CacheKeys.TryAdd(key, true);
         }
 
         /// <inheritdoc />
         public void RemoveValue(string key)
         {
             _memoryCache.Remove(key);
+
+            CacheKeys.TryRemove(key, out _);
+        }
+
+        /// <inheritdoc />
+        public void RemoveByPattern(string pattern)
+        {
+            if (string.IsNullOrWhiteSpace(pattern))
+            {
+                return;
+            }
+
+            foreach (string cacheKey in CacheKeys.Keys.Where(cacheKey => cacheKey.StartsWith(pattern)))
+            {
+                RemoveValue(cacheKey);
+            }
         }
     }
 }

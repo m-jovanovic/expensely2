@@ -14,14 +14,24 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
         /// Initializes a new instance of the <see cref="GetExpenseByIdQuery"/> class.
         /// </summary>
         /// <param name="expenseId">The expense identifier.</param>
-        public GetExpenseByIdQuery(Guid expenseId) => ExpenseId = expenseId;
+        /// <param name="userId">The user identifier.</param>
+        public GetExpenseByIdQuery(Guid expenseId, Guid userId)
+        {
+            ExpenseId = expenseId;
+            UserId = userId;
+        }
 
         /// <summary>
         /// Gets the expense identifier.
         /// </summary>
         public Guid ExpenseId { get; }
 
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public Guid UserId { get; }
+
         /// <inheritdoc />
-        public string GetCacheKey() => string.Format(CacheKeys.Expense.ById, ExpenseId);
+        public string GetCacheKey() => string.Format(CacheKeys.Expense.ExpenseById, UserId, ExpenseId);
     }
 }
