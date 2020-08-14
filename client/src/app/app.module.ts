@@ -21,7 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     MaterialModule,
     CoreModule,
-    NgxsModule.forRoot([AuthenticationState]),
+    NgxsModule.forRoot([AuthenticationState], { developmentMode: !environment.production }),
     NgxsStoragePluginModule.forRoot({
       key: [AuthenticationState]
     })

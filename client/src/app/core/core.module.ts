@@ -7,13 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { SharedModule } from '@expensely/shared';
 import { MaterialModule } from '@expensely/material';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { SideNavMenuComponent } from './components/side-nav-menu/side-nav-menu.component';
 
 @NgModule({
-	declarations: [EmptyLayoutComponent, MainLayoutComponent],
+	declarations: [EmptyLayoutComponent, MainLayoutComponent, SideNavComponent, NavBarComponent, SideNavMenuComponent],
 	imports: [
 		HttpClientModule,
 		RouterModule,
-		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
 		SharedModule,

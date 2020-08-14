@@ -1,0 +1,30 @@
+mat-sidenav-container,
+mat-sidenav-content,
+mat-sidenav {
+	height: 100%;
+}
+
+mat-sidenav {
+	width: 250px;
+	overflow: hidden;
+}
+
+mat-toolbar {
+	z-index: 1000;
+}
+
+main {
+	padding: 20px;
+	margin-top: 64px;
+}
+
+@media (max-width: 599px) {
+	mat-toolbar {
+		padding: 5px;
+	}
+
+	main {
+		padding: 14px;
+		margin-top: 56px;
+	}
+}

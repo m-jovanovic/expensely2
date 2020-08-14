@@ -1,29 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
 import { AuthenticationFacade } from '@expensely/core';
-import { Observable } from 'rxjs';
+import { ApiErrorResponse, ErrorCode } from '@expensely/core/contracts';
 
 @Component({
-  selector: 'exp-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+	selector: 'exp-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
-  email: string;
-  password: string;
-  isLoggedIn$: Observable<boolean>;
+export class LoginComponent {
+	email: string;
+	password: string;
+	hide: boolean = true;
+	isLoggedIn$: Observable<boolean>;
 
-  constructor(private facade: AuthenticationFacade ) {
-    this.isLoggedIn$ = this.facade.isLoggedIn$;
-  }
+	constructor(private facade: AuthenticationFacade) {
+		this.isLoggedIn$ = this.facade.isLoggedIn$;
+	}
 
-  ngOnInit(): void {}
+	login(): void {
+		this.facade
+			.login(this.email, this.password)
+			.pipe(
+				catchError((err: HttpErrorResponse) => {
+					this.handleError(err.error);
 
-  signIn(): void {
-    this.facade.signIn(this.email, this.password);
-  }
+					return of('');
+				})
+			)
+			.subscribe();
+	}
 
-  signOut(): void {
-    this.facade.signOut();
-  }
+	private handleError(apiError: ApiErrorResponse): void {
+		if (apiError.hasError(ErrorCode.UserNotFound)) {
+			// Invalid email
 
+			return;
+		}
+
+		if (apiError.hasError(ErrorCode.InvalidPassword)) {
+			// Invalid password
+
+			return;
+		}
+
+		if (
+			apiError.hasError(ErrorCode.EmailNullOrEmpty) ||
+			apiError.hasError(ErrorCode.PasswordNullOrEmpty)
+		) {
+			// Invalid inputs
+
+			return;
+		}
+	}
 }

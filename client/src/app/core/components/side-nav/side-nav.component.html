@@ -1,0 +1,28 @@
+<mat-sidenav-container>
+	<mat-sidenav
+		#drawer
+		class="sidenav"
+		fixedInViewport="true"
+		[attr.role]="isHandset ? 'dialog' : 'navigation'"
+		[mode]="isHandset.matches ? 'over' : 'side'"
+		[opened]="!isHandset.matches"
+	>
+		<mat-toolbar color="primary">
+			<mat-toolbar-row>
+				<h2>{{title}}</h2>
+			</mat-toolbar-row>
+		</mat-toolbar>
+
+		<!-- Menu -->
+		<exp-side-nav-menu></exp-side-nav-menu>
+	</mat-sidenav>
+	<mat-sidenav-content class="sidenav-content" cdkScrollable>
+		<!-- Nav-bar -->
+		<exp-nav-bar [isHandset]="isHandset" [title]="title" [drawer]="drawer"></exp-nav-bar>
+
+		<!-- Content -->
+		<main>
+			<ng-content></ng-content>
+		</main>
+	</mat-sidenav-content>
+</mat-sidenav-container>

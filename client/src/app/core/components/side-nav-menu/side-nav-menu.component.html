@@ -1,0 +1,46 @@
+<mat-nav-list>
+	<h2 matSubheader>Management</h2>
+
+	<a
+		mat-list-item
+		[routerLink]="['/movies/library']"
+		routerLinkActive="active-list-item"
+	>
+		<mat-icon>attach_money</mat-icon>
+		Expenses
+	</a>
+	<a
+		mat-list-item
+		[routerLink]="['/movies/search']"
+		routerLinkActive="active-list-item"
+	>
+		<mat-icon>list_alt</mat-icon>
+		Budgets
+	</a>
+
+	<mat-divider></mat-divider>
+
+	<h2 matSubheader>Account</h2>
+
+	<a
+		mat-list-item
+		[routerLink]="['/friends/list']"
+		routerLinkActive="active-list-item"
+	>
+		<mat-icon>person</mat-icon>
+		Details
+	</a>
+
+	<mat-divider></mat-divider>
+
+	<h2 matSubheader>Configuration</h2>
+
+	<a
+		mat-list-item
+		[routerLink]="['/settings']"
+		routerLinkActive="active-list-item"
+	>
+		<mat-icon>settings</mat-icon>
+		Settings
+	</a>
+</mat-nav-list>

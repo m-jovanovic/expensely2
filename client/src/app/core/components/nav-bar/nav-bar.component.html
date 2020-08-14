@@ -1,0 +1,35 @@
+<mat-toolbar color="primary" class="fixed-to-top">
+    <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset.matches"
+    >
+        <mat-icon aria-label="Sidenav toggle icon.">menu</mat-icon>
+    </button>
+
+    <span *ngIf="isHandset.matches">{{title}}</span>
+
+    <span class="spacer"></span>
+
+    <!-- <div *ngIf="user$ | async as user"> -->
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="nav-bar-menu">
+            <div class="nav-bar-menu-container">
+                <div mat-menu-item>
+                    <mat-icon>person</mat-icon>
+                    <span>User Name</span>
+                </div>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </mat-menu>
+    </div>    
+</mat-toolbar>

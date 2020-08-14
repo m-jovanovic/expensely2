@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { LoginRequest, TokenResponse } from '@expensely/core/contracts';
@@ -11,28 +11,30 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService extends ApiService {
 
-    constructor(client: HttpClient, private router: Router) {
+    constructor(client: HttpClient, private _router: Router, private _zone: NgZone) {
         super(client);
     }
 
-    signIn(email: string, password: string): Observable<TokenResponse> {
-        const request = new LoginRequest(email, password);
-
-        const response = this.post<TokenResponse>('authentication/login', request)
+    login(request: LoginRequest): Observable<TokenResponse> {
+        return this.post<TokenResponse>('authentication/login', request)
             .pipe(
                 first(),
                 tap((response: TokenResponse) => {
                     if (response.token) {
-                        this.router.navigate(['/']);
+                        this._zone.run(() => {
+                            this._router.navigate(['']);
+                        });
                     }
                 })
             );
-
-        return response;
     }
 
-    signOut(): Observable<boolean> {
-        return from(this.router.navigate(['/login']));
+    logout(): Observable<boolean> {
+        this._zone.run(() => {
+            this._router.navigate(['/login']);
+        });
+
+        return of(true);
     }
 
 }

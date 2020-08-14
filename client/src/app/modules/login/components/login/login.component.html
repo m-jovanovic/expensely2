@@ -1,10 +1,31 @@
-<div>
-    <input type="email" [(ngModel)]="email" />
-</div>
-<div>
-    <input type="password" [(ngModel)]="password" />
-</div>
+<div class="container" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="login-form">
+        <mat-card-title class="text-center">
+            Expensely
+        </mat-card-title>
 
-<div> {{email}} {{password}} </div>
+        <div>
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Enter your email</mat-label>
+    
+                <input matInput placeholder="Email" required [(ngModel)]="email">
+            </mat-form-field>
+        </div>
 
-<button (click)="signIn()">Sign In</button>
+        <div>
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" required [(ngModel)]="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+
+        <div class="text-center">
+            <button mat-raised-button color="primary" class="login-button" (click)="login()">
+                Log In
+            </button>
+        </div>
+    </mat-card>
+</div>

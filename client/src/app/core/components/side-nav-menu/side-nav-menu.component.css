@@ -1,0 +1,21 @@
+mat-icon {
+	margin-right: 15px;
+}
+
+mat-nav-list h2 {
+	font-size: 17px;
+	cursor: pointer;
+}
+
+mat-nav-list a {
+	padding-left: 10px;
+	width: 239px;
+}
+
+mat-nav-list a:hover {
+	/* color: #3f51b5; */
+}
+
+.active-list-item {
+	/* color: #3f51b5; */
+}

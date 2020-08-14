@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { SignIn, SignOut } from './authentication.actions';
+import { Observable, of } from 'rxjs';
+import { Login, Logout } from './authentication.actions';
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +13,12 @@ export class AuthenticationFacade {
         this.isLoggedIn$ = this.store.select(state => !!state.authentication.token.length);
     }
 
-    signIn(email: string, password: string) {
-        this.store.dispatch(new SignIn(email, password));
+    login(email: string, password: string): Observable<any> {
+        return this.store.dispatch(new Login(email, password));
     }
 
-    signOut() {
-        this.store.dispatch(new SignOut());
+    logout(): void {
+        this.store.dispatch(new Logout());
     }
 
 }
