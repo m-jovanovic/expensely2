@@ -1,7 +1,7 @@
 export enum ErrorCode {
-    // Authentication
-    EmailNullOrEmpty = 'Email.NullOrEmpty',
-    PasswordNullOrEmpty = 'PasswordNullOrEmpty',
-    UserNotFound = 'Authentication.UserNotFound',
-    InvalidPassword = 'Authentication.InvalidPassword',
+	// Authentication
+	EmailNullOrEmpty = 'Email.NullOrEmpty',
+	PasswordNullOrEmpty = 'PasswordNullOrEmpty',
+	UserNotFound = 'Authentication.UserNotFound',
+	InvalidPassword = 'Authentication.InvalidPassword',
 }

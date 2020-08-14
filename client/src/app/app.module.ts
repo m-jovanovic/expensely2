@@ -11,22 +11,24 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    BrowserAnimationsModule,
-    MaterialModule,
-    CoreModule,
-    NgxsModule.forRoot([AuthenticationState], { developmentMode: !environment.production }),
-    NgxsStoragePluginModule.forRoot({
-      key: [AuthenticationState]
-    })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [AppComponent],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		ServiceWorkerModule.register('ngsw-worker.js', {
+			enabled: environment.production,
+		}),
+		BrowserAnimationsModule,
+		MaterialModule,
+		CoreModule,
+		NgxsModule.forRoot([AuthenticationState], {
+			developmentMode: !environment.production,
+		}),
+		NgxsStoragePluginModule.forRoot({
+			key: [AuthenticationState],
+		}),
+	],
+	providers: [],
+	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

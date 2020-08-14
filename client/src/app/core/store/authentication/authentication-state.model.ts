@@ -1,3 +1,3 @@
 export interface AuthenticationStateModel {
-    token: string;
+	token: string;
 }

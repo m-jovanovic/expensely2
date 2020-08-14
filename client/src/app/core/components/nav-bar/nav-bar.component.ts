@@ -15,12 +15,12 @@ export class NavBarComponent implements OnInit {
 
 	@Input() title: string;
 
-	constructor(private _authenticationFacade: AuthenticationFacade) {}
+	constructor(private authenticationFacade: AuthenticationFacade) {}
 
 	ngOnInit(): void {}
 
 	logout(): void {
-		this._authenticationFacade.logout();
+		this.authenticationFacade.logout();
 	}
 
 }

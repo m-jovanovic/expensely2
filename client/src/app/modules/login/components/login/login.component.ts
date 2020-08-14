@@ -14,7 +14,7 @@ import { ApiErrorResponse, ErrorCode } from '@expensely/core/contracts';
 export class LoginComponent {
 	email: string;
 	password: string;
-	hide: boolean = true;
+	hide = true;
 	isLoggedIn$: Observable<boolean>;
 
 	constructor(private facade: AuthenticationFacade) {

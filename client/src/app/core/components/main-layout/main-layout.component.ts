@@ -13,7 +13,7 @@ import { AuthenticationFacade } from '@expensely/core/store';
 export class MainLayoutComponent implements OnInit {
 	isLoggedIn$: Observable<boolean>;
 	isHandset$: Observable<BreakpointState>;
-	title: string = 'Expensely';
+	title = 'Expensely';
 
 	constructor(
 		facade: AuthenticationFacade,

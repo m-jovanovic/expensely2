@@ -4,21 +4,22 @@ import { Observable, of } from 'rxjs';
 import { Login, Logout } from './authentication.actions';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root',
 })
 export class AuthenticationFacade {
-    isLoggedIn$: Observable<boolean>;
+	isLoggedIn$: Observable<boolean>;
 
-    constructor(private store: Store) {
-        this.isLoggedIn$ = this.store.select(state => !!state.authentication.token.length);
-    }
+	constructor(private store: Store) {
+		this.isLoggedIn$ = this.store.select(
+			(state) => !!state.authentication.token.length
+		);
+	}
 
-    login(email: string, password: string): Observable<any> {
-        return this.store.dispatch(new Login(email, password));
-    }
+	login(email: string, password: string): Observable<any> {
+		return this.store.dispatch(new Login(email, password));
+	}
 
-    logout(): void {
-        this.store.dispatch(new Logout());
-    }
-
+	logout(): void {
+		this.store.dispatch(new Logout());
+	}
 }

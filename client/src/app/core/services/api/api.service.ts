@@ -4,18 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root',
 })
 export abstract class ApiService {
+	constructor(private client: HttpClient) {}
 
-    constructor(private client: HttpClient) {}
+	protected get<T>(route: string): Observable<T> {
+		return this.get<T>(route);
+	}
 
-    protected get<T>(route: string): Observable<T> {
-        return this.get<T>(route);
-    }
-
-    protected post<T>(route: string, body: any): Observable<T> {
-        return this.client.post<T>(`${environment.apiUrl}/${route}`, body);
-    }
-
+	protected post<T>(route: string, body: any): Observable<T> {
+		return this.client.post<T>(`${environment.apiUrl}/${route}`, body);
+	}
 }

@@ -8,36 +8,39 @@ import { Login, Logout } from './authentication.actions';
 import { TokenResponse, LoginRequest } from '../../contracts';
 
 @State<AuthenticationStateModel>({
-    name: 'authentication',
-    defaults: {
-        token: ''
-    }
+	name: 'authentication',
+	defaults: {
+		token: '',
+	},
 })
 @Injectable()
 export class AuthenticationState {
+	constructor(private authenticationService: AuthenticationService) {}
 
-    constructor(private authenticationService: AuthenticationService) {}
+	@Action(Login)
+	login(
+		context: StateContext<AuthenticationStateModel>,
+		action: Login
+	): Observable<TokenResponse> {
+		return this.authenticationService
+			.login(new LoginRequest(action.email, action.password))
+			.pipe(
+				tap((response: TokenResponse) => {
+					context.patchState({
+						token: response.token,
+					});
+				})
+			);
+	}
 
-    @Action(Login)
-    login(context: StateContext<AuthenticationStateModel>, action: Login): Observable<TokenResponse> {
-        return this.authenticationService.login(new LoginRequest(action.email, action.password)).pipe(
-            tap((response: TokenResponse) => {
-                context.patchState({
-                    token: response.token
-                });
-            })
-        );
-    }
-
-    @Action(Logout)
-    logout(context: StateContext<AuthenticationStateModel>): Observable<boolean> {
-        return this.authenticationService.logout().pipe(
-            tap(() => {
-                context.patchState({
-                    token: ''
-                });
-            })
-        );
-    }
-
+	@Action(Logout)
+	logout(context: StateContext<AuthenticationStateModel>): Observable<boolean> {
+		return this.authenticationService.logout().pipe(
+			tap(() => {
+				context.patchState({
+					token: '',
+				});
+			})
+		);
+	}
 }

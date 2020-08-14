@@ -7,13 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
-    SharedModule,
+	declarations: [LoginComponent],
+	imports: [
+		SharedModule,
 		MaterialModule,
-    LoginRoutingModule,
+		LoginRoutingModule,
 		FlexLayoutModule,
-    FormsModule
-  ]
+		FormsModule,
+	],
 })
-export class LoginModule { }
+export class LoginModule {}
