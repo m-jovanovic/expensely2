@@ -16,9 +16,9 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
             builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.FirstName).HasColumnType("nvarchar(100)").IsRequired();
+            builder.Property(u => u.FirstName).HasMaxLength(100).IsRequired();
 
-            builder.Property(u => u.LastName).HasColumnType("nvarchar(100)").IsRequired();
+            builder.Property(u => u.LastName).HasMaxLength(100).IsRequired();
 
             builder.OwnsOne(u => u.Email, emailBuilder =>
             {
@@ -26,11 +26,11 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
                 emailBuilder.Property(e => e.Value)
                     .HasColumnName("Email")
-                    .HasColumnType($"nvarchar({EmailMaxLengthValidator.MaxEmailLength})")
+                    .HasMaxLength(EmailMaxLengthValidator.MaxEmailLength)
                     .IsRequired();
             });
 
-            builder.Property(u => u.PasswordHash).HasColumnType("nvarchar(max)").IsRequired();
+            builder.Property(u => u.PasswordHash).IsRequired();
 
             builder.Property(e => e.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 

@@ -10,7 +10,7 @@ export abstract class ApiService {
 	constructor(private client: HttpClient) {}
 
 	protected get<T>(route: string): Observable<T> {
-		return this.get<T>(route);
+		return this.client.get<T>(`${environment.apiUrl}/${route}`);
 	}
 
 	protected post<T>(route: string, body: any): Observable<T> {

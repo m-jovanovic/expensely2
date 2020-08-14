@@ -1,5 +1,13 @@
-<mat-card>
-    <div>
-        Expenses list goes here.
-    </div>
+<mat-card
+	infiniteScroll
+	[infiniteScrollDistance]="2"
+	[infiniteScrollThrottle]="50"
+	[infiniteScrollContainer]="'.sidenav-content'"
+	[fromRoot]="true"
+	(scrolled)="onScroll()"
+>
+	<exp-expense-list
+		[expenses]="expenses$ | async"
+		[isLoading]="isLoading$ | async"
+	></exp-expense-list>
 </mat-card>

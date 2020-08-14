@@ -1,0 +1,28 @@
+<mat-list>
+	<h2>Expenses</h2>
+
+	<ng-container
+		*ngFor="let expense of expenses; let last = last; trackBy: trackExpenses"
+	>
+		<mat-list-item>
+			<mat-icon matListIcon>attach_money</mat-icon>
+
+			<small matLine>{{ expense.date | date }}</small>
+
+			<h4 matLine>
+				{{ expense.name }}
+			</h4>
+
+			<div>{{ expense.formattedExpense }}</div>
+
+			<div class="expense-actions">
+				<button mat-icon-button>
+					<mat-icon>delete</mat-icon>
+				</button>
+			</div>
+		</mat-list-item>
+		<mat-divider *ngIf="!last"></mat-divider>
+	</ng-container>
+</mat-list>
+
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

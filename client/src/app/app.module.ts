@@ -5,10 +5,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { environment } from '@env/environment';
-import { CoreModule, AuthenticationState } from '@expensely/core';
+import {
+	CoreModule,
+	AuthenticationState,
+	JwtInterceptor,
+} from '@expensely/core';
 import { MaterialModule } from '@expensely/material';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -28,7 +33,13 @@ import { AppRoutingModule } from './app-routing.module';
 			key: [AuthenticationState],
 		}),
 	],
-	providers: [],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: JwtInterceptor,
+			multi: true,
+		},
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

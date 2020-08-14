@@ -16,7 +16,7 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Name).HasColumnType("varchar(100)").IsRequired();
+            builder.Property(e => e.Name).HasMaxLength(100).IsRequired();
 
             builder.OwnsOne(m => m.Money, moneyBuilder =>
             {
@@ -32,13 +32,11 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
                     currencyBuilder.Property(c => c.Code)
                         .HasColumnName("CurrencyCode")
-                        .HasColumnType("varchar(3)")
                         .HasMaxLength(3)
                         .IsRequired();
 
                     currencyBuilder.Property(c => c.Symbol)
                         .HasColumnName("CurrencySign")
-                        .HasColumnType("varchar(5)")
                         .HasMaxLength(5)
                         .IsRequired();
                 });

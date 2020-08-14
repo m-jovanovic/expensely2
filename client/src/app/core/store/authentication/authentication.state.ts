@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { State, StateContext, Action } from '@ngxs/store';
+import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthenticationService } from '../../services';
@@ -15,6 +15,16 @@ import { TokenResponse, LoginRequest } from '../../contracts';
 })
 @Injectable()
 export class AuthenticationState {
+	@Selector()
+	static token(state: AuthenticationStateModel): string {
+		return state.token;
+	}
+
+	@Selector()
+	static isLoggedIn(state: AuthenticationStateModel): boolean {
+		return !!state.token;
+	}
+
 	constructor(private authenticationService: AuthenticationService) {}
 
 	@Action(Login)

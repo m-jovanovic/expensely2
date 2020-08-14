@@ -16,9 +16,9 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
             builder.HasKey(r => r.Name);
 
-            builder.Property(r => r.Name).HasColumnType("nvarchar(50)").IsRequired();
+            builder.Property(r => r.Name).HasMaxLength(50).IsRequired();
 
-            builder.Property(r => r.Description).HasColumnType("nvarchar(200)").IsRequired(false);
+            builder.Property(r => r.Description).HasMaxLength(200).IsRequired(false);
 
             builder.Property(r => r.Permissions).HasField("_permissions").HasColumnType("int[]").IsRequired();
 

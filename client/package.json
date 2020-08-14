@@ -26,6 +26,7 @@
     "@ngxs/router-plugin": "^3.6.2",
     "@ngxs/storage-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
+    "ngx-infinite-scroll": "^9.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

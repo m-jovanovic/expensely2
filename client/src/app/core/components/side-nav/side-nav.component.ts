@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
-import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'exp-side-nav',

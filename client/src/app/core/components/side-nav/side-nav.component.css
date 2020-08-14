@@ -9,10 +9,6 @@ mat-sidenav {
 	overflow: hidden;
 }
 
-mat-toolbar {
-	z-index: 1000;
-}
-
 main {
 	padding: 20px;
 	margin-top: 64px;

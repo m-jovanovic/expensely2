@@ -9,6 +9,10 @@
 	right: 0;
 }
 
+mat-toolbar {
+	z-index: 1000;
+}
+
 .spacer {
 	flex: 1 1 auto;
 }
