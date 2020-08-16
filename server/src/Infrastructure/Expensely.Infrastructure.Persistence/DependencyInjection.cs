@@ -1,6 +1,6 @@
 ﻿using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Repositories;
-using Expensely.Infrastructure.Persistence.Factories;
+using Expensely.Infrastructure.Persistence.Data;
 using Expensely.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +27,8 @@ namespace Expensely.Infrastructure.Persistence
             }
 
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+
+            services.AddScoped<IDbExecutor, DbExecutor>();
 
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<ExpenselyDbContext>());
 

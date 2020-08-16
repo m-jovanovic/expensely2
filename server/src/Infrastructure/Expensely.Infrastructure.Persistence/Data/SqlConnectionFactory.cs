@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Npgsql;
 
-namespace Expensely.Infrastructure.Persistence.Factories
+namespace Expensely.Infrastructure.Persistence.Data
 {
     /// <summary>
     /// Represents the SQL connection factory.

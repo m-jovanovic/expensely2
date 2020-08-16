@@ -34,7 +34,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         }
 
         [Fact]
-        public async Task Should_return_null_response_given_existing_expense_id_with_valid_user_id()
+        public async Task Should_return_expense_response_given_existing_expense_id_with_valid_user_id()
         {
             var expense = ExpenseData.CreateExpense(UserId);
             await AddAsync(expense);

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
@@ -17,16 +14,13 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
     /// </summary>
     internal sealed class GetExpensesQueryHandler : IQueryHandler<GetExpensesQuery, ExpenseListResponse>
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IDbExecutor _dbExecutor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetExpensesQueryHandler"/> class.
         /// </summary>
-        /// <param name="sqlConnectionFactory">The SQL connection factory.</param>
-        public GetExpensesQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
-        {
-            _sqlConnectionFactory = sqlConnectionFactory;
-        }
+        /// <param name="dbExecutor">The database executor.</param>
+        public GetExpensesQueryHandler(IDbExecutor dbExecutor) => _dbExecutor = dbExecutor;
 
         /// <inheritdoc />
         public async Task<ExpenseListResponse> Handle(GetExpensesQuery request, CancellationToken cancellationToken)
@@ -36,24 +30,16 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
                 return new ExpenseListResponse(Array.Empty<ExpenseResponse>());
             }
 
-            using IDbConnection connection = await _sqlConnectionFactory.CreateSqlConnectionAsync(cancellationToken);
+            const string sql =
+                @"SELECT ""Id"", ""Name"", ""Amount"", ""CurrencyId"", ""CurrencyCode"", ""Date"", ""CreatedOnUtc""
+                FROM ""Expense""
+                WHERE NOT ""Deleted"" AND ""UserId"" = @UserId AND (""Date"", ""CreatedOnUtc"") <= (@Date, @CreatedOnUtc)
+                ORDER BY ""Date"" DESC, ""CreatedOnUtc"" DESC
+                LIMIT @Limit";
 
-            ExpenseResponse[] expenses = (await connection.QueryAsync<ExpenseResponse>(
-                    @"SELECT ""Id"", ""Name"", ""Amount"", ""CurrencyId"", ""CurrencyCode"", ""Date"", ""CreatedOnUtc""
-                      FROM ""Expense""
-                      WHERE NOT ""Deleted"" AND ""UserId"" = @UserId AND (""Date"", ""CreatedOnUtc"") <= (@Date, @CreatedOnUtc)
-                      ORDER BY ""Date"" DESC, ""CreatedOnUtc"" DESC
-                      LIMIT @Limit",
-                    new
-                    {
-                        request.UserId,
-                        request.Date,
-                        request.CreatedOnUtc,
-                        request.Limit
-                    }))
-                .ToArray();
+            ExpenseResponse[] expenses = await _dbExecutor.QueryAsync<ExpenseResponse>(sql, request);
 
-            if (expenses.Length != request.Limit)
+            if (expenses.Length < request.Limit)
             {
                 return new ExpenseListResponse(expenses);
             }
