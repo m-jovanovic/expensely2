@@ -16,4 +16,8 @@ export class ExpenseService extends ApiService {
 	getExpenses(limit: number, cursor: string): Observable<ExpenseList> {
 		return this.get<ExpenseList>(`expenses?limit=${limit}&cursor=${cursor}`);
 	}
+
+	removeExpense(id: string): Observable<any> {
+		return this.delete(`expenses/${id}`);
+	}
 }

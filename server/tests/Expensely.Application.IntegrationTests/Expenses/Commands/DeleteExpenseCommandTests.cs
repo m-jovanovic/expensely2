@@ -16,7 +16,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         [Fact]
         public async Task Should_return_failure_result_given_non_existing_expense_id()
         {
-            var command = new DeleteExpenseCommand(Guid.NewGuid());
+            var command = new DeleteExpenseCommand(Guid.NewGuid(), Guid.NewGuid());
 
             Result result = await SendAsync(command);
 
@@ -28,7 +28,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         {
             Expense expense = ExpenseData.CreateExpense();
             await AddAsync(expense);
-            var command = new DeleteExpenseCommand(expense.Id);
+            var command = new DeleteExpenseCommand(expense.Id, Guid.NewGuid());
 
             Result result = await SendAsync(command);
 
@@ -40,7 +40,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         {
             Expense expense = ExpenseData.CreateExpense(UserId);
             await AddAsync(expense);
-            var command = new DeleteExpenseCommand(expense.Id);
+            var command = new DeleteExpenseCommand(expense.Id, expense.UserId);
 
             Result result = await SendAsync(command);
             

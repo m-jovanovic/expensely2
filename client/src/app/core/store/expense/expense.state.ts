@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { State, StateContext, Action, Selector } from '@ngxs/store';
 import { ExpensesStateModel } from './expense-state.model';
-import { Observable, throwError } from 'rxjs';
-import { LoadExpenses } from './expense.actions';
+import { Observable, throwError, of } from 'rxjs';
+import { LoadExpenses, RemoveExpense } from './expense.actions';
 import { ExpenseList } from '../../contracts/expenses/expense-list';
 import { ExpenseService } from '../../services/expense/expense.service';
 import { tap, catchError } from 'rxjs/operators';
@@ -65,6 +65,32 @@ export class ExpenseState {
 			catchError((error: HttpErrorResponse) => {
 				context.patchState({
 					isLoading: false,
+				});
+
+				return throwError(error);
+			})
+		);
+	}
+
+	@Action(RemoveExpense)
+	removeExpense(
+		context: StateContext<ExpensesStateModel>,
+		action: RemoveExpense
+	): Observable<any> {
+		const initialExpenses = context.getState().expenses;
+
+		const filteredExpenses = initialExpenses.filter(
+			(expense) => expense.id !== action.id
+		);
+
+		context.patchState({
+			expenses: filteredExpenses,
+		});
+
+		return this.expenseService.removeExpense(action.id).pipe(
+			catchError((error: HttpErrorResponse) => {
+				context.patchState({
+					expenses: initialExpenses,
 				});
 
 				return throwError(error);

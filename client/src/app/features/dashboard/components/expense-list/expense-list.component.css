@@ -6,3 +6,7 @@ mat-list-item {
 .expense-actions {
     margin-left: 20px;
 }
+
+.expense-menu-container {
+	min-width: 200px !important;
+}

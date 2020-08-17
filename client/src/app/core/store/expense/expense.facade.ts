@@ -1,5 +1,5 @@
 import { Store, Select } from '@ngxs/store';
-import { LoadExpenses } from './expense.actions';
+import { LoadExpenses, RemoveExpense } from './expense.actions';
 import { Observable } from 'rxjs';
 import { ExpenseState } from './expense.state';
 import { Expense } from '../../contracts/expenses/expense';
@@ -29,5 +29,9 @@ export class ExpenseFacade {
 		);
 
 		this.store.dispatch(new LoadExpenses(limit, currentCursor));
+	}
+
+	removeExpense(id: string): void {
+		this.store.dispatch(new RemoveExpense(id));
 	}
 }

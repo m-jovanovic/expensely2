@@ -98,11 +98,11 @@ namespace Expensely.Api.Controllers
 
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [HasPermission(Permission.ExpenseDelete)]
-        [ProducesResponseType(typeof(Result), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExpense(Guid id)
         {
-            var command = new DeleteExpenseCommand(id);
+            var command = new DeleteExpenseCommand(id, _userIdentifierProvider.UserId);
 
             Result result = await Mediator.Send(command);
 

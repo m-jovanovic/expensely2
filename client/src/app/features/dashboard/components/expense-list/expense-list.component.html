@@ -7,18 +7,28 @@
 		<mat-list-item>
 			<mat-icon matListIcon>attach_money</mat-icon>
 
-			<small matLine>{{ expense.date | date }}</small>
+			<p matLine>
+				{{ expense.date | date }}
+			</p>
 
-			<h4 matLine>
+			<p matLine>
 				{{ expense.name }}
-			</h4>
+			</p>
 
 			<div>{{ expense.formattedExpense }}</div>
 
 			<div class="expense-actions">
-				<button mat-icon-button>
-					<mat-icon>delete</mat-icon>
+				<button mat-icon-button [matMenuTriggerFor]="expenseMenu">
+					<mat-icon>more_vert</mat-icon>
 				</button>
+				<mat-menu #expenseMenu="matMenu" class="nav-bar-menu">
+					<div class="expense-menu-container">
+						<button mat-menu-item (click)="remove(expense.id)"> 
+							<mat-icon>delete</mat-icon>
+							<span>Remove</span>
+						</button>
+					</div>
+				</mat-menu>
 			</div>
 		</mat-list-item>
 		<mat-divider *ngIf="!last"></mat-divider>

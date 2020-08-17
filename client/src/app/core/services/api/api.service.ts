@@ -16,4 +16,8 @@ export abstract class ApiService {
 	protected post<T>(route: string, body: any): Observable<T> {
 		return this.client.post<T>(`${environment.apiUrl}/${route}`, body);
 	}
+
+	protected delete(route: string): Observable<any> {
+		return this.client.delete(`${environment.apiUrl}/${route}`);
+	}
 }

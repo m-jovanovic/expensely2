@@ -34,9 +34,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         {
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(Guid.NewGuid());
+            var command = new DeleteExpenseCommand(Guid.NewGuid(), Guid.NewGuid());
 
             await commandHandler.Handle(command, default);
 
@@ -49,9 +48,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Expense?)null);
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(Guid.Empty);
+            var command = new DeleteExpenseCommand(Guid.Empty, Guid.NewGuid());
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -62,12 +60,11 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
         public async Task Handle_should_fail_if_expense_repository_returns_expense_with_invalid_user_id()
         {
             _userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(Guid.NewGuid);
-            _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Expense?)null);
+            _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(ExpenseData.CreateExpense());
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(Guid.Empty);
+            var command = new DeleteExpenseCommand(Guid.Empty, Guid.NewGuid());
 
             Result result = await commandHandler.Handle(command, default);
 
@@ -82,9 +79,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(expense.Id);
+            var command = new DeleteExpenseCommand(expense.Id, expense.UserId);
 
             await commandHandler.Handle(command, default);
 
@@ -99,9 +95,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(expense.Id);
+            var command = new DeleteExpenseCommand(expense.Id, expense.UserId);
 
             await commandHandler.Handle(command, default);
 
@@ -118,9 +113,8 @@ namespace Expensely.Application.UnitTests.Expenses.Commands
             _expenseRepositoryMock.Setup(x => x.GetByIdAsync(It.Is<Guid>(g => g == expense.Id))).ReturnsAsync(expense);
             var commandHandler = new DeleteExpenseCommandHandler(
                 _expenseRepositoryMock.Object,
-                _userIdentifierProviderMock.Object,
                 _mediatorMock.Object);
-            var command = new DeleteExpenseCommand(expense.Id);
+            var command = new DeleteExpenseCommand(expense.Id, expense.UserId);
 
             Result result = await commandHandler.Handle(command, default);
 
