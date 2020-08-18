@@ -5,17 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="001_Create_user_table.sql" />
-    <None Remove="002_Create_unique_index_user_email.sql" />
-    <None Remove="003_Create_expense_table.sql" />
-    <None Remove="004_Create_index_expense_userId_date_createdOnUtc.sql" />
+    <None Remove="001_Create_users_table.sql" />
+    <None Remove="002_Create_unique_index_users_email.sql" />
+    <None Remove="003_Create_transactions_table.sql" />
+    <None Remove="004_Create_index_transactions_user_id_occurred_on_created_on_utc.sql" />
+    <None Remove="005_Create_index_transactions_transaction_type.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="004_Create_index_expense_userId_date_createdOnUtc.sql" />
-    <EmbeddedResource Include="002_Create_unique_index_user_email.sql" />
-    <EmbeddedResource Include="001_Create_user_table.sql" />
-    <EmbeddedResource Include="003_Create_expense_table.sql" />
+    <EmbeddedResource Include="005_Create_index_transactions_transaction_type.sql" />
+    <EmbeddedResource Include="004_Create_index_transactions_user_id_occurred_on_created_on_utc.sql" />
+    <EmbeddedResource Include="002_Create_unique_index_users_email.sql" />
+    <EmbeddedResource Include="001_Create_users_table.sql" />
+    <EmbeddedResource Include="003_Create_transactions_table.sql" />
   </ItemGroup>
 
 </Project>

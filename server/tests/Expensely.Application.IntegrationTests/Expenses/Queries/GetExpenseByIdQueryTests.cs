@@ -46,9 +46,8 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
             result.Id.Should().Be(expense.Id);
             result.Name.Should().Be(expense.Name);
             result.Amount.Should().Be(expense.Money.Amount);
-            result.CurrencyId.Should().Be(expense.Money.Currency.Id);
             result.CurrencyCode.Should().Be(expense.Money.Currency.Code);
-            result.Date.Should().Be(expense.Date);
+            result.OccurredOn.Should().Be(expense.OccurredOn);
             result.CreatedOnUtc.Should().Be(expense.CreatedOnUtc);
         }
     }

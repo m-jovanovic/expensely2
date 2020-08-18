@@ -39,9 +39,8 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
                     Id = e.Id,
                     Name = e.Name,
                     Amount = e.Money.Amount,
-                    CurrencyId = e.Money.Currency.Id,
                     CurrencyCode = e.Money.Currency.Code,
-                    Date = e.Date,
+                    OccurredOn = e.OccurredOn,
                     CreatedOnUtc = e.CreatedOnUtc
                 }).FirstOrDefaultAsync(cancellationToken);
 

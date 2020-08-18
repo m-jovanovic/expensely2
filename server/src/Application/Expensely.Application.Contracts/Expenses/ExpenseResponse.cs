@@ -32,27 +32,22 @@ namespace Expensely.Application.Contracts.Expenses
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the currency identifier.
-        /// </summary>
-        public int CurrencyId { get; set; }
-
-        /// <summary>
         /// Gets or sets the currency code.
         /// </summary>
         public string CurrencyCode { get; set; }
 
         /// <summary>
-        /// Gets the formatted expense.
+        /// Gets the expense value.
         /// </summary>
-        public string FormattedExpense => $"{Amount:n2} {CurrencyCode}";
+        public string Value => $"{Amount:n2} {CurrencyCode}";
 
         /// <summary>
-        /// Gets or sets the date.
+        /// Gets or sets the occurred on date.
         /// </summary>
-        public DateTime Date { get; set; }
+        public DateTime OccurredOn { get; set; }
 
         /// <summary>
-        /// Gets or sets the created on date in UTC format.
+        /// Gets or sets the created on date and time in UTC format.
         /// </summary>
         public DateTime CreatedOnUtc { get; set; }
     }

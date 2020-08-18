@@ -31,10 +31,13 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
             }
 
             const string sql =
-                @"SELECT ""Id"", ""Name"", ""Amount"", ""CurrencyId"", ""CurrencyCode"", ""Date"", ""CreatedOnUtc""
-                FROM ""Expense""
-                WHERE NOT ""Deleted"" AND ""UserId"" = @UserId AND (""Date"", ""CreatedOnUtc"") <= (@Date, @CreatedOnUtc)
-                ORDER BY ""Date"" DESC, ""CreatedOnUtc"" DESC
+                @"SELECT id, name, amount, currency_code currencyCode, occurred_on occurredOn, created_on_utc createdOnUtc
+                FROM transactions
+                WHERE NOT deleted AND
+                      transaction_type = @TransactionType AND
+                      user_id = @UserId AND
+                      (occurred_on, created_on_utc) <= (@OccurredOn, @CreatedOnUtc)
+                ORDER BY occurred_on DESC, created_on_utc DESC
                 LIMIT @Limit";
 
             ExpenseResponse[] expenses = await _dbExecutor.QueryAsync<ExpenseResponse>(sql, request);
@@ -47,7 +50,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
             ExpenseResponse lastExpense = expenses[^1];
 
             string cursor = Cursor.Create(
-                lastExpense.Date.ToString(DateTimeFormats.DatePrecision),
+                lastExpense.OccurredOn.ToString(DateTimeFormats.DatePrecision),
                 lastExpense.CreatedOnUtc.ToString(DateTimeFormats.MillisecondPrecision));
 
             return new ExpenseListResponse(expenses[..^1], cursor);

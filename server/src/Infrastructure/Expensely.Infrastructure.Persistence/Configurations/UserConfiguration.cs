@@ -12,33 +12,35 @@ namespace Expensely.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("users");
 
-            builder.HasKey(u => u.Id);
+            builder.HasKey(user => user.Id);
 
-            builder.Property(u => u.FirstName).HasMaxLength(100).IsRequired();
+            builder.Property(user => user.FirstName).HasMaxLength(100).IsRequired();
 
-            builder.Property(u => u.LastName).HasMaxLength(100).IsRequired();
+            builder.Property(user => user.LastName).HasMaxLength(100).IsRequired();
 
-            builder.OwnsOne(u => u.Email, emailBuilder =>
+            builder.OwnsOne(user => user.Email, emailBuilder =>
             {
                 emailBuilder.WithOwner();
 
-                emailBuilder.Property(e => e.Value)
-                    .HasColumnName("Email")
+                emailBuilder.Property(email => email.Value)
+                    .HasColumnName("email")
                     .HasMaxLength(EmailMaxLengthValidator.MaxEmailLength)
                     .IsRequired();
             });
 
-            builder.Property(u => u.PasswordHash).IsRequired();
+            builder.Property(user => user.PasswordHash).IsRequired();
 
-            builder.Property(e => e.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
+            builder.Property(user => user.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 
-            builder.Property(e => e.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(user => user.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
-            builder.Property(e => e.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(user => user.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
-            builder.Property(e => e.Deleted).HasDefaultValue(false).IsRequired();
+            builder.Property(user => user.Deleted).HasDefaultValue(false).IsRequired();
+
+            builder.HasQueryFilter(user => !user.Deleted);
         }
     }
 }

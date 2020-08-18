@@ -25,11 +25,11 @@ namespace Expensely.Domain.ValueObjects
         /// </summary>
         /// <param name="id">The currency identifier.</param>
         /// <param name="code">The currency code.</param>
-        /// <param name="symbol">The currency symbol.</param>
-        private Currency(int id, string code, string symbol)
+        /// <param name="sign">The currency sign.</param>
+        private Currency(int id, string code, string sign)
         {
             Id = id;
-            Symbol = symbol;
+            Sign = sign;
             Code = code;
         }
 
@@ -44,9 +44,9 @@ namespace Expensely.Domain.ValueObjects
         public string Code { get; }
 
         /// <summary>
-        /// Gets the currency symbol.
+        /// Gets the currency sign.
         /// </summary>
-        public string Symbol { get; }
+        public string Sign { get; }
 
         /// <summary>
         /// Creates a new currency instance based on the specified currency identifier.
@@ -61,7 +61,7 @@ namespace Expensely.Domain.ValueObjects
         {
             yield return Id;
             yield return Code;
-            yield return Symbol;
+            yield return Sign;
         }
 
         /// <summary>

@@ -12,45 +12,49 @@ namespace Expensely.Infrastructure.Persistence.Configurations
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<Expense> builder)
         {
-            builder.ToTable("Expense");
+            builder.ToTable("transactions");
 
-            builder.HasKey(e => e.Id);
+            builder.HasKey(expense => expense.Id);
 
-            builder.Property(e => e.Name).HasMaxLength(100).IsRequired();
+            builder.Property(expense => expense.Name).HasMaxLength(100).IsRequired();
 
-            builder.OwnsOne(m => m.Money, moneyBuilder =>
+            builder.OwnsOne(expense => expense.Money, moneyBuilder =>
             {
                 moneyBuilder.WithOwner();
 
-                moneyBuilder.Property(m => m.Amount).HasColumnName("Amount").HasColumnType("numeric(19,4)").IsRequired();
+                moneyBuilder.Property(money => money.Amount).HasColumnName("amount").HasColumnType("numeric(19,4)").IsRequired();
 
-                moneyBuilder.OwnsOne(m => m.Currency, currencyBuilder =>
+                moneyBuilder.OwnsOne(money => money.Currency, currencyBuilder =>
                 {
                     currencyBuilder.WithOwner();
 
-                    currencyBuilder.Property(c => c.Id).HasColumnName("CurrencyId").IsRequired();
+                    currencyBuilder.Property(currency => currency.Id).HasColumnName("currency_id").IsRequired();
 
-                    currencyBuilder.Property(c => c.Code)
-                        .HasColumnName("CurrencyCode")
+                    currencyBuilder.Property(currency => currency.Code)
+                        .HasColumnName("currency_code")
                         .HasMaxLength(3)
                         .IsRequired();
 
-                    currencyBuilder.Property(c => c.Symbol)
-                        .HasColumnName("CurrencySign")
+                    currencyBuilder.Property(currency => currency.Sign)
+                        .HasColumnName("currency_sign")
                         .HasMaxLength(5)
                         .IsRequired();
                 });
             });
 
-            builder.Property(e => e.Date).HasColumnType("date").IsRequired();
+            builder.Property(expense => expense.TransactionType).IsRequired();
 
-            builder.Property(e => e.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
+            builder.Property(expense => expense.OccurredOn).HasColumnType("date").IsRequired();
 
-            builder.Property(e => e.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(expense => expense.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 
-            builder.Property(e => e.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(expense => expense.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
-            builder.Property(e => e.Deleted).HasDefaultValue(false).IsRequired();
+            builder.Property(expense => expense.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
+
+            builder.Property(expense => expense.Deleted).HasDefaultValue(false).IsRequired();
+
+            builder.HasQueryFilter(expense => !expense.Deleted && expense.TransactionType == TransactionType.Expense);
         }
     }
 }

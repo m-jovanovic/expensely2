@@ -19,7 +19,8 @@ namespace Expensely.Domain.ValueObjects
         /// <param name="currency">The currency instance.</param>
         public Money(decimal amount, Currency currency)
         {
-            Ensure.NotEmpty(currency, "The currency is required", nameof(currency));
+            Ensure.NotZero(amount, "The amount is required.", nameof(amount));
+            Ensure.NotEmpty(currency, "The currency is required.", nameof(currency));
 
             Amount = amount;
             Currency = currency;

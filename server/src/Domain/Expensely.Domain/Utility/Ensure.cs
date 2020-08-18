@@ -9,15 +9,45 @@ namespace Expensely.Domain.Utility
     public static class Ensure
     {
         /// <summary>
-        /// Ensures that the specified <see cref="decimal"/> value is not empty.
+        /// Ensures that the specified <see cref="decimal"/> value is not zero.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <param name="message">The message to show if the check fails.</param>
         /// <param name="argumentName">The name of the argument being checked.</param>
         /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
-        public static void NotEmpty(decimal value, string message, string argumentName)
+        public static void NotZero(decimal value, string message, string argumentName)
         {
-            if (value == default)
+            if (value == decimal.Zero)
+            {
+                throw new ArgumentException(message, argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the specified <see cref="decimal"/> value is not positive.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="message">The message to show if the check fails.</param>
+        /// <param name="argumentName">The name of the argument being checked.</param>
+        /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
+        public static void NotPositive(decimal value, string message, string argumentName)
+        {
+            if (value > decimal.Zero)
+            {
+                throw new ArgumentException(message, argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the specified <see cref="decimal"/> value is not negative.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <param name="message">The message to show if the check fails.</param>
+        /// <param name="argumentName">The name of the argument being checked.</param>
+        /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
+        public static void NotNegative(decimal value, string message, string argumentName)
+        {
+            if (value < decimal.Zero)
             {
                 throw new ArgumentException(message, argumentName);
             }

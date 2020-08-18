@@ -1,1 +1,0 @@
-﻿CREATE UNIQUE INDEX "IDX_User_Email" ON "User" ("Email");

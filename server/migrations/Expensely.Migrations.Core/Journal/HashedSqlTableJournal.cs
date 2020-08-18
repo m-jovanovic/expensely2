@@ -14,9 +14,8 @@ namespace Expensely.Migrations.Core.Journal
     /// </summary>
     public class HashedSqlTableJournal : IJournal
     {
-        public const string VersionTableName = "SchemaVersions";
-        private const string QuotedVersionTableName = "\"SchemaVersions\"";
-        private const string PrimaryKeyName = "\"PK_SchemaVersions_Id\"";
+        public const string VersionTableName = "schema_versions";
+        private const string PrimaryKeyName = "\"PK_schema_versions_id\"";
 
         private readonly Func<IConnectionManager> _connectionManager;
         private readonly Func<IUpgradeLog> _log;
@@ -55,11 +54,11 @@ namespace Expensely.Migrations.Core.Journal
                 return;
             }
 
-            _log().WriteInformation($"Creating the {QuotedVersionTableName} table");
+            _log().WriteInformation($"Creating the {VersionTableName} table");
 
             CreateJournalTableCommand(dbCommandFactory);
 
-            _log().WriteInformation($"The {QuotedVersionTableName} table has been created");
+            _log().WriteInformation($"The {VersionTableName} table has been created");
 
             _journalExists = true;
         }
@@ -101,12 +100,12 @@ namespace Expensely.Migrations.Core.Journal
             using IDbCommand command = dbCommandFactory();
 
             command.CommandText = $@"
-                INSERT INTO {QuotedVersionTableName}(""ScriptName"", ""AppliedOnUtc"", ""Hash"")
+                INSERT INTO {VersionTableName}(script_name, applied_on_utc, hash)
                     VALUES(@ScriptName, @AppliedOnUtc, @Hash)
-                ON CONFLICT (""ScriptName"")
+                ON CONFLICT (script_name)
                 DO UPDATE SET
-                    ""AppliedOnUtc"" = @AppliedOnUtc,
-                    ""Hash"" = @Hash;";
+                    applied_on_utc = @AppliedOnUtc,
+                    hash = @Hash;";
 
             IDbDataParameter scriptNameParameter = command.CreateParameter();
             scriptNameParameter.ParameterName = "@ScriptName";
@@ -137,11 +136,11 @@ namespace Expensely.Migrations.Core.Journal
             IDbCommand command = dbCommandFactory();
 
             command.CommandText = $@"
-                CREATE TABLE {QuotedVersionTableName}
+                CREATE TABLE {VersionTableName}
                 (
-	                ""ScriptName"" VARCHAR(255) CONSTRAINT {PrimaryKeyName} PRIMARY KEY,
-	                ""AppliedOnUtc"" TIMESTAMP NOT NULL,
-                    ""Hash"" VARCHAR(64) NULL
+	                script_name VARCHAR(255) CONSTRAINT {PrimaryKeyName} PRIMARY KEY,
+	                applied_on_utc TIMESTAMP NOT NULL,
+                    hash VARCHAR(64) NULL
                 )";
 
             command.CommandType = CommandType.Text;
@@ -158,7 +157,7 @@ namespace Expensely.Migrations.Core.Journal
         {
             IDbCommand command = dbCommandFactory();
 
-            command.CommandText = $"SELECT \"ScriptName\", \"Hash\" FROM {QuotedVersionTableName} ORDER BY \"ScriptName\"";
+            command.CommandText = $"SELECT script_name, hash FROM {VersionTableName} ORDER BY script_name";
 
             command.CommandType = CommandType.Text;
 

@@ -3,6 +3,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Utilities;
+using Expensely.Domain.Entities;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
@@ -24,6 +25,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         {
             UserId = userId;
             Limit = limit + 1;
+            TransactionType = (int)Domain.Entities.TransactionType.Expense;
             _cursor = cursor ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(cursor))
@@ -58,6 +60,11 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         /// Gets the created on date and time in UTC format.
         /// </summary>
         public DateTime CreatedOnUtc { get; }
+
+        /// <summary>
+        /// Gets the transaction type.
+        /// </summary>
+        public int TransactionType { get; }
 
         /// <inheritdoc />
         public string GetCacheKey() => string.Format(CacheKeys.Expense.ExpensesList, UserId, Limit, _cursor);

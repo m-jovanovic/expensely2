@@ -7,6 +7,7 @@ using Expensely.Infrastructure.Persistence.Repositories;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
+using static Expensely.Tests.Common.Entities.ExpenseData;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
 {
@@ -65,7 +66,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
 
         private async Task<Expense> SeedExpense(Guid expenseId)
         {
-            var expense = new Expense(expenseId, Guid.NewGuid(), string.Empty, new Money(1.0m, Currency.Usd), DateTime.Now);
+            var expense = new Expense(expenseId, Guid.NewGuid(), Name, MinusOne, DateTime.Now);
 
             return await InsertAsync(expense);
         }

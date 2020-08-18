@@ -10,7 +10,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
             => new CreateExpenseCommand(
                 userId ?? Guid.NewGuid(),
                 ExpenseData.Name,
-                ExpenseData.ZeroAmount,
+                ExpenseData.MinusOneAmount,
                 ExpenseData.Currency.Id,
                 Time.Now());
 
@@ -18,7 +18,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
             => new CreateExpenseCommand(
                 Guid.Empty,
                 ExpenseData.Name,
-                ExpenseData.ZeroAmount,
+                ExpenseData.MinusOneAmount,
                 ExpenseData.InvalidCurrencyId,
                 Time.Now());
 
@@ -26,7 +26,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
             => new CreateExpenseCommand(
                 Guid.NewGuid(),
                 ExpenseData.Name,
-                ExpenseData.ZeroAmount,
+                ExpenseData.MinusOneAmount,
                 ExpenseData.InvalidCurrencyId,
                 Time.Now());
 
@@ -34,7 +34,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
             => new CreateExpenseCommand(
                 Guid.NewGuid(),
                 ExpenseData.Name,
-                ExpenseData.ZeroAmount,
+                ExpenseData.MinusOneAmount,
                 ExpenseData.Currency.Id,
                 default);
     }

@@ -78,8 +78,6 @@ namespace Expensely.Infrastructure.Persistence
 
             modelBuilder.ApplyUtcDateTimeConverter();
 
-            modelBuilder.ApplySoftDeleteQueryFilter();
-
             base.OnModelCreating(modelBuilder);
         }
 

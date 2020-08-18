@@ -57,7 +57,7 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             var request = new CreateExpenseRequest
             {
                 Name = "Shopping",
-                Amount = 100.0m,
+                Amount = -100.0m,
                 CurrencyId = 1,
                 Date = DateTime.Now
             };

@@ -84,8 +84,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         }
 
         [Theory]
-        [InlineData(0, 0)]
-        [InlineData(-1, 1)]
+        [InlineData(-1, 2)]
         [InlineData(12.01049102412, 15151.12312312954190)]
         [InlineData(-13123, -123123123)]
         public void Should_add_properly(decimal amount1, decimal amount2)
@@ -123,7 +122,6 @@ namespace Expensely.Domain.UnitTests.ValueObjects
             action.Should().Throw<InvalidOperationException>();
         }
         [Theory]
-        [InlineData(0, 0)]
         [InlineData(-1, 1)]
         [InlineData(12.01049102412, 15151.12312312954190)]
         [InlineData(-13123, -123123123)]
@@ -141,8 +139,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_create_new_money_instance_when_subtracting()
         {
-            var money1 = new Money(Amount, Currency);
-            var money2 = new Money(Amount, Currency);
+            var money1 = new Money(1.0m, Currency);
+            var money2 = new Money(2.0m, Currency);
 
             Money addedMoney = money1 - money2;
 
