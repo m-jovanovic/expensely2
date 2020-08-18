@@ -9,6 +9,6 @@
 	<exp-expense-list
 		[expenses]="expenses$ | async"
 		[isLoading]="isLoading$ | async"
-		(removeExpense)='removeExpense($event)'
+		(removeExpense)="removeExpense($event)"
 	></exp-expense-list>
 </mat-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ExpenseFacade, Expense } from '@expensely/core';
+import { ConfirmService } from '@expensely/shared/services/confirm.service';
 
 @Component({
 	selector: 'exp-dashboard',
@@ -12,7 +13,10 @@ export class DashboardComponent implements OnInit {
 	expenses$: Observable<Expense[]>;
 	isLoading$: Observable<boolean>;
 
-	constructor(private expenseFacade: ExpenseFacade) {
+	constructor(
+		private expenseFacade: ExpenseFacade,
+		private confirmService: ConfirmService
+	) {
 		this.expenses$ = this.expenseFacade.expenses$;
 		this.isLoading$ = this.expenseFacade.isLoading$;
 	}
@@ -22,8 +26,18 @@ export class DashboardComponent implements OnInit {
 	}
 
 	removeExpense(id: string): void {
-		// TODO: Add a confirmation dialog.
-		this.expenseFacade.removeExpense(id);
+		this.confirmService
+			.confirm(
+				'Remove expense?',
+				'The expense will be permanently removed from you expenses.',
+				'REMOVE',
+				'CANCEL'
+			)
+			.subscribe((confirmed: boolean) => {
+				if (confirmed) {
+					this.expenseFacade.removeExpense(id);
+				}
+			});
 	}
 
 	onScroll(): void {
