@@ -30,13 +30,13 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
 
             if (string.IsNullOrWhiteSpace(cursor))
             {
-                Date = utcNow.Date;
+                OccurredOn = utcNow.Date;
                 CreatedOnUtc = utcNow;
             }
             else
             {
                 string[] cursorValues = Cursor.Parse(cursor, 2);
-                Date = DateTime.TryParse(cursorValues[0], out DateTime date) ? date : utcNow.Date;
+                OccurredOn = DateTime.TryParse(cursorValues[0], out DateTime date) ? date : utcNow.Date;
                 CreatedOnUtc = DateTime.TryParse(cursorValues[1], out DateTime createdOn) ? createdOn : utcNow;
             }
         }
@@ -54,7 +54,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         /// <summary>
         /// Gets the date.
         /// </summary>
-        public DateTime Date { get; }
+        public DateTime OccurredOn { get; }
 
         /// <summary>
         /// Gets the created on date and time in UTC format.

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Constants;
@@ -34,7 +33,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             var query = new GetExpensesQuery(UserId, Limit, cursor, DateTime.UtcNow);
 
-            query.Date.Should().Be(date);
+            query.OccurredOn.Should().Be(date);
             query.CreatedOnUtc.Should().Be(utcNow);
         }
 

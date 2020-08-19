@@ -9,11 +9,9 @@
     <None Remove="002_Create_unique_index_users_email.sql" />
     <None Remove="003_Create_transactions_table.sql" />
     <None Remove="004_Create_index_transactions_user_id_occurred_on_created_on_utc.sql" />
-    <None Remove="005_Create_index_transactions_transaction_type.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="005_Create_index_transactions_transaction_type.sql" />
     <EmbeddedResource Include="004_Create_index_transactions_user_id_occurred_on_created_on_utc.sql" />
     <EmbeddedResource Include="002_Create_unique_index_users_email.sql" />
     <EmbeddedResource Include="001_Create_users_table.sql" />
