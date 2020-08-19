@@ -47,7 +47,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
 
             var money = new Money(request.Amount, currency);
 
-            var expense = new Expense(Guid.NewGuid(), request.UserId, request.Name, money, request.Date);
+            var expense = new Expense(Guid.NewGuid(), request.UserId, request.Name, money, request.OccurredOn);
 
             _expenseRepository.Insert(expense);
 

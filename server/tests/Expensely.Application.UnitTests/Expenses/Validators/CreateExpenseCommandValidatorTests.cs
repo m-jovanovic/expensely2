@@ -36,7 +36,7 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
             var validator = new CreateExpenseCommandValidator();
             var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Id, default);
 
-            validator.ShouldHaveValidationErrorFor(x => x.Date, command).WithErrorCode(Errors.Expense.DateIsRequired);
+            validator.ShouldHaveValidationErrorFor(x => x.OccurredOn, command).WithErrorCode(Errors.Expense.OccurredOnIsRequired);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
 
             result.ShouldNotHaveValidationErrorFor(x => x.UserId);
             result.ShouldNotHaveValidationErrorFor(x => x.CurrencyId);
-            result.ShouldNotHaveValidationErrorFor(x => x.Date);
+            result.ShouldNotHaveValidationErrorFor(x => x.OccurredOn);
         }
     }
 }

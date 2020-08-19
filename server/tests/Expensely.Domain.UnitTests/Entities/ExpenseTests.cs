@@ -58,7 +58,7 @@ namespace Expensely.Domain.UnitTests.Entities
         {
             Action action = () => new Expense(Guid.NewGuid(), Guid.NewGuid(), Name, MinusOne, default);
 
-            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("date");
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("occurredOn");
         }
 
         [Fact]

@@ -17,14 +17,14 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// <param name="name">The name.</param>
         /// <param name="amount">The amount.</param>
         /// <param name="currencyId">The currency identifier.</param>
-        /// <param name="date">The date.</param>
-        public CreateExpenseCommand(Guid userId, string name, decimal amount, int currencyId, DateTime date)
+        /// <param name="occurredOn">The occurred on date.</param>
+        public CreateExpenseCommand(Guid userId, string name, decimal amount, int currencyId, DateTime occurredOn)
         {
             UserId = userId;
             Name = name;
             Amount = amount;
             CurrencyId = currencyId;
-            Date = date;
+            OccurredOn = occurredOn;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         public int CurrencyId { get; }
 
         /// <summary>
-        /// Gets the date.
+        /// Gets the occurred on date.
         /// </summary>
-        public DateTime Date { get; }
+        public DateTime OccurredOn { get; }
     }
 }

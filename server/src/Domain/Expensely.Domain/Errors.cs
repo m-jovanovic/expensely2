@@ -76,7 +76,7 @@ namespace Expensely.Domain
 
             public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing");
 
-            public static Error DateIsRequired => new Error("Expense.DateMissing");
+            public static Error OccurredOnIsRequired => new Error("Expense.DateMissing");
         }
 
         /// <summary>

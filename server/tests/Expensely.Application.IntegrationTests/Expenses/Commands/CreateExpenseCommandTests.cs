@@ -40,7 +40,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             FluentActions.Invoking(() => SendAsync(command))
                 .Should().Throw<ValidationException>()
-                .And.ErrorCodes.Should().Contain(Errors.Expense.DateIsRequired);
+                .And.ErrorCodes.Should().Contain(Errors.Expense.OccurredOnIsRequired);
         }
 
         [Fact]

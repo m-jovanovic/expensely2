@@ -96,7 +96,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
                         c.Name == createExpenseRequest.Name &&
                         c.Amount == createExpenseRequest.Amount &&
                         c.CurrencyId == createExpenseRequest.CurrencyId &&
-                        c.Date == createExpenseRequest.Date),
+                        c.OccurredOn == createExpenseRequest.Date),
                     default),
                 Times.Once);
         }

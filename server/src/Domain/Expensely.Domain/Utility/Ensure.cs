@@ -24,13 +24,13 @@ namespace Expensely.Domain.Utility
         }
 
         /// <summary>
-        /// Ensures that the specified <see cref="decimal"/> value is not positive.
+        /// Ensures that the specified <see cref="decimal"/> value is not greater than zero.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <param name="message">The message to show if the check fails.</param>
         /// <param name="argumentName">The name of the argument being checked.</param>
         /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
-        public static void NotPositive(decimal value, string message, string argumentName)
+        public static void NotGreaterThanZero(decimal value, string message, string argumentName)
         {
             if (value > decimal.Zero)
             {
@@ -39,13 +39,13 @@ namespace Expensely.Domain.Utility
         }
 
         /// <summary>
-        /// Ensures that the specified <see cref="decimal"/> value is not negative.
+        /// Ensures that the specified <see cref="decimal"/> value is not less than zero.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <param name="message">The message to show if the check fails.</param>
         /// <param name="argumentName">The name of the argument being checked.</param>
         /// <exception cref="ArgumentException"> if the specified value is empty.</exception>
-        public static void NotNegative(decimal value, string message, string argumentName)
+        public static void NotLessThanZero(decimal value, string message, string argumentName)
         {
             if (value < decimal.Zero)
             {

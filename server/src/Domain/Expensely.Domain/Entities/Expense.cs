@@ -16,11 +16,11 @@ namespace Expensely.Domain.Entities
         /// <param name="userId">The expense user identifier.</param>
         /// <param name="name">The expense name.</param>
         /// <param name="money">The expense money instance.</param>
-        /// <param name="date">The expense date.</param>
-        public Expense(Guid id, Guid userId, string name, Money money, DateTime date)
-            : base(id, userId, name, money, date, TransactionType.Expense)
+        /// <param name="occurredOn">The expense occurred on date.</param>
+        public Expense(Guid id, Guid userId, string name, Money money, DateTime occurredOn)
+            : base(id, userId, name, money, occurredOn, TransactionType.Expense)
         {
-            Ensure.NotPositive(money.Amount, "The amount can not be greater than zero.", nameof(money.Amount));
+            Ensure.NotGreaterThanZero(money.Amount, "The amount can not be greater than zero.", nameof(money.Amount));
         }
 
         /// <summary>

@@ -18,22 +18,22 @@ namespace Expensely.Domain.Entities
         /// <param name="userId">The transaction user identifier.</param>
         /// <param name="name">The transaction name.</param>
         /// <param name="money">The transaction money instance.</param>
-        /// <param name="date">The transaction date.</param>
+        /// <param name="occurredOn">The transaction occurredOn.</param>
         /// <param name="transactionType">The transaction type.</param>
-        protected Transaction(Guid id, Guid userId, string name, Money money, DateTime date, TransactionType transactionType)
+        protected Transaction(Guid id, Guid userId, string name, Money money, DateTime occurredOn, TransactionType transactionType)
             : this()
         {
             Ensure.NotEmpty(id, "The identifier is required.", nameof(id));
             Ensure.NotEmpty(userId, "The user identifier is required.", nameof(userId));
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotEmpty(money, "The money is required.", nameof(money));
-            Ensure.NotEmpty(date, "The date is required.", nameof(date));
+            Ensure.NotEmpty(occurredOn, "The occurred on date is required.", nameof(occurredOn));
 
             Id = id;
             UserId = userId;
             Name = name;
             Money = money;
-            OccurredOn = date.Date;
+            OccurredOn = occurredOn.Date;
             TransactionType = transactionType;
         }
 
