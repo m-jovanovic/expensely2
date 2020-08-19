@@ -1,30 +1,29 @@
 ﻿using System;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
-using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Utilities;
 
-namespace Expensely.Application.Expenses.Queries.GetExpenses
+namespace Expensely.Application.Transactions.Queries.GetTransactions
 {
     /// <summary>
     /// Represents the query for getting expenses.
     /// </summary>
-    public sealed class GetExpensesQuery : ICacheableQuery<ExpenseListResponse>
+    public sealed class GetTransactionsQuery : ICacheableQuery<TransactionListResponse>
     {
         private readonly string _cursor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetExpensesQuery"/> class.
+        /// Initializes a new instance of the <see cref="GetTransactionsQuery"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="cursor">The cursor.</param>
         /// <param name="utcNow">The current date and time in UTC format.</param>
-        public GetExpensesQuery(Guid userId, int limit, string? cursor, DateTime utcNow)
+        public GetTransactionsQuery(Guid userId, int limit, string? cursor, DateTime utcNow)
         {
             UserId = userId;
             Limit = limit + 1;
-            TransactionType = (int)Domain.Entities.TransactionType.Expense;
             _cursor = cursor ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(cursor))
@@ -60,12 +59,7 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         /// </summary>
         public DateTime CreatedOnUtc { get; }
 
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; }
-
         /// <inheritdoc />
-        public string GetCacheKey() => string.Format(CacheKeys.Expense.ExpensesList, UserId, Limit, _cursor);
+        public string GetCacheKey() => string.Format(CacheKeys.Transactions.TransactionList, UserId, Limit, _cursor);
     }
 }

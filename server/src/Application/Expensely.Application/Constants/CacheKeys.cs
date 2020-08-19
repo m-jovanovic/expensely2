@@ -6,6 +6,30 @@
     public static class CacheKeys
     {
         /// <summary>
+        /// Contains the cache keys related to transaction.
+        /// </summary>
+        public static class Transactions
+        {
+            /// <summary>
+            /// The cache key prefix for transaction cache keys.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// </remarks>
+            public const string CacheKeyPrefix = "transactions-{0}";
+
+            /// <summary>
+            /// The transactions list cache key.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// {1] - Limit.
+            /// {2} - Cursor.
+            /// </remarks>
+            public const string TransactionList = "transactions-{0}-list-{1}-{2}";
+        }
+
+        /// <summary>
         /// Contains the cache keys related to expenses.
         /// </summary>
         public static class Expense

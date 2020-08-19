@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
 using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Expenses.Commands.CreateExpense;
@@ -22,21 +22,22 @@ namespace Expensely.Api.Controllers
     public class ExpensesController : ApiController
     {
         private readonly IUserIdentifierProvider _userIdentifierProvider;
+        private readonly IDateTime _dateTime;
 
-        public ExpensesController(IMediator mediator, IUserIdentifierProvider userIdentifierProvider)
+        public ExpensesController(IMediator mediator, IUserIdentifierProvider userIdentifierProvider, IDateTime dateTime)
             : base(mediator)
         {
             _userIdentifierProvider = userIdentifierProvider;
+            _dateTime = dateTime;
         }
 
         [HttpGet(ApiRoutes.Expenses.GetExpenses)]
         [HasPermission(Permission.ExpenseRead)]
-        [ProducesResponseType(typeof(IReadOnlyCollection<ExpenseResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExpenseListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExpenses(int limit, string? cursor)
         {
-            // TODO: Create service for system time.
-            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor, DateTime.UtcNow);
+            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor, _dateTime.UtcNow);
 
             ExpenseListResponse expenseListResponse = await Mediator.Send(query);
 

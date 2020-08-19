@@ -29,6 +29,8 @@ namespace Expensely.Application.Expenses.Events.ExpenseCreated
         /// <inheritdoc />
         public Task Handle(ExpenseCreatedEvent notification, CancellationToken cancellationToken)
         {
+            _cacheService.RemoveByPattern(string.Format(CacheKeys.Transactions.CacheKeyPrefix, _userIdentifierProvider.UserId));
+
             _cacheService.RemoveByPattern(string.Format(CacheKeys.Expense.CacheKeyPrefix, _userIdentifierProvider.UserId));
 
             return Task.CompletedTask;

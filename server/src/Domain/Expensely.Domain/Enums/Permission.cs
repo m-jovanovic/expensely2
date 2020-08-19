@@ -8,17 +8,20 @@ namespace Expensely.Domain.Enums
     /// </summary>
     public enum Permission
     {
+        [Display(GroupName = "Transaction", Name = "Read", Description = "Can read transactions.")]
+        TransactionRead = 0,
+
         [Display(GroupName = "Expense", Name = "Read", Description = "Can read expenses.")]
-        ExpenseRead = 0,
+        ExpenseRead = 10,
 
         [Display(GroupName = "Expense", Name = "Create", Description = "Can create expenses.")]
-        ExpenseCreate = 1,
+        ExpenseCreate = 11,
 
         [Display(GroupName = "Expense", Name = "Update", Description = "Can update expenses.")]
-        ExpenseUpdate = 2,
+        ExpenseUpdate = 12,
 
         [Display(GroupName = "Expense", Name = "Remove", Description = "Can remove expenses.")]
-        ExpenseDelete = 3,
+        ExpenseDelete = 13,
 
         [LinkedToModule(PaidModules.LinkedExpenses)]
         [Display(GroupName = "Features", Name = "Linked expenses", Description = "Can access linked expenses feature.")]

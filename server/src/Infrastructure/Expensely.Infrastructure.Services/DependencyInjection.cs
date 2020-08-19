@@ -1,5 +1,7 @@
 ﻿using Expensely.Application.Abstractions.Caching;
+using Expensely.Application.Abstractions.Common;
 using Expensely.Infrastructure.Services.Caching;
+using Expensely.Infrastructure.Services.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expensely.Infrastructure.Services
@@ -15,6 +17,8 @@ namespace Expensely.Infrastructure.Services
             services.AddMemoryCache();
 
             services.AddSingleton<ICacheService, CacheService>();
+
+            services.AddTransient<IDateTime, MachineDateTime>();
         }
     }
 }
