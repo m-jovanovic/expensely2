@@ -1,4 +1,5 @@
-﻿using Expensely.Domain;
+﻿using Expensely.Application.Utilities;
+using Expensely.Domain;
 using FluentValidation;
 
 namespace Expensely.Application.Authentication.Commands.Login
@@ -13,9 +14,9 @@ namespace Expensely.Application.Authentication.Commands.Login
         /// </summary>
         public LoginCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().WithErrorCode(Errors.Email.NullOrEmpty);
+            RuleFor(x => x.Email).NotEmpty().WithError(Errors.Email.NullOrEmpty);
 
-            RuleFor(x => x.Password).NotEmpty().WithErrorCode(Errors.Password.NullOrEmpty);
+            RuleFor(x => x.Password).NotEmpty().WithError(Errors.Password.NullOrEmpty);
         }
     }
 }

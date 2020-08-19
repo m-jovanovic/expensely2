@@ -19,9 +19,8 @@ namespace Expensely.Application.Exceptions
             : base("One or more validation failures has occurred.")
         {
             ErrorCodes = failures
-                .Select(failure => failure.ErrorCode)
                 .Distinct()
-                .Select(errorCode => new Error(errorCode))
+                .Select(failure => new Error(failure.ErrorCode, failure.ErrorMessage))
                 .ToList();
         }
 

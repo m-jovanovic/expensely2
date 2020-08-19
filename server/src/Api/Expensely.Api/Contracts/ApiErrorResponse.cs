@@ -14,14 +14,8 @@ namespace Expensely.Api.Contracts
         /// <param name="errors">The enumerable collection of errors.</param>
         public ApiErrorResponse(IEnumerable<Error> errors)
         {
-            Success = false;
             Errors = errors;
         }
-
-        /// <summary>
-        /// Gets a value indicating whether the response is a success response. Always returns false.
-        /// </summary>
-        public bool Success { get; }
 
         /// <summary>
         /// Gets the errors.

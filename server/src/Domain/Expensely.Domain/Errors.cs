@@ -12,13 +12,17 @@ namespace Expensely.Domain
         /// </summary>
         public static class Authentication
         {
-            public static Error PasswordsDoNotMatch => new Error("Authentication.PasswordsDoNotMatch");
+            public static Error InvalidEmailOrPassword => new Error(
+                "Authentication.InvalidEmailOrPassword",
+                "The provided email or password combination is invalid.");
 
-            public static Error DuplicateEmail => new Error("Authentication.DuplicateEmail");
+            public static Error PasswordsDoNotMatch => new Error(
+                "Authentication.PasswordsDoNotMatch",
+                "The password and confirmation password do not match.");
 
-            public static Error InvalidPassword => new Error("Authentication.InvalidPassword");
-
-            public static Error UserNotFound => new Error("Authentication.UserNotFound");
+            public static Error DuplicateEmail => new Error(
+                "Authentication.DuplicateEmail",
+                "The email is already taken.");
         }
 
         /// <summary>
@@ -26,7 +30,7 @@ namespace Expensely.Domain
         /// </summary>
         public static class FirstName
         {
-            public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty");
+            public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty", "The first name is required.");
         }
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace Expensely.Domain
         /// </summary>
         public static class LastName
         {
-            public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty");
+            public static Error NullOrEmpty => new Error("LastName.NullOrEmpty", "The last name is required.");
         }
 
         /// <summary>
@@ -42,11 +46,11 @@ namespace Expensely.Domain
         /// </summary>
         public static class Email
         {
-            public static Error NullOrEmpty => new Error("Email.NullOrEmpty");
+            public static Error NullOrEmpty => new Error("Email.NullOrEmpty", "The email is required.");
 
-            public static Error LongerThanAllowed => new Error("Email.LongerThanAllowed");
+            public static Error LongerThanAllowed => new Error("Email.LongerThanAllowed", "The email is longer than allowed.");
 
-            public static Error IncorrectFormat => new Error("Email.IncorrectFormat");
+            public static Error InvalidFormat => new Error("Email.InvalidFormat", "The email format is invalid.");
         }
 
         /// <summary>
@@ -54,17 +58,25 @@ namespace Expensely.Domain
         /// </summary>
         public static class Password
         {
-            public static Error NullOrEmpty => new Error("Password.NullOrEmpty");
+            public static Error NullOrEmpty => new Error("Password.NullOrEmpty", "The password is required.");
 
-            public static Error TooShort => new Error("Password.TooShort");
+            public static Error TooShort => new Error("Password.TooShort", "The password is too short.");
 
-            public static Error MissingUppercaseLetter => new Error("Password.MissingUppercaseLetter");
+            public static Error MissingUppercaseLetter => new Error(
+                "Password.MissingUppercaseLetter",
+                "The password requires at least one uppercase letter.");
 
-            public static Error MissingLowercaseLetter => new Error("Password.MissingLowercaseLetter");
+            public static Error MissingLowercaseLetter => new Error(
+                "Password.MissingLowercaseLetter",
+                "The password requires at least one lowercase letter.");
 
-            public static Error MissingDigit => new Error("Password.MissingDigit");
+            public static Error MissingDigit => new Error(
+                "Password.MissingDigit",
+                "The password requires at least one digit.");
 
-            public static Error MissingNonAlphaNumeric => new Error("Password.MissingNonAlphaNumeric");
+            public static Error MissingNonAlphaNumeric => new Error(
+                "Password.MissingNonAlphaNumeric",
+                "The password requires at least one non-alphanumeric.");
         }
 
         /// <summary>
@@ -72,11 +84,11 @@ namespace Expensely.Domain
         /// </summary>
         public static class Expense
         {
-            public static Error UserIdIsRequired => new Error("Expense.UserIdMissing");
+            public static Error UserIdIsRequired => new Error("Expense.UserIdMissing", "The user identifier is required.");
 
-            public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing");
+            public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing", "The currency is required.");
 
-            public static Error OccurredOnIsRequired => new Error("Expense.DateMissing");
+            public static Error OccurredOnIsRequired => new Error("Expense.DateMissing", "The occurred on date is required.");
         }
 
         /// <summary>
@@ -84,7 +96,9 @@ namespace Expensely.Domain
         /// </summary>
         public static class Currency
         {
-            public static Error NotFound => new Error("Currency.NotFound");
+            public static Error NotFound => new Error(
+                "Currency.NotFound",
+                "The currency with the specified identifier was not found.");
         }
 
         /// <summary>
@@ -92,7 +106,9 @@ namespace Expensely.Domain
         /// </summary>
         public static class Role
         {
-            public static Error AtLeastOnePermissionIsRequired => new Error("Role.AtLeastOnePermissionIsRequired");
+            public static Error AtLeastOnePermissionIsRequired => new Error(
+                "Role.AtLeastOnePermissionIsRequired",
+                "The role must have at least one permission associated with it.");
         }
 
         /// <summary>
@@ -100,13 +116,15 @@ namespace Expensely.Domain
         /// </summary>
         public static class General
         {
-            public static Error BadRequest => new Error("General.BadRequest");
+            public static Error BadRequest => new Error("General.BadRequest", "The server could not process the request.");
 
-            public static Error EntityNotFound => new Error("General.EntityNotFound");
+            public static Error EntityNotFound => new Error(
+                "General.EntityNotFound",
+                "The entity with the specified identifier was not found.");
 
-            public static Error EntityAlreadyExists => new Error("General.EntityAlreadyExists");
-
-            public static Error ServerError => new Error("General.ServerError");
+            public static Error ServerError => new Error(
+                "General.ServerError",
+                "The server encountered an unrecoverable error.");
         }
     }
 }

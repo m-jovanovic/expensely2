@@ -80,7 +80,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         {
             Result<Email> result = Email.Create(email);
 
-            result.Error.Should().Be(Errors.Email.IncorrectFormat);
+            result.Error.Should().Be(Errors.Email.InvalidFormat);
         }
 
         [Theory]

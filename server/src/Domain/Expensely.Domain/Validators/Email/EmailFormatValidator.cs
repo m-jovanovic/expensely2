@@ -14,6 +14,6 @@ namespace Expensely.Domain.Validators.Email
         /// <inheritdoc />
         public override Result Validate(string? item) =>
             !Regex.IsMatch(item, EmailRegexPattern, RegexOptions.IgnoreCase) ?
-                Result.Fail(Errors.Email.IncorrectFormat) : base.Validate(item);
+                Result.Fail(Errors.Email.InvalidFormat) : base.Validate(item);
     }
 }

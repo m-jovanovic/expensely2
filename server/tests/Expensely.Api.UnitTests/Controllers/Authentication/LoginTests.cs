@@ -26,7 +26,6 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
             badRequestObjectResult.Should().NotBeNull();
             ApiErrorResponse apiErrorResponse = badRequestObjectResult.Value.As<ApiErrorResponse>();
             apiErrorResponse.Should().NotBeNull();
-            apiErrorResponse.Success.Should().BeFalse();
             apiErrorResponse.Errors.Should().Contain(Errors.General.BadRequest);
         }
 
@@ -34,7 +33,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         public async Task Login_should_return_bad_request_if_command_returns_failure_result()
         {
             var mediatorMock = new Mock<IMediator>();
-            var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.UserNotFound);
+            var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default)).ReturnsAsync(failureResult);
             var controller = new AuthenticationController(mediatorMock.Object);
 
@@ -44,7 +43,6 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
             badRequestObjectResult.Should().NotBeNull();
             ApiErrorResponse apiErrorResponse = badRequestObjectResult.Value.As<ApiErrorResponse>();
             apiErrorResponse.Should().NotBeNull();
-            apiErrorResponse.Success.Should().BeFalse();
             apiErrorResponse.Errors.Should().Contain(failureResult.Error);
         }
 

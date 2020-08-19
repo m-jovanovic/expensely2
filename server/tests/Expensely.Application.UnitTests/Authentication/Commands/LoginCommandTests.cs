@@ -48,7 +48,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
-            result.Error.Should().Be(Errors.Authentication.UserNotFound);
+            result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
-            result.Error.Should().Be(Errors.Authentication.InvalidPassword);
+            result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
 
         [Fact]

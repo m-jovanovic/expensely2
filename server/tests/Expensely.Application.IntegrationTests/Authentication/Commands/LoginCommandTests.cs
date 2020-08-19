@@ -43,7 +43,7 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result<TokenResponse> result = await SendAsync(command);
 
-            result.Error.Should().Be(Errors.Authentication.UserNotFound);
+            result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
 
             Result<TokenResponse> result = await SendAsync(command);
 
-            result.Error.Should().Be(Errors.Authentication.InvalidPassword);
+            result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
         
         [Fact]

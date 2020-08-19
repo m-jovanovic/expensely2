@@ -40,7 +40,7 @@ namespace Expensely.Application.Authentication.Commands.Login
 
             if (user is null)
             {
-                return Result.Fail<TokenResponse>(Errors.Authentication.UserNotFound);
+                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
             PasswordVerificationResult passwordVerificationResult = _passwordHasher
@@ -48,7 +48,7 @@ namespace Expensely.Application.Authentication.Commands.Login
 
             if (passwordVerificationResult == PasswordVerificationResult.Failure)
             {
-                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidPassword);
+                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
             TokenResponse tokenResponse = await _jwtProvider.CreateAsync(user);

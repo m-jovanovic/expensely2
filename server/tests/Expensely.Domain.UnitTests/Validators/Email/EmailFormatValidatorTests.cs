@@ -25,7 +25,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
 
             Result result = validator.Validate(email);
 
-            result.Error.Should().Be(Errors.Email.IncorrectFormat);
+            result.Error.Should().Be(Errors.Email.InvalidFormat);
         }
 
         [Theory]

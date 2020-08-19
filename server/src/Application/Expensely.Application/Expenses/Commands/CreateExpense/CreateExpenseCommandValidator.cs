@@ -1,4 +1,5 @@
-﻿using Expensely.Domain;
+﻿using Expensely.Application.Utilities;
+using Expensely.Domain;
 using FluentValidation;
 
 namespace Expensely.Application.Expenses.Commands.CreateExpense
@@ -13,11 +14,11 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         /// </summary>
         public CreateExpenseCommandValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty().WithErrorCode(Errors.Expense.UserIdIsRequired);
+            RuleFor(x => x.UserId).NotEmpty().WithError(Errors.Expense.UserIdIsRequired);
 
-            RuleFor(x => x.CurrencyId).NotEmpty().WithErrorCode(Errors.Expense.CurrencyIsRequired);
+            RuleFor(x => x.CurrencyId).NotEmpty().WithError(Errors.Expense.CurrencyIsRequired);
 
-            RuleFor(x => x.OccurredOn).NotEmpty().WithErrorCode(Errors.Expense.OccurredOnIsRequired);
+            RuleFor(x => x.OccurredOn).NotEmpty().WithError(Errors.Expense.OccurredOnIsRequired);
         }
     }
 }

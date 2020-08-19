@@ -186,7 +186,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             result.IsFailure.Should().BeTrue();
             result.IsSuccess.Should().BeFalse();
-            result.Error.Should().Be(Errors.Email.IncorrectFormat);
+            result.Error.Should().Be(Errors.Email.InvalidFormat);
         }
 
         [Fact]

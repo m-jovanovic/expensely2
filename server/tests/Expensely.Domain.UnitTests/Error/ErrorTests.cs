@@ -12,21 +12,29 @@ namespace Expensely.Domain.UnitTests.Error
         [Fact]
         public void Error_codes_must_be_unique()
         {
-            List<MethodInfo> methods = typeof(Core.Primitives.Error)
-                .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.ReturnType == typeof(Core.Primitives.Error))
+            List<PropertyInfo> properties = typeof(Errors)
+                .GetNestedTypes(BindingFlags.Public | BindingFlags.Static)
+                .SelectMany(x => x.GetProperties(BindingFlags.Public | BindingFlags.Static))
+                .Where(x => x.PropertyType == typeof(Core.Primitives.Error))
                 .ToList();
 
-            int numberOfUniqueCodes = methods.Select(GetErrorCode)
+            int numberOfUniqueCodes = properties.Select(GetErrorCode)
                 .Distinct()
                 .Count();
 
-            methods.Count.Should().Be(numberOfUniqueCodes);
+            properties.Count.Should().Be(numberOfUniqueCodes);
         }
 
-        private static string GetErrorCode(MethodInfo method)
+        private static string GetErrorCode(PropertyInfo property)
         {
-            object[] parameters = method.GetParameters()
+            MethodInfo? propertyGetMethod = property.GetMethod;
+
+            if (propertyGetMethod is null)
+            {
+                throw new Exception();
+            }
+
+            object[] parameters = propertyGetMethod!.GetParameters()
                 .Select<ParameterInfo, object>(x =>
                 {
                     if (x.ParameterType == typeof(string))
@@ -43,7 +51,7 @@ namespace Expensely.Domain.UnitTests.Error
                 })
                 .ToArray();
 
-            var error = (Core.Primitives.Error)method.Invoke(null, parameters)!;
+            var error = (Core.Primitives.Error)propertyGetMethod.Invoke(null, parameters)!;
 
             return error!.Code;
         }

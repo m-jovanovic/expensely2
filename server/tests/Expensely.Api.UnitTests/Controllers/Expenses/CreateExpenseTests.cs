@@ -44,7 +44,6 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             badRequestObjectResult.Should().NotBeNull();
             ApiErrorResponse apiErrorResponse = badRequestObjectResult.Value.As<ApiErrorResponse>();
             apiErrorResponse.Should().NotBeNull();
-            apiErrorResponse.Success.Should().BeFalse();
             apiErrorResponse.Errors.Should().Contain(Errors.General.BadRequest);
         }
 
@@ -61,7 +60,6 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             badRequestObjectResult.Should().NotBeNull();
             ApiErrorResponse apiErrorResponse = badRequestObjectResult.Value.As<ApiErrorResponse>();
             apiErrorResponse.Should().NotBeNull();
-            apiErrorResponse.Success.Should().BeFalse();
             apiErrorResponse.Errors.Should().Contain(failureResult.Error);
         }
 
