@@ -36,11 +36,11 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
         }
 
         /// <inheritdoc />
-        public PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword)
+        public bool VerifyPasswordHash(string passwordHash, string providedPassword)
         {
-            if (hashedPassword is null)
+            if (passwordHash is null)
             {
-                throw new ArgumentNullException(nameof(hashedPassword));
+                throw new ArgumentNullException(nameof(passwordHash));
             }
 
             if (providedPassword is null)
@@ -48,16 +48,16 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
                 throw new ArgumentNullException(nameof(providedPassword));
             }
 
-            byte[] decodedHashedPassword = Convert.FromBase64String(hashedPassword);
+            byte[] decodedHashedPassword = Convert.FromBase64String(passwordHash);
 
             if (decodedHashedPassword.Length == 0)
             {
-                return PasswordVerificationResult.Failure;
+                return false;
             }
 
-            bool verified = VerifyHashedPasswordInternal(decodedHashedPassword, providedPassword);
+            bool verified = VerifyPasswordHashInternal(decodedHashedPassword, providedPassword);
 
-            return verified ? PasswordVerificationResult.Success : PasswordVerificationResult.Failure;
+            return verified;
         }
 
         /// <inheritdoc />
@@ -105,7 +105,7 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
         /// <param name="hashedPassword">The bytes of the hashed password.</param>
         /// <param name="password">The password to verify with.</param>
         /// <returns>True if the hashes match, otherwise false.</returns>
-        private static bool VerifyHashedPasswordInternal(byte[] hashedPassword, string password)
+        private static bool VerifyPasswordHashInternal(byte[] hashedPassword, string password)
         {
             try
             {

@@ -15,11 +15,11 @@ namespace Expensely.Application.Abstractions.Cryptography
         string HashPassword(Password password);
 
         /// <summary>
-        /// Returns a <see cref="PasswordVerificationResult"/> indicating the result of a password hash comparison.
+        /// Checks if the specified password hash matches the provided password hash.
         /// </summary>
-        /// <param name="hashedPassword">The hashed password.</param>
+        /// <param name="passwordHash">The password hash.</param>
         /// <param name="providedPassword">The provided password.</param>
-        /// <returns>A <see cref="PasswordVerificationResult"/> indicating the result of a password hash comparison.</returns>
-        PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword);
+        /// <returns>True if the password hashes match, otherwise false..</returns>
+        bool VerifyPasswordHash(string passwordHash, string providedPassword);
     }
 }

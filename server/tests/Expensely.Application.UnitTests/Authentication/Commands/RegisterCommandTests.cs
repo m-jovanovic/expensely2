@@ -263,8 +263,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
                 x => x.Insert(It.Is<User>(u =>
                     u.FirstName == ValidFirstName &&
                     u.LastName == ValidLastName &&
-                    u.Email.Value == ValidEmail &&
-                    u.PasswordHash == passwordHash)),
+                    u.Email.Value == ValidEmail)),
                 Times.Once);
         }
 

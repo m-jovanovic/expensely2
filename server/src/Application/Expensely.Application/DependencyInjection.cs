@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using Expensely.Application.Behaviours;
 using Expensely.Application.Options;
+using Expensely.Application.Services;
+using Expensely.Domain.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,8 @@ namespace Expensely.Application
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingBehaviour<,>));
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehaviour<,>));
+
+            services.AddTransient<IPasswordHashChecker, PasswordHashChecker>();
         }
     }
 }

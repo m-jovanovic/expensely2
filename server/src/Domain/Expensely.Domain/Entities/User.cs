@@ -1,6 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Services;
 using Expensely.Domain.Utility;
 using Expensely.Domain.ValueObjects;
 
@@ -11,6 +12,8 @@ namespace Expensely.Domain.Entities
     /// </summary>
     public class User : Entity, IAuditableEntity, ISoftDeletableEntity
     {
+        private string _passwordHash;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="User"/> class.
         /// </summary>
@@ -32,7 +35,7 @@ namespace Expensely.Domain.Entities
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            PasswordHash = passwordHash;
+            _passwordHash = passwordHash;
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace Expensely.Domain.Entities
             FirstName = FirstName.Empty;
             LastName = LastName.Empty;
             Email = Email.Empty;
-            PasswordHash = string.Empty;
+            _passwordHash = string.Empty;
         }
 
         /// <summary>
@@ -67,11 +70,6 @@ namespace Expensely.Domain.Entities
         /// </summary>
         public Email Email { get; private set; }
 
-        /// <summary>
-        /// Gets the password hash.
-        /// </summary>
-        public string PasswordHash { get; }
-
         /// <inheritdoc />
         public DateTime CreatedOnUtc { get; }
 
@@ -83,5 +81,14 @@ namespace Expensely.Domain.Entities
 
         /// <inheritdoc />
         public bool Deleted { get; }
+
+        /// <summary>
+        /// Verifies that the provided password hash matches the password hash.
+        /// </summary>
+        /// <param name="password">The password to be checked against the user password hash.</param>
+        /// <param name="passwordHashChecker">The password hash checker.</param>
+        /// <returns>True if the password hashes match, otherwise false.</returns>
+        public bool VerifyPasswordHash(string password, IPasswordHashChecker passwordHashChecker)
+            => !string.IsNullOrWhiteSpace(password) && passwordHashChecker.HashesMatch(_passwordHash, password);
     }
 }

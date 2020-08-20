@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Cryptography;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
+using Expensely.Domain.Services;
 
 namespace Expensely.Application.Authentication.Commands.Login
 {
@@ -17,20 +17,20 @@ namespace Expensely.Application.Authentication.Commands.Login
     internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, Result<TokenResponse>>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
+        private readonly IPasswordHashChecker _passwordHashChecker;
         private readonly IJwtProvider _jwtProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginCommandHandler"/> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
-        /// <param name="passwordHasher">The password hasher.</param>
+        /// <param name="passwordHashChecker">The password hash checker.</param>
         /// <param name="jwtProvider">The JWT provider.</param>
-        public LoginCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+        public LoginCommandHandler(IUserRepository userRepository, IPasswordHashChecker passwordHashChecker, IJwtProvider jwtProvider)
         {
             _userRepository = userRepository;
             _jwtProvider = jwtProvider;
-            _passwordHasher = passwordHasher;
+            _passwordHashChecker = passwordHashChecker;
         }
 
         /// <inheritdoc />
@@ -43,11 +43,7 @@ namespace Expensely.Application.Authentication.Commands.Login
                 return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
-            // TODO: Move this into User entity and remove password hash as a public property.
-            PasswordVerificationResult passwordVerificationResult = _passwordHasher
-                .VerifyHashedPassword(user.PasswordHash, request.Password);
-
-            if (passwordVerificationResult == PasswordVerificationResult.Failure)
+            if (!user.VerifyPasswordHash(request.Password, _passwordHashChecker))
             {
                 return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }

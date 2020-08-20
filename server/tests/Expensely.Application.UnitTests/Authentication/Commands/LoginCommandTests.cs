@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Cryptography;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Entities;
+using Expensely.Domain.Services;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Moq;
@@ -24,7 +24,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync((User?)null);
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
-                new Mock<IPasswordHasher>().Object,
+                new Mock<IPasswordHashChecker>().Object,
                 new Mock<IJwtProvider>().Object);
             var command = CreateValidCommand();
 
@@ -40,7 +40,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync((User?)null);
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
-                new Mock<IPasswordHasher>().Object,
+                new Mock<IPasswordHashChecker>().Object,
                 new Mock<IJwtProvider>().Object);
             var command = CreateValidCommand();
 
@@ -57,7 +57,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHasher>();
+            var passwordHasherMock = new Mock<IPasswordHashChecker>();
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
                 passwordHasherMock.Object,
@@ -67,7 +67,7 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             await commandHandler.Handle(command, default);
 
             passwordHasherMock.Verify(x =>
-                x.VerifyHashedPassword(It.Is<string>(p => p == user.PasswordHash), It.Is<string>(p => p == command.Password)),
+                x.HashesMatch(It.IsAny<string>(), It.Is<string>(p => p == command.Password)),
                 Times.Once);
         }
 
@@ -77,9 +77,9 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHasher>();
-            passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(PasswordVerificationResult.Failure);
+            var passwordHasherMock = new Mock<IPasswordHashChecker>();
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(false);
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
                 passwordHasherMock.Object,
@@ -99,9 +99,9 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHasher>();
-            passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(PasswordVerificationResult.Success);
+            var passwordHasherMock = new Mock<IPasswordHashChecker>();
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(true);
             var jwtProvider = new Mock<IJwtProvider>();
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
@@ -120,9 +120,9 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHasher>();
-            passwordHasherMock.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(PasswordVerificationResult.Success);
+            var passwordHasherMock = new Mock<IPasswordHashChecker>();
+            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(true);
             var jwtProvider = new Mock<IJwtProvider>();
             var tokenResponse = new TokenResponse("Token response");
             jwtProvider.Setup(x => x.CreateAsync(It.IsAny<User>())).ReturnsAsync(tokenResponse);

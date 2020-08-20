@@ -45,7 +45,7 @@ namespace Expensely.Infrastructure.Authentication
 
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
-            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
 
             services.AddScoped<IClaimsProvider, ClaimsProvider>();
 
