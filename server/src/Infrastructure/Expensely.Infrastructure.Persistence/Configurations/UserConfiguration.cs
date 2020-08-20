@@ -1,5 +1,5 @@
 ﻿using Expensely.Domain.Entities;
-using Expensely.Domain.Validators.Email;
+using Expensely.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,9 +16,25 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
             builder.HasKey(user => user.Id);
 
-            builder.Property(user => user.FirstName).HasMaxLength(100).IsRequired();
+            builder.OwnsOne(user => user.FirstName, firstNameBuilder =>
+            {
+                firstNameBuilder.WithOwner();
 
-            builder.Property(user => user.LastName).HasMaxLength(100).IsRequired();
+                firstNameBuilder.Property(firstName => firstName.Value)
+                    .HasColumnName("first_name")
+                    .HasMaxLength(FirstName.MaxLength)
+                    .IsRequired();
+            });
+
+            builder.OwnsOne(user => user.LastName, lastNameBuilder =>
+            {
+                lastNameBuilder.WithOwner();
+
+                lastNameBuilder.Property(lastName => lastName.Value)
+                    .HasColumnName("last_name")
+                    .HasMaxLength(LastName.MaxLength)
+                    .IsRequired();
+            });
 
             builder.OwnsOne(user => user.Email, emailBuilder =>
             {
@@ -26,7 +42,7 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
                 emailBuilder.Property(email => email.Value)
                     .HasColumnName("email")
-                    .HasMaxLength(EmailMaxLengthValidator.MaxEmailLength)
+                    .HasMaxLength(Email.MaxLength)
                     .IsRequired();
             });
 

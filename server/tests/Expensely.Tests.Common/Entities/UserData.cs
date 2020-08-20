@@ -6,9 +6,9 @@ namespace Expensely.Tests.Common.Entities
 {
     public static class UserData
     {
-        public static readonly string FirstName = "John";
+        public static readonly FirstName ValidFirstName = FirstName.Create("John").Value();
 
-        public static readonly string LastName = "Doe";
+        public static readonly LastName ValidLastName = LastName.Create("Doe").Value();
 
         public static readonly Email ValidEmail = Email.Create("test@expensely.net").Value();
 
@@ -16,6 +16,6 @@ namespace Expensely.Tests.Common.Entities
 
         public static readonly string PasswordHash = "password-hash";
 
-        public static User CreateUser() => new User(Guid.NewGuid(), FirstName, LastName, ValidEmail, PasswordHash);
+        public static User CreateUser() => new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, PasswordHash);
     }
 }

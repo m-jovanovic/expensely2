@@ -43,6 +43,7 @@ namespace Expensely.Application.Authentication.Commands.Login
                 return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
+            // TODO: Move this into User entity and remove password hash as a public property.
             PasswordVerificationResult passwordVerificationResult = _passwordHasher
                 .VerifyHashedPassword(user.PasswordHash, request.Password);
 

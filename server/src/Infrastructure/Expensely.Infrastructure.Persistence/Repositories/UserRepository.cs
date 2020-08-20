@@ -20,7 +20,7 @@ namespace Expensely.Infrastructure.Persistence.Repositories
         public UserRepository(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
-        public async Task<bool> IsUniqueAsync(string email)
+        public async Task<bool> IsEmailUniqueAsync(string email)
             => !await _dbContext.Set<User>().AnyAsync(user => user.Email.Value == email);
 
         /// <inheritdoc />

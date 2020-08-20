@@ -13,7 +13,7 @@ namespace Expensely.Domain.Core.Validators
         /// Sets the next validator in the chain.
         /// </summary>
         /// <param name="next">The next validator instance.</param>
-        /// <returns>The specified next validator, to allow a fluent API.</returns>
+        /// <returns>The initial validator instance.</returns>
         IValidator<T> SetNext(IValidator<T> next);
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Domain.Entities;
 using Expensely.Infrastructure.Persistence.IntegrationTests.Common;
 using Expensely.Infrastructure.Persistence.Repositories;
+using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
             await SeedUser(UniqueEmail);
             var userRepository = new UserRepository(DbContext);
 
-            bool isUnique = await userRepository.IsUniqueAsync(Email);
+            bool isUnique = await userRepository.IsEmailUniqueAsync(Email);
 
             isUnique.Should().BeTrue();
         }
@@ -30,7 +31,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
             await SeedUser(Email);
             var userRepository = new UserRepository(DbContext);
 
-            bool isUnique = await userRepository.IsUniqueAsync(Email);
+            bool isUnique = await userRepository.IsEmailUniqueAsync(Email);
 
             isUnique.Should().BeFalse();
         }
@@ -39,8 +40,8 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
         {
             var user = new User(
                 Guid.NewGuid(),
-                "FirstName",
-                "LastName",
+                UserData.ValidFirstName,
+                UserData.ValidLastName,
                 Domain.ValueObjects.Email.Create(email).Value(),
                 Guid.NewGuid().ToString());
 

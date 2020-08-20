@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Expensely.Domain.Core\Expensely.Domain.Core.csproj" />
   </ItemGroup>
 
@@ -16,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Expensely.Tests.Common</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <Import Project="..\..\..\CodeAnalysis.targets" />

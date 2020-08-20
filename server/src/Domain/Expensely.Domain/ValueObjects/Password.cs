@@ -30,8 +30,7 @@ namespace Expensely.Domain.ValueObjects
         /// <returns>The result of the password creation process containing the password or an error.</returns>
         public static Result<Password> Create(string? password)
         {
-            IValidator<string> validator = new PasswordNotNullOrEmptyValidator();
-            validator
+            IValidator<string> validator = new PasswordNotNullOrEmptyValidator()
                 .SetNext(new PasswordMinLengthValidator())
                 .SetNext(new PasswordHasLowercaseLetterValidator())
                 .SetNext(new PasswordHasUppercaseLetterValidator())

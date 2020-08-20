@@ -6,7 +6,7 @@ namespace Expensely.Domain.Validators.Password
     /// <summary>
     /// Validates that the password is longer than the minimum length.
     /// </summary>
-    public class PasswordMinLengthValidator : Validator<string>
+    public sealed class PasswordMinLengthValidator : Validator<string>
     {
         /// <summary>
         /// The password minimum length.

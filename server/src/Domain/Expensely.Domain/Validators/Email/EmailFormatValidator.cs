@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Email
     /// <summary>
     /// Validates that the email is of a valid format.
     /// </summary>
-    public class EmailFormatValidator : Validator<string>
+    public sealed class EmailFormatValidator : Validator<string>
     {
         private const string EmailRegexPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
 

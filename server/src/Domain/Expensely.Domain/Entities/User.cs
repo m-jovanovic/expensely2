@@ -19,7 +19,7 @@ namespace Expensely.Domain.Entities
         /// <param name="lastName">The user last name.</param>
         /// <param name="email">The user email instance.</param>
         /// <param name="passwordHash">The user password hash.</param>
-        public User(Guid id, string firstName, string lastName, Email email, string passwordHash)
+        public User(Guid id, FirstName firstName, LastName lastName, Email email, string passwordHash)
             : this()
         {
             Ensure.NotEmpty(id, "The identifier is required.", nameof(id));
@@ -29,11 +29,7 @@ namespace Expensely.Domain.Entities
             Ensure.NotEmpty(passwordHash, "The password hash is required", nameof(passwordHash));
 
             Id = id;
-
-            // TODO: Create first name value object.
             FirstName = firstName;
-
-            // TODO: Create last name value object.
             LastName = lastName;
             Email = email;
             PasswordHash = passwordHash;
@@ -50,8 +46,8 @@ namespace Expensely.Domain.Entities
         /// </remarks>
         protected User()
         {
-            FirstName = string.Empty;
-            LastName = string.Empty;
+            FirstName = FirstName.Empty;
+            LastName = LastName.Empty;
             Email = Email.Empty;
             PasswordHash = string.Empty;
         }
@@ -59,12 +55,12 @@ namespace Expensely.Domain.Entities
         /// <summary>
         /// Gets the user first name.
         /// </summary>
-        public string FirstName { get; private set; }
+        public FirstName FirstName { get; private set; }
 
         /// <summary>
         /// Gets the user last name.
         /// </summary>
-        public string LastName { get; private set; }
+        public LastName LastName { get; private set; }
 
         /// <summary>
         /// Gets the user email.

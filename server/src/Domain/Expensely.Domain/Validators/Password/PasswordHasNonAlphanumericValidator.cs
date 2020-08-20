@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Password
     /// <summary>
     /// Validates that the password has at least one non-alphanumeric character.
     /// </summary>
-    public class PasswordHasNonAlphanumericValidator : Validator<string>
+    public sealed class PasswordHasNonAlphanumericValidator : Validator<string>
     {
         /// <inheritdoc />
         public override Result Validate(string? item) =>

@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Password
     /// <summary>
     /// Validates that the password has at least one uppercase letter.
     /// </summary>
-    public class PasswordHasUppercaseLetterValidator : Validator<string>
+    public sealed class PasswordHasUppercaseLetterValidator : Validator<string>
     {
         /// <inheritdoc />
         public override Result Validate(string? item) =>

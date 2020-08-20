@@ -33,37 +33,73 @@ namespace Expensely.Application.Authentication.Commands.Register
         /// <inheritdoc />
         public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            Result<Password> passwordResult = Password.Create(request.Password);
+            Result<User> userResult = CreateUser(request);
 
-            if (passwordResult.IsFailure)
+            if (userResult.IsFailure)
             {
-                return Result.Fail(passwordResult.Error);
+                return Result.Fail(userResult.Error);
             }
 
-            Result<Email> emailResult = Email.Create(request.Email);
+            User user = userResult.Value();
 
-            if (emailResult.IsFailure)
-            {
-                return Result.Fail(emailResult.Error);
-            }
-
-            Email email = emailResult.Value();
-
-            bool isUnique = await _userRepository.IsUniqueAsync(email);
+            bool isUnique = await _userRepository.IsEmailUniqueAsync(user.Email);
 
             if (!isUnique)
             {
                 return Result.Fail(Errors.Authentication.DuplicateEmail);
             }
 
-            string passwordHash = _passwordHasher.HashPassword(passwordResult.Value());
-
-            var user = new User(Guid.NewGuid(), request.FirstName, request.LastName, email, passwordHash);
-
-            // TODO: Add role to user.
+            // TODO: Add role(s) to user.
             _userRepository.Insert(user);
 
             return Result.Ok();
+        }
+
+        /// <summary>
+        /// Creates the user entity based on the specified command.
+        /// </summary>
+        /// <param name="command">The register command.</param>
+        /// <returns>The result of the user creation process containing the user or an error.</returns>
+        private Result<User> CreateUser(RegisterCommand command)
+        {
+            Result<FirstName> firstNameResult = FirstName.Create(command.FirstName);
+
+            if (firstNameResult.IsFailure)
+            {
+                return Result.Fail<User>(firstNameResult.Error);
+            }
+
+            Result<LastName> lastNameResult = LastName.Create(command.LastName);
+
+            if (lastNameResult.IsFailure)
+            {
+                return Result.Fail<User>(lastNameResult.Error);
+            }
+
+            Result<Email> emailResult = Email.Create(command.Email);
+
+            if (emailResult.IsFailure)
+            {
+                return Result.Fail<User>(emailResult.Error);
+            }
+
+            Result<Password> passwordResult = Password.Create(command.Password);
+
+            if (passwordResult.IsFailure)
+            {
+                return Result.Fail<User>(passwordResult.Error);
+            }
+
+            string passwordHash = _passwordHasher.HashPassword(passwordResult.Value());
+
+            var user = new User(
+                Guid.NewGuid(),
+                firstNameResult.Value(),
+                lastNameResult.Value(),
+                emailResult.Value(),
+                passwordHash);
+
+            return Result.Ok(user);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Expensely.Domain.Validators.Password
     /// <summary>
     /// Validates that the password has at least one digit.
     /// </summary>
-    public class PasswordHasDigitValidator : Validator<string>
+    public sealed class PasswordHasDigitValidator : Validator<string>
     {
         /// <inheritdoc />
         public override Result Validate(string? item) =>

@@ -34,8 +34,8 @@ namespace Expensely.Api.IntegrationTests.Controllers.Authentication
         {
             RegisterRequest request = new RegisterRequest
             {
-                FirstName = UserData.FirstName,
-                LastName = UserData.LastName,
+                FirstName = UserData.ValidFirstName,
+                LastName = UserData.ValidLastName,
                 Email = UserData.ValidEmail,
                 Password = string.Empty
             };
@@ -51,8 +51,8 @@ namespace Expensely.Api.IntegrationTests.Controllers.Authentication
         {
             RegisterRequest request = new RegisterRequest
             {
-                FirstName = UserData.FirstName,
-                LastName = UserData.LastName,
+                FirstName = UserData.ValidFirstName,
+                LastName = UserData.ValidLastName,
                 Email = "test-valid@expensely.net",
                 Password = UserData.Password,
                 ConfirmPassword = UserData.Password

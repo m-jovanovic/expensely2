@@ -62,8 +62,8 @@ namespace Expensely.Api.IntegrationTests.Core
 
             User entity = new User(
                 Guid.NewGuid(),
-                UserData.FirstName,
-                UserData.LastName,
+                UserData.ValidFirstName,
+                UserData.ValidLastName,
                 UserData.ValidEmail,
                 passwordHash);
             

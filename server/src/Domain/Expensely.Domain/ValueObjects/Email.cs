@@ -11,6 +11,11 @@ namespace Expensely.Domain.ValueObjects
     public sealed class Email : ValueObject
     {
         /// <summary>
+        /// The email maximum length.
+        /// </summary>
+        public const int MaxLength = 256;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Email"/> class.
         /// </summary>
         /// <param name="value">The email value.</param>
@@ -32,8 +37,7 @@ namespace Expensely.Domain.ValueObjects
         /// <returns>The result of the email creation process containing the email or an error.</returns>
         public static Result<Email> Create(string? email)
         {
-            IValidator<string> validator = new EmailNotNullOrEmptyValidator();
-            validator
+            IValidator<string> validator = new EmailNotNullOrEmptyValidator()
                 .SetNext(new EmailMaxLengthValidator())
                 .SetNext(new EmailFormatValidator());
 

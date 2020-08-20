@@ -11,7 +11,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
         public void Should_fail_if_passed_longer_than_allowed_email()
         {
             var validator = new EmailMaxLengthValidator();
-            string email = new string('*', EmailMaxLengthValidator.MaxEmailLength + 1);
+            string email = new string('*', Domain.ValueObjects.Email.MaxLength + 1);
 
             Result result = validator.Validate(email);
 
@@ -22,7 +22,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
         public void Should_succeed_if_passed_shorter_than_allowed_email()
         {
             var validator = new EmailMaxLengthValidator();
-            string email = new string('*', EmailMaxLengthValidator.MaxEmailLength);
+            string email = new string('*', Domain.ValueObjects.Email.MaxLength);
 
             Result result = validator.Validate(email);
 

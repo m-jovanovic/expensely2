@@ -13,7 +13,7 @@ namespace Expensely.Application.Abstractions.Repositories
         /// </summary>
         /// <param name="email">The email to be checked.</param>
         /// <returns>True if the specified email is unique, otherwise false.</returns>
-        Task<bool> IsUniqueAsync(string email);
+        Task<bool> IsEmailUniqueAsync(string email);
 
         /// <summary>
         /// Gets the user with the specified email.

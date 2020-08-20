@@ -31,6 +31,10 @@ namespace Expensely.Domain
         public static class FirstName
         {
             public static Error NullOrEmpty => new Error("FirstName.NullOrEmpty", "The first name is required.");
+
+            public static Error LongerThanAllowed => new Error(
+                "FirstName.LongerThanAllowed",
+                "The first name is longer than allowed.");
         }
 
         /// <summary>
@@ -39,6 +43,10 @@ namespace Expensely.Domain
         public static class LastName
         {
             public static Error NullOrEmpty => new Error("LastName.NullOrEmpty", "The last name is required.");
+
+            public static Error LongerThanAllowed => new Error(
+                "LastName.LongerThanAllowed",
+                "The last name is longer than allowed.");
         }
 
         /// <summary>

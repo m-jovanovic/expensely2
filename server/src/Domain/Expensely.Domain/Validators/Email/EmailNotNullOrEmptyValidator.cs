@@ -1,15 +1,15 @@
-﻿using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Core.Validators;
+﻿using Expensely.Domain.Validators.Common;
 
 namespace Expensely.Domain.Validators.Email
 {
     /// <summary>
     /// Validates that the email is not null or empty.
     /// </summary>
-    public class EmailNotNullOrEmptyValidator : Validator<string>
+    public sealed class EmailNotNullOrEmptyValidator : StringNotNullOrEmptyValidator
     {
-        /// <inheritdoc />
-        public override Result Validate(string? item) =>
-            string.IsNullOrWhiteSpace(item) ? Result.Fail(Errors.Email.NullOrEmpty) : base.Validate(item);
+        public EmailNotNullOrEmptyValidator()
+            : base(Errors.Email.NullOrEmpty)
+        {
+        }
     }
 }
