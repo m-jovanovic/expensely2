@@ -8,35 +8,41 @@ namespace Expensely.Domain.ValueObjects
     /// </summary>
     public sealed class Currency : ValueObject
     {
-        public static readonly Currency None = new Currency(0, string.Empty, string.Empty);
-        public static readonly Currency Usd = new Currency(1, "USD", "$");
-        public static readonly Currency Eur = new Currency(2, "EUR", "€");
-        public static readonly Currency Rsd = new Currency(3, "RSD", "din.");
+        public static readonly Currency None = new Currency(string.Empty, string.Empty, string.Empty);
 
-        public static readonly IReadOnlyList<Currency> AllCurrencies = new List<Currency>
+        private static readonly Dictionary<string, Currency> Currencies = new Dictionary<string, Currency>
         {
-            Usd,
-            Eur,
-            Rsd
+            { "USD", new Currency("USD", "Dollar", "$") },
+            { "EUR", new Currency("EUR", "Euro", "€") },
+            { "RSD", new Currency("RSD", "Serbian dinar", "din.") }
         };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Currency"/> class.
         /// </summary>
-        /// <param name="id">The currency identifier.</param>
         /// <param name="code">The currency code.</param>
-        /// <param name="sign">The currency sign.</param>
-        private Currency(int id, string code, string sign)
+        /// <param name="name">The currency name.</param>
+        /// <param name="symbol">The currency symbol.</param>
+        private Currency(string code, string name, string symbol)
+            : this()
         {
-            Id = id;
-            Sign = sign;
             Code = code;
+            Name = name;
+            Symbol = symbol;
         }
 
         /// <summary>
-        /// Gets the currency identifier.
+        /// Initializes a new instance of the <see cref="Currency"/> class.
         /// </summary>
-        public int Id { get; }
+        /// <remarks>
+        /// Required by EF Core.
+        /// </remarks>
+        private Currency()
+        {
+            Code = string.Empty;
+            Name = string.Empty;
+            Symbol = string.Empty;
+        }
 
         /// <summary>
         /// Gets the currency code.
@@ -44,34 +50,35 @@ namespace Expensely.Domain.ValueObjects
         public string Code { get; }
 
         /// <summary>
-        /// Gets the currency sign.
+        /// Gets the currency name.
         /// </summary>
-        public string Sign { get; }
+        public string Name { get; }
+
+        /// <summary>
+        /// Gets the currency symbol.
+        /// </summary>
+        public string Symbol { get; }
+
+        /// <summary>
+        /// Gets the read-only collection of all currencies.
+        /// </summary>
+        /// <returns>The read-only collection of all currencies.</returns>
+        public static IReadOnlyCollection<Currency> AllCurrencies() => Currencies.Values;
 
         /// <summary>
         /// Creates a new currency instance based on the specified currency identifier.
         /// </summary>
-        /// <param name="currencyId">The currency identifier.</param>
+        /// <param name="currencyCode">The currency code.</param>
         /// <returns>The currency instance with the specified identifier if it is found, otherwise null.</returns>
-        public static Currency? FromId(int currencyId)
-            => ValueBetweenTwoValues(currencyId, 1, AllCurrencies.Count) ? AllCurrencies[currencyId - 1] : null;
+        public static Currency? FromCode(string currencyCode)
+            => Currencies.TryGetValue(currencyCode, out Currency currency) ? currency : null;
 
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return Id;
             yield return Code;
-            yield return Sign;
+            yield return Name;
+            yield return Symbol;
         }
-
-        /// <summary>
-        /// Determines if the specified value is between the lower and upper inclusive bounds.
-        /// </summary>
-        /// <param name="value">The value to be checked.</param>
-        /// <param name="fromInclusive">The lower inclusive bound.</param>
-        /// <param name="toInclusive">The upper inclusive bound.</param>
-        /// <returns>True if the specified value is within the specified lower and upper bound, otherwise false.</returns>
-        private static bool ValueBetweenTwoValues(int value, int fromInclusive, int toInclusive)
-            => value >= fromInclusive && value <= toInclusive;
     }
 }

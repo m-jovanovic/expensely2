@@ -6,7 +6,7 @@ using Expensely.Domain.Utility;
 namespace Expensely.Domain.ValueObjects
 {
     /// <summary>
-    /// Represents the money value object.
+    /// Represents the money value object, an amount in some currency.
     /// </summary>
     public sealed class Money : ValueObject
     {
@@ -48,20 +48,14 @@ namespace Expensely.Domain.ValueObjects
 
         public static Money operator +(Money left, Money right)
         {
-            if (left.Currency != right.Currency)
-            {
-                throw new InvalidOperationException($"Can not add currencies {left.Currency.Code} and {right.Currency.Code}.");
-            }
+            AssertCurrenciesAreEqual(left, right);
 
             return new Money(left.Amount + right.Amount, left.Currency);
         }
 
         public static Money operator -(Money left, Money right)
         {
-            if (left.Currency != right.Currency)
-            {
-                throw new InvalidOperationException($"Can not add currencies {left.Currency.Code} and {right.Currency.Code}.");
-            }
+            AssertCurrenciesAreEqual(left, right);
 
             return new Money(left.Amount - right.Amount, left.Currency);
         }
@@ -71,6 +65,15 @@ namespace Expensely.Domain.ValueObjects
         {
             yield return Amount;
             yield return Currency;
+        }
+
+        private static void AssertCurrenciesAreEqual(Money left, Money right)
+        {
+            if (left.Currency != right.Currency)
+            {
+                throw new InvalidOperationException(
+                    $"The currencies {left.Currency.Name} and {right.Currency.Name} are not the same currency.");
+            }
         }
     }
 }

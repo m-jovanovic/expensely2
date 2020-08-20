@@ -28,15 +28,15 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                 {
                     currencyBuilder.WithOwner();
 
-                    currencyBuilder.Property(currency => currency.Id).HasColumnName("currency_id").IsRequired();
+                    currencyBuilder.Property(currency => currency.Name).HasColumnName("currency_name").IsRequired();
 
                     currencyBuilder.Property(currency => currency.Code)
                         .HasColumnName("currency_code")
                         .HasMaxLength(3)
                         .IsRequired();
 
-                    currencyBuilder.Property(currency => currency.Sign)
-                        .HasColumnName("currency_sign")
+                    currencyBuilder.Property(currency => currency.Symbol)
+                        .HasColumnName("currency_symbol")
                         .HasMaxLength(5)
                         .IsRequired();
                 });

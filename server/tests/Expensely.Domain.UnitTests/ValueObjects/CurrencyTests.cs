@@ -33,53 +33,25 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         }
 
         [Fact]
-        public void FromId_should_return_null_given_invalid_currency_id()
+        public void From_code_should_return_null_given_invalid_currency_id()
         {
-            var currency = Currency.FromId(default);
+            var currency = Currency.FromCode(string.Empty);
 
             currency.Should().BeNull();
-        }
-
-        [Fact]
-        public void FromId_should_return_null_given_out_of_bounds_currency_id()
-        {
-            int currencyId = Currency.AllCurrencies.Count + 1;
-
-            var currency = Currency.FromId(currencyId);
-
-            currency.Should().BeNull();
-        }
-
-        [Fact]
-        public void FromId_should_return_currency_give_min_currency_id()
-        {
-            int currencyId = 1;
-
-            var currency = Currency.FromId(currencyId);
-
-            currency.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void FromId_should_return_currency_given_max_currency_id()
-        {
-            int currencyId = Currency.AllCurrencies.Count;
-
-            var currency = Currency.FromId(currencyId);
-
-            currency.Should().NotBeNull();
         }
 
         private static IEnumerable<object[]> GetIdenticalCurrencyPairs()
         {
-            return Currency.AllCurrencies.Select(currency => new object[] { currency, currency });
+            return Currency.AllCurrencies().Select(currency => new object[] { currency, currency });
         }
 
         private static IEnumerable<object[]> GetDifferentCurrencyPairs()
         {
-            foreach (Currency currentCurrency in Currency.AllCurrencies)
+            IReadOnlyCollection<Currency> currencies = Currency.AllCurrencies();
+
+            foreach (Currency currentCurrency in currencies)
             {
-                foreach (var currency in Currency.AllCurrencies.Where(c => c != currentCurrency))
+                foreach (var currency in currencies.Where(c => c != currentCurrency))
                 {
                     yield return new object[] { currentCurrency, currency };
                 }

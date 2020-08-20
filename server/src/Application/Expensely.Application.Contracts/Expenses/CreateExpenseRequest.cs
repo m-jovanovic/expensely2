@@ -10,7 +10,11 @@ namespace Expensely.Application.Contracts.Expenses
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateExpenseRequest"/> class.
         /// </summary>
-        public CreateExpenseRequest() => Name = string.Empty;
+        public CreateExpenseRequest()
+        {
+            Name = string.Empty;
+            CurrencyCode = string.Empty;
+        }
 
         /// <summary>
         /// Gets or sets the name.
@@ -23,9 +27,9 @@ namespace Expensely.Application.Contracts.Expenses
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the currency identifier.
+        /// Gets or sets the currency code.
         /// </summary>
-        public int CurrencyId { get; set; }
+        public string CurrencyCode { get; set; }
 
         /// <summary>
         /// Gets or sets the date.

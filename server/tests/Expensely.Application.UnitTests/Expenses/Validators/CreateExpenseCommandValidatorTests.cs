@@ -16,7 +16,7 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         public void Should_fail_if_user_id_is_empty()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Guid.Empty, Name, MinusOneAmount, Currency.Id, Date);
+            var command = new CreateExpenseCommand(Guid.Empty, Name, MinusOneAmount, Currency.Code, Date);
 
             validator.ShouldHaveValidationErrorFor(x => x.UserId, command).WithErrorCode(Errors.Expense.UserIdIsRequired);
         }
@@ -25,16 +25,16 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         public void Should_fail_if_currency_id_is_empty()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, InvalidCurrencyId, Date);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, InvalidCurrencyCode, Date);
 
-            validator.ShouldHaveValidationErrorFor(x => x.CurrencyId, command).WithErrorCode(Errors.Expense.CurrencyIsRequired);
+            validator.ShouldHaveValidationErrorFor(x => x.CurrencyCode, command).WithErrorCode(Errors.Expense.CurrencyIsRequired);
         }
 
         [Fact]
         public void Should_fail_if_date_is_empty()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Id, default);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Code, default);
 
             validator.ShouldHaveValidationErrorFor(x => x.OccurredOn, command).WithErrorCode(Errors.Expense.OccurredOnIsRequired);
         }
@@ -43,12 +43,12 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
         public void Should_not_fail_if_command_is_valid()
         {
             var validator = new CreateExpenseCommandValidator();
-            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Id, Date);
+            var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Code, Date);
 
             TestValidationResult<CreateExpenseCommand> result = validator.TestValidate(command);
 
             result.ShouldNotHaveValidationErrorFor(x => x.UserId);
-            result.ShouldNotHaveValidationErrorFor(x => x.CurrencyId);
+            result.ShouldNotHaveValidationErrorFor(x => x.CurrencyCode);
             result.ShouldNotHaveValidationErrorFor(x => x.OccurredOn);
         }
     }

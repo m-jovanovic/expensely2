@@ -11,7 +11,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
                 userId ?? Guid.NewGuid(),
                 ExpenseData.Name,
                 ExpenseData.MinusOneAmount,
-                ExpenseData.Currency.Id,
+                ExpenseData.Currency.Code,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidUserId()
@@ -19,7 +19,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
                 Guid.Empty,
                 ExpenseData.Name,
                 ExpenseData.MinusOneAmount,
-                ExpenseData.InvalidCurrencyId,
+                ExpenseData.InvalidCurrencyCode,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidCurrencyId()
@@ -27,7 +27,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
                 Guid.NewGuid(),
                 ExpenseData.Name,
                 ExpenseData.MinusOneAmount,
-                ExpenseData.InvalidCurrencyId,
+                ExpenseData.InvalidCurrencyCode,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidDate()
@@ -35,7 +35,7 @@ namespace Expensely.Tests.Common.Commands.Expenses
                 Guid.NewGuid(),
                 ExpenseData.Name,
                 ExpenseData.MinusOneAmount,
-                ExpenseData.Currency.Id,
+                ExpenseData.Currency.Code,
                 default);
     }
 }

@@ -97,7 +97,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
                         c.UserId == UserId &&
                         c.Name == createExpenseRequest.Name &&
                         c.Amount == createExpenseRequest.Amount &&
-                        c.CurrencyId == createExpenseRequest.CurrencyId &&
+                        c.CurrencyCode == createExpenseRequest.CurrencyCode &&
                         c.OccurredOn == createExpenseRequest.Date),
                     default),
                 Times.Once);
@@ -107,8 +107,8 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             => new CreateExpenseRequest
             {
                 Name = "Expense",
-                Amount = 1.0m,
-                CurrencyId = 1,
+                Amount = -1.0m,
+                CurrencyCode = "USD",
                 Date = DateTime.Now
             };
     }

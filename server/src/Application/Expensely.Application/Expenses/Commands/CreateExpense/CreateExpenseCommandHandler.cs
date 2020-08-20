@@ -38,7 +38,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         public async Task<Result<EntityCreatedResponse>> Handle(
             CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            var currency = Currency.FromId(request.CurrencyId);
+            var currency = Currency.FromCode(request.CurrencyCode);
 
             if (currency is null)
             {

@@ -8,9 +8,9 @@ namespace Expensely.Tests.Common.Entities
     {
         public static readonly string Name = "Bills";
 
-        public static readonly int InvalidCurrencyId = 0;
+        public static readonly string InvalidCurrencyCode = string.Empty;
 
-        public static readonly Currency Currency = Currency.FromId(1) ?? throw new ArgumentException("currencyId");
+        public static readonly Currency Currency = Currency.FromCode("USD") ?? throw new ArgumentException("currencyCode");
 
         public static readonly decimal MinusOneAmount = -1.0m;
 

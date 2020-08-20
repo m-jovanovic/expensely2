@@ -40,7 +40,7 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             {
                 Name = "Shopping",
                 Amount = 100.0m,
-                CurrencyId = 0,
+                CurrencyCode = string.Empty,
                 Date = DateTime.Now
             };
             
@@ -58,7 +58,7 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             {
                 Name = "Shopping",
                 Amount = -100.0m,
-                CurrencyId = 1,
+                CurrencyCode = "USD",
                 Date = DateTime.Now
             };
             

@@ -8,7 +8,7 @@ namespace Expensely.Domain.UnitTests.ValueObjects
     public class MoneyTests
     {
         private const decimal Amount = 1.0m;
-        private static readonly Currency Currency = Currency.FromId(1)!;
+        private static readonly Currency Currency = Currency.FromCode("USD")!;
 
         [Fact]
         public void Should_throw_argument_exception_if_currency_is_missing()
@@ -60,8 +60,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_not_be_equal_if_currencies_are_not_equal()
         {
-            var money1 = new Money(Amount, Currency.Usd);
-            var money2 = new Money(Amount, Currency.Eur);
+            var money1 = new Money(Amount, Currency.FromCode("USD")!);
+            var money2 = new Money(Amount, Currency.FromCode("EUR")!);
 
             money1.Should().NotBeSameAs(money2);
             money1.Should().NotBe(money2);
@@ -75,8 +75,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_throw_invalid_operation_exception_when_adding_moneys_with_different_currencies()
         {
-            var money1 = new Money(Amount, Currency.Usd);
-            var money2 = new Money(Amount, Currency.Eur);
+            var money1 = new Money(Amount, Currency.FromCode("USD")!);
+            var money2 = new Money(Amount, Currency.FromCode("EUR")!);
 
             Func<Money> action = () => money1 + money2;
 
@@ -114,8 +114,8 @@ namespace Expensely.Domain.UnitTests.ValueObjects
         [Fact]
         public void Should_throw_invalid_operation_exception_when_subtracting_moneys_with_different_currencies()
         {
-            var money1 = new Money(Amount, Currency.Usd);
-            var money2 = new Money(Amount, Currency.Eur);
+            var money1 = new Money(Amount, Currency.FromCode("USD")!);
+            var money2 = new Money(Amount, Currency.FromCode("EUR")!);
 
             Func<Money> action = () => money1 - money2;
 
