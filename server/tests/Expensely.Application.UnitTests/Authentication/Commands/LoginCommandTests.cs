@@ -46,27 +46,25 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
 
         [Fact]
-        public async Task Handle_should_call_verify_password_on_password_hasher()
+        public async Task Handle_should_call_hashes_match_on_password_hash_checker()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHashChecker>();
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
-                passwordHasherMock.Object,
+                passwordHashCheckerMock.Object,
                 new Mock<IJwtProvider>().Object);
             var command = CreateValidCommand();
 
             await commandHandler.Handle(command, default);
 
-            passwordHasherMock.Verify(x =>
+            passwordHashCheckerMock.Verify(x =>
                 x.HashesMatch(It.IsAny<string>(), It.Is<string>(p => p == command.Password)),
                 Times.Once);
         }
@@ -77,19 +75,17 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHashChecker>();
-            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
+            passwordHashCheckerMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(false);
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
-                passwordHasherMock.Object,
+                passwordHashCheckerMock.Object,
                 new Mock<IJwtProvider>().Object);
             var command = CreateValidCommand();
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeTrue();
-            result.IsSuccess.Should().BeFalse();
             result.Error.Should().Be(Errors.Authentication.InvalidEmailOrPassword);
         }
 
@@ -99,13 +95,13 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
             var userRepositoryMock = new Mock<IUserRepository>();
             User user = UserData.CreateUser();
             userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>())).ReturnsAsync(user);
-            var passwordHasherMock = new Mock<IPasswordHashChecker>();
-            passwordHasherMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
+            passwordHashCheckerMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(true);
             var jwtProvider = new Mock<IJwtProvider>();
             var commandHandler = new LoginCommandHandler(
                 userRepositoryMock.Object,
-                passwordHasherMock.Object,
+                passwordHashCheckerMock.Object,
                 jwtProvider.Object);
             var command = CreateValidCommand();
 
@@ -134,7 +130,6 @@ namespace Expensely.Application.UnitTests.Authentication.Commands
 
             Result<TokenResponse> result = await commandHandler.Handle(command, default);
 
-            result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
             result.Value().Should().BeEquivalentTo(tokenResponse);
         }
