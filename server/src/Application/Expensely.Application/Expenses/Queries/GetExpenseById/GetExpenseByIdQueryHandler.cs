@@ -34,15 +34,14 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
             ExpenseResponse? expense = await _dbContext.Set<Expense>().AsNoTracking()
                 .Where(e => e.Id == request.ExpenseId &&
                             e.UserId == request.UserId)
-                .Select(e => new ExpenseResponse
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Amount = e.Money.Amount,
-                    CurrencyCode = e.Money.Currency.Code,
-                    OccurredOn = e.OccurredOn,
-                    CreatedOnUtc = e.CreatedOnUtc
-                }).FirstOrDefaultAsync(cancellationToken);
+                .Select(e => new ExpenseResponse(
+                    e.Id,
+                    e.Name,
+                    e.Money.Amount,
+                    e.Money.Currency.Code,
+                    e.OccurredOn,
+                    e.CreatedOnUtc))
+                .FirstOrDefaultAsync(cancellationToken);
 
             return expense;
         }

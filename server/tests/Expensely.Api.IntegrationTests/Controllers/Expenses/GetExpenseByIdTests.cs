@@ -40,19 +40,6 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
         }
 
-        [Fact]
-        public async Task Should_return_ok_given_user_with_expense_read_permission_and_valid_expense_id()
-        {
-            HttpClient client = _factory.CreateClient(Permission.ExpenseRead);
-
-            HttpResponseMessage response = await client.GetAsync(GetExpenseByIdUrl(TestData.ExpenseIdForReading));
-
-            response.StatusCode.Should().Be(StatusCodes.Status200OK);
-            string content = await response.Content.ReadAsStringAsync();
-            ExpenseResponse expenses = JsonConvert.DeserializeObject<ExpenseResponse>(content);
-            expenses.Should().NotBeNull();
-        }
-
         private static string GetExpenseByIdUrl(Guid id) =>
             ApiRoutes.Expenses.GetExpenseById.Replace("{id:guid}", id.ToString());
     }

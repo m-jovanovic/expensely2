@@ -80,8 +80,8 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var response = new[]
             {
-                new ExpenseResponse(),
-                new ExpenseResponse()
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(response);
@@ -100,9 +100,9 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var response = new[]
             {
-                new ExpenseResponse(),
-                new ExpenseResponse(),
-                new ExpenseResponse()
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(response);

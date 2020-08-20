@@ -47,7 +47,10 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Get_expenses_should_return_ok_if_query_returns_non_empty_response()
         {
-            var expenseListResponse = new ExpenseListResponse(new List<ExpenseResponse> { new ExpenseResponse() });
+            var expenseListResponse = new ExpenseListResponse(new List<ExpenseResponse>
+            {
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
+            });
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
                 .ReturnsAsync(expenseListResponse);
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);

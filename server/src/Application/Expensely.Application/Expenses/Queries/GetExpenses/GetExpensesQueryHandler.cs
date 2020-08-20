@@ -6,6 +6,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Utilities;
+using Expensely.Domain.Entities;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
@@ -30,11 +31,11 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
                 return new ExpenseListResponse(Array.Empty<ExpenseResponse>());
             }
 
-            const string sql =
-                @"SELECT id, name, amount, currency_code currencyCode, occurred_on occurredOn, created_on_utc createdOnUtc
+            string sql =
+                $@"SELECT id, name, amount, currency_code currencyCode, occurred_on occurredOn, created_on_utc createdOnUtc
                 FROM transactions
                 WHERE NOT deleted AND
-                      transaction_type = @TransactionType AND
+                      transaction_type = {(int)TransactionType.Expense} AND
                       user_id = @UserId AND
                       (occurred_on, created_on_utc) <= (@OccurredOn, @CreatedOnUtc)
                 ORDER BY occurred_on DESC, created_on_utc DESC

@@ -46,7 +46,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         public async Task Get_expense_by_id_should_return_ok_if_query_returns_expense_response()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
-                .ReturnsAsync(new ExpenseResponse());
+                .ReturnsAsync(new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now));
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             IActionResult result = await controller.GetExpenseById(Guid.NewGuid());

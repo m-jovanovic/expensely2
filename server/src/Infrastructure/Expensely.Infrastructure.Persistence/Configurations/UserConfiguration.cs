@@ -46,7 +46,10 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                     .IsRequired();
             });
 
-            builder.Property<string>("_passwordHash").HasField("_passwordHash").IsRequired();
+            builder.Property<string>("_passwordHash")
+                .HasField("_passwordHash")
+                .HasColumnName("password_hash")
+                .IsRequired();
 
             builder.Property(user => user.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 

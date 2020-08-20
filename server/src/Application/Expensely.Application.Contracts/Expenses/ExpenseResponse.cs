@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Domain.ValueObjects;
 
 namespace Expensely.Application.Contracts.Expenses
 {
@@ -10,45 +11,62 @@ namespace Expensely.Application.Contracts.Expenses
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseResponse"/> class.
         /// </summary>
-        public ExpenseResponse()
+        /// <param name="id">The identifier.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="amount">The amount.</param>
+        /// <param name="currencyCode">The currency code.</param>
+        /// <param name="occurredOn">The occurred on date.</param>
+        /// <param name="createdOnUtc">The date and time in UTC format.</param>
+        public ExpenseResponse(
+            Guid id,
+            string name,
+            decimal amount,
+            string currencyCode,
+            DateTime occurredOn,
+            DateTime createdOnUtc)
         {
-            Name = string.Empty;
-            CurrencyCode = string.Empty;
+            Id = id;
+            Name = name;
+            Amount = amount;
+            CurrencyCode = currencyCode;
+            Value = $"{amount:n2} {Currency.FromCode(currencyCode)!.Symbol}";
+            OccurredOn = occurredOn;
+            CreatedOnUtc = createdOnUtc;
         }
 
         /// <summary>
-        /// Gets or sets the identifier.
+        /// Gets the identifier.
         /// </summary>
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
-        /// Gets or sets the amount.
+        /// Gets the amount.
         /// </summary>
-        public decimal Amount { get; set; }
+        public decimal Amount { get; }
 
         /// <summary>
-        /// Gets or sets the currency code.
+        /// Gets the currency code.
         /// </summary>
-        public string CurrencyCode { get; set; }
+        public string CurrencyCode { get; }
 
         /// <summary>
-        /// Gets the expense value.
+        /// Gets the value.
         /// </summary>
-        public string Value => $"{Amount:n2} {CurrencyCode}";
+        public string Value { get; }
 
         /// <summary>
-        /// Gets or sets the occurred on date.
+        /// Gets the occurred on date.
         /// </summary>
-        public DateTime OccurredOn { get; set; }
+        public DateTime OccurredOn { get; }
 
         /// <summary>
-        /// Gets or sets the created on date and time in UTC format.
+        /// Gets the created on date and time in UTC format.
         /// </summary>
-        public DateTime CreatedOnUtc { get; set; }
+        public DateTime CreatedOnUtc { get; }
     }
 }
