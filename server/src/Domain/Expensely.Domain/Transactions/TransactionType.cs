@@ -8,11 +8,11 @@
         /// <summary>
         /// The expense transaction type.
         /// </summary>
-        Expense,
+        Expense = 1,
 
         /// <summary>
         /// The income transaction type.
         /// </summary>
-        Income
+        Income = 2
     }
 }

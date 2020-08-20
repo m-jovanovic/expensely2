@@ -1,5 +1,5 @@
-﻿using Expensely.Application.Abstractions.Cryptography;
-using Expensely.Application.Services;
+﻿using Expensely.Application.Core.Abstractions.Cryptography;
+using Expensely.Application.Users.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;

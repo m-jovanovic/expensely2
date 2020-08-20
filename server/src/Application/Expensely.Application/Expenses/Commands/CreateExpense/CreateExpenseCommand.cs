@@ -1,6 +1,6 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Common;
+using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Expenses.Commands.CreateExpense

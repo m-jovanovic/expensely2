@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Abstractions.Repositories;
+using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 

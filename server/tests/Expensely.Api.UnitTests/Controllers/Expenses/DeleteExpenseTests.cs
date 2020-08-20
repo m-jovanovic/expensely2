@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Common;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;

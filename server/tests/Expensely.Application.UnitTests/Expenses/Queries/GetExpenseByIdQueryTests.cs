@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Application.Core.Constants;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using FluentAssertions;
 using Moq;

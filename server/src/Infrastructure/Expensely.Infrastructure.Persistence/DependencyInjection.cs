@@ -1,5 +1,5 @@
-﻿using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Abstractions.Repositories;
+﻿using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Infrastructure.Persistence.Data;
 using Expensely.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;

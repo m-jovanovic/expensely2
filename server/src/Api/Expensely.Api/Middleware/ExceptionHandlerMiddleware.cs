@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
-using Expensely.Application.Exceptions;
+using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

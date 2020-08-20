@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Abstractions.Messaging;
+﻿using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Application.Authentication.Commands.Register

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Application.Exceptions;
+using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Users;

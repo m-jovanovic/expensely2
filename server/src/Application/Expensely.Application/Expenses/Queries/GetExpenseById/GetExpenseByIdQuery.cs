@@ -1,7 +1,7 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Application.Core.Constants;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {

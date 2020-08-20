@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Users;

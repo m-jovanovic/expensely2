@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Caching;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Constants;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Caching;
+using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Application.Core.Constants;
 
 namespace Expensely.Application.Expenses.Events.ExpenseDeleted
 {

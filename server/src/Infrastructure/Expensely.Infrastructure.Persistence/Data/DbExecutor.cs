@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Expensely.Application.Abstractions.Data;
+using Expensely.Application.Core.Abstractions.Data;
 
 namespace Expensely.Infrastructure.Persistence.Data
 {

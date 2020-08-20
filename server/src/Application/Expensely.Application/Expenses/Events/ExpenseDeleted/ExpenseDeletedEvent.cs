@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
+using Expensely.Application.Core.Abstractions.Messaging;
 
 namespace Expensely.Application.Expenses.Events.ExpenseDeleted
 {

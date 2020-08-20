@@ -1,4 +1,4 @@
-﻿using Expensely.Application.Abstractions.Caching;
+﻿using Expensely.Application.Core.Abstractions.Caching;
 using Expensely.Infrastructure.Services.Caching;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;

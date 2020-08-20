@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Cryptography;
+using Expensely.Application.Core.Abstractions.Cryptography;
 using Expensely.Domain.Transactions;
 using Expensely.Domain.Users;
 using Expensely.Infrastructure.Persistence;

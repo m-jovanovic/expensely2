@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Cryptography;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Cryptography;
 using Expensely.Infrastructure.Authentication.Abstractions;
 using Expensely.Infrastructure.Authentication.Constants;
 using Expensely.Infrastructure.Authentication.Cryptography;

@@ -1,5 +1,5 @@
-﻿using Expensely.Application.Abstractions.Caching;
-using Expensely.Application.Abstractions.Common;
+﻿using Expensely.Application.Core.Abstractions.Caching;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Infrastructure.Services.Caching;
 using Expensely.Infrastructure.Services.Common;
 using Microsoft.Extensions.DependencyInjection;

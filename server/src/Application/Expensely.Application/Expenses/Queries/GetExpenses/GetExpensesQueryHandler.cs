@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
-using Expensely.Application.Utilities;
+using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Application.Core.Constants;
+using Expensely.Application.Core.Utilities;
 using Expensely.Domain.Transactions;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses

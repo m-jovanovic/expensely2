@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;

@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;

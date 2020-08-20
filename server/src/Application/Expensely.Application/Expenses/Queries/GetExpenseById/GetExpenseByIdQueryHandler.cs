@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Data;
-using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 

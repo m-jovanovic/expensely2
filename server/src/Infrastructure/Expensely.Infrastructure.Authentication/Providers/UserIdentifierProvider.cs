@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
-using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Infrastructure.Authentication.Constants;
 using Microsoft.AspNetCore.Http;
 

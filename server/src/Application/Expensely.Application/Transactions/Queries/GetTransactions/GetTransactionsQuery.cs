@@ -1,8 +1,8 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Transactions;
-using Expensely.Application.Utilities;
+using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Application.Core.Constants;
+using Expensely.Application.Core.Utilities;
 
 namespace Expensely.Application.Transactions.Queries.GetTransactions
 {

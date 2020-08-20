@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using Expensely.Application.Abstractions.Caching;
+using Expensely.Application.Core.Abstractions.Caching;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Expensely.Infrastructure.Services.Caching

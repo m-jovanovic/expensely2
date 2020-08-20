@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Transactions;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Transactions.Queries.GetTransactions;
 using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;

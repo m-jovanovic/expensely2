@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Authentication;
-using Expensely.Application.Abstractions.Caching;
-using Expensely.Application.Constants;
+using Expensely.Application.Core.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Caching;
+using Expensely.Application.Core.Constants;
 using Expensely.Application.Expenses.Events.ExpenseDeleted;
 using Moq;
 using Xunit;

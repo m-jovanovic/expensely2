@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Application.Abstractions.Common;
+using Expensely.Application.Core.Abstractions.Common;
 
 namespace Expensely.Infrastructure.Services.Common
 {

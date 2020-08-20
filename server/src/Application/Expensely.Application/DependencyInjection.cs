@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Expensely.Application.Behaviours;
-using Expensely.Application.Options;
-using Expensely.Application.Services;
+using Expensely.Application.Core.Behaviours;
+using Expensely.Application.Core.Options;
+using Expensely.Application.Users.Services;
 using Expensely.Domain.Users.Abstractions;
 using FluentValidation;
 using MediatR;

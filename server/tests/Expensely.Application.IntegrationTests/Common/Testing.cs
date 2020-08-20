@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Expensely.Api;
-using Expensely.Application.Abstractions.Authentication;
+using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Persistence;
 using MediatR;

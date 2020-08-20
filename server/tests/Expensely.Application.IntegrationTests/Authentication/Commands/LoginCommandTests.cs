@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Application.Exceptions;
+using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Tests.Common.Commands.Authentication;

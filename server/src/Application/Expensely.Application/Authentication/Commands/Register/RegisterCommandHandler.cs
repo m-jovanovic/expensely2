@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Expensely.Application.Abstractions.Cryptography;
-using Expensely.Application.Abstractions.Messaging;
-using Expensely.Application.Abstractions.Repositories;
+using Expensely.Application.Core.Abstractions.Cryptography;
+using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Users;
