@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Persistence.IntegrationTests.Common;
 using Expensely.Infrastructure.Persistence.Repositories;
 using Expensely.Tests.Common.Entities;

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Users;
 
 namespace Expensely.Application.Abstractions.Repositories
 {

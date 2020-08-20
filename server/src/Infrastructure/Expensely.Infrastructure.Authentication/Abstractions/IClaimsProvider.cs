@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Users;
 
 namespace Expensely.Infrastructure.Authentication.Abstractions
 {

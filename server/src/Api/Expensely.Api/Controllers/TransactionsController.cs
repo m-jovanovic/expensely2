@@ -5,7 +5,7 @@ using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Abstractions.Common;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Transactions.Queries.GetTransactions;
-using Expensely.Domain.Enums;
+using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;

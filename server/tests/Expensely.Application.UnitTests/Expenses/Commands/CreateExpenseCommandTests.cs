@@ -7,7 +7,7 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Transactions;
 using FluentAssertions;
 using MediatR;
 using Moq;

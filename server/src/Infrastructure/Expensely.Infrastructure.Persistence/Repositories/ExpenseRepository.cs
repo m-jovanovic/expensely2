@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Repositories;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Transactions;
 
 namespace Expensely.Infrastructure.Persistence.Repositories
 {

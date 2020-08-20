@@ -6,14 +6,13 @@ using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Moq;
 using Xunit;
 using static Expensely.Tests.Common.Entities.UserData;
-using Password = Expensely.Domain.ValueObjects.Password;
+using Password = Expensely.Domain.Users.Password;
 
 namespace Expensely.Application.UnitTests.Authentication.Commands
 {

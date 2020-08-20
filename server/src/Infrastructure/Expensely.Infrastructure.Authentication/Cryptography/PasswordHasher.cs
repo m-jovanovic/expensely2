@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using Expensely.Application.Abstractions.Cryptography;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Expensely.Infrastructure.Authentication.Cryptography

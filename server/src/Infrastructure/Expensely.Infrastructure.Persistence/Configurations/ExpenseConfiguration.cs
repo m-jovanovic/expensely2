@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Entities;
+﻿using Expensely.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

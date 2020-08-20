@@ -1,5 +1,5 @@
 ﻿using Expensely.Application.Abstractions.Cryptography;
-using Expensely.Domain.Services;
+using Expensely.Domain.Users.Abstractions;
 
 namespace Expensely.Application.Services
 {

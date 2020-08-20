@@ -7,8 +7,7 @@ using Expensely.Application.Contracts.Common;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Transactions;
 using MediatR;
 
 namespace Expensely.Application.Expenses.Commands.CreateExpense

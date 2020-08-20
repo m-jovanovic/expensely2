@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Users;
 using Expensely.Infrastructure.Persistence.IntegrationTests.Common;
 using Expensely.Infrastructure.Persistence.Repositories;
 using Expensely.Tests.Common.Entities;
@@ -42,7 +42,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
                 Guid.NewGuid(),
                 UserData.ValidFirstName,
                 UserData.ValidLastName,
-                Domain.ValueObjects.Email.Create(email).Value(),
+                Domain.Users.Email.Create(email).Value(),
                 Guid.NewGuid().ToString());
 
             await InsertAsync(user);

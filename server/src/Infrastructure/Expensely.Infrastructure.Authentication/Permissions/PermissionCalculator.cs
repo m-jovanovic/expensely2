@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions;
 using Expensely.Application.Abstractions.Data;
-using Expensely.Domain.Enums;
+using Expensely.Domain.Users;
 
 namespace Expensely.Infrastructure.Authentication.Permissions
 {

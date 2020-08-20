@@ -6,8 +6,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Abstractions.Repositories;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
 
 namespace Expensely.Application.Authentication.Commands.Register
 {

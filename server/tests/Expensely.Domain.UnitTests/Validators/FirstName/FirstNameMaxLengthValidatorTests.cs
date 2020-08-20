@@ -1,5 +1,5 @@
 ﻿using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Validators.FirstName;
+using Expensely.Domain.Users.Validators.FirstName;
 using FluentAssertions;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace Expensely.Domain.UnitTests.Validators.FirstName
         public void Should_fail_if_passed_longer_than_allowed_first_name()
         {
             var validator = new FirstNameMaxLengthValidator();
-            string firstName = new string('*', Domain.ValueObjects.FirstName.MaxLength + 1);
+            string firstName = new string('*', Users.FirstName.MaxLength + 1);
 
             Result result = validator.Validate(firstName);
 
@@ -22,7 +22,7 @@ namespace Expensely.Domain.UnitTests.Validators.FirstName
         public void Should_succeed_if_passed_shorter_than_allowed_first_name()
         {
             var validator = new FirstNameMaxLengthValidator();
-            string firstName = new string('*', Domain.ValueObjects.FirstName.MaxLength);
+            string firstName = new string('*', Users.FirstName.MaxLength);
 
             Result result = validator.Validate(firstName);
 

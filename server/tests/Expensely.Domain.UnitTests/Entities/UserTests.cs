@@ -1,7 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Entities;
-using Expensely.Domain.Services;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
+using Expensely.Domain.Users.Abstractions;
 using FluentAssertions;
 using Moq;
 using Xunit;

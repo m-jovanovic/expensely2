@@ -6,7 +6,7 @@ using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Constants;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Utilities;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Transactions;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {

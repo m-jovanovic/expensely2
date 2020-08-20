@@ -2,7 +2,7 @@
 using Expensely.Application.Behaviours;
 using Expensely.Application.Options;
 using Expensely.Application.Services;
-using Expensely.Domain.Services;
+using Expensely.Domain.Users.Abstractions;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;

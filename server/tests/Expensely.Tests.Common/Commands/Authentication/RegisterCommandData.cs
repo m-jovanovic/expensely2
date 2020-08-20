@@ -1,5 +1,5 @@
 ﻿using Expensely.Application.Authentication.Commands.Register;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
 using Expensely.Tests.Common.Entities;
 using static Expensely.Tests.Common.Entities.UserData;
 

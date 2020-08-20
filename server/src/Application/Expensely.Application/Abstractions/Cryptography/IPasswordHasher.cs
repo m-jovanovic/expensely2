@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.ValueObjects;
+﻿using Expensely.Domain.Users;
 
 namespace Expensely.Application.Abstractions.Cryptography
 {

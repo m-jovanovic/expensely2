@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.IntegrationTests.Core;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Domain.Entities;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

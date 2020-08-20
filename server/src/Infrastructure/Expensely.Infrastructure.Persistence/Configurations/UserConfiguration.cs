@@ -1,5 +1,4 @@
-﻿using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+﻿using Expensely.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Authentication;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Abstractions;
 using Expensely.Infrastructure.Authentication.Options;
 using Microsoft.Extensions.Options;

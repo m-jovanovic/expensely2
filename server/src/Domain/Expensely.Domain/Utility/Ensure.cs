@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Transactions;
 
 namespace Expensely.Domain.Utility
 {

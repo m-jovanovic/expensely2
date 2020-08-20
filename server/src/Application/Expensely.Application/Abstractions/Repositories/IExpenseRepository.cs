@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Transactions;
 
 namespace Expensely.Application.Abstractions.Repositories
 {

@@ -11,7 +11,7 @@ using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Enums;
+using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;

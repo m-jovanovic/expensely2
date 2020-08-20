@@ -1,6 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Entities;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Transactions;
 
 namespace Expensely.Tests.Common.Entities
 {

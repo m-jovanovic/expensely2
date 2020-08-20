@@ -6,8 +6,8 @@ using Expensely.Application.Abstractions.Repositories;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Entities;
-using Expensely.Domain.Services;
+using Expensely.Domain.Users;
+using Expensely.Domain.Users.Abstractions;
 
 namespace Expensely.Application.Authentication.Commands.Login
 {

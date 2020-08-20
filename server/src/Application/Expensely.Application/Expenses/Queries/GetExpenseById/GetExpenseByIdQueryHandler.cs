@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Abstractions.Data;
 using Expensely.Application.Abstractions.Messaging;
 using Expensely.Application.Contracts.Expenses;
-using Expensely.Domain.Entities;
+using Expensely.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenseById

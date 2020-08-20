@@ -1,5 +1,5 @@
 ﻿using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Validators.Email;
+using Expensely.Domain.Users.Validators.Email;
 using FluentAssertions;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
         public void Should_fail_if_passed_longer_than_allowed_email()
         {
             var validator = new EmailMaxLengthValidator();
-            string email = new string('*', Domain.ValueObjects.Email.MaxLength + 1);
+            string email = new string('*', Users.Email.MaxLength + 1);
 
             Result result = validator.Validate(email);
 
@@ -22,7 +22,7 @@ namespace Expensely.Domain.UnitTests.Validators.Email
         public void Should_succeed_if_passed_shorter_than_allowed_email()
         {
             var validator = new EmailMaxLengthValidator();
-            string email = new string('*', Domain.ValueObjects.Email.MaxLength);
+            string email = new string('*', Users.Email.MaxLength);
 
             Result result = validator.Validate(email);
 

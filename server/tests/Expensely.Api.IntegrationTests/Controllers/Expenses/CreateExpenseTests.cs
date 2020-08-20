@@ -5,7 +5,7 @@ using Expensely.Api.Contracts;
 using Expensely.Api.IntegrationTests.Core;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
-using Expensely.Domain.Enums;
+using Expensely.Domain.Users;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;

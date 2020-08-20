@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.ValueObjects;
+using Expensely.Domain.Users;
 using FluentAssertions;
 using Xunit;
 

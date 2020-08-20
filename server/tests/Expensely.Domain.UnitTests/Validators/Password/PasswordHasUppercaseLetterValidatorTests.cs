@@ -1,5 +1,5 @@
 ﻿using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Validators.Password;
+using Expensely.Domain.Users.Validators.Password;
 using FluentAssertions;
 using Xunit;
 
