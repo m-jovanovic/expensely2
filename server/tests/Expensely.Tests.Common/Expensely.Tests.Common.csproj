@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\Expensely.Application\Expensely.Application.csproj" />
-    <ProjectReference Include="..\..\src\Domain\Expensely.Domain\Expensely.Domain.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\CodeAnalysis.targets" />

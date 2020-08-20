@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 {
-    internal static class ExpenselyDbContextFactory
+    internal static class DbContextFactory
     {
         internal static ExpenselyDbContext Create()
         {

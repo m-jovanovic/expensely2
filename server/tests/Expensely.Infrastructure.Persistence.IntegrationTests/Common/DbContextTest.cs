@@ -11,12 +11,12 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 
         protected DbContextTest()
         {
-            _dbContext = ExpenselyDbContextFactory.Create();
+            _dbContext = DbContextFactory.Create();
         }
 
         public void Dispose()
         {
-            ExpenselyDbContextFactory.Destroy(_dbContext);
+            DbContextFactory.Destroy(_dbContext);
         }
 
         public IDbContext DbContext => _dbContext;
