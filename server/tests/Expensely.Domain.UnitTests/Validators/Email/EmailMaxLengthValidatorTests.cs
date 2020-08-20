@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Expensely.Domain.UnitTests.Validators.Email
 {
-    public class EmailLengthValidatorTests
+    public class EmailMaxLengthValidatorTests
     {
         [Fact]
         public void Should_fail_if_passed_longer_than_allowed_email()

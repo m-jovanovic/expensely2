@@ -1,7 +1,9 @@
 ﻿using System;
 using Expensely.Domain.Entities;
+using Expensely.Domain.Services;
 using Expensely.Domain.ValueObjects;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using static Expensely.Tests.Common.Entities.UserData;
 
@@ -39,6 +41,14 @@ namespace Expensely.Domain.UnitTests.Entities
             Action action = () => new User(Guid.NewGuid(), ValidFirstName, ValidLastName, Email.Empty, PasswordHash);
 
             action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("email");
+        }
+
+        [Fact]
+        public void Should_throw_argument_exception_if_password_hash_is_empty()
+        {
+            Action action = () => new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, string.Empty);
+
+            action.Should().Throw<ArgumentException>().And.ParamName.Should().Be("passwordHash");
         }
 
         [Fact]
@@ -86,6 +96,58 @@ namespace Expensely.Domain.UnitTests.Entities
             (user2 != user1).Should().BeTrue();
             user1.GetHashCode().Should().NotBe(user2.GetHashCode());
             user2.GetHashCode().Should().NotBe(user1.GetHashCode());
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("   ")]
+        public void Verify_password_hash_should_return_false_if_password_is_null_or_whitespace(string password)
+        {
+            var user = new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, PasswordHash);
+
+            bool result = user.VerifyPasswordHash(password, new Mock<IPasswordHashChecker>().Object);
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Verify_password_hash_should_call_hashes_match_with_specified_password()
+        {
+            var user = new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, PasswordHash);
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
+
+            string password = "password";
+            user.VerifyPasswordHash(password, passwordHashCheckerMock.Object);
+
+            passwordHashCheckerMock.Verify(
+                x => x.HashesMatch(It.IsAny<string>(), It.Is<string>(p => p == password)),
+                Times.Once);
+        }
+
+        [Fact]
+        public void Verify_password_hash_should_return_false_is_password_hash_checker_returns_false()
+        {
+            var user = new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, PasswordHash);
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
+            passwordHashCheckerMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+
+            bool result = user.VerifyPasswordHash("password", passwordHashCheckerMock.Object);
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Verify_password_hash_should_return_true_is_password_hash_checker_returns_true()
+        {
+            var user = new User(Guid.NewGuid(), ValidFirstName, ValidLastName, ValidEmail, PasswordHash);
+            var passwordHashCheckerMock = new Mock<IPasswordHashChecker>();
+            passwordHashCheckerMock.Setup(x => x.HashesMatch(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            bool result = user.VerifyPasswordHash("password", passwordHashCheckerMock.Object);
+
+            result.Should().BeTrue();
         }
     }
 }

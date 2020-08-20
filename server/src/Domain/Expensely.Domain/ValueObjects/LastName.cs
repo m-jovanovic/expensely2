@@ -33,7 +33,7 @@ namespace Expensely.Domain.ValueObjects
         /// </summary>
         /// <param name="lastName">The last name value.</param>
         /// <returns>The result of the last name creation process containing the last name or an error.</returns>
-        public static Result<LastName> Create(string lastName)
+        public static Result<LastName> Create(string? lastName)
         {
             IValidator<string> validator = new LastNameNotNullOrEmptyValidator()
                 .SetNext(new LastNameMaxLengthValidator());

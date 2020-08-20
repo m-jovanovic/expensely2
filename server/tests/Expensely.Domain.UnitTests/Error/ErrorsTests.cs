@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Expensely.Domain.UnitTests.Error
 {
-    public sealed class ErrorTests
+    public sealed class ErrorsTests
     {
         [Fact]
         public void Error_codes_must_be_unique()
