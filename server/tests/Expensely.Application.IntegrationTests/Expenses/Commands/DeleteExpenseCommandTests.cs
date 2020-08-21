@@ -26,7 +26,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         [Fact]
         public async Task Should_return_failure_result_given_expense_with_invalid_user_id()
         {
-            Expense expense = ExpenseData.CreateExpense();
+            Expense expense = TransactionData.CreateExpense();
             await AddAsync(expense);
             var command = new DeleteExpenseCommand(expense.Id, Guid.NewGuid());
 
@@ -38,7 +38,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
         [Fact]
         public async Task Should_delete_an_expense_given_existing_expense_id_with_valid_user_id()
         {
-            Expense expense = ExpenseData.CreateExpense(UserId);
+            Expense expense = TransactionData.CreateExpense(UserId);
             await AddAsync(expense);
             var command = new DeleteExpenseCommand(expense.Id, expense.UserId);
 

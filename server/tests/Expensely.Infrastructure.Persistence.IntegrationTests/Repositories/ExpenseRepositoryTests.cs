@@ -6,7 +6,7 @@ using Expensely.Infrastructure.Persistence.Repositories;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
 using Xunit;
-using static Expensely.Tests.Common.Entities.ExpenseData;
+using static Expensely.Tests.Common.Entities.TransactionData;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
 {
@@ -39,7 +39,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Repositories
         public async Task Insert_should_add_expense_to_database()
         {
             var expenseRepository = new ExpenseRepository(DbContext);
-            var expense = ExpenseData.CreateExpense();
+            var expense = TransactionData.CreateExpense();
 
             expenseRepository.Insert(expense);
             await SaveChangesAsync();

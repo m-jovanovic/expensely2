@@ -4,7 +4,7 @@ using Expensely.Domain;
 using Expensely.Tests.Common;
 using FluentValidation.TestHelper;
 using Xunit;
-using static Expensely.Tests.Common.Entities.ExpenseData;
+using static Expensely.Tests.Common.Entities.TransactionData;
 
 namespace Expensely.Application.UnitTests.Expenses.Validators
 {

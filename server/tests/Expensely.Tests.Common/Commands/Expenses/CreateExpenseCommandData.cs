@@ -9,33 +9,33 @@ namespace Expensely.Tests.Common.Commands.Expenses
         public static CreateExpenseCommand CreateValidCommand(Guid? userId = null)
             => new CreateExpenseCommand(
                 userId ?? Guid.NewGuid(),
-                ExpenseData.Name,
-                ExpenseData.MinusOneAmount,
-                ExpenseData.Currency.Code,
+                TransactionData.Name,
+                TransactionData.MinusOneAmount,
+                TransactionData.Currency.Code,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidUserId()
             => new CreateExpenseCommand(
                 Guid.Empty,
-                ExpenseData.Name,
-                ExpenseData.MinusOneAmount,
-                ExpenseData.InvalidCurrencyCode,
+                TransactionData.Name,
+                TransactionData.MinusOneAmount,
+                TransactionData.InvalidCurrencyCode,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidCurrencyId()
             => new CreateExpenseCommand(
                 Guid.NewGuid(),
-                ExpenseData.Name,
-                ExpenseData.MinusOneAmount,
-                ExpenseData.InvalidCurrencyCode,
+                TransactionData.Name,
+                TransactionData.MinusOneAmount,
+                TransactionData.InvalidCurrencyCode,
                 Time.Now());
 
         public static CreateExpenseCommand CreateCommandWithInvalidDate()
             => new CreateExpenseCommand(
                 Guid.NewGuid(),
-                ExpenseData.Name,
-                ExpenseData.MinusOneAmount,
-                ExpenseData.Currency.Code,
+                TransactionData.Name,
+                TransactionData.MinusOneAmount,
+                TransactionData.Currency.Code,
                 default);
     }
 }

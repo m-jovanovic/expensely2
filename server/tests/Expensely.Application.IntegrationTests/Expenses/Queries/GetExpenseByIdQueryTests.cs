@@ -24,7 +24,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         [Fact]
         public async Task Should_return_null_response_given_existing_expense_id_with_invalid_user_id()
         {
-            var expense = ExpenseData.CreateExpense();
+            var expense = TransactionData.CreateExpense();
             await AddAsync(expense);
             var query = new GetExpenseByIdQuery(expense.Id, UserId);
 
@@ -36,7 +36,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Queries
         [Fact]
         public async Task Should_return_expense_response_given_existing_expense_id_with_valid_user_id()
         {
-            var expense = ExpenseData.CreateExpense(UserId);
+            var expense = TransactionData.CreateExpense(UserId);
             await AddAsync(expense);
             var query = new GetExpenseByIdQuery(expense.Id, UserId);
 

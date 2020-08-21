@@ -34,11 +34,11 @@ namespace Expensely.Api.IntegrationTests.Core
 
             dbContext.Set<Expense>().AddRange(new List<Expense>
             {
-                ExpenseData.CreateExpense(TestData.UserId, date),
-                ExpenseData.CreateExpense(TestData.UserId, date.AddDays(-1)),
-                ExpenseData.CreateExpense(TestData.UserId, date.AddDays(-2)),
-                ExpenseData.CreateExpense(TestData.UserId, date.AddDays(-3)),
-                ExpenseData.CreateExpense(TestData.UserId, date.AddDays(-4))
+                TransactionData.CreateExpense(TestData.UserId, date),
+                TransactionData.CreateExpense(TestData.UserId, date.AddDays(-1)),
+                TransactionData.CreateExpense(TestData.UserId, date.AddDays(-2)),
+                TransactionData.CreateExpense(TestData.UserId, date.AddDays(-3)),
+                TransactionData.CreateExpense(TestData.UserId, date.AddDays(-4))
             });
 
             await dbContext.SaveChangesAsync();
