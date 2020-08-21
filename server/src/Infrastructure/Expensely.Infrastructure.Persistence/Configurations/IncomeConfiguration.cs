@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Expensely.Infrastructure.Persistence.Configurations
 {
     /// <summary>
-    /// Contains the <see cref="Expense"/> entity configuration.
+    /// Contains the <see cref="Income"/> entity configuration.
     /// </summary>
-    internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
+    internal sealed class IncomeConfiguration : IEntityTypeConfiguration<Income>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<Expense> builder)
+        public void Configure(EntityTypeBuilder<Income> builder)
         {
             builder.ToTable(TableNames.Transactions);
 
-            builder.HasKey(expense => expense.Id);
+            builder.HasKey(income => income.Id);
 
-            builder.Property(expense => expense.Name).HasMaxLength(100).IsRequired();
+            builder.Property(income => income.Name).HasMaxLength(100).IsRequired();
 
-            builder.OwnsOne(expense => expense.Money, moneyBuilder =>
+            builder.OwnsOne(income => income.Money, moneyBuilder =>
             {
                 moneyBuilder.WithOwner();
 
@@ -44,19 +44,19 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                 });
             });
 
-            builder.Property(expense => expense.TransactionType).IsRequired();
+            builder.Property(income => income.TransactionType).IsRequired();
 
-            builder.Property(expense => expense.OccurredOn).HasColumnType("date").IsRequired();
+            builder.Property(income => income.OccurredOn).HasColumnType("date").IsRequired();
 
-            builder.Property(expense => expense.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
+            builder.Property(income => income.CreatedOnUtc).HasColumnType("timestamp").IsRequired();
 
-            builder.Property(expense => expense.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(income => income.ModifiedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
-            builder.Property(expense => expense.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
+            builder.Property(income => income.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
-            builder.Property(expense => expense.Deleted).HasDefaultValue(false).IsRequired();
+            builder.Property(income => income.Deleted).HasDefaultValue(false).IsRequired();
 
-            builder.HasQueryFilter(expense => !expense.Deleted && expense.TransactionType == TransactionType.Expense);
+            builder.HasQueryFilter(income => !income.Deleted && income.TransactionType == TransactionType.Income);
         }
     }
 }

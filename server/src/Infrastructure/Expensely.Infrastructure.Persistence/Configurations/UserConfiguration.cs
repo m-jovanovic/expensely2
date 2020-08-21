@@ -1,4 +1,5 @@
 ﻿using Expensely.Domain.Users;
+using Expensely.Infrastructure.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,7 @@ namespace Expensely.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("users");
+            builder.ToTable(TableNames.Users);
 
             builder.HasKey(user => user.Id);
 
