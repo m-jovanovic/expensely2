@@ -28,6 +28,20 @@
         }
 
         /// <summary>
+        /// Contains the API endpoint routes for incomes.
+        /// </summary>
+        public static class Incomes
+        {
+            public const string GetIncomes = "incomes";
+
+            public const string GetIncomeById = "incomes/{id:guid}";
+
+            public const string CreateIncome = "incomes";
+
+            public const string DeleteIncome = "incomes/{id:guid}";
+        }
+
+        /// <summary>
         /// Contains the API endpoint routes for authentication.
         /// </summary>
         public static class Authentication

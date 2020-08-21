@@ -100,6 +100,18 @@ namespace Expensely.Domain
         }
 
         /// <summary>
+        /// Contains the income errors.
+        /// </summary>
+        public static class Income
+        {
+            public static Error UserIdIsRequired => new Error("Income.UserIdMissing", "The user identifier is required.");
+
+            public static Error CurrencyIsRequired => new Error("Income.CurrencyMissing", "The currency is required.");
+
+            public static Error OccurredOnIsRequired => new Error("Income.DateMissing", "The occurred on date is required.");
+        }
+
+        /// <summary>
         /// Contains the currency errors.
         /// </summary>
         public static class Currency

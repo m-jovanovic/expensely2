@@ -40,6 +40,21 @@ namespace Expensely.Domain.UnitTests.Transactions
             currency.Should().BeNull();
         }
 
+        [Theory]
+        [InlineData(0.0)]
+        [InlineData(1.0)]
+        [InlineData(-1.0)]
+        [InlineData(1213123123.123123123)]
+        [InlineData(-1213123123.123123123)]
+        public void Format_should_return_properly_formatted_string(decimal amount)
+        {
+            var currency = Currency.FromCode("USD")!;
+
+            string formatted = currency.Format(amount);
+
+            formatted.Should().Be($"{amount:n2} {currency.Code}");
+        }
+
         private static IEnumerable<object[]> GetIdenticalCurrencyPairs()
         {
             return Currency.AllCurrencies().Select(currency => new object[] { currency, currency });

@@ -6,7 +6,7 @@
     public static class CacheKeys
     {
         /// <summary>
-        /// Contains the cache keys related to transaction.
+        /// Contains the cache keys related to transactions.
         /// </summary>
         public static class Transactions
         {
@@ -26,13 +26,13 @@
             /// {1] - Limit.
             /// {2} - Cursor.
             /// </remarks>
-            public const string TransactionList = "transactions-{0}-list-{1}-{2}";
+            public const string TransactionsList = "transactions-{0}-list-{1}-{2}";
         }
 
         /// <summary>
         /// Contains the cache keys related to expenses.
         /// </summary>
-        public static class Expense
+        public static class Expenses
         {
             /// <summary>
             /// The cache key prefix for expense cache keys.
@@ -60,6 +60,39 @@
             /// {1] - Expense identifier.
             /// </remarks>
             public const string ExpenseById = "expenses-{0}-by-id-{1}";
+        }
+
+        /// <summary>
+        /// Contains the cache keys related to incomes.
+        /// </summary>
+        public static class Incomes
+        {
+            /// <summary>
+            /// The cache key prefix for income cache keys.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// </remarks>
+            public const string CacheKeyPrefix = "incomes-{0}";
+
+            /// <summary>
+            /// The incomes list cache key.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// {1] - Limit.
+            /// {2} - Cursor.
+            /// </remarks>
+            public const string IncomesList = "incomes-{0}-list-{1}-{2}";
+
+            /// <summary>
+            /// The incomes by identifier cache key.
+            /// </summary>
+            /// <remarks>
+            /// {0} - User identifier.
+            /// {1] - Income identifier.
+            /// </remarks>
+            public const string IncomeById = "incomes-{0}-by-id-{1}";
         }
     }
 }

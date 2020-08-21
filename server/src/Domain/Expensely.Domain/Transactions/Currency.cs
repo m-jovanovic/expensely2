@@ -73,6 +73,13 @@ namespace Expensely.Domain.Transactions
         public static Currency? FromCode(string currencyCode)
             => Currencies.TryGetValue(currencyCode, out Currency currency) ? currency : null;
 
+        /// <summary>
+        /// Formats the specified amount with the specified currency.
+        /// </summary>
+        /// <param name="amount">The amount.</param>
+        /// <returns>The formatted string with the amount and currency code.</returns>
+        public string Format(decimal amount) => $"{amount:n2} {Code}";
+
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicValues()
         {

@@ -39,7 +39,7 @@ namespace Expensely.Application.UnitTests.Expenses.Events
         {
             var userId = Guid.NewGuid();
             _userIdentifierProviderMock.SetupGet(x => x.UserId).Returns(userId);
-            string cacheKeyPattern = string.Format(CacheKeys.Expense.CacheKeyPrefix, userId);
+            string cacheKeyPattern = string.Format(CacheKeys.Expenses.CacheKeyPrefix, userId);
             var eventHandler = new ExpenseCreatedEventHandler(_cacheServiceMock.Object, _userIdentifierProviderMock.Object);
             var @event = new ExpenseCreatedEvent(Guid.Empty);
 

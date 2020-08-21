@@ -60,6 +60,6 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
         public DateTime CreatedOnUtc { get; }
 
         /// <inheritdoc />
-        public string GetCacheKey() => string.Format(CacheKeys.Expense.ExpensesList, UserId, Limit, _cursor);
+        public string GetCacheKey() => string.Format(CacheKeys.Expenses.ExpensesList, UserId, Limit, _cursor);
     }
 }

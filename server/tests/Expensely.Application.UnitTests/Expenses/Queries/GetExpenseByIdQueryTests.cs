@@ -19,7 +19,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             string cacheKey = query.GetCacheKey();
 
-            cacheKey.Should().Be(string.Format(CacheKeys.Expense.ExpenseById, query.UserId, query.ExpenseId));
+            cacheKey.Should().Be(string.Format(CacheKeys.Expenses.ExpenseById, query.UserId, query.ExpenseId));
         }
         
         [Fact]

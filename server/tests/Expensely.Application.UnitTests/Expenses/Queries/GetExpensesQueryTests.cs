@@ -44,7 +44,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             string cacheKey = query.GetCacheKey();
 
-            cacheKey.Should().Be(string.Format(CacheKeys.Expense.ExpensesList, query.UserId, query.Limit, null));
+            cacheKey.Should().Be(string.Format(CacheKeys.Expenses.ExpensesList, query.UserId, query.Limit, null));
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             string cacheKey = query.GetCacheKey();
 
-            cacheKey.Should().Be(string.Format(CacheKeys.Expense.ExpensesList, query.UserId, query.Limit, cursor));
+            cacheKey.Should().Be(string.Format(CacheKeys.Expenses.ExpensesList, query.UserId, query.Limit, cursor));
         }
 
         [Fact]

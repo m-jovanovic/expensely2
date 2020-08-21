@@ -29,7 +29,7 @@ namespace Expensely.Application.Contracts.Expenses
             Name = name;
             Amount = amount;
             CurrencyCode = currencyCode;
-            Value = $"{amount:n2} {Currency.FromCode(currencyCode)!.Symbol}";
+            Value = Currency.FromCode(currencyCode)?.Format(amount) ?? string.Empty;
             OccurredOn = occurredOn;
             CreatedOnUtc = createdOnUtc;
         }

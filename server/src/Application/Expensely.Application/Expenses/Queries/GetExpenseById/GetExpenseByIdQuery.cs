@@ -32,6 +32,6 @@ namespace Expensely.Application.Expenses.Queries.GetExpenseById
         public Guid UserId { get; }
 
         /// <inheritdoc />
-        public string GetCacheKey() => string.Format(CacheKeys.Expense.ExpenseById, UserId, ExpenseId);
+        public string GetCacheKey() => string.Format(CacheKeys.Expenses.ExpenseById, UserId, ExpenseId);
     }
 }

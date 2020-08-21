@@ -1,29 +1,27 @@
 ﻿using System;
 using Expensely.Domain.Transactions;
 
-namespace Expensely.Application.Contracts.Transactions
+namespace Expensely.Application.Contracts.Incomes
 {
     /// <summary>
-    /// Represents the transaction response.
+    /// Represents the expense response.
     /// </summary>
-    public class TransactionResponse
+    public sealed class IncomeResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransactionResponse"/> class.
+        /// Initializes a new instance of the <see cref="IncomeResponse"/> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="amount">The amount.</param>
         /// <param name="currencyCode">The currency code.</param>
-        /// <param name="transactionType">The transaction type.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The date and time in UTC format.</param>
-        public TransactionResponse(
+        public IncomeResponse(
             Guid id,
             string name,
             decimal amount,
             string currencyCode,
-            int transactionType,
             DateTime occurredOn,
             DateTime createdOnUtc)
         {
@@ -32,7 +30,6 @@ namespace Expensely.Application.Contracts.Transactions
             Amount = amount;
             CurrencyCode = currencyCode;
             Value = Currency.FromCode(currencyCode)?.Format(amount) ?? string.Empty;
-            TransactionType = transactionType;
             OccurredOn = occurredOn;
             CreatedOnUtc = createdOnUtc;
         }
@@ -61,11 +58,6 @@ namespace Expensely.Application.Contracts.Transactions
         /// Gets the value.
         /// </summary>
         public string Value { get; }
-
-        /// <summary>
-        /// Gets the transaction type.
-        /// </summary>
-        public int TransactionType { get; }
 
         /// <summary>
         /// Gets the occurred on date.

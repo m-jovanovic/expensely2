@@ -31,7 +31,7 @@ namespace Expensely.Application.Expenses.Events.ExpenseDeleted
         {
             _cacheService.RemoveByPattern(string.Format(CacheKeys.Transactions.CacheKeyPrefix, _userIdentifierProvider.UserId));
 
-            _cacheService.RemoveByPattern(string.Format(CacheKeys.Expense.CacheKeyPrefix, _userIdentifierProvider.UserId));
+            _cacheService.RemoveByPattern(string.Format(CacheKeys.Expenses.CacheKeyPrefix, _userIdentifierProvider.UserId));
 
             return Task.CompletedTask;
         }

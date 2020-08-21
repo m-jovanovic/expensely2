@@ -39,6 +39,8 @@ namespace Expensely.Infrastructure.Persistence
 
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
+
             services.AddScoped<IUserRepository, UserRepository>();
         }
     }
