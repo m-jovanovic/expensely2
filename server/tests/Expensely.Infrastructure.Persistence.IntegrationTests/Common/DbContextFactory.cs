@@ -1,4 +1,5 @@
 ﻿using System;
+using Expensely.Infrastructure.Services.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
@@ -11,7 +12,7 @@ namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            var context = new ExpenselyDbContext(options);
+            var context = new ExpenselyDbContext(options, new MachineDateTime());
 
             context.Database.EnsureCreated();
 

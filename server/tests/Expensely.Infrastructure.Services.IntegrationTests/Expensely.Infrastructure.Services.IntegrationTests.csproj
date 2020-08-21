@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Application\Expensely.Application\Expensely.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\Expensely.Infrastructure.Services\Expensely.Infrastructure.Services.csproj" />
   </ItemGroup>
 

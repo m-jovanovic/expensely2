@@ -23,7 +23,7 @@ namespace Expensely.Infrastructure.Persistence
 
             if (connectionString.Length > 0)
             {
-                services.AddDbContextPool<ExpenselyDbContext>(options =>
+                services.AddDbContext<ExpenselyDbContext>(options =>
                     options
                         .UseNpgsql(connectionString)
                         .UseSnakeCaseNamingConvention());

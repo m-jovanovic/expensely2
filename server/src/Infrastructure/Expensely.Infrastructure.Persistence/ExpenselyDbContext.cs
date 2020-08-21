@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
@@ -17,13 +18,17 @@ namespace Expensely.Infrastructure.Persistence
     /// </summary>
     internal sealed class ExpenselyDbContext : DbContext, IDbContext, IUnitOfWork
     {
+        private readonly IDateTime _dateTime;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenselyDbContext"/> class.
         /// </summary>
         /// <param name="options">The database context options.</param>
-        public ExpenselyDbContext(DbContextOptions options)
+        /// <param name="dateTime">The current date and time.</param>
+        public ExpenselyDbContext(DbContextOptions options, IDateTime dateTime)
             : base(options)
         {
+            _dateTime = dateTime;
         }
 
         /// <inheritdoc />
@@ -62,7 +67,7 @@ namespace Expensely.Infrastructure.Persistence
         /// <returns>The number of entities that have been saved.</returns>
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            DateTime utcNow = DateTime.UtcNow;
+            DateTime utcNow = _dateTime.UtcNow;
 
             UpdateAuditableEntities(utcNow);
 

@@ -53,7 +53,7 @@ namespace Expensely.Application.IntegrationTests.Common
 
             services.RemoveAll(typeof(ExpenselyDbContext));
 
-            services.AddDbContextPool<ExpenselyDbContext>(options =>
+            services.AddDbContext<ExpenselyDbContext>(options =>
                 options.UseInMemoryDatabase(DatabaseName));
 
             ScopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>()

@@ -23,6 +23,13 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Expensely.Infrastructure.Persistence.IntegrationTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Expensely.Infrastructure.Services.IntegrationTests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
