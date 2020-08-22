@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Expensely.Domain.Core.Exceptions;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Xunit;
@@ -33,11 +34,9 @@ namespace Expensely.Domain.UnitTests.Transactions
         }
 
         [Fact]
-        public void From_code_should_return_null_given_invalid_currency_id()
+        public void From_value_should_throw_invalid_enumeration_exception_when_given_invalid_currency_id()
         {
-            var currency = Currency.FromCode(string.Empty);
-
-            currency.Should().BeNull();
+            FluentActions.Invoking(() => Currency.FromValue(0)).Should().Throw<InvalidEnumerationException>();
         }
 
         [Theory]
@@ -48,7 +47,7 @@ namespace Expensely.Domain.UnitTests.Transactions
         [InlineData(-1213123123.123123123)]
         public void Format_should_return_properly_formatted_string(decimal amount)
         {
-            var currency = Currency.FromCode("USD")!;
+            Currency currency = Currency.FromValue(Currency.Usd.Value);
 
             string formatted = currency.Format(amount);
 
@@ -57,12 +56,12 @@ namespace Expensely.Domain.UnitTests.Transactions
 
         private static IEnumerable<object[]> GetIdenticalCurrencyPairs()
         {
-            return Currency.AllCurrencies().Select(currency => new object[] { currency, currency });
+            return Currency.List.Select(currency => new object[] { currency, currency });
         }
 
         private static IEnumerable<object[]> GetDifferentCurrencyPairs()
         {
-            IReadOnlyCollection<Currency> currencies = Currency.AllCurrencies();
+            IReadOnlyCollection<Currency> currencies = Currency.List.ToList();
 
             foreach (Currency currentCurrency in currencies)
             {

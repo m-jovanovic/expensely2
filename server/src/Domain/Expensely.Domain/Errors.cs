@@ -94,7 +94,9 @@ namespace Expensely.Domain
         {
             public static Error UserIdIsRequired => new Error("Expense.UserIdMissing", "The user identifier is required.");
 
-            public static Error CurrencyIsRequired => new Error("Expense.CurrencyMissing", "The currency is required.");
+            public static Error CurrencyIdIsRequired => new Error(
+                "Expense.CurrencyMissing",
+                "The currency identifier is required.");
 
             public static Error OccurredOnIsRequired => new Error("Expense.DateMissing", "The occurred on date is required.");
         }
@@ -106,7 +108,9 @@ namespace Expensely.Domain
         {
             public static Error UserIdIsRequired => new Error("Income.UserIdMissing", "The user identifier is required.");
 
-            public static Error CurrencyIsRequired => new Error("Income.CurrencyMissing", "The currency is required.");
+            public static Error CurrencyIdIsRequired => new Error(
+                "Income.CurrencyMissing",
+                "The currency identifier is required.");
 
             public static Error OccurredOnIsRequired => new Error("Income.DateMissing", "The occurred on date is required.");
         }

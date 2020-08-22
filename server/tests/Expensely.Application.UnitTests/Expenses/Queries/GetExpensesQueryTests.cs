@@ -5,6 +5,7 @@ using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -80,8 +81,8 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var response = new[]
             {
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(response);
@@ -100,9 +101,9 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         {
             var response = new[]
             {
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now),
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(response);

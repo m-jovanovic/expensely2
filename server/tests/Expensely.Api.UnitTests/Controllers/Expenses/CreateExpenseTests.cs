@@ -9,6 +9,7 @@ using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;
@@ -97,7 +98,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
                         c.UserId == UserId &&
                         c.Name == createExpenseRequest.Name &&
                         c.Amount == createExpenseRequest.Amount &&
-                        c.CurrencyCode == createExpenseRequest.CurrencyCode &&
+                        c.CurrencyId == createExpenseRequest.CurrencyId &&
                         c.OccurredOn == createExpenseRequest.Date),
                     default),
                 Times.Once);
@@ -108,7 +109,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             {
                 Name = "Expense",
                 Amount = -1.0m,
-                CurrencyCode = "USD",
+                CurrencyId = Currency.Usd.Value,
                 Date = DateTime.Now
             };
     }

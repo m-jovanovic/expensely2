@@ -14,22 +14,23 @@ namespace Expensely.Application.Contracts.Incomes
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="amount">The amount.</param>
-        /// <param name="currencyCode">The currency code.</param>
+        /// <param name="currencyId">The currency idenifier.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The date and time in UTC format.</param>
         public IncomeResponse(
             Guid id,
             string name,
             decimal amount,
-            string currencyCode,
+            int currencyId,
             DateTime occurredOn,
             DateTime createdOnUtc)
         {
             Id = id;
             Name = name;
             Amount = amount;
-            CurrencyCode = currencyCode;
-            Value = Currency.FromCode(currencyCode)?.Format(amount) ?? string.Empty;
+            Currency currency = Currency.FromValue(currencyId);
+            CurrencyCode = currency.Code;
+            Value = currency.Format(amount);
             OccurredOn = occurredOn;
             CreatedOnUtc = createdOnUtc;
         }

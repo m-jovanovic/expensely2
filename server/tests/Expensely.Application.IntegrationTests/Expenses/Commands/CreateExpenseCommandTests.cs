@@ -30,7 +30,7 @@ namespace Expensely.Application.IntegrationTests.Expenses.Commands
 
             FluentActions.Invoking(() => SendAsync(command))
                 .Should().Throw<ValidationException>()
-                .And.ErrorCodes.Should().Contain(Errors.Expense.CurrencyIsRequired);
+                .And.ErrorCodes.Should().Contain(Errors.Expense.CurrencyIdIsRequired);
         }
 
         [Fact]

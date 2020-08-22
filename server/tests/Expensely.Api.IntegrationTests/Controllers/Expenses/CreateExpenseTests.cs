@@ -5,6 +5,7 @@ using Expensely.Api.Contracts;
 using Expensely.Api.IntegrationTests.Core;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Contracts.Expenses;
+using Expensely.Domain.Transactions;
 using Expensely.Domain.Users;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +41,7 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             {
                 Name = "Shopping",
                 Amount = 100.0m,
-                CurrencyCode = string.Empty,
+                CurrencyId = default,
                 Date = DateTime.Now
             };
             
@@ -58,7 +59,7 @@ namespace Expensely.Api.IntegrationTests.Controllers.Expenses
             {
                 Name = "Shopping",
                 Amount = -100.0m,
-                CurrencyCode = "USD",
+                CurrencyId = Currency.Usd.Value,
                 Date = DateTime.Now
             };
             

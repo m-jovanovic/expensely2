@@ -31,7 +31,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactions
             }
 
             const string sql =
-                @"SELECT id, name, amount, currency_code currencyCode, transaction_type transactionType,
+                @"SELECT id, name, amount, currency currencyId, transaction_type transactionType,
                          occurred_on occurredOn, created_on_utc createdOnUtc
                 FROM transactions
                 WHERE NOT deleted AND

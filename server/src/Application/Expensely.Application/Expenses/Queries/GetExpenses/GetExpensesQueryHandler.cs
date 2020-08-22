@@ -32,10 +32,10 @@ namespace Expensely.Application.Expenses.Queries.GetExpenses
             }
 
             string sql =
-                $@"SELECT id, name, amount, currency_code currencyCode, occurred_on occurredOn, created_on_utc createdOnUtc
+                $@"SELECT id, name, amount, currency currencyId, occurred_on occurredOn, created_on_utc createdOnUtc
                 FROM transactions
-                WHERE NOT deleted AND
-                      transaction_type = {(int)TransactionType.Expense} AND
+                WHERE transaction_type = {(int)TransactionType.Expense} AND
+                      NOT deleted AND
                       user_id = @UserId AND
                       (occurred_on, created_on_utc) <= (@OccurredOn, @CreatedOnUtc)
                 ORDER BY occurred_on DESC, created_on_utc DESC

@@ -17,7 +17,7 @@ namespace Expensely.Application.Incomes.Commands.CreateIncome
         {
             RuleFor(x => x.UserId).NotEmpty().WithError(Errors.Income.UserIdIsRequired);
 
-            RuleFor(x => x.CurrencyCode).NotEmpty().WithError(Errors.Income.CurrencyIsRequired);
+            RuleFor(x => x.CurrencyId).NotEmpty().WithError(Errors.Income.CurrencyIdIsRequired);
 
             RuleFor(x => x.OccurredOn).NotEmpty().WithError(Errors.Income.OccurredOnIsRequired);
         }

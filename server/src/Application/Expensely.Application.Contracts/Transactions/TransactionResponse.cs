@@ -14,7 +14,7 @@ namespace Expensely.Application.Contracts.Transactions
         /// <param name="id">The identifier.</param>
         /// <param name="name">The name.</param>
         /// <param name="amount">The amount.</param>
-        /// <param name="currencyCode">The currency code.</param>
+        /// <param name="currencyId">The currency identifier.</param>
         /// <param name="transactionType">The transaction type.</param>
         /// <param name="occurredOn">The occurred on date.</param>
         /// <param name="createdOnUtc">The date and time in UTC format.</param>
@@ -22,7 +22,7 @@ namespace Expensely.Application.Contracts.Transactions
             Guid id,
             string name,
             decimal amount,
-            string currencyCode,
+            int currencyId,
             int transactionType,
             DateTime occurredOn,
             DateTime createdOnUtc)
@@ -30,8 +30,9 @@ namespace Expensely.Application.Contracts.Transactions
             Id = id;
             Name = name;
             Amount = amount;
-            CurrencyCode = currencyCode;
-            Value = Currency.FromCode(currencyCode)?.Format(amount) ?? string.Empty;
+            Currency currency = Currency.FromValue(currencyId);
+            CurrencyCode = currency.Code;
+            Value = currency.Format(amount);
             TransactionType = transactionType;
             OccurredOn = occurredOn;
             CreatedOnUtc = createdOnUtc;

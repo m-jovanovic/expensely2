@@ -6,6 +6,7 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;
@@ -49,7 +50,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         {
             var expenseListResponse = new ExpenseListResponse(new List<ExpenseResponse>
             {
-                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, "USD", DateTime.Now, DateTime.Now)
+                new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now)
             });
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), default))
                 .ReturnsAsync(expenseListResponse);

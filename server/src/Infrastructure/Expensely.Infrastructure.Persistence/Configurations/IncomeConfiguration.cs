@@ -13,8 +13,6 @@ namespace Expensely.Infrastructure.Persistence.Configurations
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<Income> builder)
         {
-            builder.ToTable(TableNames.Transactions);
-
             builder.HasKey(income => income.Id);
 
             builder.Property(income => income.Name).HasMaxLength(100).IsRequired();
@@ -25,23 +23,12 @@ namespace Expensely.Infrastructure.Persistence.Configurations
 
                 moneyBuilder.Property(money => money.Amount).HasColumnName("amount").HasColumnType("numeric(19,4)").IsRequired();
 
-                // TODO: Only persist currency code in the database and add a value converter.
-                moneyBuilder.OwnsOne(money => money.Currency, currencyBuilder =>
-                {
-                    currencyBuilder.WithOwner();
-
-                    currencyBuilder.Property(currency => currency.Name).HasColumnName("currency_name").IsRequired();
-
-                    currencyBuilder.Property(currency => currency.Code)
-                        .HasColumnName("currency_code")
-                        .HasMaxLength(3)
-                        .IsRequired();
-
-                    currencyBuilder.Property(currency => currency.Symbol)
-                        .HasColumnName("currency_symbol")
-                        .HasMaxLength(5)
-                        .IsRequired();
-                });
+                moneyBuilder.Property(money => money.Currency)
+                    .HasColumnName("currency")
+                    .HasConversion(
+                        currency => currency.Value,
+                        currencyId => Currency.FromValue(currencyId))
+                    .IsRequired();
             });
 
             builder.Property(income => income.TransactionType).IsRequired();
@@ -55,8 +42,6 @@ namespace Expensely.Infrastructure.Persistence.Configurations
             builder.Property(income => income.DeletedOnUtc).HasColumnType("timestamp").IsRequired(false);
 
             builder.Property(income => income.Deleted).HasDefaultValue(false).IsRequired();
-
-            builder.HasQueryFilter(income => !income.Deleted && income.TransactionType == TransactionType.Income);
         }
     }
 }

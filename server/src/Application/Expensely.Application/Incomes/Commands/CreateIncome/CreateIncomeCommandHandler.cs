@@ -6,6 +6,7 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Application.Incomes.Events.IncomeCreated;
 using Expensely.Domain;
+using Expensely.Domain.Core.Exceptions;
 using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Transactions;
 using MediatR;
@@ -37,9 +38,13 @@ namespace Expensely.Application.Incomes.Commands.CreateIncome
         public async Task<Result<EntityCreatedResponse>> Handle(
             CreateIncomeCommand request, CancellationToken cancellationToken)
         {
-            var currency = Currency.FromCode(request.CurrencyCode);
+            Currency currency;
 
-            if (currency is null)
+            try
+            {
+                currency = Currency.FromValue(request.CurrencyId);
+            }
+            catch (InvalidEnumerationException)
             {
                 return Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
             }

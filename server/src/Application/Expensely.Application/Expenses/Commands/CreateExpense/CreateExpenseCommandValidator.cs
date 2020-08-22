@@ -16,7 +16,7 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         {
             RuleFor(x => x.UserId).NotEmpty().WithError(Errors.Expense.UserIdIsRequired);
 
-            RuleFor(x => x.CurrencyCode).NotEmpty().WithError(Errors.Expense.CurrencyIsRequired);
+            RuleFor(x => x.CurrencyId).NotEmpty().WithError(Errors.Expense.CurrencyIdIsRequired);
 
             RuleFor(x => x.OccurredOn).NotEmpty().WithError(Errors.Expense.OccurredOnIsRequired);
         }

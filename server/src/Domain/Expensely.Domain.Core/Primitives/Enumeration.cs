@@ -9,10 +9,15 @@ namespace Expensely.Domain.Core.Primitives
     /// <summary>
     /// Represents an enumeration type.
     /// </summary>
-    public abstract class Enumeration : IEquatable<Enumeration>, IComparable
+    /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
+    public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComparable<Enumeration<TEnum>>
+        where TEnum : Enumeration<TEnum>
     {
+        private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary =
+            new Lazy<Dictionary<int, TEnum>>(() => GetAllEnumerationOptions().ToDictionary(item => item.Value));
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Enumeration"/> class.
+        /// Initializes a new instance of the <see cref="Enumeration{TEnum}"/> class.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="name">The name.</param>
@@ -23,7 +28,7 @@ namespace Expensely.Domain.Core.Primitives
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Enumeration"/> class.
+        /// Initializes a new instance of the <see cref="Enumeration{TEnum}"/> class.
         /// </summary>
         /// <remarks>
         /// Required by EF Core.
@@ -47,49 +52,22 @@ namespace Expensely.Domain.Core.Primitives
         /// <summary>
         /// Creates an enumeration of the specified type based on the specified value.
         /// </summary>
-        /// <typeparam name="T">The enumeration type.</typeparam>
         /// <param name="value">The enumeration value.</param>
         /// <returns>The enumeration instance that matches the specified value.</returns>
-        public static T FromValue<T>(int value)
-            where T : Enumeration
+        /// <exception cref="InvalidEnumerationException"> when the value can not be found.</exception>
+        public static TEnum FromValue(int value)
         {
-            T matchingItem = GetAll<T>().First(item => item.Value == value);
-
-            return matchingItem;
+            return EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ?
+                enumeration : throw new InvalidEnumerationException();
         }
 
         /// <summary>
-        /// Gets all of the enumeration values for the specified type.
+        /// Gets the enumeration values.
         /// </summary>
-        /// <typeparam name="T">The enumeration type.</typeparam>
-        /// <returns>The enumerable collection of values for the specified type.</returns>
-        /// <exception cref="InvalidEnumerationException"> when <typeparamref name="T"/> is an invalid enumeration type.</exception>
-        public static IEnumerable<T> GetAll<T>()
-            where T : Enumeration
-        {
-            Type type = typeof(T);
+        /// <returns>The read-only collection of enumeration values.</returns>
+        public static IReadOnlyCollection<TEnum> List => EnumerationsDictionary.Value.Values.ToList();
 
-            object? o = Activator.CreateInstance(type, true);
-
-            if (o is null)
-            {
-                throw new InvalidEnumerationException();
-            }
-
-            FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
-
-            foreach (FieldInfo info in fields)
-            {
-                var instance = (T)o;
-
-                if (info.GetValue(instance) is T locatedValue)
-                {
-                    yield return locatedValue;
-                }
-            }
-        }
-
-        public static bool operator ==(Enumeration a, Enumeration b)
+        public static bool operator ==(Enumeration<TEnum> a, Enumeration<TEnum> b)
         {
             if (a is null && b is null)
             {
@@ -104,10 +82,10 @@ namespace Expensely.Domain.Core.Primitives
             return a.Equals(b);
         }
 
-        public static bool operator !=(Enumeration a, Enumeration b) => !(a == b);
+        public static bool operator !=(Enumeration<TEnum> a, Enumeration<TEnum> b) => !(a == b);
 
         /// <inheritdoc />
-        public bool Equals(Enumeration? other)
+        public bool Equals(Enumeration<TEnum>? other)
         {
             if (other is null)
             {
@@ -125,7 +103,7 @@ namespace Expensely.Domain.Core.Primitives
                 return false;
             }
 
-            if (!(obj is Enumeration otherValue))
+            if (!(obj is Enumeration<TEnum> otherValue))
             {
                 return false;
             }
@@ -134,9 +112,9 @@ namespace Expensely.Domain.Core.Primitives
         }
 
         /// <inheritdoc />
-        public int CompareTo(object? other)
+        public int CompareTo(Enumeration<TEnum>? other)
         {
-            return other is null ? 1 : Value.CompareTo(((Enumeration)other).Value);
+            return other is null ? 1 : Value.CompareTo(other.Value);
         }
 
         /// <inheritdoc />
@@ -145,10 +123,41 @@ namespace Expensely.Domain.Core.Primitives
             return Value.GetHashCode();
         }
 
-        /// <inheritdoc />
-        public override string ToString()
+        /// <summary>
+        /// Gets all of the defined enumeration options.
+        /// </summary>
+        /// <returns>The enumerable collection of enumerations.</returns>
+        private static IEnumerable<TEnum> GetAllEnumerationOptions()
         {
-            return Name;
+            Type enumType = typeof(TEnum);
+
+            IEnumerable<Type> enumerationTypes = Assembly
+                .GetAssembly(enumType)
+                .GetTypes()
+                .Where(type => enumType.IsAssignableFrom(type));
+
+            var enumerations = new List<TEnum>();
+
+            foreach (Type enumerationType in enumerationTypes)
+            {
+                List<TEnum> enumerationTypeOptions = GetFieldsOfType<TEnum>(enumerationType);
+
+                enumerations.AddRange(enumerationTypeOptions);
+            }
+
+            return enumerations;
         }
+
+        /// <summary>
+        /// Gets the fields of the specified type for the specified type.
+        /// </summary>
+        /// <typeparam name="TFieldType">The field type.</typeparam>
+        /// <param name="type">The type whose fields are being retrieved.</param>
+        /// <returns>The fields of the specified type for the specified type.</returns>
+        private static List<TFieldType> GetFieldsOfType<TFieldType>(Type type) =>
+            type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                .Where(fieldInfo => type.IsAssignableFrom(fieldInfo.FieldType))
+                .Select(fieldInfo => (TFieldType)fieldInfo.GetValue(null))
+                .ToList();
     }
 }

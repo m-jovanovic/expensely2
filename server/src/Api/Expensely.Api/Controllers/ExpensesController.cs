@@ -82,7 +82,7 @@ namespace Expensely.Api.Controllers
                 _userIdentifierProvider.UserId,
                 request.Name,
                 request.Amount,
-                request.CurrencyCode,
+                request.CurrencyId,
                 request.Date);
 
             Result<EntityCreatedResponse> result = await Mediator.Send(command);
