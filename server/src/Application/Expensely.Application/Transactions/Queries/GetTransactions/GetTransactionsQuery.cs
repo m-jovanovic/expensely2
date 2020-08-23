@@ -7,7 +7,7 @@ using Expensely.Application.Core.Utilities;
 namespace Expensely.Application.Transactions.Queries.GetTransactions
 {
     /// <summary>
-    /// Represents the query for getting expenses.
+    /// Represents the query for getting transactions.
     /// </summary>
     public sealed class GetTransactionsQuery : ICacheableQuery<TransactionListResponse>
     {

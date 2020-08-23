@@ -11,6 +11,11 @@
         public static class Transactions
         {
             public const string GetTransactions = "transactions";
+
+            // TODO: Use this route when the 'primary-currency' concept is implemented.
+            public const string GetCurrentWeekBalanceForPrimaryCurrency = "transactions/balance/current-week/primary";
+
+            public const string GetCurrentWeekBalance = "transactions/balance/current-week/{currencyId:int}";
         }
 
         /// <summary>

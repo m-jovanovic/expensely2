@@ -4,6 +4,8 @@ using Expensely.Api.Infrastructure;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
+using Expensely.Application.Core.Extensions;
+using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Application.Transactions.Queries.GetTransactions;
 using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;
@@ -41,6 +43,32 @@ namespace Expensely.Api.Controllers
             }
 
             return Ok(expenseListResponse);
+        }
+
+        [HttpGet(ApiRoutes.Transactions.GetCurrentWeekBalance)]
+        [HasPermission(Permission.TransactionRead)]
+        [ProducesResponseType(typeof(BalanceResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCurrentWeekBalance(int currencyId)
+        {
+            if (currencyId <= 0)
+            {
+                return NotFound();
+            }
+
+            var query = new GetCurrentWeekBalanceQuery(
+                _userIdentifierProvider.UserId,
+                currencyId,
+                _dateTime.UtcNow.StartOfWeek());
+
+            BalanceResponse? response = await Mediator.Send(query);
+
+            if (response is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(response);
         }
     }
 }
