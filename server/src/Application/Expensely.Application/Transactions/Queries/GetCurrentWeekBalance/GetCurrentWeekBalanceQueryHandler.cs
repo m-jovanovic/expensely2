@@ -26,7 +26,7 @@ namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
         /// <inheritdoc />
         public async Task<BalanceResponse?> Handle(GetCurrentWeekBalanceQuery request, CancellationToken cancellationToken)
         {
-            if (request.UserId == Guid.Empty)
+            if (request.UserId == Guid.Empty || !Currency.ContainsValue(request.CurrencyId))
             {
                 return null;
             }

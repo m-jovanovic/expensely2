@@ -23,7 +23,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactions
         public GetTransactionsQuery(Guid userId, int limit, string? cursor, DateTime utcNow)
         {
             UserId = userId;
-            Limit = limit + 1;
+            Limit = LimitFactory.GetLimit(limit);
             _cursor = cursor ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(cursor))

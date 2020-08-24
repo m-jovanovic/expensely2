@@ -40,6 +40,12 @@ namespace Expensely.Domain.Core.Primitives
         }
 
         /// <summary>
+        /// Gets the enumeration values.
+        /// </summary>
+        /// <returns>The read-only collection of enumeration values.</returns>
+        public static IReadOnlyCollection<TEnum> List => EnumerationsDictionary.Value.Values.ToList();
+
+        /// <summary>
         /// Gets the value.
         /// </summary>
         public int Value { get; private set; }
@@ -62,10 +68,11 @@ namespace Expensely.Domain.Core.Primitives
         }
 
         /// <summary>
-        /// Gets the enumeration values.
+        /// Checks if the there is an enumeration with the specified value.
         /// </summary>
-        /// <returns>The read-only collection of enumeration values.</returns>
-        public static IReadOnlyCollection<TEnum> List => EnumerationsDictionary.Value.Values.ToList();
+        /// <param name="value">The value.</param>
+        /// <returns>True if there is an enumeration with the specified value, otherwise false.</returns>
+        public static bool ContainsValue(int value) => EnumerationsDictionary.Value.ContainsKey(value);
 
         public static bool operator ==(Enumeration<TEnum> a, Enumeration<TEnum> b)
         {

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Expensely.Api.Contracts;
 using Expensely.Api.Infrastructure;
 using Expensely.Application.Contracts.Transactions;
@@ -31,44 +32,41 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.TransactionRead)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTransactions(int limit, string? cursor)
+        public async Task<IActionResult> GetTransactions(Guid userId, int limit, string? cursor)
         {
-            var query = new GetTransactionsQuery(_userIdentifierProvider.UserId, limit, cursor, _dateTime.UtcNow);
-
-            TransactionListResponse expenseListResponse = await Mediator.Send(query);
-
-            if (expenseListResponse.Items.Count == 0)
+            if (userId != _userIdentifierProvider.UserId)
             {
                 return NotFound();
             }
 
-            return Ok(expenseListResponse);
+            var query = new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow);
+
+            TransactionListResponse transactionListResponse = await Mediator.Send(query);
+
+            return Ok(transactionListResponse);
         }
 
         [HttpGet(ApiRoutes.Transactions.GetCurrentWeekBalance)]
         [HasPermission(Permission.TransactionRead)]
         [ProducesResponseType(typeof(BalanceResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCurrentWeekBalance(int currencyId)
+        public async Task<IActionResult> GetCurrentWeekBalance(Guid userId, int currencyId)
         {
-            if (currencyId <= 0)
+            if (userId != _userIdentifierProvider.UserId)
             {
                 return NotFound();
             }
 
-            var query = new GetCurrentWeekBalanceQuery(
-                _userIdentifierProvider.UserId,
-                currencyId,
-                _dateTime.UtcNow.StartOfWeek());
+            var query = new GetCurrentWeekBalanceQuery(userId, currencyId, _dateTime.UtcNow.StartOfWeek());
 
-            BalanceResponse? response = await Mediator.Send(query);
+            BalanceResponse? balanceResponse = await Mediator.Send(query);
 
-            if (response is null)
+            if (balanceResponse is null)
             {
                 return NotFound();
             }
 
-            return Ok(response);
+            return Ok(balanceResponse);
         }
     }
 }

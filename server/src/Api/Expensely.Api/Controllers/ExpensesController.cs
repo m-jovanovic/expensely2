@@ -35,16 +35,16 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.ExpenseRead)]
         [ProducesResponseType(typeof(ExpenseListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExpenses(int limit, string? cursor)
+        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string? cursor)
         {
-            var query = new GetExpensesQuery(_userIdentifierProvider.UserId, limit, cursor, _dateTime.UtcNow);
-
-            ExpenseListResponse expenseListResponse = await Mediator.Send(query);
-
-            if (expenseListResponse.Items.Count == 0)
+            if (userId != _userIdentifierProvider.UserId)
             {
                 return NotFound();
             }
+
+            var query = new GetExpensesQuery(userId, limit, cursor, _dateTime.UtcNow);
+
+            ExpenseListResponse expenseListResponse = await Mediator.Send(query);
 
             return Ok(expenseListResponse);
         }

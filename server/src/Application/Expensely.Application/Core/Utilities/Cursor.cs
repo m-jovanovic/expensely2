@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Expensely.Application.Core.Utilities
 {
+    /// <summary>
+    /// Contains utility methods for working with cursors.
+    /// </summary>
     public static class Cursor
     {
         /// <summary>
