@@ -1,5 +1,6 @@
 ﻿using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Domain;
+using FluentAssertions;
 using FluentValidation.TestHelper;
 using Xunit;
 using static Expensely.Tests.Common.Entities.UserData;
@@ -116,11 +117,7 @@ namespace Expensely.Application.UnitTests.Authentication.Validators
 
             TestValidationResult<RegisterCommand> result = validator.TestValidate(command);
 
-            result.ShouldNotHaveValidationErrorFor(x => x.FirstName);
-            result.ShouldNotHaveValidationErrorFor(x => x.LastName);
-            result.ShouldNotHaveValidationErrorFor(x => x.Email);
-            result.ShouldNotHaveValidationErrorFor(x => x.Password);
-            result.ShouldNotHaveValidationErrorFor(x => x.ConfirmPassword);
+            result.IsValid.Should().BeTrue();
         }
     }
 }

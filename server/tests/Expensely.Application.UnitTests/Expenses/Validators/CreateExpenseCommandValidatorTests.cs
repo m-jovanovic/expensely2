@@ -2,6 +2,7 @@
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Domain;
 using Expensely.Tests.Common;
+using FluentAssertions;
 using FluentValidation.TestHelper;
 using Xunit;
 using static Expensely.Tests.Common.Entities.TransactionData;
@@ -46,10 +47,8 @@ namespace Expensely.Application.UnitTests.Expenses.Validators
             var command = new CreateExpenseCommand(Guid.NewGuid(), Name, MinusOneAmount, Currency.Value, Date);
 
             TestValidationResult<CreateExpenseCommand> result = validator.TestValidate(command);
-
-            result.ShouldNotHaveValidationErrorFor(x => x.UserId);
-            result.ShouldNotHaveValidationErrorFor(x => x.CurrencyId);
-            result.ShouldNotHaveValidationErrorFor(x => x.OccurredOn);
+            
+            result.IsValid.Should().BeTrue();
         }
     }
 }

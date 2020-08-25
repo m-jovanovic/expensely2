@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Users.Attributes
+namespace Expensely.Domain.Authorization.Attributes
 {
     /// <summary>
     /// Represents the linked to module attribute.

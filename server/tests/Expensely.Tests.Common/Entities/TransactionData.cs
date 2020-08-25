@@ -22,7 +22,7 @@ namespace Expensely.Tests.Common.Entities
         public static Expense CreateExpense(Guid? userId = null, DateTime? date = null)
             => new Expense(Guid.NewGuid(), userId ?? Guid.NewGuid(), Name, MinusOne, date ?? Time.Now());
 
-        public static Income CreateIncome()
-            => new Income(Guid.NewGuid(), Guid.NewGuid(), Name, PlusOne, Time.Now());
+        public static Income CreateIncome(Guid? userId = null)
+            => new Income(Guid.NewGuid(), userId ?? Guid.NewGuid(), Name, PlusOne, Time.Now());
     }
 }

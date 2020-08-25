@@ -7,8 +7,8 @@ using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Incomes.Commands.CreateIncome;
 using Expensely.Application.Incomes.Queries.GetExpenseById;
+using Expensely.Domain.Authorization;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,14 +34,14 @@ namespace Expensely.Api.Controllers
         {
             var query = new GetIncomeByIdQuery(id, _userIdentifierProvider.UserId);
 
-            IncomeResponse? expenseDto = await Mediator.Send(query);
+            IncomeResponse? incomeResponse = await Mediator.Send(query);
 
-            if (expenseDto is null)
+            if (incomeResponse is null)
             {
                 return NotFound();
             }
 
-            return Ok(expenseDto);
+            return Ok(incomeResponse);
         }
 
         [HttpPost(ApiRoutes.Incomes.CreateIncome)]

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Expensely.Domain.Users.Attributes;
+using Expensely.Domain.Authorization.Attributes;
 
-namespace Expensely.Domain.Users
+namespace Expensely.Domain.Authorization
 {
     /// <summary>
     /// Represents the application permissions.

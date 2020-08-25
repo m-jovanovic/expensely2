@@ -1,7 +1,6 @@
 ﻿using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Core.Validation;
 
-namespace Expensely.Domain.Validators.Common
+namespace Expensely.Domain.Core.Validation.Common
 {
     /// <summary>
     /// Validates that the string being validated is not null or empty.

@@ -8,7 +8,7 @@ using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Core.Extensions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Application.Transactions.Queries.GetTransactions;
-using Expensely.Domain.Users;
+using Expensely.Domain.Authorization;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;

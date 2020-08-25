@@ -24,6 +24,19 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         }
 
         [Fact]
+        public void Should_construct_properly_without_cursor()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+
+            var query = new GetExpensesQuery(UserId, Limit, null, utcNow);
+
+            query.UserId.Should().Be(UserId);
+            query.Limit.Should().Be(Limit + 1);
+            query.OccurredOn.Should().Be(utcNow.Date);
+            query.CreatedOnUtc.Should().Be(utcNow);
+        }
+
+        [Fact]
         public void Should_construct_properly_with_cursor()
         {
             DateTime utcNow = DateTime.UtcNow;
@@ -36,6 +49,15 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             query.OccurredOn.Should().Be(date);
             query.CreatedOnUtc.Should().Be(utcNow);
+        }
+
+        [Fact]
+        public void ShouldSetProperLimitIfLimitIsOutOfBounds()
+        {
+            const int limit = LimitFactory.MaxLimit * 2;
+            var query = new GetExpensesQuery(UserId, limit, null, DateTime.UtcNow);
+
+            query.Limit.Should().Be(LimitFactory.MaxLimit + 1);
         }
 
         [Fact]
@@ -71,8 +93,6 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
 
             ExpenseListResponse result = await queryHandler.Handle(query, default);
 
-            result.Should().NotBeNull();
-            result.Items.Should().NotBeNull();
             result.Items.Should().BeEmpty();
         }
         

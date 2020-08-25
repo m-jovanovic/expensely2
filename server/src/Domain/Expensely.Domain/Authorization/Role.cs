@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Expensely.Domain.Core.Exceptions;
 
-namespace Expensely.Domain.Users
+namespace Expensely.Domain.Authorization
 {
     /// <summary>
     /// Represents the role entity.

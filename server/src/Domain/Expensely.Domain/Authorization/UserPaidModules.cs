@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace Expensely.Domain.Users
+namespace Expensely.Domain.Authorization
 {
     /// <summary>
     /// Represents the User-to-PaidModules mapping.
     /// </summary>
-    public sealed class UserToPaidModulesMapping
+    public sealed class UserPaidModules
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserToPaidModulesMapping"/> class.
+        /// Initializes a new instance of the <see cref="UserPaidModules"/> class.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="paidModules">The paid modules.</param>
-        public UserToPaidModulesMapping(Guid userId, PaidModules paidModules)
+        public UserPaidModules(Guid userId, PaidModules paidModules)
             : this()
         {
             UserId = userId;
@@ -20,12 +20,12 @@ namespace Expensely.Domain.Users
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserToPaidModulesMapping"/> class.
+        /// Initializes a new instance of the <see cref="UserPaidModules"/> class.
         /// </summary>
         /// <remarks>
         /// Required by EF Core.
         /// </remarks>
-        private UserToPaidModulesMapping()
+        private UserPaidModules()
         {
         }
 

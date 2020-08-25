@@ -63,7 +63,7 @@ namespace Expensely.Application.IntegrationTests.Authentication.Commands
         }
 
         [Fact]
-        public void Should_throw_validation_exception_if_password_and_confirm_password_dont_match()
+        public void Should_throw_validation_exception_if_password_and_confirm_password_do_not_match()
         {
             var command = CreateCommandWithPasswordAndConfirmPasswordNotMatching();
 

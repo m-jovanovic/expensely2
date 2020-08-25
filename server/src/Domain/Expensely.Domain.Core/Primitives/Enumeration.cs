@@ -61,11 +61,9 @@ namespace Expensely.Domain.Core.Primitives
         /// <param name="value">The enumeration value.</param>
         /// <returns>The enumeration instance that matches the specified value.</returns>
         /// <exception cref="InvalidEnumerationException"> when the value can not be found.</exception>
-        public static TEnum FromValue(int value)
-        {
-            return EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ?
+        public static TEnum FromValue(int value) =>
+            EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ?
                 enumeration : throw new InvalidEnumerationException();
-        }
 
         /// <summary>
         /// Checks if the there is an enumeration with the specified value.

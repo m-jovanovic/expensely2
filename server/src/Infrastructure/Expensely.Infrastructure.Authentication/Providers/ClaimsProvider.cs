@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Expensely.Application.Core.Abstractions.Data;
+using Expensely.Domain.Authorization;
 using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Abstractions;
 using Expensely.Infrastructure.Authentication.Constants;

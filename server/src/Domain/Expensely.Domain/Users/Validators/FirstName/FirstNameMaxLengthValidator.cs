@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Validators.Common;
+﻿using Expensely.Domain.Core.Validation.Common;
 
 namespace Expensely.Domain.Users.Validators.FirstName
 {

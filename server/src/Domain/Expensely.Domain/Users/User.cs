@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Core.Abstractions;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Users.Abstractions;
+using Expensely.Domain.Users.Services;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Users

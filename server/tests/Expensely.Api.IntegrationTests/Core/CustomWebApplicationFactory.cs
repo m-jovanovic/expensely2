@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using Expensely.Domain.Authorization;
 using Expensely.Domain.Users;
 using Expensely.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication;

@@ -10,8 +10,8 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain.Authorization;
 using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Users;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -57,14 +57,14 @@ namespace Expensely.Api.Controllers
         {
             var query = new GetExpenseByIdQuery(id, _userIdentifierProvider.UserId);
 
-            ExpenseResponse? expenseDto = await Mediator.Send(query);
+            ExpenseResponse? expenseResponse = await Mediator.Send(query);
 
-            if (expenseDto is null)
+            if (expenseResponse is null)
             {
                 return NotFound();
             }
 
-            return Ok(expenseDto);
+            return Ok(expenseResponse);
         }
 
         [HttpPost(ApiRoutes.Expenses.CreateExpense)]

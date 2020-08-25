@@ -1,6 +1,6 @@
 ﻿using System;
 using Expensely.Domain.Users;
-using Expensely.Domain.Users.Abstractions;
+using Expensely.Domain.Users.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;

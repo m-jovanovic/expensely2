@@ -29,33 +29,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Delete_expense_should_return_not_found_if_command_returns_failure_result()
-        {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
-                .ReturnsAsync(Result.Fail(Errors.General.EntityNotFound));
-            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
-
-            IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
-
-            result.Should().NotBeNull();
-            result.Should().BeOfType<NotFoundResult>();
-        }
-
-        [Fact]
-        public async Task Delete_expense_should_return_no_content_if_command_returns_success_result()
-        {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
-                .ReturnsAsync(Result.Ok);
-            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
-
-            IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
-
-            result.Should().NotBeNull();
-            result.Should().BeOfType<NoContentResult>();
-        }
-
-        [Fact]
-        public async Task Delete_expense_should_send_valid_command()
+        public async Task Should_send_valid_command()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
                 .ReturnsAsync(Result.Ok);
@@ -65,6 +39,30 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             await controller.DeleteExpense(expenseId);
 
             _mediatorMock.Verify(x => x.Send(It.Is<DeleteExpenseCommand>(c => c.ExpenseId == expenseId), default), Times.Once);
+        }
+
+        [Fact]
+        public async Task Should_return_not_found_if_command_returns_failure_result()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
+                .ReturnsAsync(Result.Fail(Errors.General.EntityNotFound));
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
+
+            IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
+
+            result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task Should_return_no_content_if_command_returns_success_result()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
+                .ReturnsAsync(Result.Ok);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
+
+            IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
+
+            result.Should().BeOfType<NoContentResult>();
         }
     }
 }

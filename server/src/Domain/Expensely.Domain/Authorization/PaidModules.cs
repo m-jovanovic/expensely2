@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Users
+namespace Expensely.Domain.Authorization
 {
     /// <summary>
     /// Represents the paid modules in the application.

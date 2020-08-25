@@ -31,35 +31,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Get_expense_by_id_should_return_not_found_if_query_returns_null()
-        {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
-                .ReturnsAsync((ExpenseResponse?)null);
-            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
-
-            IActionResult result = await controller.GetExpenseById(Guid.NewGuid());
-
-            result.Should().NotBeNull();
-            result.Should().BeOfType<NotFoundResult>();
-        }
-
-        [Fact]
-        public async Task Get_expense_by_id_should_return_ok_if_query_returns_expense_response()
-        {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
-                .ReturnsAsync(new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now));
-            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
-
-            IActionResult result = await controller.GetExpenseById(Guid.NewGuid());
-
-            OkObjectResult okObjectResult = result.As<OkObjectResult>();
-            okObjectResult.Should().NotBeNull();
-            ExpenseResponse? value = okObjectResult.Value.As<ExpenseResponse?>();
-            value.Should().NotBeNull();
-        }
-
-        [Fact]
-        public async Task Get_expense_by_id_should_send_valid_query()
+        public async Task Should_send_valid_query()
         {
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
             var expenseId = Guid.NewGuid();
@@ -69,6 +41,34 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             _mediatorMock.Verify(
                 x => x.Send(It.Is<GetExpenseByIdQuery>(q => q.ExpenseId == expenseId && q.UserId == UserId), default),
                 Times.Once);
+        }
+
+        [Fact]
+        public async Task Should_return_not_found_if_query_returns_null()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
+                .ReturnsAsync((ExpenseResponse?)null);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
+
+            var result = await controller.GetExpenseById(Guid.NewGuid());
+
+            result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task Should_return_ok_if_query_returns_expense_response()
+        {
+            var response = new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now);
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
+                .ReturnsAsync(response);
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
+
+            var result = await controller.GetExpenseById(Guid.NewGuid());
+
+            OkObjectResult okObjectResult = result.As<OkObjectResult>();
+            okObjectResult.Should().NotBeNull();
+            ExpenseResponse? value = okObjectResult.Value.As<ExpenseResponse?>();
+            value.Should().NotBeNull();
         }
     }
 }

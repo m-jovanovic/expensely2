@@ -1,4 +1,4 @@
-﻿namespace Expensely.Domain.Users.Abstractions
+﻿namespace Expensely.Domain.Users.Services
 {
     /// <summary>
     /// Represents the password hash checker interfaces.

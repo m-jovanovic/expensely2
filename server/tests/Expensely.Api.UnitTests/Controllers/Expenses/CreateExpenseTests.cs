@@ -35,7 +35,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Create_expense_should_return_bad_request_if_request_is_null()
+        public async Task Should_return_bad_request_if_request_is_null()
         {
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
@@ -49,7 +49,29 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Create_expense_should_return_bad_request_if_command_returns_failure_result()
+        public async Task Should_send_valid_command()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
+                .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
+            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
+            CreateExpenseRequest request = CreateRequest();
+
+            await controller.CreateExpense(request);
+
+            _mediatorMock.Verify(
+                x => x.Send(
+                    It.Is<CreateExpenseCommand>(c =>
+                        c.UserId == UserId &&
+                        c.Name == request.Name &&
+                        c.Amount == request.Amount &&
+                        c.CurrencyId == request.CurrencyId &&
+                        c.OccurredOn == request.Date),
+                    default),
+                Times.Once);
+        }
+
+        [Fact]
+        public async Task Should_return_bad_request_if_command_returns_failure_result()
         {
             var failureResult = Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default)).ReturnsAsync(failureResult);
@@ -65,7 +87,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Create_expense_should_return_created_at_action_if_command_returns_success_result()
+        public async Task Should_return_created_at_action_if_command_returns_success_result()
         {
             var entityCreatedResponse = new EntityCreatedResponse(Guid.NewGuid());
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
@@ -80,28 +102,6 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
             createdAtActionResult.ActionName.Should().Be(nameof(ExpensesController.GetExpenseById));
             createdAtActionResult.RouteValues.Keys.Should().Contain("id");
             createdAtActionResult.RouteValues.Values.Should().Contain(entityCreatedResponse.Id);
-        }
-
-        [Fact]
-        public async Task Create_expense_should_send_valid_command()
-        {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateExpenseCommand>(), default))
-                .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
-            var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
-            CreateExpenseRequest createExpenseRequest = CreateRequest();
-
-            await controller.CreateExpense(createExpenseRequest);
-
-            _mediatorMock.Verify(
-                x => x.Send(
-                    It.Is<CreateExpenseCommand>(c =>
-                        c.UserId == UserId &&
-                        c.Name == createExpenseRequest.Name &&
-                        c.Amount == createExpenseRequest.Amount &&
-                        c.CurrencyId == createExpenseRequest.CurrencyId &&
-                        c.OccurredOn == createExpenseRequest.Date),
-                    default),
-                Times.Once);
         }
 
         private static CreateExpenseRequest CreateRequest()
