@@ -1,6 +1,4 @@
-﻿using Expensely.Domain.Core.Primitives;
-
-namespace Expensely.Domain.Core.Validation.Common
+﻿namespace Expensely.Domain.Core.Validation.Common
 {
     /// <summary>
     /// Validates that the string being validated is not longer than allowed.

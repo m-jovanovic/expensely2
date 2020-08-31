@@ -5,7 +5,7 @@ using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;

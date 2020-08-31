@@ -10,9 +10,9 @@ namespace Expensely.Application.Contracts.Transactions
         /// <summary>
         /// Initializes a new instance of the <see cref="BalanceResponse"/> class.
         /// </summary>
-        /// <param name="amount">The amount.</param>
         /// <param name="currencyId">The currency identifier.</param>
-        public BalanceResponse(decimal amount, int currencyId)
+        /// <param name="amount">The amount.</param>
+        public BalanceResponse(int currencyId, decimal amount)
         {
             Amount = amount;
             Currency currency = Currency.FromValue(currencyId);

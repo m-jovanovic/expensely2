@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Expensely.Domain.Core.Primitives
+namespace Expensely.Domain.Core
 {
     /// <summary>
     /// Represents a result of some operation, with status information and possibly an error.
@@ -50,14 +50,31 @@ namespace Expensely.Domain.Core.Primitives
         public static Result Success() => new Result(true, Error.None);
 
         /// <summary>
-        /// Returns a success <see cref="Result"/> with the specified value.
+        /// Returns a success <see cref="Result{TValue}"/> with the specified value.
         /// </summary>
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="value">The result value.</param>
-        /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
-        public static Result<TValue> Success<TValue>(TValue value)
+        /// <returns>A new instance of <see cref="Result{TValue}"/> with the success flag set.</returns>
+        public static Result<TValue> Success<TValue>(TValue value) => new Result<TValue>(value, true, Error.None);
+
+        /// <summary>
+        /// Creates a new <see cref="Result{TValue}"/> with the specified value.
+        /// </summary>
+        /// <typeparam name="TValue">The result type.</typeparam>
+        /// <param name="value">The result value.</param>
+        /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified value.</returns>
+        public static Result<TValue> Create<TValue>(TValue value) => Success(value);
+
+        /// <summary>
+        /// Creates a new <see cref="Result{TValue}"/> with the specified nullable value and the specified error.
+        /// </summary>
+        /// <typeparam name="TValue">The result type.</typeparam>
+        /// <param name="value">The result value.</param>
+        /// <param name="error">The error in case the value is null.</param>
+        /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified value or an error.</returns>
+        public static Result<TValue> Create<TValue>(TValue? value, Error error)
             where TValue : class
-            => new Result<TValue>(value, true, Error.None);
+            => value ?? Failure<TValue>(error);
 
         /// <summary>
         /// Returns a failure <see cref="Result"/> with the specified error.
@@ -67,14 +84,37 @@ namespace Expensely.Domain.Core.Primitives
         public static Result Failure(Error error) => new Result(false, error);
 
         /// <summary>
-        /// Returns a failure <see cref="Result{T}"/> with the specified error.
+        /// Returns a failure <see cref="Result{TValue}"/> with the specified error.
         /// </summary>
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="error">The error.</param>
-        /// <returns>A new instance of <see cref="Result{T}"/> with the specified error and failure flag set.</returns>
-        public static Result<TValue> Failure<TValue>(Error error)
-            where TValue : class
-            => new Result<TValue>(null, false, error);
+        /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified error and failure flag set.</returns>
+        /// <remarks>
+        /// We're purposefully ignoring the nullable assignment here because the API will never allow it to be accessed.
+        /// The value is accessed through a method that will throw an exception if the result is a failure result.
+        /// </remarks>
+        public static Result<TValue> Failure<TValue>(Error error) => new Result<TValue>(default!, false, error);
+
+        /// <summary>
+        /// Returns the first failure from the specified <paramref name="results"/>.
+        /// If there is no failure, a success is returned.
+        /// </summary>
+        /// <param name="results">The results array.</param>
+        /// <returns>
+        /// The first failure from the specified <paramref name="results"/> array,or a success it does not exist.
+        /// </returns>
+        public static Result FirstFailureOrSuccess(params Result[] results)
+        {
+            foreach (Result result in results)
+            {
+                if (result.IsFailure)
+                {
+                    return result;
+                }
+            }
+
+            return Success();
+        }
     }
 
     /// <summary>
@@ -82,9 +122,8 @@ namespace Expensely.Domain.Core.Primitives
     /// </summary>
     /// <typeparam name="TValue">The result value type.</typeparam>
     public class Result<TValue> : Result
-        where TValue : class
     {
-        private readonly TValue? _value;
+        private readonly TValue _value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Result{TValueType}"/> class with the specified parameters.
@@ -92,7 +131,7 @@ namespace Expensely.Domain.Core.Primitives
         /// <param name="value">The result value.</param>
         /// <param name="isSuccess">The flag indicating if the result is successful.</param>
         /// <param name="error">The error.</param>
-        protected internal Result(TValue? value, bool isSuccess, Error error)
+        protected internal Result(TValue value, bool isSuccess, Error error)
             : base(isSuccess, error)
             => _value = value;
 
@@ -108,7 +147,9 @@ namespace Expensely.Domain.Core.Primitives
                 throw new InvalidOperationException();
             }
 
-            return _value!;
+            return _value;
         }
+
+        public static implicit operator Result<TValue>(TValue value) => Success(value);
     }
 }

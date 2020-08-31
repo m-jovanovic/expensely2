@@ -4,6 +4,7 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
+using Expensely.Domain.Core;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -23,25 +24,25 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
         }
         
         [Fact]
-        public async Task Should_return_null_given_empty_expense_id()
+        public async Task Should_return_failure_result_given_empty_expense_id()
         {
             var queryHandler = new GetExpenseByIdQueryHandler(new Mock<IDbContext>().Object);
             var query = new GetExpenseByIdQuery(Guid.Empty, Guid.NewGuid());
 
-            ExpenseResponse? result = await queryHandler.Handle(query, default);
+            Result<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().BeNull();
+            result.IsFailure.Should().BeTrue();
         }
 
         [Fact]
-        public async Task Should_return_null_given_empty_user_id()
+        public async Task Should_return_failure_result_given_empty_user_id()
         {
             var queryHandler = new GetExpenseByIdQueryHandler(new Mock<IDbContext>().Object);
             var query = new GetExpenseByIdQuery(Guid.NewGuid(), Guid.Empty);
 
-            ExpenseResponse? result = await queryHandler.Handle(query, default);
+            Result<ExpenseResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().BeNull();
+            result.IsFailure.Should().BeTrue();
         }
     }
 }

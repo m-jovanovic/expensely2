@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Users;
 
 namespace Expensely.Application.Core.Abstractions.Authentication

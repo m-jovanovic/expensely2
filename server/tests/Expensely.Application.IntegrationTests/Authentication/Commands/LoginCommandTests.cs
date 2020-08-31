@@ -3,7 +3,7 @@ using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Tests.Common.Commands.Authentication;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;

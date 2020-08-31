@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Users;
 using FluentAssertions;
 using Xunit;

@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Core.Primitives;
+﻿using Expensely.Domain.Core;
 using Expensely.Domain.Users.Validators.Email;
 using FluentAssertions;
 using Xunit;

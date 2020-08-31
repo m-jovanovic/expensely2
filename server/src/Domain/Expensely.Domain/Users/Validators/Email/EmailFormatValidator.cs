@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Core.Validation;
 
 namespace Expensely.Domain.Users.Validators.Email

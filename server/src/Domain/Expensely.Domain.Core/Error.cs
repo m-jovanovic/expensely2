@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Expensely.Domain.Core.Primitives
+namespace Expensely.Domain.Core
 {
     /// <summary>
     /// Represents a concrete domain error.

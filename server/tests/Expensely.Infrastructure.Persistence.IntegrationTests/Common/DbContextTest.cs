@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Expensely.Application.Core.Abstractions.Data;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 
 namespace Expensely.Infrastructure.Persistence.IntegrationTests.Common
 {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;
@@ -17,11 +18,12 @@ namespace Expensely.Application.IntegrationTests.Transactions.Queries
         {
             var query = new GetCurrentWeekBalanceQuery(UserId, TransactionData.Currency.Value, DateTime.UtcNow);
 
-            BalanceResponse? result = await SendAsync(query);
+            Result<BalanceResponse> result = await SendAsync(query);
 
-            result.Should().NotBeNull();
-            result.Amount.Should().Be(decimal.Zero);
-            result.Balance.Should().Be(TransactionData.Currency.Format(decimal.Zero));
+            var response = result.Value();
+            response.Should().NotBeNull();
+            response.Amount.Should().Be(decimal.Zero);
+            response.Balance.Should().Be(TransactionData.Currency.Format(decimal.Zero));
         }
 
         [Fact]
@@ -33,12 +35,13 @@ namespace Expensely.Application.IntegrationTests.Transactions.Queries
             await AddAsync(income);
             var query = new GetCurrentWeekBalanceQuery(UserId, TransactionData.Currency.Value, DateTime.UtcNow);
 
-            BalanceResponse? result = await SendAsync(query);
+            Result<BalanceResponse> result = await SendAsync(query);
 
-            result.Should().NotBeNull();
+            var response = result.Value();
+            response.Should().NotBeNull();
             Money sum = expense.Money + income.Money;
-            result.Amount.Should().Be(sum.Amount);
-            result.Balance .Should().Be(TransactionData.Currency.Format(sum.Amount));
+            response.Amount.Should().Be(sum.Amount);
+            response.Balance .Should().Be(TransactionData.Currency.Format(sum.Amount));
         }
     }
 }

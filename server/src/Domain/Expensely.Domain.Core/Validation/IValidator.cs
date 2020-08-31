@@ -1,6 +1,4 @@
-﻿using Expensely.Domain.Core.Primitives;
-
-namespace Expensely.Domain.Core.Validation
+﻿namespace Expensely.Domain.Core.Validation
 {
     /// <summary>
     /// Represents the validator interface.

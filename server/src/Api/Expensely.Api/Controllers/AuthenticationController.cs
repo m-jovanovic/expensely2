@@ -4,7 +4,9 @@ using Expensely.Api.Infrastructure;
 using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,50 +25,24 @@ namespace Expensely.Api.Controllers
         [HttpPost(ApiRoutes.Authentication.Register)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest? request)
-        {
-            if (request is null)
-            {
-                return BadRequest();
-            }
-
-            var registerCommand = new RegisterCommand(
-                request.FirstName,
-                request.LastName,
-                request.Email,
-                request.Password,
-                request.ConfirmPassword);
-
-            Result result = await Mediator.Send(registerCommand);
-
-            if (result.IsFailure)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok();
-        }
+        public async Task<IActionResult> Register([FromBody] RegisterRequest? request) =>
+            await Result.Create(request, Errors.General.BadRequest)
+                .Map(value => new RegisterCommand(
+                    value.FirstName,
+                    value.LastName,
+                    value.Email,
+                    value.Password,
+                    value.ConfirmPassword))
+                .Bind(command => Mediator.Send(command))
+                .Match(Ok, e => BadRequest(e));
 
         [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromBody] LoginRequest? request)
-        {
-            if (request is null)
-            {
-                return BadRequest();
-            }
-
-            var loginCommand = new LoginCommand(request.Email, request.Password);
-
-            Result<TokenResponse> result = await Mediator.Send(loginCommand);
-
-            if (result.IsFailure)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result.Value());
-        }
+        public async Task<IActionResult> Login([FromBody] LoginRequest? request) =>
+            await Result.Create(request, Errors.General.BadRequest)
+                .Map(value => new LoginCommand(value.Email, value.Password))
+                .Bind(command => Mediator.Send(command))
+                .Match(Ok, e => BadRequest(e));
     }
 }

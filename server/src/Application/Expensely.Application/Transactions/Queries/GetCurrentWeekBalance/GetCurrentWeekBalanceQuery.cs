@@ -1,13 +1,14 @@
 ﻿using System;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Domain.Core;
 
 namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
 {
     /// <summary>
     /// Represents the query for getting the current week balance.
     /// </summary>
-    public sealed class GetCurrentWeekBalanceQuery : IQuery<BalanceResponse?>
+    public sealed class GetCurrentWeekBalanceQuery : IQuery<Result<BalanceResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetCurrentWeekBalanceQuery"/> class.

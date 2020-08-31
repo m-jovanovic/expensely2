@@ -5,6 +5,7 @@ using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Application.Transactions.Queries.GetTransactions;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Moq;
@@ -84,14 +85,14 @@ namespace Expensely.Application.UnitTests.Transactions.Queries
         }
 
         [Fact]
-        public async Task Should_return_empty_response_if_user_id_is_empty()
+        public async Task Should_return_empty_collection_if_user_id_is_empty()
         {
             var queryHandler = new GetTransactionsQueryHandler(_dbExecutorMock.Object);
             var query = new GetTransactionsQuery(Guid.Empty, Limit, null, DateTime.UtcNow);
 
-            TransactionListResponse result = await queryHandler.Handle(query, default);
+            Result<TransactionListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Items.Should().BeEmpty();
+            result.Value().Items.Should().BeEmpty();
         }
         
         [Fact]
@@ -107,10 +108,10 @@ namespace Expensely.Application.UnitTests.Transactions.Queries
             var queryHandler = new GetTransactionsQueryHandler(_dbExecutorMock.Object);
             var query = new GetTransactionsQuery(Guid.NewGuid(), Limit, null, DateTime.UtcNow);
 
-            TransactionListResponse result = await queryHandler.Handle(query, default);
+            Result<TransactionListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Cursor.Should().BeEmpty();
-            result.Items.Should().HaveCount(Limit);
+            result.Value().Cursor.Should().BeEmpty();
+            result.Value().Items.Should().HaveCount(Limit);
         }
 
         [Fact]
@@ -127,10 +128,10 @@ namespace Expensely.Application.UnitTests.Transactions.Queries
             var queryHandler = new GetTransactionsQueryHandler(_dbExecutorMock.Object);
             var query = new GetTransactionsQuery(Guid.NewGuid(), Limit, null, DateTime.UtcNow);
 
-            TransactionListResponse result = await queryHandler.Handle(query, default);
+            Result<TransactionListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Cursor.Should().NotBeEmpty();
-            result.Items.Should().HaveCount(Limit);
+            result.Value().Cursor.Should().NotBeEmpty();
+            result.Value().Items.Should().HaveCount(Limit);
         }
 
         private static TransactionResponse CreateTransactionResponse() =>

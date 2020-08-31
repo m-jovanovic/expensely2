@@ -7,8 +7,10 @@ using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Incomes.Commands.CreateIncome;
 using Expensely.Application.Incomes.Queries.GetExpenseById;
+using Expensely.Domain;
 using Expensely.Domain.Authorization;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -30,48 +32,26 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.IncomeRead)]
         [ProducesResponseType(typeof(IncomeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetIncomeById(Guid id)
-        {
-            var query = new GetIncomeByIdQuery(id, _userIdentifierProvider.UserId);
-
-            IncomeResponse? incomeResponse = await Mediator.Send(query);
-
-            if (incomeResponse is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(incomeResponse);
-        }
+        public async Task<IActionResult> GetIncomeById(Guid id) =>
+            await Result.Create(new GetIncomeByIdQuery(id, _userIdentifierProvider.UserId))
+                .Bind(query => Mediator.Send(query))
+                .Match(Ok, NotFound);
 
         [HttpPost(ApiRoutes.Incomes.CreateIncome)]
         [HasPermission(Permission.IncomeCreate)]
         [ProducesResponseType(typeof(EntityCreatedResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateIncome([FromBody] CreateIncomeRequest? request)
-        {
-            if (request is null)
-            {
-                return BadRequest();
-            }
-
-            var command = new CreateIncomeCommand(
-                _userIdentifierProvider.UserId,
-                request.Name,
-                request.Amount,
-                request.CurrencyId,
-                request.Date);
-
-            Result<EntityCreatedResponse> result = await Mediator.Send(command);
-
-            if (result.IsFailure)
-            {
-                return BadRequest(result);
-            }
-
-            EntityCreatedResponse entityCreatedResponse = result.Value();
-
-            return CreatedAtAction(nameof(GetIncomeById), new { id = entityCreatedResponse.Id }, entityCreatedResponse);
-        }
+        public async Task<IActionResult> CreateIncome([FromBody] CreateIncomeRequest? request) =>
+            await Result.Create(request, Errors.General.BadRequest)
+                .Map(value => new CreateIncomeCommand(
+                    _userIdentifierProvider.UserId,
+                    value.Name,
+                    value.Amount,
+                    value.CurrencyId,
+                    value.Date))
+                .Bind(command => Mediator.Send(command))
+                .Match(
+                    entityCreated => CreatedAtAction(nameof(GetIncomeById), new { id = entityCreated.Id }, entityCreated),
+                    BadRequest);
     }
 }

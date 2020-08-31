@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Expensely.Domain.Core;
 using FluentAssertions;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace Expensely.Domain.UnitTests
             List<PropertyInfo> properties = typeof(Errors)
                 .GetNestedTypes(BindingFlags.Public | BindingFlags.Static)
                 .SelectMany(x => x.GetProperties(BindingFlags.Public | BindingFlags.Static))
-                .Where(x => x.PropertyType == typeof(Core.Primitives.Error))
+                .Where(x => x.PropertyType == typeof(Error))
                 .ToList();
 
             int numberOfUniqueCodes = properties.Select(GetErrorCode)
@@ -51,7 +52,7 @@ namespace Expensely.Domain.UnitTests
                 })
                 .ToArray();
 
-            var error = (Core.Primitives.Error)propertyGetMethod.Invoke(null, parameters)!;
+            var error = (Error)propertyGetMethod.Invoke(null, parameters)!;
 
             return error!.Code;
         }

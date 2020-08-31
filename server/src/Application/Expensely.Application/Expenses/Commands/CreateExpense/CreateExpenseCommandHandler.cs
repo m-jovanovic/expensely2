@@ -6,8 +6,8 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
+using Expensely.Domain.Core;
 using Expensely.Domain.Core.Exceptions;
-using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Transactions;
 using MediatR;
 

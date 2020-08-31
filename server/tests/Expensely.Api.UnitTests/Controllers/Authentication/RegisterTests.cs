@@ -4,7 +4,7 @@ using Expensely.Api.Controllers;
 using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

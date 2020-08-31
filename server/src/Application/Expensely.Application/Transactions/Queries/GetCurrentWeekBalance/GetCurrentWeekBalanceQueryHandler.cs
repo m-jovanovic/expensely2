@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Abstractions.Messaging;
+using Expensely.Domain;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using Expensely.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +16,7 @@ namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
     /// <summary>
     /// Represents the <see cref="GetCurrentWeekBalanceQuery"/> handler.
     /// </summary>
-    internal sealed class GetCurrentWeekBalanceQueryHandler : IQueryHandler<GetCurrentWeekBalanceQuery, BalanceResponse?>
+    internal sealed class GetCurrentWeekBalanceQueryHandler : IQueryHandler<GetCurrentWeekBalanceQuery, Result<BalanceResponse>>
     {
         private readonly IDbContext _dbContext;
 
@@ -24,22 +27,21 @@ namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
         public GetCurrentWeekBalanceQueryHandler(IDbContext dbContext) => _dbContext = dbContext;
 
         /// <inheritdoc />
-        public async Task<BalanceResponse?> Handle(GetCurrentWeekBalanceQuery request, CancellationToken cancellationToken)
-        {
-            if (request.UserId == Guid.Empty || !Currency.ContainsValue(request.CurrencyId))
-            {
-                return null;
-            }
-
-            decimal amount = await _dbContext.Set<Transaction>().AsNoTracking()
-                .Where(t => t.UserId == request.UserId &&
-                            t.Money.Currency.Value == request.CurrencyId &&
+        public async Task<Result<BalanceResponse>> Handle(
+            GetCurrentWeekBalanceQuery request, CancellationToken cancellationToken) =>
+            await Result.Create(request)
+                .Ensure(
+                    query => query.UserId != Guid.Empty && Currency.ContainsValue(query.CurrencyId),
+                    Errors.General.EntityNotFound)
+                .BindScalar(query =>
+                    _dbContext
+                        .Set<Transaction>()
+                        .AsNoTracking()
+                        .Where(t =>
+                            t.UserId == query.UserId &&
+                            t.Money.Currency.Value == query.CurrencyId &&
                             t.OccurredOn >= request.FirstDayOfWeek)
-                .SumAsync(t => t.Money.Amount, cancellationToken);
-
-            var balanceResponse = new BalanceResponse(amount, request.CurrencyId);
-
-            return balanceResponse;
-        }
+                        .SumAsync(x => x.Money.Amount, cancellationToken))
+                .MapScalar(sum => new BalanceResponse(request.CurrencyId, sum));
     }
 }

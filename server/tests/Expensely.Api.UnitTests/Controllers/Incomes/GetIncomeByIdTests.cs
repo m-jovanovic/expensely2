@@ -5,6 +5,8 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Incomes.Queries.GetExpenseById;
+using Expensely.Domain;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using MediatR;
@@ -30,6 +32,8 @@ namespace Expensely.Api.UnitTests.Controllers.Incomes
         [Fact]
         public async Task Should_send_valid_query()
         {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetIncomeByIdQuery>(), default))
+                .ReturnsAsync(Result.Failure<IncomeResponse>(Errors.General.EntityNotFound));
             var controller = new IncomesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
             var incomeId = Guid.NewGuid();
 
@@ -44,7 +48,7 @@ namespace Expensely.Api.UnitTests.Controllers.Incomes
         public async Task Should_return_not_found_if_query_returns_null()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetIncomeByIdQuery>(), default))
-                .ReturnsAsync((IncomeResponse?)null);
+                .ReturnsAsync(Result.Failure<IncomeResponse>(Errors.General.EntityNotFound));
             var controller = new IncomesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
             var result = await controller.GetIncomeById(Guid.NewGuid());

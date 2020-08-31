@@ -5,6 +5,7 @@ using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Moq;
@@ -91,50 +92,52 @@ namespace Expensely.Application.UnitTests.Expenses.Queries
             var queryHandler = new GetExpensesQueryHandler(_dbExecutorMock.Object);
             var query = new GetExpensesQuery(Guid.Empty, Limit, null, DateTime.UtcNow);
 
-            ExpenseListResponse result = await queryHandler.Handle(query, default);
+            Result<ExpenseListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Items.Should().BeEmpty();
+            result.Value().Items.Should().BeEmpty();
         }
         
         [Fact]
         public async Task Should_return_response_with_empty_cursor_if_query_returns_less_expenses_than_limit()
         {
-            var response = new[]
+            var expenseResponses = new[]
             {
                 new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
                 new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
-                .ReturnsAsync(response);
+                .ReturnsAsync(expenseResponses);
             var queryHandler = new GetExpensesQueryHandler(_dbExecutorMock.Object);
             var query = new GetExpensesQuery(Guid.NewGuid(), Limit, null, DateTime.UtcNow);
 
-            ExpenseListResponse result = await queryHandler.Handle(query, default);
+            Result<ExpenseListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().NotBeNull();
-            result.Cursor.Should().BeEmpty();
-            result.Items.Should().HaveCount(Limit);
+            var response = result.Value();
+            response.Should().NotBeNull();
+            response.Cursor.Should().BeEmpty();
+            response.Items.Should().HaveCount(Limit);
         }
 
         [Fact]
         public async Task Should_return_response_with_non_empty_cursor_if_query_returns_same_number_of_expenses_as_limit()
         {
-            var response = new[]
+            var expenseResponses = new[]
             {
                 new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
                 new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now),
                 new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now)
             };
             _dbExecutorMock.Setup(x => x.QueryAsync<ExpenseResponse>(It.IsAny<string>(), It.IsAny<object>()))
-                .ReturnsAsync(response);
+                .ReturnsAsync(expenseResponses);
             var queryHandler = new GetExpensesQueryHandler(_dbExecutorMock.Object);
             var query = new GetExpensesQuery(Guid.NewGuid(), Limit, null, DateTime.UtcNow);
 
-            ExpenseListResponse result = await queryHandler.Handle(query, default);
+            Result<ExpenseListResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().NotBeNull();
-            result.Cursor.Should().NotBeEmpty();
-            result.Items.Should().HaveCount(Limit);
+            var response = result.Value();
+            response.Should().NotBeNull();
+            response.Cursor.Should().NotBeEmpty();
+            response.Items.Should().HaveCount(Limit);
         }
     }
 }

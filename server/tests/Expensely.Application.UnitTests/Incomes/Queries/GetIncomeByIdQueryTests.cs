@@ -4,6 +4,7 @@ using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Incomes.Queries.GetExpenseById;
+using Expensely.Domain.Core;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -23,25 +24,25 @@ namespace Expensely.Application.UnitTests.Incomes.Queries
         }
         
         [Fact]
-        public async Task Should_return_null_given_empty_income_id()
+        public async Task Should_return_failure_result_given_empty_income_id()
         {
             var queryHandler = new GetIncomeByIdQueryHandler(new Mock<IDbContext>().Object);
             var query = new GetIncomeByIdQuery(Guid.Empty, Guid.NewGuid());
 
-            IncomeResponse? result = await queryHandler.Handle(query, default);
+            Result<IncomeResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().BeNull();
+            result.IsFailure.Should().BeTrue();
         }
 
         [Fact]
-        public async Task Should_return_null_given_empty_user_id()
+        public async Task Should_return_failure_result_given_empty_user_id()
         {
             var queryHandler = new GetIncomeByIdQueryHandler(new Mock<IDbContext>().Object);
             var query = new GetIncomeByIdQuery(Guid.NewGuid(), Guid.Empty);
 
-            IncomeResponse? result = await queryHandler.Handle(query, default);
+            Result<IncomeResponse> result = await queryHandler.Handle(query, default);
 
-            result.Should().BeNull();
+            result.IsFailure.Should().BeTrue();
         }
     }
 }

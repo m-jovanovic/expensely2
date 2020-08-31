@@ -5,7 +5,7 @@ using Expensely.Application.Authentication.Commands.Register;
 using Expensely.Application.Core.Abstractions.Cryptography;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Users;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;

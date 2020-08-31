@@ -4,7 +4,7 @@ using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Users;
 using Expensely.Domain.Users.Services;
 using Expensely.Tests.Common.Entities;

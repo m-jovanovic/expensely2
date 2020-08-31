@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Expensely.Domain.Core.Exceptions;
 
-namespace Expensely.Domain.Core.Primitives
+namespace Expensely.Domain.Core
 {
     /// <summary>
     /// Represents an enumeration type.

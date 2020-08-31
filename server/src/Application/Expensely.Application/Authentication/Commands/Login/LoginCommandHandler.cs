@@ -5,8 +5,8 @@ using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
-using Expensely.Domain.Users;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using Expensely.Domain.Users.Services;
 
 namespace Expensely.Application.Authentication.Commands.Login
@@ -34,23 +34,14 @@ namespace Expensely.Application.Authentication.Commands.Login
         }
 
         /// <inheritdoc />
-        public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
-        {
-            User? user = await _userRepository.GetByEmailAsync(request.Email);
-
-            if (user is null)
-            {
-                return Result.Failure<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
-            }
-
-            if (!user.VerifyPasswordHash(request.Password, _passwordHashChecker))
-            {
-                return Result.Failure<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
-            }
-
-            TokenResponse tokenResponse = await _jwtProvider.CreateAsync(user);
-
-            return Result.Success(tokenResponse);
-        }
+        public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken) =>
+            await Result.Create(request)
+                .Bind(
+                    command => _userRepository.GetByEmailAsync(command.Email),
+                    Errors.Authentication.InvalidEmailOrPassword)
+                .Ensure(
+                    user => user.VerifyPasswordHash(request.Password, _passwordHashChecker),
+                    Errors.Authentication.InvalidEmailOrPassword)
+                .Bind(user => _jwtProvider.CreateAsync(user));
     }
 }

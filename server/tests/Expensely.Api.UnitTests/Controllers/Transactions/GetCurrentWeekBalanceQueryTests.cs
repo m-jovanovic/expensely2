@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Transactions;
@@ -6,6 +7,8 @@ using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Core.Extensions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
+using Expensely.Domain;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
@@ -44,6 +47,8 @@ namespace Expensely.Api.UnitTests.Controllers.Transactions
         [Fact]
         public async Task Should_send_valid_query()
         {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetCurrentWeekBalanceQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Failure<BalanceResponse>(Errors.General.EntityNotFound));
             int currencyId = Currency.Usd.Value;
             var controller = new TransactionsController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
             
@@ -63,7 +68,7 @@ namespace Expensely.Api.UnitTests.Controllers.Transactions
         public async Task Should_return_not_found_if_query_returns_null()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetCurrentWeekBalanceQuery>(), default))
-                .ReturnsAsync((BalanceResponse?)null);
+                .ReturnsAsync(Result.Failure<BalanceResponse>(Errors.General.EntityNotFound));
             var controller = new TransactionsController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             var result = await controller.GetCurrentWeekBalance(UserId, default);
@@ -77,7 +82,7 @@ namespace Expensely.Api.UnitTests.Controllers.Transactions
             Currency currency = Currency.Usd;
             const decimal amount = 100.0m;
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetCurrentWeekBalanceQuery>(), default))
-                .ReturnsAsync(new BalanceResponse(amount, currency.Value));
+                .ReturnsAsync(new BalanceResponse(currency.Value, amount));
             var controller = new TransactionsController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             var result = await controller.GetCurrentWeekBalance(UserId, currency.Value);

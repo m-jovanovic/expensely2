@@ -3,13 +3,14 @@ using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
+using Expensely.Domain.Core;
 
 namespace Expensely.Application.Transactions.Queries.GetTransactions
 {
     /// <summary>
     /// Represents the query for getting transactions.
     /// </summary>
-    public sealed class GetTransactionsQuery : ICacheableQuery<TransactionListResponse>
+    public sealed class GetTransactionsQuery : ICacheableQuery<Result<TransactionListResponse>>
     {
         private readonly string _cursor;
 

@@ -1,4 +1,4 @@
-﻿using Expensely.Domain.Core.Primitives;
+﻿using Expensely.Domain.Core;
 
 namespace Expensely.Domain
 {

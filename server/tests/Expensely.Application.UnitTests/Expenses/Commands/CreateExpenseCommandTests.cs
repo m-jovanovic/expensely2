@@ -6,7 +6,7 @@ using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using MediatR;

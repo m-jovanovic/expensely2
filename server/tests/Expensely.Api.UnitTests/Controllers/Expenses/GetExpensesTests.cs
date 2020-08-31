@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain.Core;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;
@@ -43,6 +45,8 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Should_send_valid_query()
         {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpensesQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Success(new ExpenseListResponse(Array.Empty<ExpenseResponse>())));
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             await controller.GetExpenses(UserId, Limit, null);

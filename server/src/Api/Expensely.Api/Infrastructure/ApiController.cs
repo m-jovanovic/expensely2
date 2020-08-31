@@ -1,6 +1,5 @@
 ﻿using Expensely.Api.Contracts;
-using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,35 +28,22 @@ namespace Expensely.Api.Infrastructure
         protected IMediator Mediator { get; }
 
         /// <summary>
-        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
-        /// response with a generic bad request error.
-        /// </summary>
-        /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
-        protected new IActionResult BadRequest()
-        {
-            return BadRequest(Result.Failure(Errors.General.BadRequest));
-        }
-
-        /// <summary>
-        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
-        /// response based on the specified <see cref="Result"/>.
-        /// </summary>
-        /// <param name="result">The result.</param>
-        /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
-        protected IActionResult BadRequest(Result result)
-        {
-            return BadRequest(result.Error);
-        }
-
-        /// <summary>
-        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
+        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>.
         /// response based on the specified <see cref="Result"/>.
         /// </summary>
         /// <param name="error">The error.</param>
         /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
-        protected IActionResult BadRequest(Error error)
+        protected IActionResult BadRequest(Error error) => BadRequest(new ApiErrorResponse(new[] { error }));
+
+        /// <summary>
+        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status404NotFound"/>.
+        /// </summary>
+        /// <param name="error">The error.</param>
+        /// <returns>The created <see cref="NotFoundResult"/> for the response.</returns>
+        protected IActionResult NotFound(Error error)
         {
-            return BadRequest(new ApiErrorResponse(new[] { error }));
+            // This method was created so that it is easier to match the extension methods on the Result class.
+            return NotFound();
         }
     }
 }

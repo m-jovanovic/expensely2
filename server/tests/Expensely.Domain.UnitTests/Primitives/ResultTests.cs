@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using FluentAssertions;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace Expensely.Domain.UnitTests.Primitives
 
             result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Error.Should().Be(Expensely.Domain.Core.Primitives.Error.None);
+            result.Error.Should().Be(Error.None);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace Expensely.Domain.UnitTests.Primitives
 
             result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
-            result.Error.Should().Be(Expensely.Domain.Core.Primitives.Error.None);
+            result.Error.Should().Be(Error.None);
             result.Value().Should().Be(value);
         }
 

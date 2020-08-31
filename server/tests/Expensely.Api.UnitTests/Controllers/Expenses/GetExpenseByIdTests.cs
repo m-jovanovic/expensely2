@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
 using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
+using Expensely.Domain;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
@@ -33,6 +36,8 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         [Fact]
         public async Task Should_send_valid_query()
         {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Failure<ExpenseResponse>(Errors.General.EntityNotFound));
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
             var expenseId = Guid.NewGuid();
 
@@ -44,10 +49,10 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Should_return_not_found_if_query_returns_null()
+        public async Task Should_return_not_found_if_query_returns_failure_result()
         {
-            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))
-                .ReturnsAsync((ExpenseResponse?)null);
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Failure<ExpenseResponse>(Errors.General.EntityNotFound));
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             var result = await controller.GetExpenseById(Guid.NewGuid());
@@ -56,7 +61,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         }
 
         [Fact]
-        public async Task Should_return_ok_if_query_returns_expense_response()
+        public async Task Should_return_ok_if_query_returns_success_result()
         {
             var response = new ExpenseResponse(Guid.NewGuid(), "Expense", -1.0m, Currency.Usd.Value, DateTime.Now, DateTime.Now);
             _mediatorMock.Setup(x => x.Send(It.IsAny<GetExpenseByIdQuery>(), default))

@@ -8,7 +8,10 @@ using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Core.Extensions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Application.Transactions.Queries.GetTransactions;
+using Expensely.Domain;
 using Expensely.Domain.Authorization;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -32,41 +35,20 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.TransactionRead)]
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTransactions(Guid userId, int limit, string? cursor)
-        {
-            if (userId != _userIdentifierProvider.UserId)
-            {
-                return NotFound();
-            }
-
-            var query = new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow);
-
-            TransactionListResponse transactionListResponse = await Mediator.Send(query);
-
-            return Ok(transactionListResponse);
-        }
+        public async Task<IActionResult> GetTransactions(Guid userId, int limit, string? cursor) =>
+            await Result.Create(new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow))
+                .Ensure(query => query.UserId == _userIdentifierProvider.UserId, Errors.General.EntityNotFound)
+                .Bind(query => Mediator.Send(query))
+                .Match(Ok, NotFound);
 
         [HttpGet(ApiRoutes.Transactions.GetCurrentWeekBalance)]
         [HasPermission(Permission.TransactionRead)]
         [ProducesResponseType(typeof(BalanceResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCurrentWeekBalance(Guid userId, int currencyId)
-        {
-            if (userId != _userIdentifierProvider.UserId)
-            {
-                return NotFound();
-            }
-
-            var query = new GetCurrentWeekBalanceQuery(userId, currencyId, _dateTime.UtcNow.StartOfWeek());
-
-            BalanceResponse? balanceResponse = await Mediator.Send(query);
-
-            if (balanceResponse is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(balanceResponse);
-        }
+        public async Task<IActionResult> GetCurrentWeekBalance(Guid userId, int currencyId) =>
+            await Result.Create(new GetCurrentWeekBalanceQuery(userId, currencyId, _dateTime.UtcNow.StartOfWeek()))
+                .Ensure(query => query.UserId == _userIdentifierProvider.UserId, Errors.General.EntityNotFound)
+                .Bind(query => Mediator.Send(query))
+                .Match(Ok, NotFound);
     }
 }

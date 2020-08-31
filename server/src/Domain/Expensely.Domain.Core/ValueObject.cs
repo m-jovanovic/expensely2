@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Expensely.Domain.Core.Primitives
+namespace Expensely.Domain.Core
 {
     /// <summary>
     /// Represents the base class all value objects derive from.

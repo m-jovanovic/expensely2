@@ -8,7 +8,7 @@ using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Incomes.Commands.CreateIncome;
 using Expensely.Domain;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using MediatR;

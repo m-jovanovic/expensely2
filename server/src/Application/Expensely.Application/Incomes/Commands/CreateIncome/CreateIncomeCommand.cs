@@ -1,7 +1,7 @@
 ﻿using System;
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Core.Abstractions.Messaging;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
 
 namespace Expensely.Application.Incomes.Commands.CreateIncome
 {

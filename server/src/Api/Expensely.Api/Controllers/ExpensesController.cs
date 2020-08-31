@@ -10,8 +10,10 @@ using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Application.Expenses.Queries.GetExpenses;
+using Expensely.Domain;
 using Expensely.Domain.Authorization;
-using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core;
+using Expensely.Domain.Core.Extensions;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -35,84 +37,45 @@ namespace Expensely.Api.Controllers
         [HasPermission(Permission.ExpenseRead)]
         [ProducesResponseType(typeof(ExpenseListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string? cursor)
-        {
-            if (userId != _userIdentifierProvider.UserId)
-            {
-                return NotFound();
-            }
-
-            var query = new GetExpensesQuery(userId, limit, cursor, _dateTime.UtcNow);
-
-            ExpenseListResponse expenseListResponse = await Mediator.Send(query);
-
-            return Ok(expenseListResponse);
-        }
+        public async Task<IActionResult> GetExpenses(Guid userId, int limit, string? cursor) =>
+            await Result.Create(new GetExpensesQuery(userId, limit, cursor, _dateTime.UtcNow))
+                .Ensure(query => query.UserId == _userIdentifierProvider.UserId, Errors.General.EntityNotFound)
+                .Bind(query => Mediator.Send(query))
+                .Match(Ok, NotFound);
 
         [HttpGet(ApiRoutes.Expenses.GetExpenseById)]
         [HasPermission(Permission.ExpenseRead)]
         [ProducesResponseType(typeof(ExpenseResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExpenseById(Guid id)
-        {
-            var query = new GetExpenseByIdQuery(id, _userIdentifierProvider.UserId);
-
-            ExpenseResponse? expenseResponse = await Mediator.Send(query);
-
-            if (expenseResponse is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(expenseResponse);
-        }
+        public async Task<IActionResult> GetExpenseById(Guid id) =>
+            await Result.Create(new GetExpenseByIdQuery(id, _userIdentifierProvider.UserId))
+                .Bind(query => Mediator.Send(query))
+                .Match(Ok, NotFound);
 
         [HttpPost(ApiRoutes.Expenses.CreateExpense)]
         [HasPermission(Permission.ExpenseCreate)]
         [ProducesResponseType(typeof(EntityCreatedResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest? request)
-        {
-            if (request is null)
-            {
-                return BadRequest();
-            }
-
-            var command = new CreateExpenseCommand(
-                _userIdentifierProvider.UserId,
-                request.Name,
-                request.Amount,
-                request.CurrencyId,
-                request.Date);
-
-            Result<EntityCreatedResponse> result = await Mediator.Send(command);
-
-            if (result.IsFailure)
-            {
-                return BadRequest(result);
-            }
-
-            EntityCreatedResponse entityCreatedResponse = result.Value();
-
-            return CreatedAtAction(nameof(GetExpenseById), new { id = entityCreatedResponse.Id }, entityCreatedResponse);
-        }
+        public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest? request) =>
+            await Result.Create(request, Errors.General.BadRequest)
+                .Map(value => new CreateExpenseCommand(
+                    _userIdentifierProvider.UserId,
+                    value.Name,
+                    value.Amount,
+                    value.CurrencyId,
+                    value.Date))
+                .Bind(command => Mediator.Send(command))
+                .Match(
+                    entityCreated => CreatedAtAction(nameof(GetExpenseById), new { id = entityCreated.Id }, entityCreated),
+                    BadRequest);
 
         [HttpDelete(ApiRoutes.Expenses.DeleteExpense)]
         [HasPermission(Permission.ExpenseDelete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteExpense(Guid id)
-        {
-            var command = new DeleteExpenseCommand(id, _userIdentifierProvider.UserId);
-
-            Result result = await Mediator.Send(command);
-
-            if (result.IsFailure)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
+        public async Task<IActionResult> DeleteExpense(Guid id) =>
+            await Result.Create(new DeleteExpenseCommand(id, _userIdentifierProvider.UserId))
+                .Bind(command => Mediator.Send(command))
+                .Match(NoContent, NotFound);
     }
 }

@@ -2,13 +2,14 @@
 using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
+using Expensely.Domain.Core;
 
 namespace Expensely.Application.Incomes.Queries.GetExpenseById
 {
     /// <summary>
     /// Represents the query for getting an income by identifier.
     /// </summary>
-    public sealed class GetIncomeByIdQuery : ICacheableQuery<IncomeResponse?>
+    public sealed class GetIncomeByIdQuery : ICacheableQuery<Result<IncomeResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetIncomeByIdQuery"/> class.

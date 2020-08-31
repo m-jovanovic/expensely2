@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Api.Controllers;
-using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
-using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Application.Transactions.Queries.GetTransactions;
+using Expensely.Domain;
+using Expensely.Domain.Core;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;
@@ -45,6 +46,8 @@ namespace Expensely.Api.UnitTests.Controllers.Transactions
         [Fact]
         public async Task Should_send_valid_query()
         {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<GetTransactionsQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Failure<TransactionListResponse>(Errors.General.EntityNotFound));
             var controller = new TransactionsController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             await controller.GetTransactions(UserId, Limit, null);
