@@ -33,7 +33,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         public async Task Register_should_return_bad_request_if_command_returns_failure_result()
         {
             var mediatorMock = new Mock<IMediator>();
-            var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.DuplicateEmail);
+            var failureResult = Result.Failure<TokenResponse>(Errors.Authentication.DuplicateEmail);
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default)).ReturnsAsync(failureResult);
             var controller = new AuthenticationController(mediatorMock.Object);
 
@@ -51,7 +51,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         {
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default))
-                .ReturnsAsync(Result.Ok());
+                .ReturnsAsync(Result.Success());
             var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Register(CreateRegisterRequest());
@@ -65,7 +65,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         {
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<RegisterCommand>(), default))
-                .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
+                .ReturnsAsync(Result.Success(new TokenResponse("Token")));
             var controller = new AuthenticationController(mediatorMock.Object);
             RegisterRequest registerRequest = CreateRegisterRequest();
 

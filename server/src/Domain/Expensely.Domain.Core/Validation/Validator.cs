@@ -27,6 +27,6 @@ namespace Expensely.Domain.Core.Validation
         }
 
         /// <inheritdoc />
-        public virtual Result Validate(T? item) => _next?.Validate(item) ?? Result.Ok();
+        public virtual Result Validate(T? item) => _next?.Validate(item) ?? Result.Success();
     }
 }

@@ -11,7 +11,7 @@ namespace Expensely.Domain.Users.Validators.Password
     {
         /// <inheritdoc />
         public override Result Validate(string? item) =>
-            !item?.Any(IsDigit) ?? false ? Result.Fail(Errors.Password.MissingDigit) : base.Validate(item);
+            !item?.Any(IsDigit) ?? false ? Result.Failure(Errors.Password.MissingDigit) : base.Validate(item);
 
         /// <summary>
         /// Checks if the specified character is an digit.

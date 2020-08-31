@@ -42,10 +42,10 @@ namespace Expensely.Domain.Users
 
             if (result.IsFailure)
             {
-                return Result.Fail<LastName>(result.Error);
+                return Result.Failure<LastName>(result.Error);
             }
 
-            return Result.Ok(new LastName(lastName!));
+            return Result.Success(new LastName(lastName!));
         }
 
         /// <summary>

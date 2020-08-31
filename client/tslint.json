@@ -133,6 +133,7 @@
         "check-typecast"
       ]
     },
+    "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,

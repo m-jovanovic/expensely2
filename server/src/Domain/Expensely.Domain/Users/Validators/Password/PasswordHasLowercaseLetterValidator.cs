@@ -12,7 +12,7 @@ namespace Expensely.Domain.Users.Validators.Password
         /// <inheritdoc />
         public override Result Validate(string? item) =>
             !item?.Any(IsLower) ?? false ?
-                Result.Fail(Errors.Password.MissingLowercaseLetter) : base.Validate(item);
+                Result.Failure(Errors.Password.MissingLowercaseLetter) : base.Validate(item);
 
         /// <summary>
         /// Checks if the specified character is lowercase.

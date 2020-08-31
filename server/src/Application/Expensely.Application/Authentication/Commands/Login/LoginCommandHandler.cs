@@ -40,17 +40,17 @@ namespace Expensely.Application.Authentication.Commands.Login
 
             if (user is null)
             {
-                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
             if (!user.VerifyPasswordHash(request.Password, _passwordHashChecker))
             {
-                return Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
+                return Result.Failure<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             }
 
             TokenResponse tokenResponse = await _jwtProvider.CreateAsync(user);
 
-            return Result.Ok(tokenResponse);
+            return Result.Success(tokenResponse);
         }
     }
 }

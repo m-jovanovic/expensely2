@@ -45,10 +45,10 @@ namespace Expensely.Domain.Users
 
             if (result.IsFailure)
             {
-                return Result.Fail<Email>(result.Error);
+                return Result.Failure<Email>(result.Error);
             }
 
-            return Result.Ok(new Email(email!));
+            return Result.Success(new Email(email!));
         }
 
         /// <summary>

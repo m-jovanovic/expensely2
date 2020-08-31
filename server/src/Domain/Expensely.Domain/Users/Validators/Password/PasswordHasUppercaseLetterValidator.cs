@@ -12,7 +12,7 @@ namespace Expensely.Domain.Users.Validators.Password
         /// <inheritdoc />
         public override Result Validate(string? item) =>
             !item?.Any(IsUpper) ?? false ?
-                Result.Fail(Errors.Password.MissingUppercaseLetter) : base.Validate(item);
+                Result.Failure(Errors.Password.MissingUppercaseLetter) : base.Validate(item);
 
         /// <summary>
         /// Checks if the specified character is uppercase.

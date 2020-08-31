@@ -35,7 +35,7 @@ namespace Expensely.Api.Infrastructure
         /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
         protected new IActionResult BadRequest()
         {
-            return BadRequest(Result.Fail(Errors.General.BadRequest));
+            return BadRequest(Result.Failure(Errors.General.BadRequest));
         }
 
         /// <summary>
@@ -46,7 +46,18 @@ namespace Expensely.Api.Infrastructure
         /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
         protected IActionResult BadRequest(Result result)
         {
-            return BadRequest(new ApiErrorResponse(new[] { result.Error }));
+            return BadRequest(result.Error);
+        }
+
+        /// <summary>
+        /// Creates an <see cref="BadRequestObjectResult"/> that produces a <see cref="StatusCodes.Status400BadRequest"/>
+        /// response based on the specified <see cref="Result"/>.
+        /// </summary>
+        /// <param name="error">The error.</param>
+        /// <returns>The created <see cref="BadRequestObjectResult"/> for the response.</returns>
+        protected IActionResult BadRequest(Error error)
+        {
+            return BadRequest(new ApiErrorResponse(new[] { error }));
         }
     }
 }

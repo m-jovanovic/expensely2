@@ -46,7 +46,7 @@ namespace Expensely.Application.Incomes.Commands.CreateIncome
             }
             catch (InvalidEnumerationException)
             {
-                return Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
+                return Result.Failure<EntityCreatedResponse>(Errors.Currency.NotFound);
             }
 
             var money = new Money(request.Amount, currency);
@@ -57,7 +57,7 @@ namespace Expensely.Application.Incomes.Commands.CreateIncome
 
             await _mediator.Publish(new IncomeCreatedEvent(income.Id), cancellationToken);
 
-            return Result.Ok(new EntityCreatedResponse(income.Id));
+            return Result.Success(new EntityCreatedResponse(income.Id));
         }
     }
 }

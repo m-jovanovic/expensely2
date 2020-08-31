@@ -49,7 +49,7 @@ namespace Expensely.Api.UnitTests.Controllers.Incomes
         public async Task Should_send_valid_command()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateIncomeCommand>(), default))
-                .ReturnsAsync(Result.Ok(new EntityCreatedResponse(Guid.NewGuid())));
+                .ReturnsAsync(Result.Success(new EntityCreatedResponse(Guid.NewGuid())));
             var controller = new IncomesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
             CreateIncomeRequest request = CreateRequest();
 
@@ -70,7 +70,7 @@ namespace Expensely.Api.UnitTests.Controllers.Incomes
         [Fact]
         public async Task Should_return_bad_request_if_command_returns_failure_result()
         {
-            var failureResult = Result.Fail<EntityCreatedResponse>(Errors.Currency.NotFound);
+            var failureResult = Result.Failure<EntityCreatedResponse>(Errors.Currency.NotFound);
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateIncomeCommand>(), default)).ReturnsAsync(failureResult);
             var controller = new IncomesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
@@ -88,7 +88,7 @@ namespace Expensely.Api.UnitTests.Controllers.Incomes
         {
             var entityCreatedResponse = new EntityCreatedResponse(Guid.NewGuid());
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateIncomeCommand>(), default))
-                .ReturnsAsync(Result.Ok(entityCreatedResponse));
+                .ReturnsAsync(Result.Success(entityCreatedResponse));
             var controller = new IncomesController(_mediatorMock.Object, _userIdentifierProviderMock.Object);
 
             IActionResult result = await controller.CreateIncome(CreateRequest());

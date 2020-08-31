@@ -11,7 +11,7 @@ namespace Expensely.Domain.Users.Validators.Password
     {
         /// <inheritdoc />
         public override Result Validate(string? item) =>
-            item?.All(IsLetterOrDigit) ?? false ? Result.Fail(Errors.Password.MissingNonAlphaNumeric) : base.Validate(item);
+            item?.All(IsLetterOrDigit) ?? false ? Result.Failure(Errors.Password.MissingNonAlphaNumeric) : base.Validate(item);
 
         /// <summary>
         /// Checks if the specified character is non-alphanumeric.

@@ -38,14 +38,14 @@ namespace Expensely.Application.Expenses.Commands.DeleteExpense
 
             if (expense is null || expense.UserId != request.UserId)
             {
-                return Result.Fail(Errors.General.EntityNotFound);
+                return Result.Failure(Errors.General.EntityNotFound);
             }
 
             _expenseRepository.Remove(expense);
 
             await _mediator.Publish(new ExpenseDeletedEvent(expense.Id), cancellationToken);
 
-            return Result.Ok();
+            return Result.Success();
         }
     }
 }

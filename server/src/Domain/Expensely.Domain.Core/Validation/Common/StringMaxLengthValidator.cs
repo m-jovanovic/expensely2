@@ -23,6 +23,6 @@ namespace Expensely.Domain.Core.Validation.Common
 
         /// <inheritdoc />
         public sealed override Result Validate(string? item) =>
-            item?.Length > _maxLength ? Result.Fail(_error) : base.Validate(item);
+            item?.Length > _maxLength ? Result.Failure(_error) : base.Validate(item);
     }
 }

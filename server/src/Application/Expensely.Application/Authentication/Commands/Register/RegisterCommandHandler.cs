@@ -36,7 +36,7 @@ namespace Expensely.Application.Authentication.Commands.Register
 
             if (userResult.IsFailure)
             {
-                return Result.Fail(userResult.Error);
+                return Result.Failure(userResult.Error);
             }
 
             User user = userResult.Value();
@@ -45,13 +45,13 @@ namespace Expensely.Application.Authentication.Commands.Register
 
             if (!isUnique)
             {
-                return Result.Fail(Errors.Authentication.DuplicateEmail);
+                return Result.Failure(Errors.Authentication.DuplicateEmail);
             }
 
             // TODO: Add role(s) to user.
             _userRepository.Insert(user);
 
-            return Result.Ok();
+            return Result.Success();
         }
 
         /// <summary>
@@ -65,28 +65,28 @@ namespace Expensely.Application.Authentication.Commands.Register
 
             if (firstNameResult.IsFailure)
             {
-                return Result.Fail<User>(firstNameResult.Error);
+                return Result.Failure<User>(firstNameResult.Error);
             }
 
             Result<LastName> lastNameResult = LastName.Create(command.LastName);
 
             if (lastNameResult.IsFailure)
             {
-                return Result.Fail<User>(lastNameResult.Error);
+                return Result.Failure<User>(lastNameResult.Error);
             }
 
             Result<Email> emailResult = Email.Create(command.Email);
 
             if (emailResult.IsFailure)
             {
-                return Result.Fail<User>(emailResult.Error);
+                return Result.Failure<User>(emailResult.Error);
             }
 
             Result<Password> passwordResult = Password.Create(command.Password);
 
             if (passwordResult.IsFailure)
             {
-                return Result.Fail<User>(passwordResult.Error);
+                return Result.Failure<User>(passwordResult.Error);
             }
 
             string passwordHash = _passwordHasher.HashPassword(passwordResult.Value());
@@ -98,7 +98,7 @@ namespace Expensely.Application.Authentication.Commands.Register
                 emailResult.Value(),
                 passwordHash);
 
-            return Result.Ok(user);
+            return Result.Success(user);
         }
     }
 }

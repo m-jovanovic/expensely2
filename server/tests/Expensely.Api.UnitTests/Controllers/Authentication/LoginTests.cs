@@ -33,7 +33,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         public async Task Login_should_return_bad_request_if_command_returns_failure_result()
         {
             var mediatorMock = new Mock<IMediator>();
-            var failureResult = Result.Fail<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
+            var failureResult = Result.Failure<TokenResponse>(Errors.Authentication.InvalidEmailOrPassword);
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default)).ReturnsAsync(failureResult);
             var controller = new AuthenticationController(mediatorMock.Object);
 
@@ -52,7 +52,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
             var mediatorMock = new Mock<IMediator>();
             const string tokenValue = "Token";
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default))
-                .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
+                .ReturnsAsync(Result.Success(new TokenResponse("Token")));
             var controller = new AuthenticationController(mediatorMock.Object);
 
             IActionResult result = await controller.Login(CreateLoginRequest());
@@ -69,7 +69,7 @@ namespace Expensely.Api.UnitTests.Controllers.Authentication
         {
             var mediatorMock = new Mock<IMediator>();
             mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), default))
-                .ReturnsAsync(Result.Ok(new TokenResponse("Token")));
+                .ReturnsAsync(Result.Success(new TokenResponse("Token")));
             var controller = new AuthenticationController(mediatorMock.Object);
             LoginRequest loginRequest = CreateLoginRequest();
 

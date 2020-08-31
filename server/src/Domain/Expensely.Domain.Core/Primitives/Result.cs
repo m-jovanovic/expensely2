@@ -47,7 +47,7 @@ namespace Expensely.Domain.Core.Primitives
         /// Returns a success <see cref="Result"/>.
         /// </summary>
         /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
-        public static Result Ok() => new Result(true, Error.None);
+        public static Result Success() => new Result(true, Error.None);
 
         /// <summary>
         /// Returns a success <see cref="Result"/> with the specified value.
@@ -55,24 +55,24 @@ namespace Expensely.Domain.Core.Primitives
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="value">The result value.</param>
         /// <returns>A new instance of <see cref="Result"/> with the success flag set.</returns>
-        public static Result<TValue> Ok<TValue>(TValue value)
+        public static Result<TValue> Success<TValue>(TValue value)
             where TValue : class
             => new Result<TValue>(value, true, Error.None);
 
         /// <summary>
-        /// Returns a fail <see cref="Result"/> with the specified error.
+        /// Returns a failure <see cref="Result"/> with the specified error.
         /// </summary>
         /// <param name="error">The error.</param>
         /// <returns>A new instance of <see cref="Result"/> with the specified error and failure flag set.</returns>
-        public static Result Fail(Error error) => new Result(false, error);
+        public static Result Failure(Error error) => new Result(false, error);
 
         /// <summary>
-        /// Returns a fail <see cref="Result{T}"/> with the specified error.
+        /// Returns a failure <see cref="Result{T}"/> with the specified error.
         /// </summary>
         /// <typeparam name="TValue">The result type.</typeparam>
         /// <param name="error">The error.</param>
         /// <returns>A new instance of <see cref="Result{T}"/> with the specified error and failure flag set.</returns>
-        public static Result<TValue> Fail<TValue>(Error error)
+        public static Result<TValue> Failure<TValue>(Error error)
             where TValue : class
             => new Result<TValue>(null, false, error);
     }

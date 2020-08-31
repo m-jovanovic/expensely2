@@ -17,6 +17,6 @@ namespace Expensely.Domain.Core.Validation.Common
 
         /// <inheritdoc />
         public sealed override Result Validate(string? item)
-            => string.IsNullOrWhiteSpace(item) ? Result.Fail(_error) : base.Validate(item);
+            => string.IsNullOrWhiteSpace(item) ? Result.Failure(_error) : base.Validate(item);
     }
 }

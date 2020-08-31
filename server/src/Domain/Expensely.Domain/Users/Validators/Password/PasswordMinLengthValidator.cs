@@ -15,6 +15,6 @@ namespace Expensely.Domain.Users.Validators.Password
 
         /// <inheritdoc />
         public override Result Validate(string? item) =>
-            item?.Length < MinPasswordLength ? Result.Fail(Errors.Password.TooShort) : base.Validate(item);
+            item?.Length < MinPasswordLength ? Result.Failure(Errors.Password.TooShort) : base.Validate(item);
     }
 }

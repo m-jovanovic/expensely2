@@ -32,7 +32,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         public async Task Should_send_valid_command()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
-                .ReturnsAsync(Result.Ok);
+                .ReturnsAsync(Result.Success);
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
             var expenseId = Guid.NewGuid();
 
@@ -45,7 +45,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         public async Task Should_return_not_found_if_command_returns_failure_result()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
-                .ReturnsAsync(Result.Fail(Errors.General.EntityNotFound));
+                .ReturnsAsync(Result.Failure(Errors.General.EntityNotFound));
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             IActionResult result = await controller.DeleteExpense(Guid.NewGuid());
@@ -57,7 +57,7 @@ namespace Expensely.Api.UnitTests.Controllers.Expenses
         public async Task Should_return_no_content_if_command_returns_success_result()
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteExpenseCommand>(), default))
-                .ReturnsAsync(Result.Ok);
+                .ReturnsAsync(Result.Success);
             var controller = new ExpensesController(_mediatorMock.Object, _userIdentifierProviderMock.Object, _dateTime);
 
             IActionResult result = await controller.DeleteExpense(Guid.NewGuid());

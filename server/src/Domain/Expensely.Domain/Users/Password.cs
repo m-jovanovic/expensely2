@@ -41,10 +41,10 @@ namespace Expensely.Domain.Users
 
             if (result.IsFailure)
             {
-                return Result.Fail<Password>(result.Error);
+                return Result.Failure<Password>(result.Error);
             }
 
-            return Result.Ok(new Password(password!));
+            return Result.Success(new Password(password!));
         }
 
         /// <inheritdoc />
