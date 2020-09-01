@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Validation;
-using Expensely.Domain.Users.Validators.FirstName;
+using Expensely.Domain.Core.Extensions;
 
 namespace Expensely.Domain.Users
 {
@@ -33,20 +32,11 @@ namespace Expensely.Domain.Users
         /// </summary>
         /// <param name="firstName">The first name value.</param>
         /// <returns>The result of the first name creation process containing the first name or an error.</returns>
-        public static Result<FirstName> Create(string? firstName)
-        {
-            IValidator<string> validator = new FirstNameNotNullOrEmptyValidator()
-                .SetNext(new FirstNameMaxLengthValidator());
-
-            Result result = validator.Validate(firstName);
-
-            if (result.IsFailure)
-            {
-                return Result.Failure<FirstName>(result.Error);
-            }
-
-            return Result.Success(new FirstName(firstName!));
-        }
+        public static Result<FirstName> Create(string? firstName) =>
+            Result.Create(firstName, Errors.FirstName.NullOrEmpty)
+                .Ensure(f => !string.IsNullOrWhiteSpace(f), Errors.FirstName.NullOrEmpty)
+                .Ensure(f => f.Length <= MaxLength, Errors.FirstName.LongerThanAllowed)
+                .Map(f => new FirstName(f));
 
         /// <summary>
         /// Gets the empty first name instance.

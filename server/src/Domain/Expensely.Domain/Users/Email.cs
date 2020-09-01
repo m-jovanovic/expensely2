@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Validation;
-using Expensely.Domain.Users.Validators.Email;
+using Expensely.Domain.Core.Extensions;
 
 namespace Expensely.Domain.Users
 {
@@ -14,6 +15,11 @@ namespace Expensely.Domain.Users
         /// The email maximum length.
         /// </summary>
         public const int MaxLength = 256;
+
+        private const string EmailRegexPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+        private static readonly Lazy<Regex> EmailFormatRegex =
+            new Lazy<Regex>(() => new Regex(EmailRegexPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Email"/> class.
@@ -35,21 +41,12 @@ namespace Expensely.Domain.Users
         /// </summary>
         /// <param name="email">The email value.</param>
         /// <returns>The result of the email creation process containing the email or an error.</returns>
-        public static Result<Email> Create(string? email)
-        {
-            IValidator<string> validator = new EmailNotNullOrEmptyValidator()
-                .SetNext(new EmailMaxLengthValidator())
-                .SetNext(new EmailFormatValidator());
-
-            Result result = validator.Validate(email);
-
-            if (result.IsFailure)
-            {
-                return Result.Failure<Email>(result.Error);
-            }
-
-            return Result.Success(new Email(email!));
-        }
+        public static Result<Email> Create(string? email) =>
+            Result.Create(email, Errors.Email.NullOrEmpty)
+                .Ensure(e => !string.IsNullOrWhiteSpace(e), Errors.Email.NullOrEmpty)
+                .Ensure(e => e.Length <= MaxLength, Errors.Email.LongerThanAllowed)
+                .Ensure(e => EmailFormatRegex.Value.IsMatch(e), Errors.Email.InvalidFormat)
+                .Map(e => new Email(e));
 
         /// <summary>
         /// Gets the empty email instance.

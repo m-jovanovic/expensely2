@@ -62,6 +62,9 @@ namespace Expensely.Domain.Core.Extensions
         public static T Match<TValue, T>(this Result<TValue> result, Func<TValue, T> onSuccess, Func<Error, T> onFailure)
             => result.IsSuccess ? onSuccess(result.Value()) : onFailure(result.Error);
 
+        public static Result<T> Map<T>(this Result result, Func<Result<T>> func)
+            => result.IsSuccess ? func() : Result.Failure<T>(result.Error);
+
         public static Result<T> Map<TValue, T>(this Result<TValue> result, Func<TValue, T> func)
             => result.IsSuccess ? Result.Success(func(result.Value())) : Result.Failure<T>(result.Error);
 

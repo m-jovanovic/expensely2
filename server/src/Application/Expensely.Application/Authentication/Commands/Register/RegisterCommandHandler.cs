@@ -52,19 +52,14 @@ namespace Expensely.Application.Authentication.Commands.Register
             Result<Email> emailResult = Email.Create(command.Email);
             Result<Password> passwordResult = Password.Create(command.Password);
 
-            Result result = Result.FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult);
-
-            if (result.IsFailure)
-            {
-                return Result.Failure<User>(result.Error);
-            }
-
-            return new User(
-                Guid.NewGuid(),
-                firstNameResult.Value(),
-                lastNameResult.Value(),
-                emailResult.Value(),
-                _passwordHasher.HashPassword(passwordResult.Value()));
+            return Result.FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult)
+                .Map(() => Result.Success(
+                    new User(
+                        Guid.NewGuid(),
+                        firstNameResult.Value(),
+                        lastNameResult.Value(),
+                        emailResult.Value(),
+                        _passwordHasher.HashPassword(passwordResult.Value()))));
         }
     }
 }

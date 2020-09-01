@@ -34,7 +34,7 @@ namespace Expensely.Api.Controllers
                     value.Password,
                     value.ConfirmPassword))
                 .Bind(command => Mediator.Send(command))
-                .Match(Ok, e => BadRequest(e));
+                .Match(Ok, BadRequest);
 
         [HttpPost(ApiRoutes.Authentication.Login)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -43,6 +43,6 @@ namespace Expensely.Api.Controllers
             await Result.Create(request, Errors.General.BadRequest)
                 .Map(value => new LoginCommand(value.Email, value.Password))
                 .Bind(command => Mediator.Send(command))
-                .Match(Ok, e => BadRequest(e));
+                .Match(Ok, BadRequest);
     }
 }
