@@ -11,7 +11,8 @@ using Expensely.Application.Transactions.Queries.GetTransactions;
 using Expensely.Domain;
 using Expensely.Domain.Authorization;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(TransactionListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTransactions(Guid userId, int limit, string? cursor) =>
-            await Result.Create(new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow))
+            await Result.Success(new GetTransactionsQuery(userId, limit, cursor, _dateTime.UtcNow))
                 .Ensure(query => query.UserId == _userIdentifierProvider.UserId, Errors.General.EntityNotFound)
                 .Bind(query => Mediator.Send(query))
                 .Match(Ok, NotFound);
@@ -46,7 +47,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(BalanceResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCurrentWeekBalance(Guid userId, int currencyId) =>
-            await Result.Create(new GetCurrentWeekBalanceQuery(userId, currencyId, _dateTime.UtcNow.StartOfWeek()))
+            await Result.Success(new GetCurrentWeekBalanceQuery(userId, currencyId, _dateTime.UtcNow.StartOfWeek()))
                 .Ensure(query => query.UserId == _userIdentifierProvider.UserId, Errors.General.EntityNotFound)
                 .Bind(query => Mediator.Send(query))
                 .Match(Ok, NotFound);

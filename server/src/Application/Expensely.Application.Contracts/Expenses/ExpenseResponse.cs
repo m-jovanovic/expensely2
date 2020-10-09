@@ -28,7 +28,7 @@ namespace Expensely.Application.Contracts.Expenses
             Id = id;
             Name = name;
             Amount = amount;
-            Currency currency = Currency.FromValue(currencyId);
+            Currency currency = Currency.FromValue(currencyId).Value;
             CurrencyCode = currency.Code;
             Value = currency.Format(amount);
             OccurredOn = occurredOn;

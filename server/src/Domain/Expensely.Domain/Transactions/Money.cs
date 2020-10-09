@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Utility;
 
 namespace Expensely.Domain.Transactions

@@ -3,14 +3,14 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
-using Expensely.Domain.Core;
+using Expensely.Domain.Core.Maybe;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenses
 {
     /// <summary>
     /// Represents the query for getting expenses.
     /// </summary>
-    public sealed class GetExpensesQuery : ICacheableQuery<Result<ExpenseListResponse>>
+    public sealed class GetExpensesQuery : ICacheableQuery<Maybe<ExpenseListResponse>>
     {
         private readonly string _cursor;
 

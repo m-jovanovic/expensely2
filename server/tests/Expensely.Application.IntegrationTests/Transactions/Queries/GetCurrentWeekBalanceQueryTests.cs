@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;

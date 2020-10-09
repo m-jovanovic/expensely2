@@ -1,6 +1,7 @@
 ﻿using System;
+using Expensely.Domain.Core.Primitives;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Core.Result
 {
     /// <summary>
     /// Represents a result of some operation, with status information and possibly an error.
@@ -56,14 +57,6 @@ namespace Expensely.Domain.Core
         /// <param name="value">The result value.</param>
         /// <returns>A new instance of <see cref="Result{TValue}"/> with the success flag set.</returns>
         public static Result<TValue> Success<TValue>(TValue value) => new Result<TValue>(value, true, Error.None);
-
-        /// <summary>
-        /// Creates a new <see cref="Result{TValue}"/> with the specified value.
-        /// </summary>
-        /// <typeparam name="TValue">The result type.</typeparam>
-        /// <param name="value">The result value.</param>
-        /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified value.</returns>
-        public static Result<TValue> Create<TValue>(TValue value) => Success(value);
 
         /// <summary>
         /// Creates a new <see cref="Result{TValue}"/> with the specified nullable value and the specified error.

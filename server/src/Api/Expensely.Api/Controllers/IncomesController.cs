@@ -10,7 +10,8 @@ using Expensely.Application.Incomes.Queries.GetExpenseById;
 using Expensely.Domain;
 using Expensely.Domain.Authorization;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 using Expensely.Infrastructure.Authentication.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,7 @@ namespace Expensely.Api.Controllers
         [ProducesResponseType(typeof(IncomeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetIncomeById(Guid id) =>
-            await Result.Create(new GetIncomeByIdQuery(id, _userIdentifierProvider.UserId))
+            await Result.Success(new GetIncomeByIdQuery(id, _userIdentifierProvider.UserId))
                 .Bind(query => Mediator.Send(query))
                 .Match(Ok, NotFound);
 

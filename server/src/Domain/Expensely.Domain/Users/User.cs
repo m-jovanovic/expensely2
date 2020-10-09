@@ -1,6 +1,6 @@
 ﻿using System;
-using Expensely.Domain.Core;
 using Expensely.Domain.Core.Abstractions;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Domain.Users.Services;
 using Expensely.Domain.Utility;
 
@@ -42,9 +42,6 @@ namespace Expensely.Domain.Users
         /// </summary>
         /// <remarks>
         /// Required by EF Core.
-        ///
-        /// This constructor is marked as protected so that this class can be extended
-        /// in the infrastructure layer to support authentication & authorization.
         /// </remarks>
         protected User()
         {

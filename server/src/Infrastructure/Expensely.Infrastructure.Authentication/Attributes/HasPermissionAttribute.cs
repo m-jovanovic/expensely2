@@ -1,6 +1,5 @@
 ﻿using System;
 using Expensely.Domain.Authorization;
-using Expensely.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Expensely.Infrastructure.Authentication.Attributes

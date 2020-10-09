@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Expensely.Domain.Core.Exceptions;
+using Expensely.Domain.Core.Maybe;
 
-namespace Expensely.Domain.Core
+namespace Expensely.Domain.Core.Primitives
 {
     /// <summary>
     /// Represents an enumeration type.
@@ -61,9 +62,9 @@ namespace Expensely.Domain.Core
         /// <param name="value">The enumeration value.</param>
         /// <returns>The enumeration instance that matches the specified value.</returns>
         /// <exception cref="InvalidEnumerationException"> when the value can not be found.</exception>
-        public static TEnum FromValue(int value) =>
+        public static Maybe<TEnum> FromValue(int value) =>
             EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration) ?
-                enumeration : throw new InvalidEnumerationException();
+                enumeration : Maybe<TEnum>.None;
 
         /// <summary>
         /// Checks if the there is an enumeration with the specified value.

@@ -4,6 +4,7 @@ using Expensely.Application.Contracts.Authentication;
 using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Tests.Common.Commands.Authentication;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;

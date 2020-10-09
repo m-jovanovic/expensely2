@@ -2,6 +2,7 @@
 using Expensely.Application.Contracts.Common;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 
 namespace Expensely.Application.Incomes.Commands.CreateIncome
 {

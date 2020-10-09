@@ -7,6 +7,7 @@ using Expensely.Application.Incomes.Commands.CreateIncome;
 using Expensely.Application.Incomes.Events.IncomeCreated;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using MediatR;

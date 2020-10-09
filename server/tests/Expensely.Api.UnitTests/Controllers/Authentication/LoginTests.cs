@@ -5,6 +5,7 @@ using Expensely.Application.Authentication.Commands.Login;
 using Expensely.Application.Contracts.Authentication;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

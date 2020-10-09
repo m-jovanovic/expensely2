@@ -1,5 +1,5 @@
 ﻿using System;
-using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
 using FluentValidation;
 
 namespace Expensely.Application.Core.Utilities

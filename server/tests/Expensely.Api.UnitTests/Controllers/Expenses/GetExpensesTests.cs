@@ -7,6 +7,7 @@ using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenses;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;
 using MediatR;

@@ -6,7 +6,8 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 using Expensely.Domain.Users.Services;
 
 namespace Expensely.Application.Authentication.Commands.Login
@@ -35,7 +36,7 @@ namespace Expensely.Application.Authentication.Commands.Login
 
         /// <inheritdoc />
         public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken) =>
-            await Result.Create(request)
+            await Result.Success(request)
                 .Bind(
                     command => _userRepository.GetByEmailAsync(command.Email),
                     Errors.Authentication.InvalidEmailOrPassword)

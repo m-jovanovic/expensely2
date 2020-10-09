@@ -1,4 +1,5 @@
 ﻿using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
 
 namespace Expensely.Domain.Transactions
 {

@@ -3,6 +3,7 @@ using Expensely.Application.Contracts.Common;
 using Expensely.Application.Core.Exceptions;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Xunit;

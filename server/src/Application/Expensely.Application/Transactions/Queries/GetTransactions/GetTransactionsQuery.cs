@@ -4,6 +4,7 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 
 namespace Expensely.Application.Transactions.Queries.GetTransactions
 {

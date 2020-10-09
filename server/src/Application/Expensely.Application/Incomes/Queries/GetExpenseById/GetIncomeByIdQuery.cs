@@ -3,6 +3,7 @@ using Expensely.Application.Contracts.Incomes;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 
 namespace Expensely.Application.Incomes.Queries.GetExpenseById
 {

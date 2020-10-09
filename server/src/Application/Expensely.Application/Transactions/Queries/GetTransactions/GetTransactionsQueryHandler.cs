@@ -6,7 +6,8 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 
 namespace Expensely.Application.Transactions.Queries.GetTransactions
 {
@@ -35,7 +36,7 @@ namespace Expensely.Application.Transactions.Queries.GetTransactions
 
         /// <inheritdoc />
         public async Task<Result<TransactionListResponse>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken) =>
-            await Result.Create(request)
+            await Result.Success(request)
                 .Bind(query => _dbExecutor.QueryAsync<TransactionResponse>(Sql, query))
                 .Map(transactions =>
                 {

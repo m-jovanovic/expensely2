@@ -6,8 +6,8 @@ using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Domain;
-using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 using Expensely.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +29,7 @@ namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
         /// <inheritdoc />
         public async Task<Result<BalanceResponse>> Handle(
             GetCurrentWeekBalanceQuery request, CancellationToken cancellationToken) =>
-            await Result.Create(request)
+            await Result.Success(request)
                 .Ensure(
                     query => query.UserId != Guid.Empty && Currency.ContainsValue(query.CurrencyId),
                     Errors.General.EntityNotFound)
@@ -40,8 +40,8 @@ namespace Expensely.Application.Transactions.Queries.GetCurrentWeekBalance
                         .Where(t =>
                             t.UserId == query.UserId &&
                             t.Money.Currency.Value == query.CurrencyId &&
-                            t.OccurredOn >= request.FirstDayOfWeek)
+                            t.OccurredOn >= query.FirstDayOfWeek)
                         .SumAsync(x => x.Money.Amount, cancellationToken))
-                .MapScalar(sum => new BalanceResponse(request.CurrencyId, sum));
+                .Map(sum => new BalanceResponse(request.CurrencyId, sum));
     }
 }

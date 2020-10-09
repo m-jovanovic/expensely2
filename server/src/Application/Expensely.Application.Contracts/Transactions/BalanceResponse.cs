@@ -15,7 +15,7 @@ namespace Expensely.Application.Contracts.Transactions
         public BalanceResponse(int currencyId, decimal amount)
         {
             Amount = amount;
-            Currency currency = Currency.FromValue(currencyId);
+            Currency currency = Currency.FromValue(currencyId).Value;
             Balance = currency.Format(amount);
         }
 

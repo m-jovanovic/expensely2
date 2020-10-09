@@ -1,4 +1,5 @@
 ﻿using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Users;
 using FluentAssertions;
 using Xunit;

@@ -8,6 +8,7 @@ using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;

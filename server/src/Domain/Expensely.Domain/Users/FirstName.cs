@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 
 namespace Expensely.Domain.Users
 {

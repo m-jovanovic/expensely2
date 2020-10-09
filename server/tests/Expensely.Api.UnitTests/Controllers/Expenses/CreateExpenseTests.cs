@@ -9,6 +9,7 @@ using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Expenses.Commands.CreateExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;

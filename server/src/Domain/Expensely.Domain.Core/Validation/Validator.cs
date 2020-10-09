@@ -25,6 +25,6 @@
         }
 
         /// <inheritdoc />
-        public virtual Result Validate(T? item) => _next?.Validate(item) ?? Result.Success();
+        public virtual Result.Result Validate(T? item) => _next?.Validate(item) ?? Result.Result.Success();
     }
 }

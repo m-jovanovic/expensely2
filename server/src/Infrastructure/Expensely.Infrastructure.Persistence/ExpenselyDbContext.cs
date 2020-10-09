@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Expensely.Application.Core.Abstractions.Common;
 using Expensely.Application.Core.Abstractions.Data;
-using Expensely.Domain.Core;
 using Expensely.Domain.Core.Abstractions;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -33,10 +33,8 @@ namespace Expensely.Infrastructure.Persistence
 
         /// <inheritdoc />
         public new DbSet<TEntity> Set<TEntity>()
-            where TEntity : Entity
-        {
-            return base.Set<TEntity>();
-        }
+            where TEntity : Entity =>
+            base.Set<TEntity>();
 
         /// <inheritdoc />
         public async Task<TEntity?> GetBydIdAsync<TEntity>(Guid id)

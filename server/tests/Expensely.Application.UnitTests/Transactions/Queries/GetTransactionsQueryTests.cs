@@ -6,6 +6,7 @@ using Expensely.Application.Core.Constants;
 using Expensely.Application.Core.Utilities;
 using Expensely.Application.Transactions.Queries.GetTransactions;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using FluentAssertions;
 using Moq;

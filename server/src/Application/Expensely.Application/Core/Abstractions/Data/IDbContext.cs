@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expensely.Application.Core.Abstractions.Data

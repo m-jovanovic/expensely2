@@ -4,6 +4,7 @@ using Expensely.Application.Contracts.Transactions;
 using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using FluentAssertions;
 using Moq;
 using Xunit;

@@ -19,6 +19,6 @@
         /// </summary>
         /// <param name="item">The item that is being validated.</param>
         /// <returns>The result instance representing the success status of the validation.</returns>
-        Result Validate(T? item);
+        Result.Result Validate(T? item);
     }
 }

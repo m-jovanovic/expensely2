@@ -20,10 +20,7 @@ namespace Expensely.Api
     {
         private const string CorsSettings = "Cors:AllowedOrigins";
 
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 

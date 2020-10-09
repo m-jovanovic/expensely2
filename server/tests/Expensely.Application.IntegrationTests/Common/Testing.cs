@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Expensely.Api;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
 using Expensely.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;

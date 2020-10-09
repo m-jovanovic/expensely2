@@ -3,13 +3,14 @@ using Expensely.Application.Contracts.Expenses;
 using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Constants;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Maybe;
 
 namespace Expensely.Application.Expenses.Queries.GetExpenseById
 {
     /// <summary>
     /// Represents the query for getting an expense by identifier.
     /// </summary>
-    public sealed class GetExpenseByIdQuery : ICacheableQuery<Result<ExpenseResponse>>
+    public sealed class GetExpenseByIdQuery : ICacheableQuery<Maybe<ExpenseResponse>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetExpenseByIdQuery"/> class.

@@ -1,5 +1,7 @@
 ﻿using System;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core.Result;
 using FluentAssertions;
 using Xunit;
 

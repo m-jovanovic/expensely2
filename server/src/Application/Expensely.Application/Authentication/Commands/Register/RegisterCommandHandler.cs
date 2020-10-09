@@ -6,7 +6,8 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Domain;
 using Expensely.Domain.Core;
-using Expensely.Domain.Core.Extensions;
+using Expensely.Domain.Core.Result;
+using Expensely.Domain.Core.Result.Extensions;
 using Expensely.Domain.Users;
 
 namespace Expensely.Application.Authentication.Commands.Register
@@ -32,7 +33,12 @@ namespace Expensely.Application.Authentication.Commands.Register
 
         /// <inheritdoc />
         public async Task<Result> Handle(RegisterCommand request, CancellationToken cancellationToken) =>
-            await CreateUser(request)
+            await CreateUserResult(
+                    FirstName.Create(request.FirstName),
+                    LastName.Create(request.LastName),
+                    Email.Create(request.Email),
+                    Password.Create(request.Password),
+                    _passwordHasher.HashPassword)
                 .Ensure(user => _userRepository.IsEmailUniqueAsync(user.Email), Errors.Authentication.DuplicateEmail)
                 .Tap(user =>
                 {
@@ -43,23 +49,26 @@ namespace Expensely.Application.Authentication.Commands.Register
         /// <summary>
         /// Creates the user entity based on the specified command.
         /// </summary>
-        /// <param name="command">The register command.</param>
+        /// <param name="firstNameResult">The first name result.</param>
+        /// <param name="lastNameResult">The last name result.</param>
+        /// <param name="emailResult">The email result.</param>
+        /// <param name="passwordResult">The password result.</param>
+        /// <param name="hashPassword">The hash password function.</param>
         /// <returns>The result of the user creation process containing the user or an error.</returns>
-        private Result<User> CreateUser(RegisterCommand command)
-        {
-            Result<FirstName> firstNameResult = FirstName.Create(command.FirstName);
-            Result<LastName> lastNameResult = LastName.Create(command.LastName);
-            Result<Email> emailResult = Email.Create(command.Email);
-            Result<Password> passwordResult = Password.Create(command.Password);
-
-            return Result.FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult)
+        private static Result<User> CreateUserResult(
+            Result<FirstName> firstNameResult,
+            Result<LastName> lastNameResult,
+            Result<Email> emailResult,
+            Result<Password> passwordResult,
+            Func<Password, string> hashPassword) =>
+            Result
+                .FirstFailureOrSuccess(firstNameResult, lastNameResult, emailResult, passwordResult)
                 .Map(() => Result.Success(
                     new User(
                         Guid.NewGuid(),
                         firstNameResult.Value(),
                         lastNameResult.Value(),
                         emailResult.Value(),
-                        _passwordHasher.HashPassword(passwordResult.Value()))));
-        }
+                        hashPassword(passwordResult.Value()))));
     }
 }

@@ -6,8 +6,8 @@ using Expensely.Application.Core.Abstractions.Messaging;
 using Expensely.Application.Core.Abstractions.Repositories;
 using Expensely.Application.Expenses.Events.ExpenseCreated;
 using Expensely.Domain;
-using Expensely.Domain.Core;
-using Expensely.Domain.Core.Exceptions;
+using Expensely.Domain.Core.Maybe;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using MediatR;
 
@@ -38,18 +38,14 @@ namespace Expensely.Application.Expenses.Commands.CreateExpense
         public async Task<Result<EntityCreatedResponse>> Handle(
             CreateExpenseCommand request, CancellationToken cancellationToken)
         {
-            Currency currency;
+            Maybe<Currency> maybeCurrency = Currency.FromValue(request.CurrencyId);
 
-            try
-            {
-                currency = Currency.FromValue(request.CurrencyId);
-            }
-            catch (InvalidEnumerationException)
+            if (maybeCurrency.HasNoValue)
             {
                 return Result.Failure<EntityCreatedResponse>(Errors.Currency.NotFound);
             }
 
-            var money = new Money(request.Amount, currency);
+            var money = new Money(request.Amount, maybeCurrency.Value);
 
             var expense = new Expense(Guid.NewGuid(), request.UserId, request.Name, money, request.OccurredOn);
 

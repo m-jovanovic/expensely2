@@ -30,7 +30,7 @@ namespace Expensely.Application.Contracts.Transactions
             Id = id;
             Name = name;
             Amount = amount;
-            Currency currency = Currency.FromValue(currencyId);
+            Currency currency = Currency.FromValue(currencyId).Value;
             CurrencyCode = currency.Code;
             Value = currency.Format(amount);
             TransactionType = transactionType;

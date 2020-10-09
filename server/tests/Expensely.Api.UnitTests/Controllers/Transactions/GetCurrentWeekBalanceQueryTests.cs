@@ -9,6 +9,7 @@ using Expensely.Application.Core.Extensions;
 using Expensely.Application.Transactions.Queries.GetCurrentWeekBalance;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using Expensely.Infrastructure.Services.Common;
 using FluentAssertions;

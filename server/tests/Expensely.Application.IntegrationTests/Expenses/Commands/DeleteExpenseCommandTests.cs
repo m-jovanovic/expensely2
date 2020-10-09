@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Expensely.Application.Expenses.Commands.DeleteExpense;
 using Expensely.Domain;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using Expensely.Tests.Common.Entities;
 using FluentAssertions;

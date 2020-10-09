@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Expensely.Application.Core.Abstractions.Authentication;
 using Expensely.Application.Core.Abstractions.Cryptography;
+using Expensely.Domain.Users.Services;
 using Expensely.Infrastructure.Authentication.Abstractions;
 using Expensely.Infrastructure.Authentication.Constants;
 using Expensely.Infrastructure.Authentication.Cryptography;
@@ -46,6 +47,8 @@ namespace Expensely.Infrastructure.Authentication
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             services.AddTransient<IPasswordHasher, PasswordHasher>();
+
+            services.AddTransient<IPasswordHashChecker, PasswordHasher>();
 
             services.AddScoped<IClaimsProvider, ClaimsProvider>();
 

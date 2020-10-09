@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Expensely.Domain.Core.Primitives;
 
-namespace Expensely.Domain.Core.Extensions
+namespace Expensely.Domain.Core.Result.Extensions
 {
     public static class ResultExtensions
     {
@@ -69,14 +70,6 @@ namespace Expensely.Domain.Core.Extensions
             => result.IsSuccess ? Result.Success(func(result.Value())) : Result.Failure<T>(result.Error);
 
         public static async Task<Result<T>> Map<TValue, T>(this Task<Result<TValue>> resultTask, Func<TValue, T> func)
-            where TValue : class
-        {
-            Result<TValue> result = await resultTask;
-
-            return result.IsSuccess ? Result.Success(func(result.Value())) : Result.Failure<T>(result.Error);
-        }
-
-        public static async Task<Result<T>> MapScalar<TValue, T>(this Task<Result<TValue>> resultTask, Func<TValue, T> func)
         {
             Result<TValue> result = await resultTask;
 
@@ -107,7 +100,6 @@ namespace Expensely.Domain.Core.Extensions
         }
 
         public static async Task<Result<T>> Bind<TValue, T>(this Task<Result<TValue>> resultTask, Func<TValue, Task<T>> func)
-            where T : class
         {
             Result<TValue> result = await resultTask;
 

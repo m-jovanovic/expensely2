@@ -5,6 +5,7 @@ using Expensely.Application.Core.Abstractions.Data;
 using Expensely.Application.Core.Constants;
 using Expensely.Application.Expenses.Queries.GetExpenseById;
 using Expensely.Domain.Core;
+using Expensely.Domain.Core.Result;
 using FluentAssertions;
 using Moq;
 using Xunit;

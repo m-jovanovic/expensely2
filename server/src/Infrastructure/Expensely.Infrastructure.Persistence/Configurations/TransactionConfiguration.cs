@@ -31,6 +31,10 @@ namespace Expensely.Infrastructure.Persistence.Configurations
                     currencyBuilder.WithOwner();
 
                     currencyBuilder.Property(currency => currency.Value).HasColumnName("currency").IsRequired();
+
+                    currencyBuilder.Ignore(currency => currency.Code);
+
+                    currencyBuilder.Ignore(currency => currency.Name);
                 });
             });
 

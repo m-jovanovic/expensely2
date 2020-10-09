@@ -1,5 +1,6 @@
 ﻿using Expensely.Api.Contracts;
-using Expensely.Domain.Core;
+using Expensely.Domain.Core.Primitives;
+using Expensely.Domain.Core.Result;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

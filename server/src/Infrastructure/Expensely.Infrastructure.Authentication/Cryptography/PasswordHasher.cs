@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using Expensely.Application.Core.Abstractions.Cryptography;
 using Expensely.Domain.Users;
+using Expensely.Domain.Users.Services;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Expensely.Infrastructure.Authentication.Cryptography
@@ -9,7 +10,7 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
     /// <summary>
     /// Represents a password hasher, used for hashing passwords and verifying hashed passwords.
     /// </summary>
-    internal sealed class PasswordHasher : IPasswordHasher, IDisposable
+    internal sealed class PasswordHasher : IPasswordHasher, IPasswordHashChecker, IDisposable
     {
         private const KeyDerivationPrf Prf = KeyDerivationPrf.HMACSHA256;
         private const int IterationCount = 10000;
@@ -36,7 +37,7 @@ namespace Expensely.Infrastructure.Authentication.Cryptography
         }
 
         /// <inheritdoc />
-        public bool VerifyPasswordHash(string passwordHash, string providedPassword)
+        public bool HashesMatch(string passwordHash, string providedPassword)
         {
             if (passwordHash is null)
             {

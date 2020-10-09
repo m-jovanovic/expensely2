@@ -8,6 +8,7 @@ using Expensely.Application.Incomes.Events.IncomeCreated;
 using Expensely.Domain;
 using Expensely.Domain.Core;
 using Expensely.Domain.Core.Exceptions;
+using Expensely.Domain.Core.Result;
 using Expensely.Domain.Transactions;
 using MediatR;
 
@@ -42,7 +43,7 @@ namespace Expensely.Application.Incomes.Commands.CreateIncome
 
             try
             {
-                currency = Currency.FromValue(request.CurrencyId);
+                currency = Currency.FromValue(request.CurrencyId).Value;
             }
             catch (InvalidEnumerationException)
             {
